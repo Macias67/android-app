@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Routes Map
+$partials = [
+    'admin'
+];
+
+// Routes loop
+foreach ($partials as $partial) {
+    $file = __DIR__ . '/Routes/' . $partial . '.php';
+
+    if (!file_exists($file)) {
+        $msg = "Route partial [{$partial}] not found.";
+        throw new \Illuminate\Contracts\Filesystem\FileNotFoundException($msg);
+    }
+
+    require_once $file;
+}
