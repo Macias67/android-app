@@ -5,6 +5,13 @@ namespace App\Http\Middleware\Auth;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Middleware para revisión de autentificación
+ * de un administrador en la aplicación.
+ *
+ * @author  Luis Macias
+ * @package App\Http\Middleware\Auth
+ */
 class AuthAdmin
 {
     /**

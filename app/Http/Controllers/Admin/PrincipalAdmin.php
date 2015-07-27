@@ -8,10 +8,6 @@ use App\Interfaces\CRUDInterface;
 
 class PrincipalAdmin extends BaseController implements CRUDInterface
 {
-    public function login()
-    {
-        return view('admin.login');
-    }
 
     public function index()
     {

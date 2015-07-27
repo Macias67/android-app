@@ -14,7 +14,8 @@
 // Routes Map
 $partials = [
     'admin',
-    'cliente'
+    'cliente',
+    'usuario'
 ];
 
 // Routes loop
