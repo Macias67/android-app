@@ -66,3 +66,12 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
+#Metronic
+/public/assets/admin/layout
+/public/assets/admin/layout4
+/public/assets/admin/pages/css
+/public/assets/admin/pages/img
+/public/assets/admin/pages/media
+/public/assets/admin/pages/scripts
+/public/assets/global/
