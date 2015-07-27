@@ -13,12 +13,13 @@
 
 // Routes Map
 $partials = [
-    'admin'
+    'admin',
+    'cliente'
 ];
 
 // Routes loop
 foreach ($partials as $partial) {
-    $file = __DIR__ . '/Routes/' . $partial . '.php';
+    $file = __DIR__ . '/Routes/routes-' . $partial . '.php';
 
     if (!file_exists($file)) {
         $msg = "Route partial [{$partial}] not found.";

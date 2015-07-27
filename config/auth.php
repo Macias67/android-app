@@ -2,6 +2,19 @@
 
 return [
 
+    'multi' => [
+        'admin'   => [
+            'driver' => 'eloquent',
+            'table'  => 'adm_admin',
+            'model'  => 'App\Models\AdmAdmin',
+        ],
+        'cliente' => [
+            'driver' => 'eloquent',
+            'table'  => 'clients',
+            'model'  => 'App\Models\AdmAdmin',
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Default Authentication Driver
@@ -15,7 +28,7 @@ return [
     |
     */
 
-    'driver' => 'eloquent',
+    // 'driver'   => 'eloquent',
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +41,7 @@ return [
     |
     */
 
-    'model' => App\User::class,
+    //'model'    => App\User::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +54,7 @@ return [
     |
     */
 
-    'table' => 'users',
+    //'table'    => 'users',
 
     /*
     |--------------------------------------------------------------------------
