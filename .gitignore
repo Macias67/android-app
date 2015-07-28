@@ -3,6 +3,7 @@
 /node_modules
 Homestead.yaml
 .env
+.env.example
 
 # cache files for sublime text
 *.tmlanguage.cache
