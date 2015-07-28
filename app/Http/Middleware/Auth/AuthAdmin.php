@@ -29,7 +29,7 @@ class AuthAdmin
                 return response('Unauthorized.', 401);
             }
             else {
-                return redirect()->guest(route('login-admin'));
+                return redirect()->guest(route('login.admin'));
             }
         }
 

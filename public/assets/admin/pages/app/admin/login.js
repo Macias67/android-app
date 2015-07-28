@@ -34,6 +34,8 @@ var Login = function () {
 
             invalidHandler: function (event, validator) { //display error alert on form submit
                 $('.alert-danger', $('.login-form')).show();
+                console.log(event);
+                console.log(validator);
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -52,6 +54,7 @@ var Login = function () {
 
             submitHandler: function (form) {
                 var data = $(form).serialize();
+                console.log(data);
             }
         });
 
@@ -63,11 +66,11 @@ var Login = function () {
                 return false;
             }
         });
-    }
+    };
 
     return {
-        inti: function () {
-
+        init: function () {
+            handleLogin();
         }
     }
 }();
