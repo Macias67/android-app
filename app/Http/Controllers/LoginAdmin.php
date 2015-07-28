@@ -11,7 +11,7 @@ class LoginAdmin extends Controller
         return $this->view('admin.login');
     }
 
-    public function auth()
+    public function getAuth()
     {
 
     }

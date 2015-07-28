@@ -6,15 +6,13 @@
  * Time: 02:48 AM
  */
 
-//Route::get('admin/login', ['as' => 'login-admin', 'uses' => 'LoginAdmin@vistaLogin']);
-
 Route::controller(
     'admin',
     'LoginAdmin',
     [
-        'getLogin'  => 'login-admin',
-        'auth'      => 'auth-admin',
-        'getLogout' => 'logout-admin',
+        'getLogin'  => 'login.admin',
+        'getAuth'      => 'auth.admin',
+        'getLogout' => 'logout.admin',
     ]
 );
 
