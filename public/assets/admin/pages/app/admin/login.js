@@ -5,11 +5,15 @@
 var Login = function () {
 
     var handleLogin = function () {
+        var form = $('.login-form');
+        var error = $('.alert-danger', $('body'));
+        var success = $('.alert-success', $('body'));
 
-        $('.login-form').validate({
-            errorElement: 'span', //default input error message container
-            errorClass: 'help-block', // default input error message class
+        form.validate({
+            errorElement: 'b', //default input error message containerz
+            errorClass: 'help-block help-block-error', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
+            ignore: "",  // validate all fields including form hidden input
             rules: {
                 email: {
                     required: true,
@@ -17,30 +21,28 @@ var Login = function () {
                 },
                 password: {
                     required: true
-                },
-                remember: {
-                    required: false
-                }
-            },
-
-            messages: {
-                email: {
-                    required: "El correo es requerido."
-                },
-                password: {
-                    required: "La contraseña es requerido."
                 }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-                $('.alert-danger', $('.login-form')).show();
-                console.log(event);
-                console.log(validator);
+                Metronic.scrollTo(error, -200);
+                $('b', error).html('Hay problemas con los datos.');
+                error.fadeIn('fast');
+                setTimeout(function () {
+                    error.fadeOut('slow', function () {
+                        $(this).html('');
+                    });
+                }, 3000);
             },
 
             highlight: function (element) { // hightlight error inputs
                 $(element)
                     .closest('.form-group').addClass('has-error'); // set error class to the control group
+            },
+
+            unhighlight: function (element) { // revert the change done by hightlight
+                $(element)
+                    .closest('.form-group').removeClass('has-error'); // set error class to the control group
             },
 
             success: function (label) {
@@ -49,12 +51,30 @@ var Login = function () {
             },
 
             errorPlacement: function (error, element) {
-                error.insertAfter(element.closest('.input-icon'));
+                error.insertAfter(element);
             },
 
             submitHandler: function (form) {
                 var data = $(form).serialize();
-                console.log(data);
+                var url = $(form).attr('action');
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    cache: false,
+                    beforeSend: function (jqXHR, settings) {
+                        App.showLoader('#00fff2');
+                    },
+                    error: function (jqXHR, textStatus, error) {
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        App.removeLoader(500, function () {
+                            console.log(data);
+                        });
+                    }
+                });
             }
         });
 

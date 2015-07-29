@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use Illuminate\Http\Request;
 
 class LoginAdmin extends Controller
 {
@@ -11,9 +11,9 @@ class LoginAdmin extends Controller
         return $this->view('admin.login');
     }
 
-    public function getAuth()
+    public function postAuth(Request $request)
     {
-
+        dd($request);
     }
 
     public function getLogout()

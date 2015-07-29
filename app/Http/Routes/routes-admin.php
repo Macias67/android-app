@@ -11,7 +11,7 @@ Route::controller(
     'LoginAdmin',
     [
         'getLogin'  => 'login.admin',
-        'getAuth'      => 'auth.admin',
+        'postAuth'      => 'auth.admin',
         'getLogout' => 'logout.admin',
     ]
 );
