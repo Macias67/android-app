@@ -68,10 +68,12 @@ crashlytics.properties
 crashlytics-build.properties
 
 #Metronic
-/public/assets/admin/layout
-/public/assets/admin/layout4
-/public/assets/admin/pages/css
-/public/assets/admin/pages/img
-/public/assets/admin/pages/media
-/public/assets/admin/pages/scripts
-/public/assets/global/
+public/assets/admin/layout/
+public/assets/admin/layout4/
+public/assets/admin/pages/*
+public/assets/global/*
+
+!public/assets/admin/pages/app/
+!public/assets/global/scripts
+
+
