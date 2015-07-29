@@ -5,7 +5,7 @@
 var Login = function () {
 
     var handleLogin = function () {
-        var form = $('.login-form');
+        var form  = $('.login-form');
         var error = $('.alert-danger', $('body'));
         var success = $('.alert-success', $('body'));
 
@@ -13,8 +13,8 @@ var Login = function () {
             errorElement: 'b', //default input error message containerz
             errorClass: 'help-block help-block-error', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
-            ignore: "",  // validate all fields including form hidden input
-            rules: {
+            ignore:     "",  // validate all fields including form hidden input
+            rules:      {
                 email: {
                     required: true,
                     email: true
@@ -59,17 +59,17 @@ var Login = function () {
                 var url = $(form).attr('action');
 
                 $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: data,
+                    url:      url,
+                    type:     'POST',
+                    data:     data,
                     dataType: 'json',
-                    cache: false,
+                    cache:    false,
                     beforeSend: function (jqXHR, settings) {
                         App.showLoader('#00fff2');
                     },
-                    error: function (jqXHR, textStatus, error) {
+                    error:    function (jqXHR, textStatus, error) {
                     },
-                    success: function (data, textStatus, jqXHR) {
+                    success:  function (data, textStatus, jqXHR) {
                         App.removeLoader(500, function () {
                             console.log(data);
                         });

@@ -13,7 +13,7 @@ class LoginAdmin extends Controller
 
     public function postAuth(Request $request)
     {
-        dd($request);
+        return $this->responseJSON(TRUE, $request, route('admin'), NULL);
     }
 
     public function getLogout()

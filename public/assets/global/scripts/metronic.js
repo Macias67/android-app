@@ -270,7 +270,7 @@ var Metronic = function () {
             } else {
                 el.removeClass('edited');
             }
-        }
+        };
 
         $('body').on('keydown', '.form-md-floating-label .form-control', function (e) {
             handleInput($(this));
@@ -284,7 +284,7 @@ var Metronic = function () {
                 $(this).addClass('edited');
             }
         });
-    }
+    };
 
     // Handles custom checkboxes & radios using jQuery iCheck plugin
     var handleiCheck = function () {
@@ -329,7 +329,7 @@ var Metronic = function () {
             btnOkClass: 'btn btn-sm btn-success',
             btnCancelClass: 'btn btn-sm btn-danger'
         });
-    }
+    };
 
     // Handles Bootstrap Accordions.
     var handleAccordions = function () {
@@ -455,7 +455,7 @@ var Metronic = function () {
         if (typeof(autosize) == "function") {
             autosize(document.querySelector('textarea.autosizeme'));
         }
-    }
+    };
 
     // Handles Bootstrap Popovers
 
@@ -569,7 +569,7 @@ var Metronic = function () {
                 }
             });
         });
-    }
+    };
 
     // set crsf token for ajax request
     var setCRSF = function () {
@@ -578,7 +578,7 @@ var Metronic = function () {
         if (_token == undefined || _token == "") {
             _token = $('body').attr('token');
         }
-        console.log(_token);
+
         $.ajaxSetup({
             headers: {'token':_token}
         });
