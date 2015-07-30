@@ -42,20 +42,26 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param      $exito
-     * @param      $mensaje
-     * @param      $url
-     * @param null $errores
+     * @param                                      $exito
+     * @param                                      $mensaje
+     * @param                                      $url
+     * @param null                                 $errores
+     * @param                                      $status
      *
      * @return mixed
      */
     protected function responseJSON($exito, $mensaje, $url, $errores = NULL, $status)
     {
-        $response = ['exito' => $exito, 'mensaje' => $mensaje, 'url' => $url];
+        $data =
+            [
+                'exito'   => $exito,
+                'mensaje' => $mensaje,
+                'url'     => $url
+            ];
         if (!is_null($errores)) {
-            $response['errores'] = $errores;
+            $data['errores'] = $errores;
         }
 
-        return response()->json($response, $status);
+        return Response::json($data, $status);
     }
 }

@@ -5,7 +5,7 @@
 var Login = function () {
 
     var handleLogin = function () {
-        var form = $('.login-form');
+        var form  = $('.login-form');
         var error = $('.alert-danger', $('body'));
         var success = $('.alert-success', $('body'));
 
@@ -13,8 +13,8 @@ var Login = function () {
             errorElement: 'b', //default input error message containerz
             errorClass: 'help-block help-block-error', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
-            ignore: "",  // validate all fields including form hidden input
-            rules: {
+            ignore:     "",  // validate all fields including form hidden input
+            rules:      {
                 email: {
                     required: true,
                     email: true
@@ -25,14 +25,7 @@ var Login = function () {
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-                Metronic.scrollTo(error, -200);
-                /* $('b', error).html('Hay problemas con los datos.');
-                 error.fadeIn('fast');
-                 setTimeout(function () {
-                 error.fadeOut('slow', function () {
-                 $(this).html('');
-                 });
-                 }, 3000);*/
+                Metronic.scrollTo($('.logo'), -100);
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -59,15 +52,15 @@ var Login = function () {
                 var url = $(form).attr('action');
 
                 $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: data,
-                    dataType: 'json',
-                    cache: false,
+                    url:        url,
+                    type:       'POST',
+                    data:       data,
+                    dataType:   'json',
+                    cache:      false,
                     beforeSend: function (jqXHR, settings) {
                         App.showLoader('#00fff2');
                     },
-                    error: function (jqXHR, textStatus, error) {
+                    error:      function (jqXHR, textStatus, error) {
 
                         var audioElement = document.createElement('audio');
                         audioElement.setAttribute('src', Metronic.getDomain() + 'assets/global/sounds/error2.mp3');
@@ -75,6 +68,7 @@ var Login = function () {
                         audioElement.play();
 
                         App.removeLoader(500);
+                        console.log(jqXHR);
                     },
                     statusCode: {
                         422: function (jqXHR, textStatus, errorst) {
@@ -85,14 +79,19 @@ var Login = function () {
                             });
                             swal({
                                 title: "Ups...",
-                                text: msg,
-                                type: "error",
+                                text:  msg,
+                                type:  "error",
                                 animation: 'slide-from-top',
-                                html: true
+                                html:  true
                             });
+                        },
+                        500: function (jqXHR, textStatus, errorst) {
+
+//                            var data = $.parseJSON(jqXHR);
+//                            console.log(data);
                         }
                     },
-                    success: function (data, textStatus, jqXHR) {
+                    success:    function (data, textStatus, jqXHR) {
                         App.removeLoader(500, function () {
                             console.log(data);
                         });
