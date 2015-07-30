@@ -19,7 +19,7 @@ var App = function () {
             cl.show(); // Hidden by default
 
             $('.block-canvas').css({
-                'z-index': '9999',
+                'z-index': '999999',
                 border: 'medium none',
                 margin: '0px',
                 padding: '0px',
@@ -50,6 +50,7 @@ var App = function () {
         removeLoader: function (ms, e) {
             $('.block-canvas').fadeOut(ms, function () {
                 cl.kill();
+                $('.block-canvas').remove();
                 if ($.isFunction(e)) {
                     e();
                 }

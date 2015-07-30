@@ -49,13 +49,13 @@ abstract class Controller extends BaseController
      *
      * @return mixed
      */
-    protected function responseJSON($exito, $mensaje, $url, $errores = NULL)
+    protected function responseJSON($exito, $mensaje, $url, $errores = NULL, $status)
     {
         $response = ['exito' => $exito, 'mensaje' => $mensaje, 'url' => $url];
         if (!is_null($errores)) {
             $response['errores'] = $errores;
         }
 
-        return response()->json($response);
+        return response()->json($response, $status);
     }
 }

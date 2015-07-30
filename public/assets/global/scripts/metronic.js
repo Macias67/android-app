@@ -11,6 +11,8 @@ var Metronic = function () {
 
     var resizeHandlers = [];
 
+    var domain = 'http://android.app/';
+
     var assetsPath = '../../assets/';
 
     var globalImgPath = 'global/img/';
@@ -1015,6 +1017,10 @@ var Metronic = function () {
 
         getGlobalCssPath: function () {
             return assetsPath + globalCssPath;
+        },
+
+        getDomain: function() {
+            return domain;
         },
 
         // get layout color code by color name

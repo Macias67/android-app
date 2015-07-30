@@ -27,6 +27,7 @@
 
     <!-- BEGIN PAGE LEVEL STYLES -->
     <link href="{{asset('assets/admin/pages/css/login2.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/global/plugins/sweetalert/dist/sweetalert.css')}}" rel="stylesheet" type="text/css">
     <!-- END PAGE LEVEL SCRIPTS -->
 
     <!-- BEGIN THEME STYLES -->
@@ -44,9 +45,9 @@
 <!-- BEGIN BODY -->
 <body class="login">
 
-<div class="alert alert-danger display-hide">
-    <b></b>
-</div>
+{{--<div class="alert alert-danger display-hide">--}}
+    {{--<b></b>--}}
+{{--</div>--}}
 
 <!-- BEGIN LOGO -->
 <div class="logo">
@@ -66,11 +67,11 @@
     <div class="form-group">
         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
         <label class="control-label visible-ie8 visible-ie9">Email</label>
-          <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" value="l@g"/>
+        <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" value="l@g"/>
     </div>
     <div class="form-group">
         <label class="control-label visible-ie8 visible-ie9">Contraseña</label>
-          <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Contraseña" name="password" value="qw"/>
+        <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Contraseña" name="password" value="qw"/>
     </div>
     <div class="form-actions">
         <button type="submit" class="btn btn-primary btn-block uppercase">Entrar</button>
@@ -222,6 +223,7 @@
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/sweetalert/dist/sweetalert.min.js')}}"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
