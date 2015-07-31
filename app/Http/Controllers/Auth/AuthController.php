@@ -2,63 +2,101 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Validator;
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller
+use App\Http\Models\Admin\Admin;
+use App\Http\Models\Cliente\Propietario;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+
+trait AuthController
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
-    */
-
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
-
     /**
-     * Create a new authentication controller instance.
+     * Vista de logue del Admin
      *
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function getLogin()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $type = $this->auth->getName();
+
+
+        if (config('app.debug')) {
+            $this->data['email'] = ($type == 'admin') ? Admin::first()->email : Propietario::first()->email;
+        }
+        $this->data['param'] = ['route' => 'auth.' . $type, 'class' => 'login-form'];
+        return $this->view('login');
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Método de autenticación del admin
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param Request $request
+     * @return mixed
      */
-    protected function validator(array $data)
+    public function postAuth(Request $request)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
+        if ($request->ajax() && $request->wantsJson()) {
+            return $this->_validation($request);
+        }
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Método de logout del admin
      *
-     * @param  array  $data
-     * @return User
+     * @param Redirect $redirect
+     * @return mixed
      */
-    protected function create(array $data)
+    public function getLogout(Redirect $redirect)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $this->auth->logout();
+        Session::flush();
+
+        return $redirect::route('login.' . $this->auth->getName())->header(
+            'Cache-Control',
+            'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    private function _validation(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|email|max:45',
+                'password' => 'required'
+            ]
+        );
+
+        if ($validator->passes()) {
+            if ($this->auth->attempt(
+                ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online']
+            )
+            ) {
+                $mensaje = 'Bienvenido ' . $this->auth->user()->NombreCompleto();
+
+                return $this->responseJSON(TRUE, $mensaje, route($this->auth->getName()));
+            }
+            else {
+                $mensaje = 'No existen datos.';
+                $errores = ['El email o la contraseña son incorrectos.'];
+
+                return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
+            }
+        }
+        else {
+            $mensaje = 'Hay problemas con los datos: ';
+            $errores = $validator->errors()->all();
+            foreach ($errores as $index => $error) {
+                $errores[$index] = ucfirst($error);
+            }
+
+            return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
+        }
     }
 }

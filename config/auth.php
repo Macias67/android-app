@@ -6,12 +6,12 @@ return [
         'admin'   => [
             'driver' => 'eloquent',
             'table'  => 'adm_admin',
-            'model' => 'App\Models\Admin\Admin',
+            'model' => 'App\Http\Models\Admin\Admin',
         ],
         'cliente' => [
             'driver' => 'eloquent',
             'table' => 'cl_propietario',
-            'model' => 'App\Models\Cliente\Propietario',
+            'model' => 'App\Http\Models\Cliente\Propietario',
         ]
     ],
 

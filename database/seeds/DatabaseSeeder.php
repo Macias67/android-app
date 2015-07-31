@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(AdmAdmin::class);
+        $this->call(CLPropietario::class);
 
         Model::reguard();
     }

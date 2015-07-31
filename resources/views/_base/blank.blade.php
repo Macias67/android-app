@@ -1,4 +1,4 @@
-@extends('admin._base.main')
+@extends('_base.main')
 
 {{-- Adjuntar los links css de los plugins requeridos
 @section('plugins-css')@stop --}}

@@ -18,7 +18,7 @@ class AuthCliente
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
+     * @param  \Closure $next
      *
      * @return mixed
      */
@@ -29,7 +29,7 @@ class AuthCliente
                 return response('Unauthorized.', 401);
             }
             else {
-                return redirect()->guest(route('login-cliente'));
+                return redirect()->guest(route('login.cliente'));
             }
         }
 

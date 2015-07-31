@@ -6,7 +6,15 @@
  * Time: 08:33 PM
  */
 
-Route::get('cliente/login', ['as' => 'login-cliente', 'uses' => 'Admin\PrincipalAdmin@login']);
+Route::controller(
+    'cliente',
+    'LoginCliente',
+    [
+        'getLogin' => 'login.cliente',
+        'postAuth' => 'auth.cliente',
+        'getLogout' => 'logout.cliente',
+    ]
+);
 
 Route::group(
     ['middleware' => 'auth.cliente', 'namespace' => 'Cliente'],
@@ -16,8 +24,8 @@ Route::group(
         Route::get(
             'cliente',
             [
-                'as'   => 'cliente',
-                'uses' => 'Cliente\PrincipalCliente@index'
+                'as' => 'cliente',
+                'uses' => 'PrincipalCliente@index'
             ]
         );
 

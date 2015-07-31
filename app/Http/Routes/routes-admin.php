@@ -10,8 +10,8 @@ Route::controller(
     'admin',
     'LoginAdmin',
     [
-        'getLogin'  => 'login.admin',
-        'postAuth'      => 'auth.admin',
+        'getLogin' => 'login.admin',
+        'postAuth' => 'auth.admin',
         'getLogout' => 'logout.admin',
     ]
 );
@@ -24,7 +24,7 @@ Route::group(
         Route::get(
             'admin',
             [
-                'as'   => 'admin',
+                'as' => 'admin',
                 'uses' => 'PrincipalAdmin@index'
             ]
         );

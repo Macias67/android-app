@@ -45,7 +45,7 @@ abstract class Controller extends BaseController
      * @param                                      $exito
      * @param                                      $mensaje
      * @param                                      $url
-     * @param null                                 $errores
+     * @param null $errores
      * @param                                      $status
      *
      * @return mixed
@@ -54,9 +54,9 @@ abstract class Controller extends BaseController
     {
         $data =
             [
-                'exito'   => $exito,
+                'exito' => $exito,
                 'mensaje' => $mensaje,
-                'url'     => $url
+                'url' => $url
             ];
         if (!is_null($errores)) {
             $data['errores'] = $errores;
