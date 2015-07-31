@@ -35,8 +35,8 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware
         = [
-            'auth.admin'   => AuthAdmin::class,
+            'auth.admin' => AuthAdmin::class,
             'auth.cliente' => AuthCliente::class,
-            'guest'        => Middleware\RedirectIfAuthenticated::class,
+            'guest' => Middleware\RedirectIfAuthenticated::class,
         ];
 }

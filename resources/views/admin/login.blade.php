@@ -34,8 +34,7 @@
     <link href="{{asset('assets/global/css/components.css')}}" id="style_components" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/global/css/plugins.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/admin/layout/css/layout.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('assets/admin/layout/css/themes/darkblue.css')}}" rel="stylesheet" type="text/css"
-          id="style_color"/>
+    <link href="{{asset('assets/admin/layout/css/themes/darkblue.css')}}" rel="stylesheet" type="text/css" id="style_color"/>
     <link href="{{asset('assets/admin/layout/css/custom.css')}}" rel="stylesheet" type="text/css"/>
     <!-- END THEME STYLES -->
     <link rel="shortcut icon" href="favicon.ico"/>
@@ -44,10 +43,6 @@
 
 <!-- BEGIN BODY -->
 <body class="login">
-
-{{--<div class="alert alert-danger display-hide">--}}
-    {{--<b></b>--}}
-{{--</div>--}}
 
 <!-- BEGIN LOGO -->
 <div class="logo">
@@ -67,11 +62,11 @@
     <div class="form-group">
         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
         <label class="control-label visible-ie8 visible-ie9">Email</label>
-        <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" value="l@g"/>
+        <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" value="luismacias.angulo@gmail.com"/>
     </div>
     <div class="form-group">
         <label class="control-label visible-ie8 visible-ie9">Contraseña</label>
-        <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Contraseña" name="password" value="qw"/>
+        <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Contraseña" name="password" value="qwerty"/>
     </div>
     <div class="form-actions">
         <button type="submit" class="btn btn-primary btn-block uppercase">Entrar</button>

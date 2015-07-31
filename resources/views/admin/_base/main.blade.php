@@ -477,8 +477,8 @@
                                                       <i class="icon-lock"></i> Lock Screen </a>
                                           </li>
                                           <li>
-                                                <a href="">
-                                                      <i class="icon-key"></i> Log Out </a>
+                                                <a href="{{route('logout.admin')}}">
+                                                      <i class="icon-key"></i> Salir </a>
                                           </li>
                                     </ul>
                               </li>

@@ -26,7 +26,7 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function report (Exception $e)
+    public function report(Exception $e)
     {
         return parent::report($e);
     }
@@ -35,29 +35,26 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Exception               $e
+     * @param  \Exception $e
      *
      * @return \Illuminate\Http\Response
      */
-    public function render ($request, Exception $e)
+    public function render($request, Exception $e)
     {
-        // If the request wants JSON (AJAX doesn't always want JSON)
         if ($request->wantsJson()) {
-            // Define the response
             $response = [
-                'errors' => 'Sorry, something went wrong.'
+                'error' => ucfirst($e->getMessage()),
+                'file' => pathinfo($e->getFile(), PATHINFO_BASENAME),
+                'line' => $e->getLine(),
+                'exception' => pathinfo(get_class($e), PATHINFO_BASENAME)
             ];
 
-            // If the app is in debug mode
-            if (config('app.debug')) {
-                // Add the exception class name, message and stack trace to response
-                $response['exception'] = get_class($e); // Reflection might be better here
-                $response['message']   = $e->getMessage();
-                $response['trace']     = $e->getTrace();
+            if(config('app.debug')){
+                $response['file'] =$e->getFile();
+                $response['exception'] = get_class($e);
             }
 
-            // Default response of 400
-            $status = 400;
+            $status = 500;
 
             // If this exception is an instance of HttpException
             if ($this->isHttpException($e)) {
@@ -65,11 +62,9 @@ class Handler extends ExceptionHandler
                 $status = $e->getStatusCode();
             }
 
-            // Return a JSON response with the response array and status code
             return response()->json($response, $status);
         }
 
-        // Default to the parent class' implementation of handler
         return parent::render($request, $e);
     }
 }

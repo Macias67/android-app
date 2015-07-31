@@ -11,7 +11,7 @@ class PrincipalAdmin extends BaseController implements CRUDInterface
 
     public function index()
     {
-        return view('admin.principal.principal');
+        return $this->view('admin.principal.principal');
     }
 
     public function create()
