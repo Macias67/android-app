@@ -6,31 +6,11 @@ use App\Http\Controllers\Controller as BaseController;
 use App\Http\Requests;
 use App\Interfaces\CRUDInterface;
 
-class PrincipalAdmin extends BaseController implements CRUDInterface
+class PrincipalAdmin extends BaseController
 {
-
     public function index()
     {
         return $this->view('admin.principal.principal');
     }
 
-    public function create()
-    {
-        // TODO: Implement create() method.
-    }
-
-    public function read()
-    {
-        // TODO: Implement read() method.
-    }
-
-    public function update()
-    {
-        // TODO: Implement update() method.
-    }
-
-    public function delete()
-    {
-        // TODO: Implement delete() method.
-    }
 }

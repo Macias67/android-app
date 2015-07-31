@@ -2,64 +2,97 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Controlador para LoginAdmin
+ *
+ * @author  Luis Macias
+ * @package App\Http\Controllers
+ */
 class LoginAdmin extends Controller
 {
-    public function getLogin()
+    /**
+     * Vista de logue del Admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin ()
     {
+        if(config('app.debug')){
+            $this->data['admin'] = Admin::find(1);
+        }
         return $this->view('admin.login');
     }
 
-    public function postAuth(Request $request)
+    /**
+     * Método de autenticación del admin
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    public function postAuth (Request $request)
     {
         if ($request->ajax() && $request->wantsJson()) {
 
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'email' => 'required|email|max:45',
+                    'email'    => 'required|email|max:45',
                     'password' => 'required'
                 ]
             );
 
             if ($validator->passes()) {
-                if (Auth::admin()
-                        ->attempt(['email' => $request->get('email'), 'password' => $request->get('password')])
+                if (Auth::admin()->attempt(
+                    ['email' => $request->get('email'), 'password' => $request->get('password')]
+                )
                 ) {
-                    $exito = TRUE;
-                    $mensaje = 'Bienvenido ' . Auth::admin()->user()->nombre;
-                    $ruta = route('admin');
-                    $errores = null;
-                    $status = 200;
-                } else {
-                    $exito = FALSE;
-                    $mensaje = 'No existen los datos.';
-                    $ruta = '';
-                    $errores = ['El email o la contraseña son incorrectos.'];
-                    $status = 422;
+                    $mensaje = 'Bienvenido ' . Auth::admin()->user()->NombreCompleto();
+
+                    return $this->responseJSON(TRUE, $mensaje, route('admin'));
                 }
-            } else {
-                $exito = FALSE;
+                else {
+                    $mensaje = 'No existen datos.';
+                    $errores = ['El email o la contraseña son incorrectos.'];
+
+                    return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
+                }
+            }
+            else {
                 $mensaje = 'Hay problemas con los datos: ';
-                $ruta = '';
                 $errores = $validator->errors()->all();
                 foreach ($errores as $index => $error) {
                     $errores[$index] = ucfirst($error);
                 }
-                $status = 422;
+
+                return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
             }
 
-            return $this->responseJSON($exito, $mensaje, $ruta, $errores, $status);
         }
     }
 
-    public function getLogout(Redirect $redirect)
+    /**
+     * Método de logout del admin
+     *
+     * @param \Illuminate\Support\Facades\Redirect $redirect
+     *
+     * @return mixed
+     */
+    public function getLogout (Redirect $redirect)
     {
         Auth::admin()->logout();
-        return $redirect::route('login.admin');
+        Session::flush();
+
+        return $redirect::route('login.admin')->header(
+            'Cache-Control',
+            'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
+        );
     }
 }

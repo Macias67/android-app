@@ -50,7 +50,7 @@ abstract class Controller extends BaseController
      *
      * @return mixed
      */
-    protected function responseJSON($exito, $mensaje, $url, $errores = NULL, $status)
+    protected function responseJSON($exito, $mensaje, $url, $errores = NULL, $status = 200)
     {
         $data =
             [
