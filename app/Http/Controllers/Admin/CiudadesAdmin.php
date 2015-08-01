@@ -1,32 +1,39 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Interfaces\CRUDInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-
-/**
- * Interface CRUDInterface
- *
- * @author  Luis Macias
- * @package App\Interfaces
- */
-interface CRUDInterface
+class CiudadesAdmin extends Controller implements CRUDInterface
 {
+
+    public function __construct()
+    {
+        $this->data['activo_ciudades'] = TRUE;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index();
+    public function index()
+    {
+        return $this->view('admin.ciudades.index');
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return Response
      */
-    public function create();
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,7 +41,10 @@ interface CRUDInterface
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request);
+    public function store(Request $request)
+    {
+        //
+    }
 
     /**
      * Display the specified resource.
@@ -42,7 +52,10 @@ interface CRUDInterface
      * @param  int $id
      * @return Response
      */
-    public function show($id);
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -50,7 +63,10 @@ interface CRUDInterface
      * @param  int $id
      * @return Response
      */
-    public function edit($id);
+    public function edit($id)
+    {
+        //
+    }
 
     /**
      * Update the specified resource in storage.
@@ -59,7 +75,10 @@ interface CRUDInterface
      * @param  int $id
      * @return Response
      */
-    public function update(Request $request, $id);
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -67,5 +86,8 @@ interface CRUDInterface
      * @param  int $id
      * @return Response
      */
-    public function destroy($id);
+    public function destroy($id)
+    {
+        //
+    }
 }

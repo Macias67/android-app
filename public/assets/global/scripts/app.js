@@ -5,7 +5,23 @@ var App = function () {
 
     var cl;
 
+    var sessionTimeOut = function () {
+        // initialize session timeout settings
+        $.sessionTimeout({
+            title: 'Session Timeout Notification',
+            message: 'Your session is about to expire.',
+            keepAliveUrl: 'admin/auth',
+            redirUrl: 'admin/login',
+            logoutUrl: 'admin/login',
+            warnAfter: 50000, //warn after 50 seconds
+            redirAfter: 60000, //redirect after 60 secons
+        });
+    };
+
     return {
+        init: function () {
+            //sessionTimeOut()
+        },
         showLoader: function (color) {
             $('body').append('<div class="block-canvas"><div id="canvasloader-container"></div></div>');
             cl = new CanvasLoader('canvasloader-container');

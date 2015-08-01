@@ -21,7 +21,6 @@ trait AuthController
     {
         $type = $this->auth->getName();
 
-
         if (config('app.debug')) {
             $this->data['email'] = ($type == 'admin') ? Admin::first()->email : Propietario::first()->email;
         }
@@ -37,9 +36,7 @@ trait AuthController
      */
     public function postAuth(Request $request)
     {
-        if ($request->ajax() && $request->wantsJson()) {
-            return $this->_validation($request);
-        }
+        return $this->_validation($request);
     }
 
     /**
@@ -65,38 +62,43 @@ trait AuthController
      */
     private function _validation(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'email' => 'required|email|max:45',
-                'password' => 'required'
-            ]
-        );
+        if ($request->ajax() && $request->wantsJson()) {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email|max:45',
+                    'password' => 'required'
+                ]
+            );
 
-        if ($validator->passes()) {
-            if ($this->auth->attempt(
-                ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online']
-            )
-            ) {
-                $mensaje = 'Bienvenido ' . $this->auth->user()->NombreCompleto();
+            if ($validator->passes()) {
+                if ($this->auth->attempt(
+                    ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online']
+                )
+                ) {
+                    $mensaje = 'Bienvenido ' . $this->auth->user()->NombreCompleto();
 
-                return $this->responseJSON(TRUE, $mensaje, route($this->auth->getName()));
+                    return $this->responseJSON(TRUE, $mensaje, route($this->auth->getName()));
+                }
+                else {
+                    $mensaje = 'No existen datos.';
+                    $errores = ['El email o la contraseña son incorrectos.'];
+
+                    return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
+                }
             }
             else {
-                $mensaje = 'No existen datos.';
-                $errores = ['El email o la contraseña son incorrectos.'];
+                $mensaje = 'Hay problemas con los datos: ';
+                $errores = $validator->errors()->all();
+                foreach ($errores as $index => $error) {
+                    $errores[$index] = ucfirst($error);
+                }
 
                 return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
             }
         }
         else {
-            $mensaje = 'Hay problemas con los datos: ';
-            $errores = $validator->errors()->all();
-            foreach ($errores as $index => $error) {
-                $errores[$index] = ucfirst($error);
-            }
-
-            return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
+            return response('Unauthorized.', 401);
         }
     }
 }
