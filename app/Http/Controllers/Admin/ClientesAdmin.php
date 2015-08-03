@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Models\Cliente\Propietario;
+use App\Http\Requests\CreatePropietario;
 use App\Interfaces\CRUDInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
-class ClientesAdmin extends Controller implements CRUDInterface
+class ClientesAdmin extends BaseAdmin implements CRUDInterface
 {
-
-    public function __construct()
+    public function __construct ()
     {
+        parent::__construct();
         $this->data['activo_clientes'] = TRUE;
     }
 
@@ -20,7 +23,7 @@ class ClientesAdmin extends Controller implements CRUDInterface
      *
      * @return Response
      */
-    public function index()
+    public function index ()
     {
         return $this->view('admin.clientes.index');
     }
@@ -30,29 +33,50 @@ class ClientesAdmin extends Controller implements CRUDInterface
      *
      * @return Response
      */
-    public function create()
+    public function create ()
     {
-        // TODO: Implement create() method.
+        $this->data['param'] =
+            [
+                'route'        => 'adm.cliente.store',
+                'class'        => 'form-horizontal form-nuevo-cliente',
+                'role'         => 'form',
+                'autocomplete' => 'off'
+            ];
+
+        return $this->view('admin.clientes.form-nuevo');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request $request
-     * @return Response
+     * @param \App\Http\Requests\CreatePropietario $request
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store (CreatePropietario $request)
     {
-        // TODO: Implement store() method.
+        if ($request->ajax() && $request->wantsJson()) {
+
+            $propietario = new Propietario;
+            $propietario->preparaDatos($request);
+
+            if($propietario->save()){
+                $texto = $propietario->NombreCompleto() . ' se registro como propietario';
+                return $this->responseJSON(TRUE, 'Propietario registrado', $texto, '');
+            } else{
+                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', '');
+            }
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int $id
+     *
      * @return Response
      */
-    public function show($id)
+    public function show ($id)
     {
         // TODO: Implement show() method.
     }
@@ -61,9 +85,10 @@ class ClientesAdmin extends Controller implements CRUDInterface
      * Show the form for editing the specified resource.
      *
      * @param  int $id
+     *
      * @return Response
      */
-    public function edit($id)
+    public function edit ($id)
     {
         // TODO: Implement edit() method.
     }
@@ -72,10 +97,11 @@ class ClientesAdmin extends Controller implements CRUDInterface
      * Update the specified resource in storage.
      *
      * @param  Request $request
-     * @param  int $id
+     * @param  int     $id
+     *
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update (Request $request, $id)
     {
         // TODO: Implement update() method.
     }
@@ -84,10 +110,25 @@ class ClientesAdmin extends Controller implements CRUDInterface
      * Remove the specified resource from storage.
      *
      * @param  int $id
+     *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy ($id)
     {
         // TODO: Implement destroy() method.
+    }
+
+    public function genPassword ()
+    {
+        $cadena         = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        $longitudCadena = strlen($cadena);
+        $pass           = "";
+        $longitudPass   = rand(7, 10);
+        for ($i = 1; $i <= $longitudPass; $i++) {
+            $pos = rand(0, $longitudCadena - 1);
+            $pass .= substr($cadena, $pos, 1);
+        }
+
+        return response($pass, 200);
     }
 }

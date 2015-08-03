@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
@@ -42,26 +43,28 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param                                      $exito
-     * @param                                      $mensaje
-     * @param                                      $url
+     * @param      $exito
+     * @param      $mensaje
+     * @param      $texto
+     * @param      $url
      * @param null $errores
-     * @param                                      $status
+     * @param int  $status
      *
      * @return mixed
      */
-    protected function responseJSON($exito, $mensaje, $url, $errores = NULL, $status = 200)
+    protected function responseJSON($exito, $mensaje, $texto, $url, $errores = NULL, $status = 200)
     {
         $data =
             [
                 'exito' => $exito,
                 'mensaje' => $mensaje,
+                'texto' => $texto,
                 'url' => $url
             ];
         if (!is_null($errores)) {
             $data['errores'] = $errores;
         }
 
-        return Response::json($data, $status);
+        return new JsonResponse($data, $status);
     }
 }

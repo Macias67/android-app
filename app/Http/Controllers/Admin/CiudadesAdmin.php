@@ -7,11 +7,12 @@ use App\Interfaces\CRUDInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CiudadesAdmin extends Controller implements CRUDInterface
+class CiudadesAdmin extends BaseAdmin implements CRUDInterface
 {
 
     public function __construct()
     {
+        parent::__construct();
         $this->data['activo_ciudades'] = TRUE;
     }
 

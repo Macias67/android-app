@@ -7,11 +7,12 @@ use App\Interfaces\CRUDInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CategoriasAdmin extends Controller implements CRUDInterface
+class CategoriasAdmin extends BaseAdmin implements CRUDInterface
 {
 
     public function __construct()
     {
+        parent::__construct();
         $this->data['activo_categorias'] = TRUE;
     }
 

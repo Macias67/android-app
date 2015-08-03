@@ -24,7 +24,7 @@ trait AuthController
         if (config('app.debug')) {
             $this->data['email'] = ($type == 'admin') ? Admin::first()->email : Propietario::first()->email;
         }
-        $this->data['param'] = ['route' => 'auth.' . $type, 'class' => 'login-form'];
+        $this->data['param'] = ['route' => 'auth.' . $type, 'class' => 'login-form', 'autocomplete' => 'off'];
         return $this->view('login');
     }
 
@@ -77,11 +77,13 @@ trait AuthController
                 )
                 ) {
                     $mensaje = 'Bienvenido ' . $this->auth->user()->NombreCompleto();
+                    $texto = 'Espere unos momentos...';
 
                     return $this->responseJSON(TRUE, $mensaje, route($this->auth->getName()));
                 }
                 else {
                     $mensaje = 'No existen datos.';
+                    $texto = 'Espere unos momentos...';
                     $errores = ['El email o la contraseña son incorrectos.'];
 
                     return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
@@ -89,12 +91,13 @@ trait AuthController
             }
             else {
                 $mensaje = 'Hay problemas con los datos: ';
+                $texto = 'Espere unos momentos...';
                 $errores = $validator->errors()->all();
                 foreach ($errores as $index => $error) {
                     $errores[$index] = ucfirst($error);
                 }
 
-                return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
+                return $this->responseJSON(FALSE, $mensaje, $texto, NULL, $errores, 422);
             }
         }
         else {

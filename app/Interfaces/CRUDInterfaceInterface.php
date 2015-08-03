@@ -34,7 +34,7 @@ interface CRUDInterface
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request);
+    //public function store(Request $request);
 
     /**
      * Display the specified resource.

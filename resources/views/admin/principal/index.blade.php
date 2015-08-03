@@ -24,14 +24,6 @@
       <ul class="page-breadcrumb breadcrumb">
             <li>
                   <a href="">Inicio</a>
-                  <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                  <a href="#">Page Layouts</a>
-                  <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                  <a href="#">Blank Page</a>
             </li>
       </ul>
 @stop

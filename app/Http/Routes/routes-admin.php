@@ -33,21 +33,33 @@ Route::group(
             'uses' => 'ClientesAdmin@index'
         ]);
 
-        Route::post('clientes/json', array(
+        Route::post('clientes/json', [
             'as' => 'table-json-clientes',
             'uses' => 'ClientesAdmin@jsonListado'
-        ));
+        ]
+        );
 
         Route::group(['prefix' => 'cliente'], function () {
-            Route::get('nuevo', array(
+
+            Route::get('nuevo', [
                 'as' => 'adm.nuevo.cliente',
                 'uses' => 'ClientesAdmin@create'
-            ));
+            ]
+            );
 
-            Route::get('editar/{id}', array(
+            Route::post('nuevo/password',['uses' => 'ClientesAdmin@genPassword']);
+
+            Route::post('store', [
+                'as' => 'adm.cliente.store',
+                'uses' => 'ClientesAdmin@store'
+            ]
+            );
+
+            Route::get('editar/{id}', [
                 'as' => 'edita-cliente',
                 'uses' => 'ClientesAdmin@edit'
-            ))->where('id', '[0-9]+');
+            ]
+            )->where('id', '[0-9]+');
         });
 
         /*

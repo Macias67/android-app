@@ -7,11 +7,12 @@ use App\Interfaces\CRUDInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class UsuariosAdmin extends Controller implements CRUDInterface
+class UsuariosAdmin extends BaseAdmin implements CRUDInterface
 {
 
     public function __construct()
     {
+        parent::__construct();
         $this->data['activo_usuarios'] = TRUE;
     }
 

@@ -9,7 +9,7 @@
 {{-- Modales de la vista
 @section('modal')@stop --}}
 
-{{-- Sobreescribir el t�tulo de pagina--}}
+{{-- Sobreescribir el título de pagina--}}
 @section('page-title')
       <h1>Página en blanco
             <small>Página en blanco</small>

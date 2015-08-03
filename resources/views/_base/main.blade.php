@@ -27,7 +27,8 @@
 
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
     @yield('plugins-css')
-            <!-- END PAGE LEVEL PLUGIN STYLES -->
+     <link href="{{asset('assets/global/plugins/sweetalert/dist/sweetalert.css')}}" rel="stylesheet" type="text/css">
+      <!-- END PAGE LEVEL PLUGIN STYLES -->
 
     <!-- BEGIN THEME STYLES -->
     <link href="{{asset('assets/global/css/components-rounded.css')}}" id="style_components" rel="stylesheet" type="text/css"/>
@@ -193,8 +194,7 @@
                     <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                     <li class="dropdown dropdown-user dropdown-dark">
                         <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <span class="username username-hide-on-mobile">
-                                Nick </span>
+                            <span class="username username-hide-on-mobile">{{$admin->nombreCompleto()}}</span>
                             <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
                             <img alt="" class="img-circle" src="{{asset('assets/admin/layout4/img/avatar9.jpg')}}"/>
                         </a>
@@ -283,13 +283,13 @@
                     </li>
                     <li {!! isset($activo_ciudades) == TRUE ? ' class="active open" ' : '' !!}>
                         <a href="{{route('ciudades')}}">
-                            <i class="icon-users"></i>
+                            <i class="icon-globe"></i>
                             <span class="title">Ciudades</span>
                         </a>
                     </li>
                     <li {!! isset($activo_categorias) == TRUE ? ' class="active open" ' : '' !!}>
                         <a href="{{route('categorias')}}">
-                            <i class="icon-users"></i>
+                            <i class="icon-list"></i>
                             <span class="title">Categorias</span>
                         </a>
                     </li>
@@ -494,11 +494,13 @@
 <script src="{{asset('assets/global/plugins/jquery.cokie.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/uniform/jquery.uniform.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/canvasloader-min.js')}}" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 @yield('plugins-core-js')
 <script src="{{asset('assets/global/plugins/bootstrap-sessiontimeout/jquery.sessionTimeout.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/sweetalert/dist/sweetalert.min.js')}}" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 
 <script src="{{asset('assets/global/scripts/metronic.js')}}" type="text/javascript"></script>
@@ -514,10 +516,6 @@
         Layout.init(); // init current layout
         Demo.init(); // init demo features
         @yield('init-js')
-
-
-
-
     });
 </script>
 <!-- END JAVASCRIPTS -->

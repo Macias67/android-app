@@ -583,6 +583,7 @@ var Metronic = function () {
 
         $.ajaxSetup({
             //headers: {'X-CSRF-TOKE':_token}
+            data : {_token:_token}
         });
     };
 
