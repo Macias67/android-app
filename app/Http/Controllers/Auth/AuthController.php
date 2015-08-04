@@ -72,26 +72,24 @@ trait AuthController
             );
 
             if ($validator->passes()) {
-                if ($this->auth->attempt(
-                    ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online']
-                )
-                ) {
-                    $mensaje = 'Bienvenido ' . $this->auth->user()->NombreCompleto();
+                $credenciales = ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online'];
+                if ($this->auth->attempt($credenciales)) {
+                    $titulo = 'Bienvenido ' . $this->auth->user()->NombreCompleto();
                     $texto = 'Espere unos momentos...';
 
-                    return $this->responseJSON(TRUE, $mensaje, route($this->auth->getName()));
+                    return $this->responseJSON(TRUE, $titulo, $texto, route($this->auth->getName()));
                 }
                 else {
-                    $mensaje = 'No existen datos.';
-                    $texto = 'Espere unos momentos...';
+                    $titulo = 'No existen datos.';
+                    $mensaje = 'Espere unos momentos...';
                     $errores = ['El email o la contraseña son incorrectos.'];
 
-                    return $this->responseJSON(FALSE, $mensaje, NULL, $errores, 422);
+                    return $this->responseJSON(FALSE, $titulo, $mensaje, NULL, $errores, 422);
                 }
             }
             else {
-                $mensaje = 'Hay problemas con los datos: ';
-                $texto = 'Espere unos momentos...';
+                $mensaje = 'Ups...';
+                $texto = 'Hay problemas con los datos. ';
                 $errores = $validator->errors()->all();
                 foreach ($errores as $index => $error) {
                     $errores[$index] = ucfirst($error);

@@ -226,7 +226,7 @@
 <script src="{{asset('assets/global/scripts/app.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/admin/layout/scripts/layout.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/admin/layout/scripts/demo.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/admin/pages/app/admin/login.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/admin/pages/app/admin/login.js')}}" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 
 <script>

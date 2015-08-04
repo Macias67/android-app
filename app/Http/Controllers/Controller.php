@@ -43,21 +43,21 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param      $exito
-     * @param      $mensaje
-     * @param      $texto
-     * @param      $url
+     * @param $exito
+     * @param $titulo
+     * @param $texto
+     * @param $url
      * @param null $errores
-     * @param int  $status
-     *
+     * @param int $status
      * @return mixed
+     * @internal param $mensaje
      */
-    protected function responseJSON($exito, $mensaje, $texto, $url, $errores = NULL, $status = 200)
+    protected function responseJSON($exito, $titulo, $texto, $url, $errores = NULL, $status = 200)
     {
         $data =
             [
                 'exito' => $exito,
-                'mensaje' => $mensaje,
+                'titulo' => $titulo,
                 'texto' => $texto,
                 'url' => $url
             ];

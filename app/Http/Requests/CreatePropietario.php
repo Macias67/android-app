@@ -27,6 +27,7 @@ class CreatePropietario extends Request
             'nombre'   => 'required|max:45',
             'apellido' => 'required|max:45',
             'movil'    => 'required|max:14',
+            'email'    => 'required|email|max:45|unique:cl_propietario,email',
             'password' => 'required'
         ];
     }

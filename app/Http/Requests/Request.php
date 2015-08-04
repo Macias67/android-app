@@ -25,7 +25,8 @@ abstract class Request extends FormRequest
             }
             $data = [
                 'exito'   => FALSE,
-                'mensaje' => 'Hay problemas con los datos: ',
+                'titulo' => 'Ups...',
+                'texto' => 'Hay problemas con los datos',
                 'url'     => '',
                 'errores' => $errors
             ];
