@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests\CreatePropietario;
-use App\Interfaces\CRUDInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 
-class ClientesAdmin extends BaseAdmin implements CRUDInterface
+class ClientesAdmin extends BaseAdmin
 {
     public function __construct ()
     {
@@ -35,23 +34,28 @@ class ClientesAdmin extends BaseAdmin implements CRUDInterface
      */
     public function create ()
     {
-        $this->data['param'] =
-            [
-                'route'        => 'adm.cliente.store',
-                'class'        => 'form-horizontal form-nuevo-cliente',
-                'role'         => 'form',
-                'autocomplete' => 'off'
-            ];
+        $this->data['param'] = [
+            'route'        => 'adm.cliente.store',
+            'class'        => 'form-horizontal form-nuevo-cliente',
+            'role'         => 'form',
+            'autocomplete' => 'off'
+        ];
+
+        $ciudades = Ciudades::get()->ToArray();
+        $options  = [];
+        foreach ($ciudades as $index => $ciudad) {
+            $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
+        }
+
+        $this->data['options_ciudades'] = $options;
 
         return $this->view('admin.clientes.form-nuevo');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param \App\Http\Requests\CreatePropietario $request
      *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function store (CreatePropietario $request)
     {
@@ -60,10 +64,12 @@ class ClientesAdmin extends BaseAdmin implements CRUDInterface
             $propietario = new Propietario;
             $propietario->preparaDatos($request);
 
-            if($propietario->save()){
+            if ($propietario->save()) {
                 $texto = $propietario->NombreCompleto() . ' se registro como propietario';
+
                 return $this->responseJSON(TRUE, 'Propietario registrado', $texto, '');
-            } else{
+            }
+            else {
                 return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', '');
             }
         }
@@ -131,4 +137,5 @@ class ClientesAdmin extends BaseAdmin implements CRUDInterface
 
         return response($pass, 200);
     }
+
 }

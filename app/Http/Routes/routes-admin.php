@@ -36,8 +36,7 @@ Route::group(
         Route::post('clientes/json', [
             'as' => 'table-json-clientes',
             'uses' => 'ClientesAdmin@jsonListado'
-        ]
-        );
+        ]);
 
         Route::group(['prefix' => 'cliente'], function () {
 
@@ -61,6 +60,16 @@ Route::group(
             ]
             )->where('id', '[0-9]+');
         });
+
+        /*
+       |--------------------------------------------------------------------------
+       | Propietario
+       |--------------------------------------------------------------------------
+       */
+        Route::post('propietarios/json', [
+            'as' => 'select-json-propietarios',
+            'uses' => 'PropietarioAdmin@jsonSelect'
+        ]);
 
         /*
         |--------------------------------------------------------------------------

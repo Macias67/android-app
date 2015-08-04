@@ -4,6 +4,30 @@
 
 var NuevoCliente = function () {
 
+    var selectPropietario = function () {
+        $('#propietario').select2({
+            placeholder: "Lista de Propietarios",
+            allowClear: true,
+            minimumInputLength: 1,
+            ajax: {
+                url: $('#propietario').attr('data-url'),
+                type: 'post',
+                dataType: 'json',
+                quietMillis: 500,
+                data: function (term, page) {
+                    return {
+                        q: term, // search term
+                        page_limit: 2
+                    };
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    // since we are using custom formatting functions we do not need to alter remote JSON data
+                    return {results: data};
+                }
+            }
+        });
+    }
+
     var inputMask = function () {
         $("input[name='movil']").inputmask("mask", {
             "mask": "(999) 999-9999"
@@ -20,7 +44,7 @@ var NuevoCliente = function () {
     }
 
     var handleForm = function () {
-        var form    = $('.form-nuevo-cliente');
+        var form = $('.form-nuevo-cliente');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -28,21 +52,21 @@ var NuevoCliente = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore:       "",  // validate all fields including form hidden input
             rules:        {
-                nombre:    {
-                    required: true,
+                nombre:   {
+                    required:  true,
                     maxlength: 45
                 },
-                apellido:    {
-                    required: true,
+                apellido: {
+                    required:  true,
                     maxlength: 45
                 },
                 movil:    {
-                    required: true,
+                    required:  true,
                     maxlength: 14
                 },
                 email:    {
-                    required: true,
-                    email:    true,
+                    required:  true,
+                    email:     true,
                     maxlength: 45
                 },
                 password: {
@@ -93,6 +117,7 @@ var NuevoCliente = function () {
 
     return {
         init: function () {
+            selectPropietario();
             inputMask();
             genPassword();
             handleForm();

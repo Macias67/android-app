@@ -1,7 +1,11 @@
 @extends('_base.main')
 
-{{-- Adjuntar los links css de los plugins requeridos
-@section('plugins-css')@stop --}}
+{{-- Adjuntar los links css de los plugins requeridos --}}
+@section('plugins-css')
+{!! \Html::style('assets/global/plugins/bootstrap-select/bootstrap-select.min.css', ['rel' => 'stylesheet']) !!}
+{!! \Html::style('assets/global/plugins/select2/select2.css', ['rel' => 'stylesheet']) !!}
+{!! \Html::style('assets/global/plugins/jquery-multi-select/css/multi-select.css', ['rel' => 'stylesheet']) !!}
+@stop
 
 {{-- Sobreescribir el sidebar
 @section('sidebar')@stop --}}
@@ -45,8 +49,8 @@
                         <div class="portlet-title">
                               <div class="caption">
                                     <i class="icon-speech"></i>
-                                    <span class="caption-subject bold uppercase"> Portlet</span>
-                                    <span class="caption-helper">weekly stats...</span>
+                                    <span class="caption-subject bold uppercase"> Cliente</span>
+                                    <span class="caption-helper">Registro de cliente</span>
                               </div>
                               <div class="actions">
                                     <a href="javascript:;" class="btn btn-circle btn-default">
@@ -60,65 +64,89 @@
                               {!! Form::open($param) !!}
                                     <div class="form-body">
                                           <div class="form-group">
-                                                <label class="col-md-3 control-label">Nombre(s)</label>
+                                                <label class="col-md-3 control-label">Propietario</label>
+                                                <div class="col-md-9">
+                                                      <input type="hidden" id="propietario" class="form-control select2" data-url="{{route('select-json-propietarios')}}">
+                                                </div>
+                                          </div>
+                                          <div class="form-group">
+                                                <label class="col-md-3 control-label">Nombre del lugar: </label>
                                                 <div class="col-md-9">
                                                       <div class="input-icon">
-                                                            <i class="fa fa-user"></i>
-                                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre(s)">
+                                                            <i class="fa fa-institution"></i>
+                                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar">
                                                       </div>
                                                 </div>
                                           </div>
                                           <div class="form-group">
-                                                <label class="col-md-3 control-label">Apellido(s)</label>
+                                                <label class="col-md-3 control-label">Calle</label>
                                                 <div class="col-md-9">
                                                       <div class="input-icon">
-                                                            <i class="fa fa-user"></i>
-                                                            <input type="text" class="form-control" name="apellido" placeholder="Apellido(s)">
+                                                            <i class="fa fa-map-marker"></i>
+                                                            <input type="text" class="form-control" name="calle" placeholder="Calle">
                                                       </div>
                                                 </div>
                                           </div>
                                           <div class="form-group">
-                                                <label class="control-label col-md-3">Género</label>
-                                                <div class="col-md-9">
-                                                      <input type="checkbox" class="make-switch" name="genero" checked
-                                                             data-size="small"
-                                                             data-on-text="<i class='fa fa-male'></i>" data-off-text="<i class='fa fa-female'></i>"
-                                                             data-on-color="info"
-                                                             data-off-color="danger">
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Móvil</label>
+                                                <label class="control-label col-md-3">Número</label>
                                                 <div class="col-md-9">
                                                       <div class="input-icon input-small">
-                                                            <i class="fa fa-mobile"></i>
-                                                            <input type="text" class="form-control" name="movil" placeholder="Móvil">
+                                                            <i class="fa fa-slack"></i>
+                                                            <input type="text" class="form-control" name="numero" placeholder="Número">
                                                       </div>
                                                 </div>
                                           </div>
                                           <div class="form-group">
-                                                <label class="col-md-3 control-label">Email</label>
+                                                <label class="col-md-3 control-label">Colonia</label>
                                                 <div class="col-md-9">
-                                                      <div class="input-icon input-large">
-                                                            <i class="fa fa-envelope"></i>
-                                                            <input type="text" class="form-control" name="email" placeholder="Email">
+                                                      <div class="input-icon">
+                                                            <i class="fa fa-map-marker"></i>
+                                                            <input type="text" class="form-control" name="colonia" placeholder="Colonia">
                                                       </div>
                                                 </div>
                                           </div>
                                           <div class="form-group">
-                                                <label class="col-md-3 control-label">Password</label>
+                                                <label class="control-label col-md-3">Código Postal</label>
                                                 <div class="col-md-9">
-                                                      <div class="input-group input-large">
-                                                            <div class="input-icon">
-                                                                  <i class="fa fa-lock fa-fw"></i>
-                                                                  <input id="newpassword" class="form-control" type="text" name="password" placeholder="Password"/>
-                                                            </div>
+                                                      <div class="input-icon input-small">
+                                                            <i class="fa fa-globe"></i>
+                                                            <input type="text" class="form-control" name="codigo_postal" placeholder="Código Postal">
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div class="form-group">
+                                                <label class="control-label col-md-3">Referencias</label>
+                                                <div class="col-md-9">
+                                                      <textarea class="form-control" rows="3" style="resize: none;"></textarea>
+                                                      <span class="help-block">Descripción de lugares, monumentos, calles o algún indicador cercano al lugar. </span>
+                                                </div>
+                                          </div>
+                                          <div class="form-group">
+                                                <label class="col-md-3 control-label">Ciudad</label>
+                                                <div class="col-md-9">
+                                                      {!! Form::select('ciudad_id', $options_ciudades, NULL, ['class' => 'form-control']) !!}
+                                                </div>
+                                          </div>
+                                          <div class="form-group">
+                                                <label class="col-md-3 control-label">Latitud y Longitud</label>
+                                                <div class="col-md-9">
+                                                      <div class="input-group">
+                                                            <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
                                                             <span class="input-group-btn">
-                                                                  <button id="genpassword" class="btn btn-success" type="button">
-                                                                        <i class="fa fa-arrow-left fa-fw"/></i> Generar
-                                                                  </button>
+                                                                  <button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-map-marker"></i></button>
                                                             </span>
                                                       </div>
+                                                </div>
+                                          </div>
+                                          <div class="form-group">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                      <input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
+                                                </div>
+                                          </div>
+                                          <div class="form-group">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                      <div id="gmap_geocoding" class="gmaps"> </div>
+                                                      <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
                                                 </div>
                                           </div>
                                           <div class="form-group">
@@ -135,8 +163,7 @@
                                     <div class="form-actions">
                                           <div class="row">
                                                 <div class="col-md-offset-3 col-md-9">
-                                                      <button type="submit" class="btn green">Submit</button>
-                                                      <button type="button" class="btn default">Cancel</button>
+                                                      <button type="submit" class="btn green">Registrar</button>
                                                 </div>
                                           </div>
                                     </div>
@@ -145,6 +172,135 @@
                   </div>
                   <!-- END Portlet PORTLET-->
             </div>
+            <div class="col-md-6">
+                  <!-- BEGIN GEOCODING PORTLET-->
+                  <div class="portlet light">
+                        <div class="portlet-title">
+                              <div class="caption">
+                                    <i class="fa fa-gift"></i>Geocoding
+                              </div>
+                              <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                    <a href="#portlet-config" data-toggle="modal" class="config">
+                                    </a>
+                                    <a href="javascript:;" class="reload">
+                                    </a>
+                                    <a href="javascript:;" class="remove">
+                                    </a>
+                              </div>
+                        </div>
+                        <div class="portlet-body">
+                        </div>
+                  </div>
+                  <!-- END GEOCODING PORTLET-->
+            </div>
+            {{--<div class="col-md-6">--}}
+                  {{--<!-- BEGIN Portlet PORTLET-->--}}
+                  {{--<div class="portlet light">--}}
+                        {{--<div class="portlet-title">--}}
+                              {{--<div class="caption">--}}
+                                    {{--<i class="icon-speech"></i>--}}
+                                    {{--<span class="caption-subject bold uppercase"> Propietario</span>--}}
+                                    {{--<span class="caption-helper">Registro de propietario</span>--}}
+                              {{--</div>--}}
+                              {{--<div class="actions">--}}
+                                    {{--<a href="javascript:;" class="btn btn-circle btn-default">--}}
+                                          {{--<i class="fa fa-pencil"></i> Edit </a>--}}
+                                    {{--<a href="javascript:;" class="btn btn-circle btn-default">--}}
+                                          {{--<i class="fa fa-plus"></i> Add </a>--}}
+                                    {{--<a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>--}}
+                              {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="portlet-body form">--}}
+                              {{--{!! Form::open($param) !!}--}}
+                              {{--<div class="form-body">--}}
+                                    {{--<div class="form-group">--}}
+                                          {{--<label class="col-md-3 control-label">Nombre(s)</label>--}}
+                                          {{--<div class="col-md-9">--}}
+                                                {{--<div class="input-icon">--}}
+                                                      {{--<i class="fa fa-user"></i>--}}
+                                                      {{--<input type="text" class="form-control" name="nombre" placeholder="Nombre(s)">--}}
+                                                {{--</div>--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group">--}}
+                                          {{--<label class="col-md-3 control-label">Apellido(s)</label>--}}
+                                          {{--<div class="col-md-9">--}}
+                                                {{--<div class="input-icon">--}}
+                                                      {{--<i class="fa fa-user"></i>--}}
+                                                      {{--<input type="text" class="form-control" name="apellido" placeholder="Apellido(s)">--}}
+                                                {{--</div>--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group">--}}
+                                          {{--<label class="control-label col-md-3">Género</label>--}}
+                                          {{--<div class="col-md-9">--}}
+                                                {{--<input type="checkbox" class="make-switch" name="genero" checked--}}
+                                                       {{--data-size="small"--}}
+                                                       {{--data-on-text="<i class='fa fa-male'></i>" data-off-text="<i class='fa fa-female'></i>"--}}
+                                                       {{--data-on-color="info"--}}
+                                                       {{--data-off-color="danger">--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group">--}}
+                                          {{--<label class="col-md-3 control-label">Móvil</label>--}}
+                                          {{--<div class="col-md-9">--}}
+                                                {{--<div class="input-icon input-small">--}}
+                                                      {{--<i class="fa fa-mobile"></i>--}}
+                                                      {{--<input type="text" class="form-control" name="movil" placeholder="Móvil">--}}
+                                                {{--</div>--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group">--}}
+                                          {{--<label class="col-md-3 control-label">Email</label>--}}
+                                          {{--<div class="col-md-9">--}}
+                                                {{--<div class="input-icon input-large">--}}
+                                                      {{--<i class="fa fa-envelope"></i>--}}
+                                                      {{--<input type="text" class="form-control" name="email" placeholder="Email">--}}
+                                                {{--</div>--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group">--}}
+                                          {{--<label class="col-md-3 control-label">Password</label>--}}
+                                          {{--<div class="col-md-9">--}}
+                                                {{--<div class="input-group input-large">--}}
+                                                      {{--<div class="input-icon">--}}
+                                                            {{--<i class="fa fa-lock fa-fw"></i>--}}
+                                                            {{--<input id="newpassword" class="form-control" type="text" name="password" placeholder="Password"/>--}}
+                                                      {{--</div>--}}
+                                                            {{--<span class="input-group-btn">--}}
+                                                                  {{--<button id="genpassword" class="btn btn-success" type="button">--}}
+                                                                        {{--<i class="fa fa-arrow-left fa-fw"/></i> Generar--}}
+                                                                  {{--</button>--}}
+                                                            {{--</span>--}}
+                                                {{--</div>--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="form-group">--}}
+                                          {{--<label class="control-label col-md-3">Estatus</label>--}}
+                                          {{--<div class="col-md-9">--}}
+                                                {{--<input type="checkbox" class="make-switch" name="estatus" checked--}}
+                                                       {{--data-size="small"--}}
+                                                       {{--data-on-text="Online" data-off-text="Offline"--}}
+                                                       {{--data-on-color="success"--}}
+                                                       {{--data-off-color="default">--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                              {{--</div>--}}
+                              {{--<div class="form-actions">--}}
+                                    {{--<div class="row">--}}
+                                          {{--<div class="col-md-offset-3 col-md-9">--}}
+                                                {{--<button type="submit" class="btn green">Submit</button>--}}
+                                                {{--<button type="button" class="btn default">Cancel</button>--}}
+                                          {{--</div>--}}
+                                    {{--</div>--}}
+                              {{--</div>--}}
+                              {{--</form>--}}
+                        {{--</div>--}}
+                  {{--</div>--}}
+                  {{--<!-- END Portlet PORTLET-->--}}
+            {{--</div>--}}
       </div>
 @stop
 
@@ -156,14 +312,21 @@
 {!! \Html::script('assets/global/plugins/jquery-inputmask/dist/inputmask/jquery.inputmask.min.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/global/plugins/jquery-validation/js/jquery.validate.min.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+{!! \Html::script('assets/global/plugins/gmaps/gmaps.min.js', array('type' => 'text/javascript')) !!}
 @stop
 
 {{-- Cargar los archivos de js  --}}
 @section('page-level-js')
 {!! \Html::script('assets/admin/pages/app/admin/clientes/nuevo-cliente.js', array('type' => 'text/javascript')) !!}
+{!! \Html::script('assets/admin/pages/app/admin/clientes/maps-google.js', array('type' => 'text/javascript')) !!}
+{!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
+{!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
+{!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
 @stop
 
 {{-- Inicializo los js --}}
 @section('init-js')
       NuevoCliente.init();
+      MapsGoogle.init();
 @stop
