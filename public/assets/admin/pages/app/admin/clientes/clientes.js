@@ -29,7 +29,7 @@ var Clientes = function () {
                 },
                 {
                     "data":           null,
-                    "defaultContent": '<button type="button" class="btn btn-circle red btn-xs eliminar"><i class="fa fa-trash-o"></i> Eliminar</button>'
+                    "defaultContent": '<button type="button" class="btn btn-circle red btn-xs eliminar"><i class="fa fa-trash-o"></i></button>'
                 }
             ],
             "rowCallback":  function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -43,11 +43,11 @@ var Clientes = function () {
                 $('td:eq(0)', nRow).html('<input type="checkbox" class="checkboxes" ' + checkbox + '/>');
                 // Enlace a la edicion
                 var id = $(nRow).attr('id');
-                $('td:eq(5)', nRow).html('<a type="button" href="/' + id + '" class="btn btn-circle blue btn-xs"><i class="fa fa-search"></i> Ver/Editar</a>');
+                $('td:eq(5)', nRow).html('<a type="button" href="/' + id + '" class="btn btn-circle blue btn-xs"><i class="fa fa-search"></i></a>');
             },
-//            "drawCallback": function (settings) {
-//                Metronic.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
-//            },
+            "drawCallback": function (settings) {
+                Metronic.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
+            },
             // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language":     {
                 "aria":         {

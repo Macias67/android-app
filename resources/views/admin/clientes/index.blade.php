@@ -38,7 +38,7 @@
 {{-- Conteindo de la vista. --}}
 @section('content')
       <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-8">
                   <!-- BEGIN Portlet PORTLET-->
                   <div class="portlet light">
                         <div class="portlet-title">
