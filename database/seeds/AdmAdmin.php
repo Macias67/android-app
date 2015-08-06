@@ -9,7 +9,7 @@ class AdmAdmin extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run ()
     {
         \DB::table('adm_admin')->insert(
             [
@@ -20,7 +20,9 @@ class AdmAdmin extends Seeder
                 'email'      => 'luismacias.angulo@gmail.com',
                 'password'   => bcrypt('qwerty'),
                 'estatus'    => 'online',
-                'privilegio' => 'admin'
+                'privilegio' => 'admin',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]
         );
     }

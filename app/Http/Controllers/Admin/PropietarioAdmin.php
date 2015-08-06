@@ -3,20 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\Cliente\Propietario;
+use App\Http\Requests\CreatePropietario;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class PropietarioAdmin extends Controller
+class PropietarioAdmin extends BaseAdmin
 {
+    public function __construct ()
+    {
+        parent::__construct();
+        $this->data['activo_propietarios'] = TRUE;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
+    public function index ()
     {
-        //
+        return $this->view('admin.propietarios.index');
     }
 
     /**
@@ -24,29 +30,55 @@ class PropietarioAdmin extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create ()
     {
-        //
+        $this->data['param'] = [
+            'route'        => 'adm.propietario.store',
+            'class'        => 'form-horizontal form-nuevo-propietario',
+            'role'         => 'form',
+            'autocomplete' => 'off'
+        ];
+
+        return $this->view('admin.propietarios.form-nuevo');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param \App\Http\Requests\CreatePropietario $request
      *
-     * @param  Request  $request
-     * @return Response
+     * @return mixed
      */
-    public function store(Request $request)
+    public function store (CreatePropietario $request)
     {
-        //
+        if ($request->ajax() && $request->wantsJson()) {
+            $propietario = new Propietario;
+            $propietario->preparaDatos($request);
+
+            if ($propietario->save()) {
+                $texto = $propietario->NombreCompleto() . ' se registro como propietario';
+
+                return $this->responseJSON(
+                    TRUE,
+                    'Propietario registrado',
+                    $texto,
+                    route('propietarios'),
+                    NULL,
+                    ['addCliente' => route('adm.nuevo.cliente')]
+                );
+            }
+            else {
+                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', NULL);
+            }
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
-    public function show($id)
+    public function show ($id)
     {
         //
     }
@@ -54,10 +86,11 @@ class PropietarioAdmin extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
-    public function edit($id)
+    public function edit ($id)
     {
         //
     }
@@ -65,11 +98,12 @@ class PropietarioAdmin extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int     $id
+     *
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update (Request $request, $id)
     {
         //
     }
@@ -77,10 +111,11 @@ class PropietarioAdmin extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy ($id)
     {
         //
     }
@@ -94,15 +129,13 @@ class PropietarioAdmin extends Controller
     {
         if ($request->ajax() && $request->wantsJson()) {
             $propietarios = Propietario::get()->ToArray();
-            $res = [];
+            $res          = [];
             if (!empty($propietarios)) {
                 foreach ($propietarios as $propietario) {
-                    $text = $propietario['nombre'].' '.$propietario['apellido'].' ('.$propietario['email'].')';
+                    $text =
+                        $propietario['nombre'] . ' ' . $propietario['apellido'] . ' (' . $propietario['email'] . ')';
                     array_push($res, ['id' => (int) $propietario['id'], 'text' => $text]);
                 }
-            }
-            else {
-                $res = ['id' => '0', 'text' => "No hay propietarios registrados..."];
             }
 
             return new JsonResponse($res, 200);

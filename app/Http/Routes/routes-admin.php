@@ -35,7 +35,7 @@ Route::group(
 
         Route::post('clientes/json', [
             'as' => 'table-json-clientes',
-            'uses' => 'ClientesAdmin@jsonListado'
+            'uses' => 'ClientesAdmin@datatable'
         ]);
 
         Route::group(['prefix' => 'cliente'], function () {
@@ -43,33 +43,47 @@ Route::group(
             Route::get('nuevo', [
                 'as' => 'adm.nuevo.cliente',
                 'uses' => 'ClientesAdmin@create'
-            ]
-            );
+            ]);
 
             Route::post('nuevo/password',['uses' => 'ClientesAdmin@genPassword']);
 
             Route::post('store', [
                 'as' => 'adm.cliente.store',
                 'uses' => 'ClientesAdmin@store'
-            ]
-            );
+            ]);
 
             Route::get('editar/{id}', [
                 'as' => 'edita-cliente',
                 'uses' => 'ClientesAdmin@edit'
-            ]
-            )->where('id', '[0-9]+');
+            ])->where('id', '[0-9]+');
         });
 
         /*
        |--------------------------------------------------------------------------
-       | Propietario
+       | PROPIETARIOS
        |--------------------------------------------------------------------------
        */
+        Route::get('propietarios', [
+            'as' => 'propietarios',
+            'uses' => 'PropietarioAdmin@index'
+        ]);
+
         Route::post('propietarios/json', [
             'as' => 'select-json-propietarios',
             'uses' => 'PropietarioAdmin@jsonSelect'
         ]);
+
+        Route::group(['prefix' => 'propietario'], function () {
+            Route::get('nuevo', [
+                'as' => 'adm.nuevo.propietario',
+                'uses' => 'PropietarioAdmin@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'adm.propietario.store',
+                'uses' => 'PropietarioAdmin@store'
+            ]);
+        });
 
         /*
         |--------------------------------------------------------------------------

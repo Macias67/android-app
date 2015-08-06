@@ -15,7 +15,9 @@ class AdmCiudades extends Seeder
             [
                 'ciudad'       => 'Ocotlán',
                 'estado'       => 'Jalisco',
-                'latlng_gmaps' => '20.3417485, -102.76523259999999'
+                'latlng_gmaps' => '20.3417485, -102.76523259999999',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]
         );
 
@@ -23,7 +25,9 @@ class AdmCiudades extends Seeder
             [
                 'ciudad'       => 'Chapala',
                 'estado'       => 'Jalisco',
-                'latlng_gmaps' => '20.3051576,-103.18460160000001'
+                'latlng_gmaps' => '20.3051576,-103.18460160000001',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]
         );
     }

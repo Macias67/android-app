@@ -19,7 +19,7 @@ var App = function () {
     };
 
     return {
-        initAjax: function (url, data) {
+        initAjax: function (url, data, success) {
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -61,24 +61,12 @@ var App = function () {
                             animation: 'slide-from-top',
                             html: true
                         });
+                    },
+                    200: function (data, textStatus, jqXHR) {
+                        App.playSoundSuccess();
                     }
                 },
-                success: function (data, textStatus, jqXHR) {
-                    App.removeLoader(500, function () {
-                        App.playSoundSuccess();
-                        swal({
-                            title: '<h3>' + data.titulo + '</h3>',
-                            text: '<p>' + data.texto + '</p>',
-                            type: "success",
-                            animation: 'slide-from-top',
-                            html: true,
-                            showConfirmButton: false,
-                            timer: 3000
-                        }, function () {
-                            window.location.href = data.url;
-                        });
-                    });
-                }
+                success: success
             });
         },
         init: function () {

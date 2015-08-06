@@ -51,7 +51,23 @@ var Login = function () {
                 var data = $(form).serialize();
                 var url = $(form).attr('action');
 
-                App.initAjax(url, data);
+                var success =  function (data) {
+                    App.removeLoader(500, function () {
+                        swal({
+                            title: '<h3>' + data.titulo + '</h3>',
+                            text: '<p>' + data.texto + '</p>',
+                            type: "success",
+                            animation: 'slide-from-top',
+                            html: true,
+                            showConfirmButton: false,
+                            timer: 3000
+                        }, function () {
+                            window.location.href = data.url;
+                        });
+                    });
+                }
+
+                App.initAjax(url, data, success);
             }
         });
 

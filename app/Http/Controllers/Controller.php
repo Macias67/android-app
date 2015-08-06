@@ -43,15 +43,17 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param $exito
-     * @param $titulo
-     * @param $texto
-     * @param $url
+     * @param      $exito
+     * @param      $titulo
+     * @param      $texto
+     * @param      $url
      * @param null $errores
-     * @param int $status
+     * @param null $extras
+     * @param int  $status
+     *
      * @return mixed
      */
-    protected function responseJSON($exito, $titulo, $texto, $url, $errores = NULL, $status = 200)
+    protected function responseJSON($exito, $titulo, $texto, $url, $errores = NULL, $extras = NULL, $status = 200)
     {
         $data =
             [
@@ -60,8 +62,13 @@ abstract class Controller extends BaseController
                 'texto' => $texto,
                 'url' => $url
             ];
+
         if (!is_null($errores)) {
             $data['errores'] = $errores;
+        }
+
+        if (!is_null($extras)) {
+            $data['extras'] = $extras;
         }
 
         return new JsonResponse($data, $status);

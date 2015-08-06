@@ -29,18 +29,56 @@ var NuevoCliente = function () {
     }
 
     var inputMask = function () {
-        $("input[name='movil']").inputmask("mask", {
-            "mask": "(999) 999-9999"
+        $("input[name='codigo_postal']").inputmask("mask", {
+            "mask": "99999"
         });
     }
 
-    var genPassword = function () {
-        $('#genpassword').on('click', function () {
-            var url = Metronic.getDomain() + 'admin/cliente/nuevo/password';
-            $.post(url, function (data) {
-                $("input[name='password']").val(data);
-            }, 'text');
+    var mapGeocoding = function () {
+
+        var map = new GMaps({
+            div: '#gmap_geocoding',
+            lat: 20.3417485,
+            lng: -102.76523259999999
         });
+
+        var handleAction = function () {
+            var calle = $('input[name="calle"]').val()+' '+
+                $('input[name="numero"]').val()+', '+
+                $('select[name="ciudad_id"] option:selected').text();
+            $('#gmap_geocoding_address').val($.trim(calle));
+            var text = $.trim($('#gmap_geocoding_address').val());
+            GMaps.geocode({
+                address:  text,
+                callback: function (results, status) {
+                    if (status == 'OK') {
+                        var latlng = results[0].geometry.location;
+                        map.setCenter(latlng.lat(), latlng.lng());
+                        map.addMarker({
+                            lat: latlng.lat(),
+                            lng: latlng.lng()
+                        });
+                        $('input[name="latlng_gmaps"]').val(latlng.lat()+', '+ latlng.lng());
+
+                        Metronic.scrollTo($('#gmap_geocoding'));
+                    }
+                }
+            });
+        }
+
+        $('#gmap_geocoding_btn').click(function (e) {
+            e.preventDefault();
+            handleAction();
+        });
+
+        $("#gmap_geocoding_address").keypress(function (e) {
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                e.preventDefault();
+                handleAction();
+            }
+        });
+
     }
 
     var handleForm = function () {
@@ -52,30 +90,43 @@ var NuevoCliente = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore:       "",  // validate all fields including form hidden input
             rules:        {
+                propietario_id: {
+                    required:  true
+                },
                 nombre:   {
                     required:  true,
                     maxlength: 45
                 },
-                apellido: {
-                    required:  true,
-                    maxlength: 45
-                },
-                movil:    {
+                calle:    {
                     required:  true,
                     maxlength: 14
                 },
-                email:    {
+                numero:    {
                     required:  true,
-                    email:     true,
+                    maxlength: 5
+                },
+                colonia: {
+                    required: true,
                     maxlength: 45
                 },
-                password: {
-                    required: true
-                }
+                codigo_postal: {
+                    required: true,
+                    maxlength: 45
+                },
+                referencia: {
+                    maxlength: 45
+                },
+                ciudad_id: {
+                    required:  true
+                },
+                latlng_gmaps: {
+                    required:  true,
+                    maxlength: 45
+                },
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-                Metronic.scrollTo($('.logo'), -100);
+                Metronic.scrollTo(form, -100);
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -101,7 +152,29 @@ var NuevoCliente = function () {
                 var url  = $(form).attr('action');
                 var data = $(form).serialize();
 
-                App.initAjax(url, data);
+                var success = function (data) {
+                    App.removeLoader(500, function () {
+                        swal({
+                            title:              '<h3>' + data.titulo + '</h3>',
+                            text:               '<p>' + data.texto + '</p>',
+                            html:               true,
+                            type:               "success",
+                            animation:          'slide-from-top',
+                            showCancelButton:   true,
+                            cancelButtonText: "Añadir nuevo cliente",
+                            confirmButtonColor: Metronic.getBrandColor('green'),
+                            confirmButtonText:  "Listado de clientes"
+                        }, function (isConfirm) {
+                            if(isConfirm){
+                                window.location.href = data.url;
+                            } else {
+                                location.reload(true);
+                            }
+                        });
+                    });
+                }
+
+                App.initAjax(url, data, success);
             }
         });
 
@@ -119,7 +192,7 @@ var NuevoCliente = function () {
         init: function () {
             selectPropietario();
             inputMask();
-            genPassword();
+            mapGeocoding();
             handleForm();
         }
     }

@@ -79,16 +79,16 @@
         <div class="page-actions">
             <div class="btn-group">
                 <button type="button" class="btn red-haze btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                    <span class="hidden-sm hidden-xs">Actions&nbsp;</span><i class="fa fa-angle-down"></i>
+                    <span class="hidden-sm hidden-xs">Acciones Rápidos&nbsp;</span><i class="fa fa-angle-down"></i>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="javascript:">
-                            <i class="icon-docs"></i> New Post </a>
+                        <a href="{{route('adm.nuevo.propietario')}}">
+                            <i class="icon-user-follow"></i> Nuevo Propietario </a>
                     </li>
                     <li>
-                        <a href="javascript:">
-                            <i class="icon-tag"></i> New Comment </a>
+                        <a href="{{route('adm.nuevo.cliente')}}">
+                            <i class="icon-user-follow"></i> Nuevo Cliente </a>
                     </li>
                     <li>
                         <a href="javascript:">
@@ -281,6 +281,12 @@
                             <span class="title">Usuarios</span>
                         </a>
                     </li>
+                      <li {!! isset($activo_propietarios) == TRUE ? ' class="active open" ' : '' !!}>
+                            <a href="{{route('propietarios')}}">
+                                  <i class="icon-users"></i>
+                                  <span class="title">Propietarios</span>
+                            </a>
+                      </li>
                     <li {!! isset($activo_ciudades) == TRUE ? ' class="active open" ' : '' !!}>
                         <a href="{{route('ciudades')}}">
                             <i class="icon-globe"></i>

@@ -44,6 +44,11 @@ class Propietario extends Model implements AuthenticatableContract, CanResetPass
         return $this->nombre . ' ' . $this->apellido;
     }
 
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
+    }
+
     public function preparaDatos (Request $request)
     {
         foreach ($this->fillable as $field) {

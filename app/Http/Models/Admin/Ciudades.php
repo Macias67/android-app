@@ -22,4 +22,9 @@ class Ciudades extends Model
     {
         return $this->ciudad . ', ' . $this->estado;
     }
+
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
+    }
 }

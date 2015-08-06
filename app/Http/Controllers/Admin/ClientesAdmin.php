@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Models\Admin\Ciudades;
+use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Propietario;
-use App\Http\Requests\CreatePropietario;
+use App\Http\Requests\CreateCliente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class ClientesAdmin extends BaseAdmin
 {
@@ -53,24 +55,23 @@ class ClientesAdmin extends BaseAdmin
     }
 
     /**
-     * @param \App\Http\Requests\CreatePropietario $request
+     * @param \App\Http\Requests\CreateCliente $request
      *
      * @return mixed
      */
-    public function store (CreatePropietario $request)
+    public function store (CreateCliente $request)
     {
         if ($request->ajax() && $request->wantsJson()) {
+            $cliente = new Cliente;
+            $cliente->preparaDatos($request);
 
-            $propietario = new Propietario;
-            $propietario->preparaDatos($request);
+            if ($cliente->save()) {
+                $texto = '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.';
 
-            if ($propietario->save()) {
-                $texto = $propietario->NombreCompleto() . ' se registro como propietario';
-
-                return $this->responseJSON(TRUE, 'Propietario registrado', $texto, '');
+                return $this->responseJSON(TRUE, 'Cliente registrado', $texto, route('clientes'));
             }
             else {
-                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', '');
+                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', NULL);
             }
         }
     }
@@ -124,6 +125,72 @@ class ClientesAdmin extends BaseAdmin
         // TODO: Implement destroy() method.
     }
 
+    public function datatable (Request $request)
+    {
+        $draw    = $request->get('draw');
+        $start   = $request->get('start');
+        $length  = $request->get('length');
+        $order   = $request->get('order');
+        $columns = $request->get('columns');
+        $search  = $request->get('search');
+        $total   = Cliente::count();
+        if ($length == -1) {
+            $length = NULL;
+            $start  = NULL;
+        }
+
+        $tCliente = Cliente::getTableName();
+        $tCiduad  = Ciudades::getTableName();
+
+        $campos  = [
+            $tCliente.'.id',
+            $tCliente.'.nombre',
+            $tCliente.'.estatus',
+            $tCliente.'.created_at',
+            $tCiduad.'.ciudad',
+            $tCiduad.'.estado'
+        ];
+
+        $pos_col = $order[0]['column'];
+        $order   = $order[0]['dir'];
+        $campo   = $columns[$pos_col]['data'];
+
+        $clientes =
+            DB::table($tCliente)
+              ->select($campos)
+              ->join($tCiduad, $tCiduad.'.id', '=', $tCliente.'.id')
+              ->where($tCliente.'.nombre', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tCiduad.'.ciudad', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tCiduad.'.estado', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tCliente.'.estatus', 'LIKE', '%' . $search['value'] . '%')
+              ->orderBy($campo, $order)
+              ->get();
+
+
+        $proceso  = array();
+        foreach ($clientes as $index => $cliente) {
+            array_push(
+                $proceso,
+                [
+                    "DT_RowId"    => $cliente->id,
+                    'estatus'     => ($cliente->estatus == 'online') ? TRUE : FALSE,
+                    'nombre'      => $cliente->nombre,
+                    'propietario' => '',
+                    'ciudad'      => $cliente->ciudad . ', ' . $cliente->estado,
+                    'registro'    => $cliente->created_at
+                ]
+            );
+        }
+        $data = [
+            'draw'            => $draw,
+            'recordsTotal'    => count($clientes),
+            'recordsFiltered' => $total,
+            'data'            => $proceso
+        ];
+
+        return new JsonResponse($data, 200);
+    }
+
     public function genPassword ()
     {
         $cadena         = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
@@ -137,5 +204,4 @@ class ClientesAdmin extends BaseAdmin
 
         return response($pass, 200);
     }
-
 }
