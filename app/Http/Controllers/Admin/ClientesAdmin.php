@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Date\Date;
 
 class ClientesAdmin extends BaseAdmin
 {
@@ -142,13 +143,13 @@ class ClientesAdmin extends BaseAdmin
         $tCliente = Cliente::getTableName();
         $tCiduad  = Ciudades::getTableName();
 
-        $campos  = [
-            $tCliente.'.id',
-            $tCliente.'.nombre',
-            $tCliente.'.estatus',
-            $tCliente.'.created_at',
-            $tCiduad.'.ciudad',
-            $tCiduad.'.estado'
+        $campos = [
+            $tCliente . '.id',
+            $tCliente . '.nombre',
+            $tCliente . '.estatus',
+            $tCliente . '.created_at',
+            $tCiduad . '.ciudad',
+            $tCiduad . '.estado'
         ];
 
         $pos_col = $order[0]['column'];
@@ -156,18 +157,21 @@ class ClientesAdmin extends BaseAdmin
         $campo   = $columns[$pos_col]['data'];
 
         $clientes =
-            DB::table($tCliente)
-              ->select($campos)
-              ->join($tCiduad, $tCiduad.'.id', '=', $tCliente.'.id')
-              ->where($tCliente.'.nombre', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tCiduad.'.ciudad', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tCiduad.'.estado', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tCliente.'.estatus', 'LIKE', '%' . $search['value'] . '%')
-              ->orderBy($campo, $order)
-              ->get();
+            DB::table($tCliente)->select($campos)->join($tCiduad, $tCiduad . '.id', '=', $tCliente . '.id')->where(
+                    $tCliente . '.nombre',
+                    'LIKE',
+                    '%' . $search['value'] . '%'
+                )->orwhere($tCiduad . '.ciudad', 'LIKE', '%' . $search['value'] . '%')->orwhere(
+                    $tCiduad . '.estado',
+                    'LIKE',
+                    '%' .
+                    $search['value'] .
+                    '%'
+                )->orwhere($tCliente . '.estatus', 'LIKE', '%' . $search['value'] . '%')->orderBy($campo, $order)->get(
+                );
 
 
-        $proceso  = array();
+        $proceso = array();
         foreach ($clientes as $index => $cliente) {
             array_push(
                 $proceso,
@@ -177,7 +181,7 @@ class ClientesAdmin extends BaseAdmin
                     'nombre'      => $cliente->nombre,
                     'propietario' => '',
                     'ciudad'      => $cliente->ciudad . ', ' . $cliente->estado,
-                    'registro'    => $cliente->created_at
+                    'registro'    => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format('l, d \\d\\e F \\d\\e\\l Y')
                 ]
             );
         }

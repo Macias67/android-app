@@ -155,6 +155,12 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
 
+        /*
+         * Carbon extension for DateTime
+         */
+        Jenssegers\Date\DateServiceProvider::class
+
+
     ],
 
     /*

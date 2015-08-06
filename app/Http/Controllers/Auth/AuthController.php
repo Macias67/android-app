@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Models\Admin\Admin;
+use App\Http\Models\Cliente\Cliente;
+use App\Http\Models\Cliente\Propietario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -71,11 +73,10 @@ trait AuthController
             );
 
             if ($validator->passes()) {
-                $credenciales =
-                    ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online'];
+                $credenciales = ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online'];
                 if ($this->auth->attempt($credenciales)) {
-
-                    $admin                = Admin::find($this->auth->user()->id);
+                    $model = ($this->auth->getName() == 'admin') ? new Admin : new Propietario;
+                    $admin = $model::find($this->auth->user()->id);
                     $admin->ultima_sesion = date('Y-m-d H:i:s');
                     $admin->save();
 
@@ -89,7 +90,7 @@ trait AuthController
                     $mensaje = 'Espere unos momentos...';
                     $errores = ['El email o la contraseña son incorrectos.'];
 
-                    return $this->responseJSON(FALSE, $titulo, $mensaje, NULL, $errores, 422);
+                    return $this->responseJSON(FALSE, $titulo, $mensaje, NULL, $errores, NULL, 422);
                 }
             }
             else {
@@ -100,7 +101,7 @@ trait AuthController
                     $errores[$index] = ucfirst($error);
                 }
 
-                return $this->responseJSON(FALSE, $mensaje, $texto, NULL, $errores, 422);
+                return $this->responseJSON(FALSE, $mensaje, $texto, NULL, $errores, NULL, 422);
             }
         }
         else {

@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseAdmin extends Controller
 {
-    protected $admin;
+    protected $infoAdmin;
 
     public function __construct ()
     {
-        $this->admin         = Auth::admin()->user();
-        $this->data['admin'] = $this->admin;
+        $this->infoAdmin         = Auth::admin()->user();
+        $this->data['user'] = $this->infoAdmin;
     }
 }
