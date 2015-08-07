@@ -8,31 +8,31 @@ var Clientes = function () {
         var table = $('#sample_2');
 
         table.dataTable({
-            "processing":   true,
-            "serverSide":   true,
-            "ajax":         {
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
                 "url": table.attr('data-url'),
                 "type": "POST",
-                "data" : {
+                "data": {
                     "_token": table.attr('token')
                 }
             },
-            "columns":      [
+            "columns": [
                 {"data": "estatus"},
                 {"data": "nombre"},
                 {"data": "propietario"},
                 {"data": "ciudad"},
                 {"data": "registro"},
                 {
-                    "data":           null,
+                    "data": null,
                     "defaultContent": ''
                 },
                 {
-                    "data":           null,
+                    "data": null,
                     "defaultContent": '<button type="button" class="btn btn-circle red btn-xs eliminar"><i class="fa fa-trash-o"></i></button>'
                 }
             ],
-            "rowCallback":  function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            "rowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                 // Desactivado
                 if (!aData.estatus) {
                     $(nRow).addClass('danger');
@@ -49,22 +49,22 @@ var Clientes = function () {
                 Metronic.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
             },
             // Internationalisation. For more info refer to http://datatables.net/manual/i18n
-            "language":     {
-                "aria":         {
-                    "sortAscending":  ": activate to sort column ascending",
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
                     "sortDescending": ": activate to sort column descending"
                 },
-                "emptyTable":   "No hay clientes registrados :(",
-                "info":         "Showing _START_ to _END_ of _TOTAL_ records",
-                "infoEmpty":    "No se encontrarón registros",
+                "emptyTable": "No hay clientes registrados :(",
+                "info": "Showing _START_ to _END_ of _TOTAL_ records",
+                "infoEmpty": "No se encontrarón registros",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
-                "lengthMenu":   " _MENU_ resultados",
-                "paging":       {
+                "lengthMenu": " _MENU_ resultados",
+                "paging": {
                     "previous": "Ant",
-                    "next":     "Sig"
+                    "next": "Sig"
                 },
-                "search":       "Buscar: ",
-                "zeroRecords":  "No matching records found"
+                "search": "Buscar: ",
+                "zeroRecords": "No matching records found"
             },
 
             // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
@@ -83,13 +83,13 @@ var Clientes = function () {
             "columnDefs": [
                 {  // set default column settings
                     'orderable': false,
-                    'targets':   [0]
+                    'targets': [0]
                 }, {
                     "searchable": false,
-                    "targets":    [0]
+                    "targets": [0]
                 }
             ],
-            "order":      [
+            "order": [
                 [1, "asc"]
             ] // set first column as a default sort by asc
         });
@@ -97,7 +97,7 @@ var Clientes = function () {
         var tableWrapper = jQuery('#sample_2_wrapper');
 
         table.find('.group-checkable').change(function () {
-            var set     = jQuery(this).attr("data-set");
+            var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
             jQuery(set).each(function () {
                 if (checked) {
