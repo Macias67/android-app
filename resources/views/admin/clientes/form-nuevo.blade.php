@@ -1,4 +1,4 @@
-@extends('_base.main')
+@extends('admin.menu')
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
@@ -45,7 +45,7 @@
       <div class="row">
             <div class="col-md-6">
                   <!-- BEGIN Portlet PORTLET-->
-                  <div class="portlet light">
+                  <div class="portlet light animated flipInX">
                         <div class="portlet-title">
                               <div class="caption">
                                     <i class="icon-speech"></i>

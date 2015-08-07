@@ -55,9 +55,9 @@ var Clientes = function () {
                     "sortDescending": ": activate to sort column descending"
                 },
                 "emptyTable":   "No hay clientes registrados :(",
-                "info":         "Showing _START_ to _END_ of _TOTAL_ records",
+                "info":         "Mostrando _START_ a _END_ de _TOTAL_ registros",
                 "infoEmpty":    "No se encontrarón registros",
-                "infoFiltered": "(filtered1 from _MAX_ total records)",
+                "infoFiltered": "(filtered from _MAX_ total records)",
                 "lengthMenu":   " _MENU_ resultados",
                 "paging":       {
                     "previous": "Ant",

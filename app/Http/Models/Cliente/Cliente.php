@@ -28,8 +28,19 @@ class Cliente extends Model
         'referencia',
         'latlng_gmaps',
         'ciudad_id',
+        'propietario_id',
         'estatus'
     ];
+
+    /**
+     * Cliente pertenece a un propietario
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function getPropietario ()
+    {
+        return $this->belongsTo(Propietario::getTableName(), 'id');
+    }
 
     public static function getTableName()
     {
@@ -50,12 +61,13 @@ class Cliente extends Model
     {
         $this->nombre        = mb_convert_case(trim(mb_strtolower($this->nombre)), MB_CASE_TITLE, "UTF-8");
         $this->calle         = mb_convert_case(trim(mb_strtolower($this->calle)), MB_CASE_TITLE, "UTF-8");
-        $this->numero        = trim($this->numero);
+        $this->numero        = trim(strtoupper($this->numero));
         $this->colonia       = mb_convert_case(trim(mb_strtolower($this->colonia)), MB_CASE_TITLE, "UTF-8");
         $this->codigo_postal = trim($this->codigo_postal);
         $this->referencia    = mb_convert_case(trim(mb_strtolower($this->referencia)), MB_CASE_TITLE, "UTF-8");
         $this->latlng_gmaps  = trim($this->latlng_gmaps);
         $this->ciudad_id     = trim($this->ciudad_id);
+        $this->propietario_id     = trim($this->propietario_id);
         $this->estatus       = trim($this->estatus);
     }
 }

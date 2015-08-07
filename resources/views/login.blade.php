@@ -28,6 +28,7 @@
     <!-- BEGIN PAGE LEVEL STYLES -->
     <link href="{{asset('assets/admin/pages/css/login2.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/global/plugins/sweetalert/dist/sweetalert.css')}}" rel="stylesheet" type="text/css">
+	<link href="{{asset('assets/global/plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
     <!-- END PAGE LEVEL SCRIPTS -->
 
     <!-- BEGIN THEME STYLES -->
@@ -45,7 +46,7 @@
 <body class="login">
 
 <!-- BEGIN LOGO -->
-<div class="logo">
+<div class="logo animated bounceIn">
     <img src="{{asset('assets/admin/layout/img/logo-big-white.png')}}" style="height: 17px;" alt=""/>
 </div>
 <!-- END LOGO -->

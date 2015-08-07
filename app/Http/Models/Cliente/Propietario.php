@@ -35,6 +35,16 @@ class Propietario extends Model implements AuthenticatableContract, CanResetPass
     protected $fillable = ['nombre', 'apellido', 'genero', 'movil', 'email', 'password', 'estatus'];
 
     /**
+     * El Propietario tiene muchos negocios que puede dirigir
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getClientes ()
+    {
+        return $this->hasMany(Cliente::getTableName(), 'id');
+    }
+
+    /**
      * Scope para retornar nombre completo del Admin
      *
      * @return string
@@ -44,7 +54,7 @@ class Propietario extends Model implements AuthenticatableContract, CanResetPass
         return $this->nombre . ' ' . $this->apellido;
     }
 
-    public static function getTableName()
+    public static function getTableName ()
     {
         return with(new static)->getTable();
     }

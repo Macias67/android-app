@@ -1,4 +1,4 @@
-@extends('_base.main')
+@extends('cliente.menu')
 
 {{-- Adjuntar los links css de los plugins requeridos
 @section('plugins-css')@stop --}}
@@ -9,11 +9,11 @@
 {{-- Modales de la vista
 @section('modal')@stop --}}
 
-{{-- Sobreescribir el t�tulo de pagina--}}
+{{-- Sobreescribir el título de pagina--}}
 @section('page-title')
-    <h1>Página en blanco
-        <small>Página en blanco</small>
-    </h1>
+	<h1>Página en blanco
+		<small>Página en blanco</small>
+	</h1>
 @stop
 
 {{-- Sobreescribir el toolbar de pagina
@@ -21,28 +21,28 @@
 
 {{-- Sobreescribir el breadcrumb de pagina --}}
 @section('page-breadcrumb')
-    <ul class="page-breadcrumb breadcrumb">
-        <li>
-            <a href="">Inicio</a>
-            <i class="fa fa-circle"></i>
-        </li>
-        <li>
-            <a href="#">Page Layouts</a>
-            <i class="fa fa-circle"></i>
-        </li>
-        <li>
-            <a href="#">Blank Page</a>
-        </li>
-    </ul>
+	<ul class="page-breadcrumb breadcrumb">
+		<li>
+			<a href="">Inicio</a>
+			<i class="fa fa-circle"></i>
+		</li>
+		<li>
+			<a href="#">Page Layouts</a>
+			<i class="fa fa-circle"></i>
+		</li>
+		<li>
+			<a href="#">Blank Page</a>
+		</li>
+	</ul>
 @stop
 
 {{-- Conteindo de la vista. --}}
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            Contenido
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-12">
+			Contenido
+		</div>
+	</div>
 @stop
 
 {{-- Sobreescribir el encabezado de pagina

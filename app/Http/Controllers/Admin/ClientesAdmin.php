@@ -135,12 +135,14 @@ class ClientesAdmin extends BaseAdmin
         $columns = $request->get('columns');
         $search  = $request->get('search');
         $total   = Cliente::count();
+
         if ($length == -1) {
             $length = NULL;
             $start  = NULL;
         }
 
         $tCliente = Cliente::getTableName();
+        $tPropietario  = Propietario::getTableName();
         $tCiduad  = Ciudades::getTableName();
 
         $campos = [
@@ -148,6 +150,9 @@ class ClientesAdmin extends BaseAdmin
             $tCliente . '.nombre',
             $tCliente . '.estatus',
             $tCliente . '.created_at',
+            $tPropietario . '.id as `propietario_id`',
+            $tPropietario . '.nombre as propietario_nombre',
+            $tPropietario . '.apellido as propietario_apellido',
             $tCiduad . '.ciudad',
             $tCiduad . '.estado'
         ];
@@ -156,20 +161,33 @@ class ClientesAdmin extends BaseAdmin
         $order   = $order[0]['dir'];
         $campo   = $columns[$pos_col]['data'];
 
-        $clientes =
-            DB::table($tCliente)->select($campos)->join($tCiduad, $tCiduad . '.id', '=', $tCliente . '.id')->where(
-                    $tCliente . '.nombre',
-                    'LIKE',
-                    '%' . $search['value'] . '%'
-                )->orwhere($tCiduad . '.ciudad', 'LIKE', '%' . $search['value'] . '%')->orwhere(
-                    $tCiduad . '.estado',
-                    'LIKE',
-                    '%' .
-                    $search['value'] .
-                    '%'
-                )->orwhere($tCliente . '.estatus', 'LIKE', '%' . $search['value'] . '%')->orderBy($campo, $order)->get(
-                );
+        switch($campo) {
+            case 'estatus':
+                $campo = $tCliente . '.estatus';
+                break;
+            case 'propietario':
+                $campo = $tPropietario . '.nombre';
+                break;
+            case 'ciudad':
+                $campo = $tCiduad . '.ciudad';
+                break;
+            case 'registro':
+                $campo = $tCliente . '.created_at';
+                break;
+        }
 
+        $clientes =
+            DB::table($tCliente)
+                ->select($campos)
+                ->join($tCiduad, $tCiduad . '.id', '=', $tCliente . '.ciudad_id')
+                ->join($tPropietario, $tPropietario . '.id', '=', $tCliente . '.propietario_id')
+                ->where($tCliente . '.nombre', 'LIKE',  '%' . $search['value'] . '%')
+                ->orwhere($tPropietario . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+                ->orwhere($tPropietario . '.apellido', 'LIKE', '%' . $search['value'] . '%')
+                ->orwhere($tCiduad . '.ciudad', 'LIKE', '%' . $search['value'] . '%')
+                ->orwhere($tCiduad . '.estado', 'LIKE', '%' . $search['value'] . '%')
+                ->orwhere($tCliente . '.estatus', 'LIKE', '%' . $search['value'] . '%')
+                ->orderBy($campo, $order)->get();
 
         $proceso = array();
         foreach ($clientes as $index => $cliente) {
@@ -179,7 +197,7 @@ class ClientesAdmin extends BaseAdmin
                     "DT_RowId"    => $cliente->id,
                     'estatus'     => ($cliente->estatus == 'online') ? TRUE : FALSE,
                     'nombre'      => $cliente->nombre,
-                    'propietario' => '',
+                    'propietario' => $cliente->propietario_nombre.' '.$cliente->propietario_apellido,
                     'ciudad'      => $cliente->ciudad . ', ' . $cliente->estado,
                     'registro'    => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format('l, d \\d\\e F \\d\\e\\l Y')
                 ]

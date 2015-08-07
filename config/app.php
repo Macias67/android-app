@@ -158,9 +158,7 @@ return [
         /*
          * Carbon extension for DateTime
          */
-        Jenssegers\Date\DateServiceProvider::class
-
-
+        Jenssegers\Date\DateServiceProvider::class,
     ],
 
     /*

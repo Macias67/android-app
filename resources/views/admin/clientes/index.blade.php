@@ -1,4 +1,4 @@
-@extends('_base.main')
+@extends('admin.menu')
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
@@ -40,7 +40,7 @@
       <div class="row">
             <div class="col-md-8">
                   <!-- BEGIN Portlet PORTLET-->
-                  <div class="portlet light">
+                  <div class="portlet light animated flipInX">
                         <div class="portlet-title">
                               <div class="caption">
                                     <i class="icon-speech"></i>
@@ -48,10 +48,8 @@
                                     <span class="caption-helper">Clientes registrados en toda la aplicación</span>
                               </div>
                               <div class="actions">
-                                    <a href="javascript:;" class="btn btn-circle btn-default">
-                                          <i class="fa fa-pencil"></i> Edit </a>
-                                    <a href="javascript:;" class="btn btn-circle btn-default">
-                                          <i class="fa fa-plus"></i> Add </a>
+                                    <a href="javascript:;" class="btn btn-circle btn-default"><i class="fa fa-pencil"></i> Edit </a>
+                                    <a href="javascript:;" class="btn btn-circle btn-default"><i class="fa fa-plus"></i> Add </a>
                                     <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
                               </div>
                         </div>

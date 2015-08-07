@@ -21,7 +21,7 @@ trait AuthController
     public function getLogin ()
     {
         $this->data['param'] =
-            ['route' => 'auth.' . $this->auth->getName(), 'class' => 'login-form', 'autocomplete' => 'off'];
+            ['route' => 'auth.' . $this->auth->getName(), 'class' => 'login-form animated bounceInDown', 'autocomplete' => 'off'];
 
         return $this->view('login');
     }
