@@ -2,8 +2,8 @@
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
-      {!! Html::style('assets/global/plugins/select2/select2.css', ['rel' => 'stylesheet']) !!}
-      {!! Html::style('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css', ['rel' => 'stylesheet']) !!}
+    {!! Html::style('assets/global/plugins/select2/select2.css', ['rel' => 'stylesheet']) !!}
+    {!! Html::style('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css', ['rel' => 'stylesheet']) !!}
 @stop
 
 {{-- Sobreescribir el sidebar
@@ -14,9 +14,9 @@
 
 {{-- Sobreescribir el título de pagina--}}
 @section('page-title')
-      <h1>Gestión de clientes
-            <small>Detalles de todos los clientes registrados.</small>
-      </h1>
+    <h1>Gestión de clientes
+        <small>Detalles de todos los clientes registrados.</small>
+    </h1>
 @stop
 
 {{-- Sobreescribir el toolbar de pagina
@@ -24,15 +24,15 @@
 
 {{-- Sobreescribir el breadcrumb de pagina --}}
 @section('page-breadcrumb')
-      <ul class="page-breadcrumb breadcrumb">
-            <li>
-                  <a href="{{route('admin')}}">Inicio</a>
-                  <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                  <a href="{{route('clientes')}}">Clientes</a>
-            </li>
-      </ul>
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="{{route('admin')}}">Inicio</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="{{route('clientes')}}">Clientes</a>
+        </li>
+    </ul>
 @stop
 
 {{-- Conteindo de la vista. --}}
@@ -73,7 +73,9 @@
                   </div>
                   <!-- END Portlet PORTLET-->
             </div>
-      </div>
+            <!-- END Portlet PORTLET-->
+        </div>
+    </div>
 @stop
 
 {{-- Sobreescribir el encabezado de pagina
@@ -81,17 +83,17 @@
 
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
-{!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
-{!! \Html::script('assets/global/plugins/datatables/media/js/jquery.dataTables.min.js', array('type' => 'text/javascript')) !!}
-{!! \Html::script('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/global/plugins/datatables/media/js/jquery.dataTables.min.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js', array('type' => 'text/javascript')) !!}
 @stop
 
 {{-- Cargar los archivos de js  --}}
 @section('page-level-js')
-{!! \Html::script('assets/admin/pages/app/admin/clientes/clientes.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/admin/pages/app/admin/clientes/clientes.js', array('type' => 'text/javascript')) !!}
 @stop
 
 {{-- Inicializo los js --}}
 @section('init-js')
-      Clientes.init();
+    Clientes.init();
 @stop
