@@ -5,7 +5,7 @@ var Clientes = function () {
 
     var initTable = function () {
 
-        var table = $('#sample_2');
+        var table = $('#clientes');
 
         table.dataTable({
             "processing": true,
@@ -26,10 +26,6 @@ var Clientes = function () {
                 {
                     "data": null,
                     "defaultContent": ''
-                },
-                {
-                    "data": null,
-                    "defaultContent": '<button type="button" class="btn btn-circle red btn-xs eliminar"><i class="fa fa-trash-o"></i></button>'
                 }
             ],
             "rowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -43,7 +39,10 @@ var Clientes = function () {
                 $('td:eq(0)', nRow).html('<input type="checkbox" class="checkboxes" ' + checkbox + '/>');
                 // Enlace a la edicion
                 var id = $(nRow).attr('id');
-                $('td:eq(5)', nRow).html('<a type="button" href="/' + id + '" class="btn btn-circle blue btn-xs"><i class="fa fa-search"></i></a>');
+                $('td:eq(5)', nRow).html(
+                    '<a type="button" href="/' + id + '" class="btn btn-circle bg-yellow-casablanca btn-xs"><i class="fa fa-plus"></i></a>'+
+                    '<button type="button" class="btn btn-circle bg-red-thunderbird btn-xs eliminar"><i class="fa fa-trash-o"></i></button>'
+                );
             },
             "drawCallback": function (settings) {
                 Metronic.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
@@ -75,8 +74,8 @@ var Clientes = function () {
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [5, 15, 20, 50],
+                [5, 15, 20, 50] // change per page values here
             ],
             // set the initial value
             "pageLength": 5,

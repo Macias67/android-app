@@ -18,7 +18,7 @@ Route::group(
 
         /*
        |--------------------------------------------------------------------------
-       | Principal
+       | PRINCIPAL
        |--------------------------------------------------------------------------
        */
         Route::get('/', ['as' => 'admin', 'uses' => 'PrincipalAdmin@index']);
@@ -91,7 +91,7 @@ Route::group(
         |--------------------------------------------------------------------------
         */
         Route::get('usuarios', [
-            'as' => 'usuarios',
+            'as' => 'usuarios-admin',
             'uses' => 'UsuariosAdmin@index'
         ]);
 
@@ -111,7 +111,7 @@ Route::group(
         |--------------------------------------------------------------------------
         */
         Route::get('categorias', [
-            'as' => 'categorias',
+            'as' => 'categorias-admin',
             'uses' => 'CategoriasAdmin@index'
         ]);
 

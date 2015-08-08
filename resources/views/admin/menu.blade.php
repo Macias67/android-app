@@ -27,7 +27,7 @@
 					</a>
 				</li>
 				<li {!! isset($activo_usuarios) == TRUE ? ' class="active open" ' : '' !!}>
-					<a href="{{route('usuarios')}}">
+					<a href="{{route('usuarios-admin')}}">
 						<i class="icon-users"></i>
 						<span class="title">Usuarios</span>
 					</a>
@@ -45,7 +45,7 @@
 					</a>
 				</li>
 				<li {!! isset($activo_categorias) == TRUE ? ' class="active open" ' : '' !!}>
-					<a href="{{route('categorias')}}">
+					<a href="{{route('categorias-admin')}}">
 						<i class="icon-list"></i>
 						<span class="title">Categorias</span>
 					</a>

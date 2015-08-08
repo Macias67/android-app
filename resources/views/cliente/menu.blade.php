@@ -1,7 +1,7 @@
 @extends('_base.main')
 
 @section('sidebar')
-	<div class="page-sidebar-wrapper">
+	<div class="page-sidebar-wrapper animated bounceInLeft">
 		<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
 		<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 		<div class="page-sidebar navbar-collapse collapse">
@@ -18,6 +18,42 @@
 					<a href="{{route('cliente')}}">
 						<i class="icon-home"></i>
 						<span class="title">Inicio</span>
+					</a>
+				</li>
+				<li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+					<a href="{{route('usuarios-cliente')}}">
+						<i class="icon-user-following"></i>
+						<span class="title">Seguidores</span>
+					</a>
+				</li>
+				<li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+					<a href="{{route('usuarios-cliente')}}">
+						<i class="icon-home"></i>
+						<span class="title">Mis Negocios</span>
+					</a>
+				</li>
+				<li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+					<a href="{{route('productos')}}">
+						<i class="icon-bag"></i>
+						<span class="title">Productos</span>
+					</a>
+				</li>
+				<li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+					<a href="{{route('servicios')}}">
+						<i class="icon-badge"></i>
+						<span class="title">Servicios</span>
+					</a>
+				</li>
+				<li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+					<a href="{{route('promociones')}}">
+						<i class="icon-present"></i>
+						<span class="title">Promociones</span>
+					</a>
+				</li>
+				<li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+					<a href="{{route('eventos')}}">
+						<i class="icon-calendar"></i>
+						<span class="title">Eventos</span>
 					</a>
 				</li>
 				<li class="last ">
