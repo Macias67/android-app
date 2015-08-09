@@ -14,6 +14,6 @@ class PrincipalCliente extends BaseCliente
 
     public function index ()
     {
-        return $this->view('cliente.principal.principal');
+        return $this->view('cliente.principal.index');
     }
 }

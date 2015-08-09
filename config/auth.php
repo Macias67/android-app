@@ -8,7 +8,7 @@ return [
             'table'  => 'adm_admin',
             'model' => 'App\Http\Models\Admin\Admin',
         ],
-        'cliente' => [
+        'propietario' => [
             'driver' => 'eloquent',
             'table' => 'cl_propietario',
             'model' => 'App\Http\Models\Cliente\Propietario',

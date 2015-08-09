@@ -1,4 +1,4 @@
-@extends('admin.menu')
+@extends('cliente.menu')
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
@@ -15,8 +15,8 @@
 
 {{-- Sobreescribir el título de pagina--}}
 @section('page-title')
-      <h1>Registro de nuevo cliente
-            <small>Información básica del cliente</small>
+      <h1>Registro de nuevo negocio
+            <small>Información básica del negocio</small>
       </h1>
 @stop
 
@@ -49,13 +49,10 @@
                         <div class="portlet-title">
                               <div class="caption">
                                     <i class="icon-user-follow"></i>
-                                    <span class="caption-subject bold uppercase"> Cliente</span>
-                                    <span class="caption-helper">Registro de cliente</span>
+                                    <span class="caption-subject bold uppercase"> Negocio</span>
+                                    <span class="caption-helper">Registro de negocio</span>
                               </div>
                               <div class="actions">
-                                    <a href="{{route('adm.nuevo.propietario')}}" class="btn btn-circle btn-success">
-                                          <i class="fa fa-plus"></i> Añadir Propietario
-                                    </a>
                                     <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
                               </div>
                         </div>
@@ -63,17 +60,12 @@
                               {!! Form::open($param) !!}
                                     <div class="form-body">
                                           <div class="form-group">
-                                                <label class="col-md-3 control-label">Propietario</label>
-                                                <div class="col-md-9">
-                                                      <input type="hidden" id="propietario" name="propietario_id" class="form-control select2" data-url="{{route('select-json-propietarios')}}">
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
                                                 <label class="col-md-3 control-label">Nombre del lugar: </label>
                                                 <div class="col-md-9">
                                                       <div class="input-icon">
                                                             <i class="fa fa-institution"></i>
                                                             <input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar">
+                                                            <input type="hidden" name="propietario_id" value="{{$user->id}}">
                                                       </div>
                                                 </div>
                                           </div>
@@ -124,6 +116,7 @@
                                                 <label class="col-md-3 control-label">Ciudad</label>
                                                 <div class="col-md-9">
                                                       {!! Form::select('ciudad_id', $options_ciudades, NULL, ['class' => 'form-control']) !!}
+                                                      <span class="help-block">Lugares actualmente disponibles en la aplicación. </span>
                                                 </div>
                                           </div>
                                           <div class="form-group">

@@ -18,10 +18,10 @@ trait AuthController
      *
      * @return \Illuminate\Http\Response
      */
-    public function getLogin ()
+    public function getLogin()
     {
         $this->data['param'] =
-            ['route' => 'auth.' . $this->auth->getName(), 'class' => 'login-form animated bounceInDown', 'autocomplete' => 'off'];
+            ['route' => 'auth.' . $this->_type(), 'class' => 'login-form animated bounceInDown', 'autocomplete' => 'off'];
 
         return $this->view('login');
     }
@@ -33,7 +33,7 @@ trait AuthController
      *
      * @return mixed
      */
-    public function postAuth (Request $request)
+    public function postAuth(Request $request)
     {
         return $this->_validation($request);
     }
@@ -45,12 +45,12 @@ trait AuthController
      *
      * @return mixed
      */
-    public function getLogout (Redirect $redirect)
+    public function getLogout(Redirect $redirect)
     {
         $this->auth->logout();
         Session::flush();
 
-        return $redirect::route('login.' . $this->auth->getName())->header(
+        return $redirect::route('login.' . $this->_type())->header(
             'Cache-Control',
             'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
         );
@@ -61,13 +61,13 @@ trait AuthController
      *
      * @return mixed
      */
-    private function _validation (Request $request)
+    private function _validation(Request $request)
     {
         if ($request->ajax() && $request->wantsJson()) {
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'email'    => 'required|email|max:45',
+                    'email' => 'required|email|max:45',
                     'password' => 'required'
                 ]
             );
@@ -81,12 +81,12 @@ trait AuthController
                     $admin->save();
 
                     $titulo = 'Bienvenido ' . $this->auth->user()->NombreCompleto();
-                    $texto  = 'Espere unos momentos...';
+                    $texto = 'Espere unos momentos...';
 
-                    return $this->responseJSON(TRUE, $titulo, $texto, route($this->auth->getName()));
+                    return $this->responseJSON(TRUE, $titulo, $texto, route($this->_type()));
                 }
                 else {
-                    $titulo  = 'No existen datos.';
+                    $titulo = 'No existen datos.';
                     $mensaje = 'Espere unos momentos...';
                     $errores = ['El email o la contraseña son incorrectos.'];
 
@@ -95,7 +95,7 @@ trait AuthController
             }
             else {
                 $mensaje = 'Ups...';
-                $texto   = 'Hay problemas con los datos. ';
+                $texto = 'Hay problemas con los datos. ';
                 $errores = $validator->errors()->all();
                 foreach ($errores as $index => $error) {
                     $errores[$index] = ucfirst($error);
@@ -107,5 +107,9 @@ trait AuthController
         else {
             return response('Unauthorized.', 401);
         }
+    }
+
+    private function _type() {
+        return ($this->auth->getName() == 'propietario') ? 'cliente' : $this->auth->getName();
     }
 }

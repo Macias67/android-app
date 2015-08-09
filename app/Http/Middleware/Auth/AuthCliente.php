@@ -24,7 +24,7 @@ class AuthCliente
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::cliente()->guest()) {
+        if (Auth::propietario()->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             }

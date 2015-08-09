@@ -42,7 +42,7 @@
       <div class="row">
             <div class="col-md-6">
                   <!-- BEGIN Portlet PORTLET-->
-                  <div class="portlet light animated flipInX">
+                  <div class="portlet light animated bounceInUp">
                         <div class="portlet-title">
                               <div class="caption">
                                     <i class="icon-speech"></i>

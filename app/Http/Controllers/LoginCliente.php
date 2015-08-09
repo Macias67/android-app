@@ -24,6 +24,6 @@ class LoginCliente extends Controller
 
     public function __construct(Auth $auth)
     {
-        $this->auth = $auth::cliente();
+        $this->auth = $auth::propietario();
     }
 }

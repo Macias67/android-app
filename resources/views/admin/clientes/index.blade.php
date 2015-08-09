@@ -41,7 +41,7 @@
       <div class="row">
             <div class="col-md-8">
                   <!-- BEGIN Portlet PORTLET-->
-                  <div class="portlet light animated flipInX">
+                  <div class="portlet light animated bounceInUp">
                         <div class="portlet-title">
                               <div class="caption font-green-sharp">
                                     <i class="fa fa-list-ul font-green-sharp"></i>
@@ -49,8 +49,8 @@
                                     <span class="caption-helper">Clientes registrados en toda la aplicación</span>
                               </div>
                               <div class="actions">
-                                    <a href="" class="btn btn-circle bg-green-turquoise"><i class="fa fa-plus"></i> Nuevo Cliente </a>
-	                              <a href="" class="btn btn-circle bg-green-turquoise"><i class="fa fa-plus"></i> Nuevo Propietario </a>
+                                    <a href="{{route('adm.nuevo.cliente')}}" class="btn btn-circle bg-green-turquoise"><i class="fa fa-plus"></i> Nuevo Cliente </a>
+	                              <a href="{{route('adm.nuevo.propietario')}}" class="btn btn-circle bg-green-turquoise"><i class="fa fa-plus"></i> Nuevo Propietario </a>
                                     <a href="" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
                               </div>
                         </div>

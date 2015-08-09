@@ -25,13 +25,26 @@ Route::group(
 
         /*
         |--------------------------------------------------------------------------
-        | USUARIOS
+        | NEGOCIO
         |--------------------------------------------------------------------------
         */
-        Route::get('usuarios', [
-            'as' => 'usuarios-cliente',
-            'uses' => 'UsuariosCliente@index'
+        Route::get('negocios', [
+            'as' => 'negocios-cliente',
+            'uses' => 'NegociosCliente@index'
         ]);
+
+        Route::group(['prefix' => 'negocio'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'cliente.negocio.create',
+                'uses' => 'NegociosCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.negocio.store',
+                'uses' => 'NegociosCliente@store'
+            ]);
+        });
 
         /*
         |--------------------------------------------------------------------------
