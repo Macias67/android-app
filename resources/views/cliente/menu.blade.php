@@ -7,7 +7,7 @@
             <span class="hidden-sm hidden-xs">Acciones Rápidos&nbsp;</span><i class="fa fa-angle-down"></i>
         </button>
         <ul class="dropdown-menu" role="menu">
-            <li><a href="{{route('cliente.negocio.create')}}"><i class="icon-user-follow"></i> Nuevo Cliente</a></li>
+            <li><a href="{{route('cliente.negocio.create')}}"><i class="icon-home"></i> Nuevo Negocio</a></li>
             <li><a href="javascript:"><i class="icon-share"></i> Share</a></li>
             <li class="divider"></li>
             <li>

@@ -107,13 +107,21 @@ Route::group(
 
         /*
         |--------------------------------------------------------------------------
-        | Categorias
+        | CATEGORIAS
         |--------------------------------------------------------------------------
         */
         Route::get('categorias', [
             'as' => 'categorias-admin',
             'uses' => 'CategoriasAdmin@index'
         ]);
+
+        Route::group(['prefix' => 'categoria'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'adm.nuevo.categoria',
+                'uses' => 'CategoriasAdmin@create'
+            ]);
+        });
 
     }
 );

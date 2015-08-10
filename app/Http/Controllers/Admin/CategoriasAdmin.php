@@ -33,7 +33,7 @@ class CategoriasAdmin extends BaseAdmin implements CRUDInterface
      */
     public function create()
     {
-        // TODO: Implement create() method.
+        return $this->view('admin.categorias.form-nuevo');
     }
 
     /**

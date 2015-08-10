@@ -1,4 +1,4 @@
-@extends('_base.main')
+@extends('admin.menu')
 
 {{-- Adjuntar los links css de los plugins requeridos
 @section('plugins-css')@stop --}}
@@ -39,14 +39,14 @@
 {{-- Conteindo de la vista. --}}
 @section('content')
       <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                   <!-- BEGIN SAMPLE FORM PORTLET-->
-                  <div class="portlet box green ">
-                        <div class="portlet light animated bounceInUp">
+                  <div class="portlet light animated bounceInUp">
+                        <div class="portlet-title">
                               <div class="caption">
                                     <i class="icon-speech"></i>
-                                    <span class="caption-subject bold uppercase"> Horizontal Form</span>
-                                    <span class="caption-helper"> Horizontal Form</span>
+                                    <span class="caption-subject bold uppercase"> Categoria</span>
+                                    <span class="caption-helper">Categorias principales</span>
                               </div>
                               <div class="tools">
                                     <a href="" class="collapse">
@@ -64,7 +64,6 @@
                                     <div class="form-body">
                                           <div class="form-group">
                                                 <label class="col-md-3 control-label">Block Help</label>
-
                                                 <div class="col-md-9">
                                                       <input type="text" class="form-control" placeholder="Enter text">
                                                       <span class="help-block">A block of help text. </span>
