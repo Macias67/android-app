@@ -115,13 +115,34 @@ Route::group(
             'uses' => 'CategoriasAdmin@index'
         ]);
 
+        Route::post('categorias/json', [
+            'as' => 'table-json-categorias',
+            'uses' => 'CategoriasAdmin@datatable'
+        ]);
+
         Route::group(['prefix' => 'categoria'], function () {
 
             Route::get('nuevo', [
-                'as' => 'adm.nuevo.categoria',
+                'as' => 'adm.categoria.nuevo',
                 'uses' => 'CategoriasAdmin@create'
             ]);
+
+            Route::post('store', [
+                'as' => 'adm.categoria.store',
+                'uses' => 'CategoriasAdmin@store'
+            ]);
         });
+
+        /*
+        |--------------------------------------------------------------------------
+        | SUBCATEGORIAS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('subcategorias/json/{id?}', [
+            'as' => 'table-json-subcategorias',
+            'uses' => 'SubCategoriasAdmin@datatable'
+        ])->where('id', '[0-9]+');
 
     }
 );
