@@ -51,7 +51,23 @@ class ClientesAdmin extends BaseAdmin
             $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
         }
 
+        $optiong    = [];
+        $categorias = Categorias::get();
+
+        foreach ($categorias as $categoria) {
+            $subcategorias = $categoria->getSubcategorias->ToArray();
+            foreach ($subcategorias as $index => $subcategoria) {
+                $sub = [];
+                if ($subcategorias) {
+                    foreach ($subcategorias as $key => $subcategoria) {
+                        $sub[$subcategoria['id']] = $subcategoria['subcategoria'];
+                    }
+                }
+                $optiong[$categoria['categoria']] = $sub;
+            }
+        }
         $this->data['options_ciudades'] = $options;
+        $this->data['optiong'] = $optiong;
 
         return $this->view('admin.clientes.form-nuevo');
     }
@@ -142,9 +158,9 @@ class ClientesAdmin extends BaseAdmin
             $start  = NULL;
         }
 
-        $tCliente = Cliente::getTableName();
-        $tPropietario  = Propietario::getTableName();
-        $tCiduad  = Ciudades::getTableName();
+        $tCliente     = Cliente::getTableName();
+        $tPropietario = Propietario::getTableName();
+        $tCiduad      = Ciudades::getTableName();
 
         $campos = [
             $tCliente . '.id',
@@ -162,7 +178,7 @@ class ClientesAdmin extends BaseAdmin
         $order   = $order[0]['dir'];
         $campo   = $columns[$pos_col]['data'];
 
-        switch($campo) {
+        switch ($campo) {
             case 'estatus':
                 $campo = $tCliente . '.estatus';
                 break;
@@ -179,16 +195,17 @@ class ClientesAdmin extends BaseAdmin
 
         $clientes =
             DB::table($tCliente)
-                ->select($campos)
-                ->join($tCiduad, $tCiduad . '.id', '=', $tCliente . '.ciudad_id')
-                ->join($tPropietario, $tPropietario . '.id', '=', $tCliente . '.propietario_id')
-                ->where($tCliente . '.nombre', 'LIKE',  '%' . $search['value'] . '%')
-                ->orwhere($tPropietario . '.nombre', 'LIKE', '%' . $search['value'] . '%')
-                ->orwhere($tPropietario . '.apellido', 'LIKE', '%' . $search['value'] . '%')
-                ->orwhere($tCiduad . '.ciudad', 'LIKE', '%' . $search['value'] . '%')
-                ->orwhere($tCiduad . '.estado', 'LIKE', '%' . $search['value'] . '%')
-                ->orwhere($tCliente . '.estatus', 'LIKE', '%' . $search['value'] . '%')
-                ->orderBy($campo, $order)->get();
+              ->select($campos)
+              ->join($tCiduad, $tCiduad . '.id', '=', $tCliente . '.ciudad_id')
+              ->join($tPropietario, $tPropietario . '.id', '=', $tCliente . '.propietario_id')
+              ->where($tCliente . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tPropietario . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tPropietario . '.apellido', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tCiduad . '.ciudad', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tCiduad . '.estado', 'LIKE', '%' . $search['value'] . '%')
+              ->orwhere($tCliente . '.estatus', 'LIKE', '%' . $search['value'] . '%')
+              ->orderBy($campo, $order)
+              ->get();
 
         $proceso = array();
         foreach ($clientes as $index => $cliente) {
@@ -198,9 +215,11 @@ class ClientesAdmin extends BaseAdmin
                     "DT_RowId"    => $cliente->id,
                     'estatus'     => ($cliente->estatus == 'online') ? TRUE : FALSE,
                     'nombre'      => $cliente->nombre,
-                    'propietario' => $cliente->propietario_nombre.' '.$cliente->propietario_apellido,
+                    'propietario' => $cliente->propietario_nombre . ' ' . $cliente->propietario_apellido,
                     'ciudad'      => $cliente->ciudad . ', ' . $cliente->estado,
-                    'registro'    => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format('l, d \\d\\e F \\d\\e\\l Y')
+                    'registro'    => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format(
+                        'l, d \\d\\e F \\d\\e\\l Y'
+                    )
                 ]
             );
         }

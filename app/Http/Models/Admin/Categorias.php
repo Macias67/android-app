@@ -19,7 +19,7 @@ class Categorias extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subcategorias ()
+    public function getSubcategorias ()
     {
         return $this->hasMany(SubCategorias::class, 'categoria_id');
     }

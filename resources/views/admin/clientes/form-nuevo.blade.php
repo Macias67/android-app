@@ -191,9 +191,10 @@
                               {!! Form::open($param) !!}
                               <div class="form-body">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label">Multi-Value Select</label>
+                                        <label class="col-md-3 control-label">Categorías</label>
                                         <div class="col-md-9">
-                                            <input type="hidden" id="categoria" name="categoria_id" class="form-control select2" data-url="{{route('select2-json-categorias')}}">
+	                                        {!! Form::select('categoria_id[]', $optiong, NULL, ['class' => 'form-control select2', 'id' => 'categoria', 'multiple' => 'true']) !!}
+	                                        <span class="help-block">Selecciona hasta 3 categorías para tu negocio. </span>
                                         </div>
                                     </div>
                               </div>
