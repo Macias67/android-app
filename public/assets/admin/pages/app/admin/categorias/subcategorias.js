@@ -24,9 +24,11 @@ var Subcategorias = function() {
 				}
 			],
 			"rowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+				$('td:eq(1)', nRow).attr('width', '18%');
 				// acciones
-				$('td:eq(1)', nRow).html('<button type="button" class="btn blue btn-xs edita" subcategoria="'+aData.id+'">&nbsp;<i class="fa fa-edit"></i>&nbsp;</button>'+
-				                         '<button type="button" class="btn red btn-xs eliminar" subcategoria="'+aData.id+'">&nbsp;<i class="fa fa-trash-o"></i>&nbsp;</button>');
+				$('td:eq(1)', nRow).html('' +
+					'<button type="button" class="btn blue btn-xs edita" subcategoria="'+aData.id+'">&nbsp;<i class="fa fa-edit"></i>&nbsp;</button>'+
+					'<button type="button" class="btn red btn-xs eliminar" subcategoria="'+aData.id+'">&nbsp;<i class="fa fa-trash-o"></i>&nbsp;</button>');
 			},
 			"drawCallback": function(settings) {
 				Metronic.initUniform($('input[type="checkbox"]', tableSubcategoria)); // reinitialize uniform checkboxes on each table reload

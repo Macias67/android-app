@@ -28,6 +28,29 @@ var NuevoCliente = function () {
         });
     }
 
+    var selectCategoria = function () {
+        $('#categoria').select2({
+            placeholder: "Lista de Propietarios",
+            allowClear: true,
+            ajax: {
+                url: $('#categoria').attr('data-url'),
+                type: 'post',
+                dataType: 'json',
+                quietMillis: 500,
+                data: function (term, page) {
+                    return {
+                        q: term, // search term
+                        page_limit: 2
+                    };
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    // since we are using custom formatting functions we do not need to alter remote JSON data
+                    return {results: data};
+                }
+            }
+        });
+    }
+
     var inputMask = function () {
         $("input[name='codigo_postal']").inputmask("mask", {
             "mask": "99999"
@@ -191,6 +214,7 @@ var NuevoCliente = function () {
     return {
         init: function () {
             selectPropietario();
+            selectCategoria();
             inputMask();
             mapGeocoding();
             handleForm();

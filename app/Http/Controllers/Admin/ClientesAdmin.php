@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Propietario;

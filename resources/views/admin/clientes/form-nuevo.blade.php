@@ -171,6 +171,44 @@
                   </div>
                   <!-- END Portlet PORTLET-->
             </div>
+            <div class="col-md-6">
+                  <!-- BEGIN Portlet PORTLET-->
+                  <div class="portlet light animated bounceInUp">
+                        <div class="portlet-title">
+                              <div class="caption">
+                                    <i class="icon-list"></i>
+                                    <span class="caption-subject bold uppercase"> Categoría</span>
+                                    <span class="caption-helper">Categoría del negocio</span>
+                              </div>
+                              <div class="actions">
+                                    <a href="{{route('adm.categoria.nuevo')}}" target="_blank" class="btn btn-circle btn-success">
+                                          <i class="fa fa-plus"></i> Añadir Categoría
+                                    </a>
+                                    <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
+                              </div>
+                        </div>
+                        <div class="portlet-body form">
+                              {!! Form::open($param) !!}
+                              <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Multi-Value Select</label>
+                                        <div class="col-md-9">
+                                            <input type="hidden" id="categoria" name="categoria_id" class="form-control select2" data-url="{{route('select2-json-categorias')}}">
+                                        </div>
+                                    </div>
+                              </div>
+                              <div class="form-actions">
+                                    <div class="row">
+                                          <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" class="btn green">Registrar</button>
+                                          </div>
+                                    </div>
+                              </div>
+                              </form>
+                        </div>
+                  </div>
+                  <!-- END Portlet PORTLET-->
+            </div>
       </div>
 @stop
 

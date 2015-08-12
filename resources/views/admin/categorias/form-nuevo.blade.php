@@ -70,7 +70,7 @@
 					<table class="table table-striped table-hover table-bordered" id="tabla_categorias">
 						<thead>
 						<tr>
-							<th width="80%">Categoría</th>
+							<th>Categoría</th>
 							<th></th>
 						</tr>
 						</thead>
@@ -114,7 +114,7 @@
 						<table class="table table-striped table-hover table-bordered" id="tabla_subcategorias" data-url="{{route('table-json-subcategorias')}}">
 							<thead>
 							<tr>
-								<th width="80%">Subcategoría</th>
+								<th>Subcategoría</th>
 								<th></th>
 							</tr>
 							</thead>

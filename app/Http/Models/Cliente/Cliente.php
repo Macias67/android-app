@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\Cliente;
 
+use App\Http\Models\Admin\Categorias;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,11 @@ class Cliente extends Model
     public function getPropietario ()
     {
         return $this->belongsTo(Propietario::getTableName(), 'id');
+    }
+
+    public function getCategorias()
+    {
+        return $this->belongsToMany(Categorias::getTableName(), 'cl_categoria_negocio', 'id', 'id');
     }
 
     public static function getTableName()

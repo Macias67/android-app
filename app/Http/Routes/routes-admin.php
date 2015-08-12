@@ -120,6 +120,11 @@ Route::group(
             'uses' => 'CategoriasAdmin@datatable'
         ]);
 
+        Route::post('categorias/select2', [
+            'as' => 'select2-json-categorias',
+            'uses' => 'CategoriasAdmin@select2'
+        ]);
+
         Route::group(['prefix' => 'categoria'], function () {
 
             Route::get('nuevo', [
