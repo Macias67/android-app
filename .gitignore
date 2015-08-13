@@ -76,5 +76,6 @@ public/assets/global/*
 !public/assets/admin/pages/app/
 !public/assets/global/scripts
 !public/assets/global/sounds
+!public/assets/global/plugins
 
 
