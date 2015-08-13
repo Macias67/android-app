@@ -53,7 +53,6 @@ class ClientesAdmin extends BaseAdmin
 
         $optiong    = [];
         $categorias = Categorias::get();
-
         foreach ($categorias as $categoria) {
             $subcategorias = $categoria->getSubcategorias->ToArray();
             foreach ($subcategorias as $index => $subcategoria) {
@@ -66,8 +65,9 @@ class ClientesAdmin extends BaseAdmin
                 $optiong[$categoria['categoria']] = $sub;
             }
         }
-        $this->data['options_ciudades'] = $options;
         $this->data['optiong'] = $optiong;
+
+        $this->data['options_ciudades'] = $options;
 
         return $this->view('admin.clientes.form-nuevo');
     }

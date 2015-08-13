@@ -37,21 +37,19 @@ class SubCategoriasAdmin extends BaseAdmin
         $campo   = $columns[$pos_col]['data'];
 
         $subcategorias =
-            DB::table($tSubCategoria)
-              ->select($campos)
-              ->where($tSubCategoria . '.categoria_id', '=', $id)
-              ->where($tSubCategoria . '.subcategoria', 'LIKE',  '%' . $search['value'] . '%')
-              ->take($length)
-              ->skip($start)
-              ->orderBy($campo, $order)->get();
+            DB::table($tSubCategoria)->select($campos)->where($tSubCategoria . '.categoria_id', '=', $id)->where(
+                    $tSubCategoria . '.subcategoria',
+                    'LIKE',
+                    '%' . $search['value'] . '%'
+                )->take($length)->skip($start)->orderBy($campo, $order)->get();
 
         $proceso = array();
         foreach ($subcategorias as $index => $subcategoria) {
             array_push(
                 $proceso,
                 [
-                    "DT_RowId"    => $subcategoria->id,
-                    'subcategoria'     => $subcategoria->subcategoria
+                    "DT_RowId"     => $subcategoria->id,
+                    'subcategoria' => $subcategoria->subcategoria
                 ]
             );
         }
@@ -63,5 +61,14 @@ class SubCategoriasAdmin extends BaseAdmin
         ];
 
         return new JsonResponse($data, 200);
+    }
+
+    public function dropdown (Request $request, $id)
+    {
+        if ($request->ajax() && $request->wantsJson()) {
+            $subcategorias = SubCategorias::where('subcategoria', $id);
+
+            dd($subcategorias);
+        }
     }
 }
