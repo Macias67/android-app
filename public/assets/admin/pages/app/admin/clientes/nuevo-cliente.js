@@ -29,13 +29,24 @@ var NuevoCliente = function () {
     }
 
     var selectCategoria = function () {
-        $('#categoria').select2({
-            placeholder:           "Lista de Categorías",
-            allowClear:            true,
-            maximumSelectionSize:  3,
-            formatSelectionTooBig: function (limit) {
-                return 'Solo puedes seleccionar 3 categorías';
-            }
+        //$('#categoria').select2({
+        //    placeholder:           "Lista de Categorías",
+        //    allowClear:            true,
+        //    maximumSelectionSize:  3,
+        //    formatSelectionTooBig: function (limit) {
+        //        return 'Solo puedes seleccionar 3 categorías';
+        //    }
+        //});
+
+        $('#categoria').on('change', function() {
+            var subcategoria = $('#subcategoria');
+
+            subcategoria.select2('remove');
+
+            var url = $(this).attr('data-url') + '/' + $(this).val();
+            $.get(url, function(data) {
+                subcategoria.html(data);
+            },'html');
         });
     }
 

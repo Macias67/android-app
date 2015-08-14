@@ -65,10 +65,15 @@ class SubCategoriasAdmin extends BaseAdmin
 
     public function dropdown (Request $request, $id)
     {
-        if ($request->ajax() && $request->wantsJson()) {
-            $subcategorias = SubCategorias::where('subcategoria', $id);
+        if($request->ajax()){
+            $subcategorias = SubCategorias::where('categoria_id', $id)->get(['id', 'subcategoria'])->ToArray();
+            $options = '<option value=""></option>';
 
-            dd($subcategorias);
+            foreach($subcategorias as $subcategoria){
+                $options .= '<option value="'.$subcategoria['id'].'">'.$subcategoria['subcategoria'].'</option>';
+            }
+
+            return $options;
         }
     }
 }

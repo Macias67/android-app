@@ -46,28 +46,35 @@ class ClientesAdmin extends BaseAdmin
         ];
 
         $ciudades = Ciudades::get()->ToArray();
-        $options  = [];
+        $options_ciudades  = [];
         foreach ($ciudades as $index => $ciudad) {
-            $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
+            $options_ciudades[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
         }
 
-        $optiong    = [];
-        $categorias = Categorias::get();
-        foreach ($categorias as $categoria) {
-            $subcategorias = $categoria->getSubcategorias->ToArray();
-            foreach ($subcategorias as $index => $subcategoria) {
-                $sub = [];
-                if ($subcategorias) {
-                    foreach ($subcategorias as $key => $subcategoria) {
-                        $sub[$subcategoria['id']] = $subcategoria['subcategoria'];
-                    }
-                }
-                $optiong[$categoria['categoria']] = $sub;
-            }
-        }
-        $this->data['optiong'] = $optiong;
+//        $optiong    = [];
+//        $categorias = Categorias::get();
+//        foreach ($categorias as $categoria) {
+//            $subcategorias = $categoria->getSubcategorias->ToArray();
+//            foreach ($subcategorias as $index => $subcategoria) {
+//                $sub = [];
+//                if ($subcategorias) {
+//                    foreach ($subcategorias as $key => $subcategoria) {
+//                        $sub[$subcategoria['id']] = $subcategoria['subcategoria'];
+//                    }
+//                }
+//                $optiong[$categoria['categoria']] = $sub;
+//            }
+//        }
+//        $this->data['optiong'] = $optiong;
 
-        $this->data['options_ciudades'] = $options;
+        $categorias = Categorias::all(['id', 'categoria'])->ToArray();
+        $options_categorias = [];
+        foreach($categorias as $categoria){
+            $options_categorias[$categoria['id']] = $categoria['categoria'];
+        }
+
+        $this->data['options_categorias'] = $options_categorias;
+        $this->data['options_ciudades'] = $options_ciudades;
 
         return $this->view('admin.clientes.form-nuevo');
     }
