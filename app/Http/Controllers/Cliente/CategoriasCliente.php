@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Cliente;
 
-use App\Http\Models\Admin\Categorias;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Models\Cliente\Categorias;
+use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
-class CategoriasAdmin extends BaseAdmin
+class CategoriasCliente extends BaseCliente
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -24,7 +25,7 @@ class CategoriasAdmin extends BaseAdmin
      */
     public function index()
     {
-        return $this->view('admin.categorias.index');
+        return $this->view('cliente.categorias.index');
     }
 
     /**
@@ -34,7 +35,10 @@ class CategoriasAdmin extends BaseAdmin
      */
     public function create()
     {
-        $categorias = Categorias::orderBy('categoria', 'ASC')->get()->toArray();
+        $categorias = Categorias::where('cliente_id', $this->infoPropietario->id)
+            ->orderBy('categoria', 'ASC')
+            ->get(['id', 'categoria'])
+            ->toArray();
         $options = array();
         foreach ($categorias as $key => $categoria) {
             $options[$categoria['id']] = $categoria['categoria'];
@@ -46,68 +50,74 @@ class CategoriasAdmin extends BaseAdmin
         $this->data['options'] = $options;
         $this->data['llaves'] = $llaves;
         $this->data['array_form'] = array(
-            'url'          => route('adm.categoria.store'),
+            'url'          => route('cliente.categoria.store'),
             'role'         => 'form',
             'id'           => 'form_categoria',
             'autocomplete' => 'off'
         );
-        return $this->view('admin.categorias.form-nuevo');
+
+        return $this->view('cliente.categorias.form-nuevo');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function store(Request $request)
     {
-        // TODO: Implement store() method.
+        if($request->ajax() &&  $request->wantsJson()){
+            $categoria = new Categorias;
+            $categoria->cliente_id = $this->infoPropietario->id;
+            $categoria->categoria = mb_convert_case(trim(mb_strtolower($request->get('categoria'))), MB_CASE_TITLE, "UTF-8");
+            $categoria->save();
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return Response
      */
     public function show($id)
     {
-        // TODO: Implement show() method.
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return Response
      */
     public function edit($id)
     {
-        // TODO: Implement edit() method.
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @param  int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return Response
      */
     public function update(Request $request, $id)
     {
-        // TODO: Implement update() method.
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return Response
      */
     public function destroy($id)
     {
-        // TODO: Implement destroy() method.
+        //
     }
 
     public function datatable(Request $request)
@@ -139,6 +149,7 @@ class CategoriasAdmin extends BaseAdmin
         $categorias =
             DB::table($tCategoria)
               ->select($campos)
+              ->where($tCategoria . '.cliente_id', $this->infoPropietario->id)
               ->where($tCategoria . '.categoria', 'LIKE', '%' . $search['value'] . '%')
               ->take($length)
               ->skip($start)
@@ -162,10 +173,5 @@ class CategoriasAdmin extends BaseAdmin
         ];
 
         return new JsonResponse($data, 200);
-    }
-
-    public function select2()
-    {
-
     }
 }

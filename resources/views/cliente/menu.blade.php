@@ -8,6 +8,7 @@
         </button>
         <ul class="dropdown-menu" role="menu">
             <li><a href="{{route('cliente.negocio.create')}}"><i class="icon-home"></i> Nuevo Negocio</a></li>
+	        <li><a href="{{route('cliente.producto.create')}}"><i class="icon-bag"></i> Nuevo Producto</a></li>
             <li><a href="javascript:"><i class="icon-share"></i> Share</a></li>
             <li class="divider"></li>
             <li>
@@ -83,30 +84,36 @@
                         <span class="title">Seguidores</span>
                     </a>
                 </li>
-                <li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+                <li {!! isset($activo_productos) == TRUE ? ' class="active open" ' : '' !!}>
                     <a href="{{route('productos')}}">
                         <i class="icon-bag"></i>
                         <span class="title">Productos</span>
                     </a>
                 </li>
-                <li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+                <li {!! isset($activo_servicios) == TRUE ? ' class="active open" ' : '' !!}>
                     <a href="{{route('servicios')}}">
                         <i class="icon-badge"></i>
                         <span class="title">Servicios</span>
                     </a>
                 </li>
-                <li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+                <li {!! isset($activo_promociones) == TRUE ? ' class="active open" ' : '' !!}>
                     <a href="{{route('promociones')}}">
                         <i class="icon-present"></i>
                         <span class="title">Promociones</span>
                     </a>
                 </li>
-                <li {!! isset($activo_clientes) == TRUE ? ' class="active open" ' : '' !!}>
+                <li {!! isset($activo_eventos) == TRUE ? ' class="active open" ' : '' !!}>
                     <a href="{{route('eventos')}}">
                         <i class="icon-calendar"></i>
                         <span class="title">Eventos</span>
                     </a>
                 </li>
+	            <li {!! isset($activo_categorias) == TRUE ? ' class="active open" ' : '' !!}>
+		            <a href="{{route('categorias-cliente')}}">
+			            <i class="icon-tag"></i>
+			            <span class="title">Categorías</span>
+		            </a>
+	            </li>
                 <li class="last ">
                     <a href="javascript:">
                         <i class="icon-pointer"></i>

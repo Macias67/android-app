@@ -121,7 +121,7 @@ var NuevoCliente = function () {
                 },
                 calle:          {
                     required:  true,
-                    maxlength: 14
+                    maxlength: 45
                 },
                 numero:         {
                     required:  true,

@@ -48,6 +48,29 @@ Route::group(
 
         /*
         |--------------------------------------------------------------------------
+        | PRODUCTOS
+        |--------------------------------------------------------------------------
+        */
+        Route::get('productos', [
+            'as' => 'productos-cliente',
+            'uses' => 'ProductosCliente@index'
+        ]);
+
+        Route::group(['prefix' => 'producto'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'cliente.producto.create',
+                'uses' => 'ProductosCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.producto.store',
+                'uses' => 'ProductosCliente@store'
+            ]);
+        });
+
+        /*
+        |--------------------------------------------------------------------------
         | USUARIOS
         |--------------------------------------------------------------------------
         */
@@ -112,9 +135,37 @@ Route::group(
         |--------------------------------------------------------------------------
         */
         Route::get('categorias', [
-            'as' => 'categorias',
+            'as' => 'categorias-cliente',
             'uses' => 'CategoriasCliente@index'
         ]);
 
+        Route::post('categorias/json', [
+            'as' => 'cliente-table-json-categorias',
+            'uses' => 'CategoriasCliente@datatable'
+        ]);
+
+        Route::group(['prefix' => 'categoria'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'cliente.categoria.nuevo',
+                'uses' => 'CategoriasCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.categoria.store',
+                'uses' => 'CategoriasCliente@store'
+            ]);
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | SUBCATEGORIAS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('subcategorias/json/{id?}', [
+            'as' => 'cliente-table-json-subcategorias',
+            'uses' => 'SubCategoriasCliente@datatable'
+        ])->where('id', '[0-9]+');
 	}
 );
