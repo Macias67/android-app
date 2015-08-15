@@ -29,25 +29,35 @@ var NuevoCliente = function () {
     }
 
     var selectCategoria = function () {
-        //$('#categoria').select2({
-        //    placeholder:           "Lista de Categorías",
-        //    allowClear:            true,
-        //    maximumSelectionSize:  3,
-        //    formatSelectionTooBig: function (limit) {
-        //        return 'Solo puedes seleccionar 3 categorías';
-        //    }
-        //});
+        var selects = function(categoria, subcategoria) {
+            categoria.on('change', function() {
+                subcategoria.select2('destroy');
 
-        $('#categoria').on('change', function() {
-            var subcategoria = $('#subcategoria');
+                var url = $(this).attr('data-url') + '/' + $(this).val();
+                var text = categoria.children("option:selected").text();
 
-            subcategoria.select2('remove');
+                if(text == "") {
+                    subcategoria.html('');
+                } else {
+                    $.get(url, function(data) {
+                        subcategoria.html(data);
+                        subcategoria.select2({
+                            placeholder:"Subcategorias de "+text,
+                            allowClear:            true
+                        });
+                    },'html');
+                }
 
-            var url = $(this).attr('data-url') + '/' + $(this).val();
-            $.get(url, function(data) {
-                subcategoria.html(data);
-            },'html');
-        });
+            });
+
+            subcategoria.select2({
+                placeholder:"Lista de Subcategorias",
+                allowClear:            true
+            });
+        }
+        selects($('#categoria'), $('#subcategoria'));
+        selects($('#categoria2'), $('#subcategoria2'));
+        selects($('#categoria3'), $('#subcategoria3'));
     }
 
     var inputMask = function () {
@@ -139,6 +149,9 @@ var NuevoCliente = function () {
                     maxlength: 45
                 },
                 ciudad_id:      {
+                    required: true
+                },
+                categoria1:      {
                     required: true
                 },
                 latlng_gmaps:   {

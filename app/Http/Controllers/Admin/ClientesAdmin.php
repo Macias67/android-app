@@ -68,7 +68,7 @@ class ClientesAdmin extends BaseAdmin
 //        $this->data['optiong'] = $optiong;
 
         $categorias = Categorias::all(['id', 'categoria'])->ToArray();
-        $options_categorias = [];
+        $options_categorias = ['' => ''];
         foreach($categorias as $categoria){
             $options_categorias[$categoria['id']] = $categoria['categoria'];
         }
@@ -86,13 +86,13 @@ class ClientesAdmin extends BaseAdmin
      */
     public function store (CreateCliente $request)
     {
+        dd($request->all());
         if ($request->ajax() && $request->wantsJson()) {
             $cliente = new Cliente;
             $cliente->preparaDatos($request);
 
             if ($cliente->save()) {
                 $texto = '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.';
-
                 return $this->responseJSON(TRUE, 'Cliente registrado', $texto, route('clientes'));
             }
             else {
