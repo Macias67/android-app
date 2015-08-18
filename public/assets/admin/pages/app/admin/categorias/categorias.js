@@ -8,7 +8,7 @@ var Categorias = function() {
 			if (categoria != "") {
 
 				var id_categoria = $('input[name="id_categoria"]').val();
-				var accion = 'create';
+				var accion = 'store';
 				var data = {categoria:categoria};
 
 				if (id_categoria != "") {
@@ -16,18 +16,26 @@ var Categorias = function() {
 					data = {id:id_categoria, categoria:categoria};
 				}
 
-				$.post(Metronic.getDomain()+'admin/categoria/'+accion, data, function(data, textStatus, xhr) {
-					if (data.exito) {
-						bootbox.alert(data.mensaje, function() {
+				var success = function (data) {
+					App.removeLoader(500, function () {
+						swal({
+							title: '<h3>' + data.titulo + '</h3>',
+							text: '<p>' + data.texto + '</p>',
+							type: "success",
+							animation: 'slide-from-top',
+							html: true,
+							showConfirmButton: true
+						}, function () {
+							$('input[name="categoria"]').val('');
+							$('input[name="categoria"]').blur();
+							$('input[name="id_categoria"]').val('');
+							$("#add").html('Guardar');
 							location.reload(true);
 						});
-					} else {
-						bootbox.alert(data.mensaje);
-						$('input[name="categoria"]').val('');
-						$('input[name="id_categoria"]').val('');
-						$("#add").html('Guardar');
-					}
-				}, 'json');
+					});
+				}
+				App.initAjax(Metronic.getDomain() + 'admin/categoria/' + accion, data, success);
+
 			} else {
 				bootbox.alert('Debes escribir una categoría.');
 			}

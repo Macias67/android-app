@@ -62,7 +62,30 @@ class CategoriasAdmin extends BaseAdmin
      */
     public function store(Request $request)
     {
-        // TODO: Implement store() method.
+        if($request->ajax() && $request->wantsJson()){
+            $categoria = new Categorias();
+            $categoria->categoria = mb_convert_case(trim(mb_strtolower($request->get('categoria'))), MB_CASE_TITLE, "UTF-8");
+
+            if ($categoria->save()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Categoria añadida',
+                    'texto'  => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
+                    'url'    => ''
+                ];
+            }
+            else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' => 'Ups...',
+                    'texto'  => 'No se guardo el registro en la base de datos',
+                    'url'    => NULL,
+                    'status' => 422
+                ];
+            }
+
+            return $this->responseJSON($response);
+        }
     }
 
     /**

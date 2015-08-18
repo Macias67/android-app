@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use App\Http\Controllers\Controller;
 use App\Http\Models\Cliente\SubCategorias;
 use App\Http\Requests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\JsonResponse;
 
 class SubCategoriasCliente extends BaseCliente
 {

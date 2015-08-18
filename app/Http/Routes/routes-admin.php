@@ -154,5 +154,12 @@ Route::group(
             'uses' => 'SubCategoriasAdmin@dropdown'
         ])->where('id', '[0-9]+');
 
+        Route::group(['prefix' => 'subcategoria'], function () {
+            Route::post('store', [
+                'as' => 'admin.subcategoria.store',
+                'uses' => 'SubCategoriasAdmin@store'
+            ]);
+        });
+
     }
 );

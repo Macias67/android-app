@@ -94,9 +94,8 @@ trait AuthController
                     $response = [
                         'exito'   => FALSE,
                         'titulo'  => 'No existen datos.',
-                        'texto'   => 'Espere unos momentos...',
-                        'url'     => NULL,
-                        'errores' => ['El email o la contraseña son incorrectos.']
+                        'texto'   => 'El email o la contraseña son incorrectos.',
+                        'url'     => NULL
                     ];
                 }
             }

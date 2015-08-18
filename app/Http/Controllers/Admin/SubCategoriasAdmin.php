@@ -9,6 +9,35 @@ use Illuminate\Support\Facades\DB;
 
 class SubCategoriasAdmin extends BaseAdmin
 {
+    public function store (Request $request)
+    {
+        if($request->ajax() &&  $request->wantsJson()) {
+            $subcategoria = new SubCategorias;
+            $subcategoria->categoria_id = $request->get('categoria_id');
+            $subcategoria->subcategoria = mb_convert_case(trim(mb_strtolower($request->get('sub'))), MB_CASE_TITLE, "UTF-8");
+
+            if ($subcategoria->save()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Subcategoria añadida',
+                    'texto'  => 'Se ha registrado "' . $subcategoria->subcategoria . '" correctamente.',
+                    'url'    => ''
+                ];
+            }
+            else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' => 'Ups...',
+                    'texto'  => 'No se guardo el registro en la base de datos',
+                    'url'    => NULL,
+                    'status' => 422
+                ];
+            }
+
+            return $this->responseJSON($response);
+        }
+    }
+
     public function datatable (Request $request, $id)
     {
         $draw    = $request->get('draw');

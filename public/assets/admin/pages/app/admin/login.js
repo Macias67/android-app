@@ -52,19 +52,33 @@ var Login = function () {
                 var url = $(form).attr('action');
 
                 var success =  function (data) {
-                    App.removeLoader(500, function () {
-                        swal({
-                            title: '<h3>' + data.titulo + '</h3>',
-                            text: '<p>' + data.texto + '</p>',
-                            type: "success",
-                            animation: 'slide-from-top',
-                            html: true,
-                            showConfirmButton: false,
-                            timer: 3000
-                        }, function () {
-                            window.location.href = data.url;
+                    if(data.exito){
+                        App.removeLoader(500, function () {
+                            swal({
+                                title: '<h3>' + data.titulo + '</h3>',
+                                text: '<p>' + data.texto + '</p>',
+                                type: "success",
+                                animation: 'slide-from-top',
+                                html: true,
+                                showConfirmButton: false,
+                                timer: 3000
+                            }, function () {
+                                window.location.href = data.url;
+                            });
                         });
-                    });
+                    } else {
+                        App.removeLoader(500, function () {
+                            swal({
+                                title: '<h3>' + data.titulo + '</h3>',
+                                text: '<p>' + data.texto + '</p>',
+                                type: "error",
+                                animation: 'slide-from-top',
+                                html: true,
+                                showConfirmButton: true
+                            });
+                        });
+                    }
+
                 }
 
                 App.initAjax(url, data, success);
