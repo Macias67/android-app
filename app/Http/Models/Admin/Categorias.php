@@ -24,11 +24,6 @@ class Categorias extends Model
         return $this->hasMany(SubCategorias::class, 'categoria_id');
     }
 
-    public function getNegocios()
-    {
-        return $this->belongsToMany(Cliente::getTableName(), 'cl_categoria_negocio', 'id', 'id');
-    }
-
     public static function getTableName()
     {
         return with(new static)->getTable();

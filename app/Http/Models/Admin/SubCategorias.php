@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\Admin;
 
+use App\Http\Models\Cliente\Cliente;
 use Illuminate\Database\Eloquent\Model;
 
 class SubCategorias extends Model
@@ -18,9 +19,14 @@ class SubCategorias extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getCategoria ()
+    public function admCategorias()
     {
-        return $this->belongsTo(Categorias::getTableName(), 'id');
+        return $this->belongsTo(Categorias::class, 'id');
+    }
+
+    public function getNegocios()
+    {
+        return $this->belongsToMany(Cliente::class, 'cl_categoria_negocio', 'subcategoria_id', 'cliente_id');
     }
 
     public static function getTableName()

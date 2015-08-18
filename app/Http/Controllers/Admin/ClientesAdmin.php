@@ -86,12 +86,22 @@ class ClientesAdmin extends BaseAdmin
      */
     public function store (CreateCliente $request)
     {
-        dd($request->all());
         if ($request->ajax() && $request->wantsJson()) {
             $cliente = new Cliente;
             $cliente->preparaDatos($request);
 
             if ($cliente->save()) {
+
+                $subIDs = [];
+                for ($i = 0; $i < 3; $i++) {
+                    $var = $request->get("subcategoria".($i+1));
+                    if(isset($var) && !empty($var)) {
+                        array_push($subIDs, $var);
+                    }
+                }
+
+                $cliente->subcategorias()->sync($subIDs);
+
                 $texto = '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.';
                 return $this->responseJSON(TRUE, 'Cliente registrado', $texto, route('clientes'));
             }

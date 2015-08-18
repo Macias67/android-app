@@ -110,7 +110,7 @@ var Subcategorias = function() {
 			if (sub != "") {
 				var categoria 	= $('select[name="categoria"] option:selected').val();
 				var id 			= $('input[name="subcategoria_id"]').val();
-				var accion 		= 'create';
+				var accion 		= 'store';
 				var data 		= {categoria_id:categoria, sub:sub};
 
 				if (id != "") {
@@ -118,19 +118,55 @@ var Subcategorias = function() {
 					data = {id:id, categoria_id:categoria, sub:sub};
 				}
 
-				$.post(Metronic.getDomain()+'admin/subcategoria/'+accion, data, function(data, textStatus, xhr) {
-					if (data.exito) {
-						bootbox.alert(data.mensaje, function() {
-							// window.location.replace(data.redirect);
-							tableSubcategoria.dataTable().api().ajax.reload();
-							$('input[name="subcategoria"]').val('');
-							$('input[name="subcategoria_id"]').val('');
-							$("#add_sub").html('Guardar');
-						});
-					} else {
-						bootbox.alert(data.mensaje);
-					}
-				}, 'json');
+                var success =  function (data) {
+                    App.removeLoader(500, function () {
+                        swal({
+                            title: '<h3>' + data.titulo + '</h3>',
+                            text: '<p>' + data.texto + '</p>',
+                            type: "success",
+                            animation: 'slide-from-top',
+                            html: true,
+                            showConfirmButton: true,
+                            timer: 500
+                        }, function () {
+                            tableSubcategoria.dataTable().api().ajax.reload();
+                            $('input[name="subcategoria"]').val('');
+                            $('input[name="subcategoria"]').blur();
+                            $('input[name="subcategoria_id"]').val('');
+                            $("#add_sub").html('Guardar');
+                        });
+                    });
+                }
+
+                App.initAjax(Metronic.getDomain()+'cliente/subcategoria/'+accion, data, success);
+
+//				$.post(Metronic.getDomain()+'cliente/subcategoria/'+accion, data, function(data, textStatus, xhr) {
+//					if (data.exito) {
+//                        swal({
+//                            title: '<h3>' + data.titulo + '</h3>',
+//                            text: '<p>' + data.texto + '</p>',
+//                            type: "success",
+//                            animation: 'slide-from-top',
+//                            html: true,
+//                            showConfirmButton: true,
+//                            timer: 500
+//                        }, function () {
+//                            tableSubcategoria.dataTable().api().ajax.reload();
+//                            $('input[name="subcategoria"]').val('');
+//                            $('input[name="subcategoria_id"]').val('');
+//                            $("#add_sub").html('Guardar');
+//                        });
+////						bootbox.alert(data.mensaje, function() {
+////							// window.location.replace(data.redirect);
+////							tableSubcategoria.dataTable().api().ajax.reload();
+////							$('input[name="subcategoria"]').val('');
+////							$('input[name="subcategoria_id"]').val('');
+////							$("#add_sub").html('Guardar');
+////						});
+//					} else {
+//						bootbox.alert(data.mensaje);
+//					}
+//				}, 'json');
 			} else {
 				bootbox.alert('Debes escribir una subcategoría.');
 			}

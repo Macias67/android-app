@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\View;
 abstract class Controller extends BaseController
 {
     use DispatchesJobs, ValidatesRequests;
+
     /**
      * Array para guardar toda la información
      * que se va a mostrar a las vistas.
@@ -31,7 +32,7 @@ abstract class Controller extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    protected function view($vista)
+    protected function view ($vista)
     {
         $contents = View::make($vista, $this->data);
         $response = Response::make($contents, 200);
@@ -43,34 +44,30 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * @param      $exito
-     * @param      $titulo
-     * @param      $texto
-     * @param      $url
-     * @param null $errores
-     * @param null $extras
-     * @param int  $status
+     * @param     $data
+     * @param int $status
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function responseJSON($exito, $titulo, $texto, $url, $errores = NULL, $extras = NULL, $status = 200)
+    protected function responseJSON ($data)
     {
-        $data =
-            [
-                'exito' => $exito,
-                'titulo' => $titulo,
-                'texto' => $texto,
-                'url' => $url
-            ];
+        $response = [
+            'exito'  => $data['exito'],
+            'titulo' => $data['titulo'],
+            'texto'  => $data['texto'],
+            'url'    => $data['url']
+        ];
 
-        if (!is_null($errores)) {
-            $data['errores'] = $errores;
+        if (isset($data['errores'])) {
+            $response['errores'] = $data['errores'];
         }
 
-        if (!is_null($extras)) {
-            $data['extras'] = $extras;
+        if (isset($data['extras'])) {
+            $response['extras'] = $data['extras'];
         }
 
-        return new JsonResponse($data, $status);
+        $status = (isset($data['status'])) ? $data['status'] : 200;
+
+        return new JsonResponse($response, $status);
     }
 }

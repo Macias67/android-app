@@ -145,7 +145,6 @@ Route::group(
         ]);
 
         Route::group(['prefix' => 'categoria'], function () {
-
             Route::get('nuevo', [
                 'as' => 'cliente.categoria.nuevo',
                 'uses' => 'CategoriasCliente@create'
@@ -167,5 +166,12 @@ Route::group(
             'as' => 'cliente-table-json-subcategorias',
             'uses' => 'SubCategoriasCliente@datatable'
         ])->where('id', '[0-9]+');
+
+        Route::group(['prefix' => 'subcategoria'], function () {
+            Route::post('store', [
+                'as' => 'cliente.subcategoria.store',
+                'uses' => 'SubCategoriasCliente@store'
+            ]);
+        });
 	}
 );

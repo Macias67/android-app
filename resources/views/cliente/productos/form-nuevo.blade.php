@@ -2,9 +2,9 @@
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
-{!! \Html::style('assets/global/plugins/bootstrap-select/bootstrap-select.min.css', ['rel' => 'stylesheet']) !!}
-{!! \Html::style('assets/global/plugins/select2/select2.css', ['rel' => 'stylesheet']) !!}
-{!! \Html::style('assets/global/plugins/jquery-multi-select/css/multi-select.css', ['rel' => 'stylesheet']) !!}
+	<link href="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('assets/global/plugins/select2/select2.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('assets/global/plugins/jquery-multi-select/css/multi-select.css')}}" rel="stylesheet" type="text/css"/>
 @stop
 
 {{-- Sobreescribir el sidebar
@@ -35,7 +35,7 @@
                   <i class="fa fa-circle"></i>
             </li>
             <li>
-                  <a href="{{Route::current()}}">Nuevo</a>
+                  <a href="">Nuevo</a>
             </li>
       </ul>
 @stop
@@ -59,22 +59,28 @@
                         <div class="portlet-body form">
                               {!! Form::open($param) !!}
                                     <div class="form-body">
+	                                    <div class="form-group">
+		                                    <label class="col-md-3 control-label">Negocio</label>
+		                                    <div class="col-md-9">
+			                                    {!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control']) !!}
+			                                    <span class="help-block">Lugares actualmente disponibles en la aplicación. </span>
+		                                    </div>
+	                                    </div>
                                           <div class="form-group">
                                                 <label class="col-md-3 control-label">Nombre del producto: </label>
                                                 <div class="col-md-9">
                                                       <div class="input-icon">
                                                             <i class="fa fa-institution"></i>
                                                             <input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar">
-                                                            <input type="hidden" name="propietario_id" value="{{$user->id}}">
                                                       </div>
                                                 </div>
                                           </div>
                                           <div class="form-group">
-                                                <label class="col-md-3 control-label">Calle</label>
+                                                <label class="col-md-3 control-label">Slug</label>
                                                 <div class="col-md-9">
                                                       <div class="input-icon">
                                                             <i class="fa fa-map-marker"></i>
-                                                            <input type="text" class="form-control" name="calle" placeholder="Calle">
+                                                            <input type="text" class="form-control" name="slug" placeholder="Url">
                                                       </div>
                                                 </div>
                                           </div>
@@ -110,35 +116,6 @@
                                                 <div class="col-md-9">
                                                       <textarea class="form-control" name="referencia" rows="3" style="resize: none;"></textarea>
                                                       <span class="help-block">Descripción de lugares, monumentos, calles o algún indicador cercano al lugar. </span>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Ciudad</label>
-                                                <div class="col-md-9">
-                                                      {!! Form::select('ciudad_id', $options_ciudades, NULL, ['class' => 'form-control']) !!}
-                                                      <span class="help-block">Lugares actualmente disponibles en la aplicación. </span>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Latitud y Longitud</label>
-                                                <div class="col-md-9">
-                                                      <div class="input-group">
-                                                            <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
-                                                            <span class="input-group-btn">
-                                                                  <button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-map-marker"></i></button>
-                                                            </span>
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                      <input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                      <div id="gmap_geocoding" class="gmaps"> </div>
-                                                      <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
                                                 </div>
                                           </div>
                                           <div class="form-group">
