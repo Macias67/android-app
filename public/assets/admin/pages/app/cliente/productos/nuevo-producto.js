@@ -7,6 +7,27 @@ var NuevoProducto = function () {
     var inicio;
     var fin;
 
+    var slugify = function ()
+    {
+        $('input[name="nombre"]').on('keyup', function() {
+            var acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
+            var original = "aaaaaeeeeiiiioooouuuuaaaaaeeeeiiiioooouuuunncc";
+            var text = $(this).val();
+            for (var i=0; i<acentos.length; i++) {
+                text = text.replace(acentos.charAt(i), original.charAt(i));
+            }
+
+           var slug =  text.toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+               .replace(/_+/g, '-')           // Replace spaces with _
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/-+$/, '');            // Trim - from end of text
+            $('input[name="slug"]').val(slug);
+        });
+    }
+
     var maxLenght = function () {
         $("textarea[name='descripcion']").maxlength({
             limitReachedClass: "label label-danger",
@@ -45,9 +66,10 @@ var NuevoProducto = function () {
 
     var dateRange = function () {
         moment.locale('es');
-        var formato = 'DD/MMMM/YY';
+        var formato = 'LL';
         $('#reportrange').daterangepicker({
-                opens:              'left',
+                opens: 'left',
+                drops: 'up',
                 startDate:           moment(),
                 endDate:             moment().add(29, 'days'),
                 showDropdowns:       true,
@@ -58,8 +80,8 @@ var NuevoProducto = function () {
                 ranges:              {
                     'Hoy':        [moment(), moment()],
                     'Mañana':    [moment(), moment().add(1, 'days')],
-                    '7 Días':  [moment(), moment().add(6, 'days')],
-                    'Un Mes': [moment(), moment().add(29, 'days')],
+                    '7 Días':  [moment(), moment().add(7, 'days')],
+                    'Un Mes': [moment(), moment().add(30, 'days')],
                     '6 Meses':   [moment(), moment().add(6, 'month')],
                     '1 Año':   [
                         moment(),
@@ -95,25 +117,29 @@ var NuevoProducto = function () {
                 }
             },
             function (start, end) {
-                $('#reportrange span').html(start.format(formato) + ' al ' + end.format(formato));
+                $('input[name="disp_inicio"]').val(start.format(formato));
+                $('input[name="disp_fin"]').val(end.format(formato));
+
                 inicio = start.format("MM-DD-YYYY HH:mm:ss");
                 fin = end.format("MM-DD-YYYY HH:mm:ss");
             }
         );
         //Set the initial state of the picker label
-        $('#reportrange span').html(moment().format(formato) + ' al ' + moment().add(29, 'days').format(formato));
+        $('input[name="disp_inicio"]').val(moment().format(formato));
+        $('input[name="disp_fin"]').val(moment().add(1, 'year').format(formato));
+
         inicio = moment().format("MM-DD-YYYY HH:mm:ss");
-        fin = moment().add(29, 'days').format("MM-DD-YYYY HH:mm:ss");
+        fin = moment().add(1, 'year').format("MM-DD-YYYY HH:mm:ss");
     }
 
     var submitForm = function() {
         $('#agregar').on('click', function() {
-            alert(inicio);
+            $('.form-nuevo-producto').submit();
         });
     }
 
     var handleForm = function () {
-        var form = $('.form-nuevo-cliente');
+        var form = $('.form-nuevo-producto');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -121,39 +147,36 @@ var NuevoProducto = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore:       "",  // validate all fields including form hidden input
             rules:        {
-                propietario_id: {
+                cliente_id: {
                     required: true
                 },
                 nombre:         {
                     required:  true,
                     maxlength: 45
                 },
-                calle:          {
-                    required:  true,
-                    maxlength: 14
-                },
-                numero:         {
-                    required:  true,
-                    maxlength: 5
-                },
-                colonia:        {
+                slug:          {
                     required:  true,
                     maxlength: 45
                 },
-                codigo_postal:  {
+                descripcion:         {
                     required:  true,
-                    maxlength: 45
+                    maxlength: 255,
+                    minlength: 10
                 },
-                referencia:     {
-                    maxlength: 45
-                },
-                ciudad_id:      {
-                    required: true
-                },
-                latlng_gmaps:   {
+                descripcion_corta:        {
                     required:  true,
-                    maxlength: 45
+                    maxlength: 45,
+                    minlength: 10
                 },
+                precio:  {
+                    required:  true
+                },
+                disp_inicio:  {
+                    required:  true
+                },
+                disp_fin:  {
+                    required:  true
+                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -209,10 +232,10 @@ var NuevoProducto = function () {
             }
         });
 
-        $('.login-form input').keypress(function (e) {
+        $('.form-nuevo-producto input').keypress(function (e) {
             if (e.which == 13) {
-                if ($('.login-form').validate().form()) {
-                    $('.login-form').submit(); //form validation success, call ajax form submit
+                if ($('.form-nuevo-producto').validate().form()) {
+                    $('.form-nuevo-producto').submit(); //form validation success, call ajax form submit
                 }
                 return false;
             }
@@ -221,6 +244,7 @@ var NuevoProducto = function () {
 
     return {
         init: function () {
+            slugify();
             maxLenght();
             touchSpin();
             dateRange();

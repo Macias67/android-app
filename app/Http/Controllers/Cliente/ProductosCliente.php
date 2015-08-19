@@ -57,7 +57,7 @@ class ProductosCliente extends BaseCliente
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

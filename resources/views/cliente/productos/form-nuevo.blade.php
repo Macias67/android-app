@@ -5,7 +5,7 @@
 	<link href="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('assets/global/plugins/select2/select2.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('assets/global/plugins/jquery-multi-select/css/multi-select.css')}}" rel="stylesheet" type="text/css"/>
-	<link href="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css"/>
 @stop
 
 {{-- Sobreescribir el sidebar
@@ -50,7 +50,7 @@
 				<div class="portlet-title">
 					<div class="caption">
 						<i class="icon-bag"></i>
-						<span class="caption-subject bold uppercase"> Prducto</span>
+						<span class="caption-subject bold uppercase"> Producto</span>
 						<span class="caption-helper">Registro de producto</span>
 					</div>
 					<div class="actions">
@@ -63,14 +63,14 @@
 					<div class="col-md-6">
 						<div class="form-body">
 							<div class="form-group">
-								<label class="col-md-3 control-label">Negocio</label>
+								<label class="col-md-3 control-label">Negocio <span class="required">*</span></label>
 
 								<div class="col-md-9">
 									{!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control']) !!}
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Producto: </label>
+								<label class="col-md-3 control-label">Producto <span class="required">*</span></label>
 
 								<div class="col-md-9">
 									<div class="input-icon">
@@ -80,17 +80,17 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Slug</label>
+								<label class="col-md-3 control-label">Slug <span class="required">*</span></label>
 
 								<div class="col-md-9">
 									<div class="input-icon">
 										<i class="fa fa-desktop"></i>
-										<input type="text" class="form-control" name="slug" placeholder="Url del producto">
+										<input type="text" class="form-control" name="slug" placeholder="Url del producto" readonly>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Descripción</label>
+								<label class="control-label col-md-3">Descripción <span class="required">*</span></label>
 
 								<div class="col-md-9">
 									<textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;"></textarea>
@@ -98,7 +98,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Descripción corta</label>
+								<label class="control-label col-md-3">Descripción corta <span class="required">*</span></label>
 
 								<div class="col-md-9">
 									<textarea class="form-control" name="descripcion_corta" maxlength="45" rows="2" style="resize: none;"></textarea>
@@ -110,7 +110,7 @@
 					<div class="col-md-6">
 						<div class="form-body">
 							<div class="form-group">
-								<label class="control-label col-md-3">Estatus</label>
+								<label class="control-label col-md-3">Estatus <span class="required">*</span></label>
 
 								<div class="col-md-9">
 									<input type="checkbox" class="make-switch" name="estatus"
@@ -121,13 +121,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-md-3">Precio</label>
+								<label class="control-label col-md-3">Precio <span class="required">*</span></label>
 
 								<div class="col-md-9">
 									<div class="input-inline input-medium">
-										<input id="precio" type="text" name="precio" class="form-control">
+										<input id="precio" type="text" name="precio" class="form-control" value="0">
 									</div>
-									<span class="help-block">Solo dos deciamles (99.99) </span>
+									<span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
 								</div>
 							</div>
 							<div class="form-group">
@@ -135,21 +135,34 @@
 
 								<div class="col-md-9">
 									<div class="input-inline input-medium">
-										<input id="cantidad" type="text" name="cantidad" class="form-control">
+										<input id="cantidad" type="text" name="cantidad" class="form-control" value="0">
 									</div>
 									<span class="help-block">Unidades enteras</span>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-md-3">Disponibilidad</label>
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="button" class="btn default" id="reportrange"><i class="fa fa-calendar"></i> Disposición <i class="fa fa-angle-down"></i></button>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
 
 								<div class="col-md-9">
-									<div id="reportrange" class="btn default">
+									<div class="input-icon">
 										<i class="fa fa-calendar"></i>
-										&nbsp;
-										<span></span>
-										<b class="fa fa-angle-down"></b>
+										<input type="text" class="form-control" name="disp_inicio" placeholder="Url del producto" readonly>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Final <span class="required">*</span></label>
+
+								<div class="col-md-9">
+									<div class="input-icon">
+										<i class="fa fa-calendar"></i>
+										<input type="text" class="form-control" name="disp_fin" placeholder="Url del producto" readonly>
 									</div>
 								</div>
 							</div>
