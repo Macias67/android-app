@@ -52,6 +52,9 @@
 				<div class="portlet-body form">
 					{!! Form::open($array_form) !!}
 					<div class="form-body">
+						<div class="form-group">
+							{!! Form::select('cliente_id', $negocios, $llaves[0], array('class' => 'form-control')) !!}
+						</div>
 						<div class="form-group form-md-line-input has-info form-md-floating-label" style="padding-top: 0px">
 							<div class="input-group input-group-sm" style="padding-top: 0px">
 								<div class="input-group-control">
@@ -60,14 +63,14 @@
 									<label for="form_control_1">Agrega Categoría</label>
 								</div>
 								<span class="input-group-btn btn-right">
-									<button class="btn green-haze" id="add" type="button">Guardar</button>
+									<button class="btn green-haze" id="addCategoria" type="button">Guardar</button>
 								</span>
 							</div>
 						</div>
 					</div>
 					{!! Form::close() !!}
 					<br>
-					<table class="table table-striped table-hover table-bordered" id="tabla_categorias">
+					<table class="table table-striped table-hover table-bordered" id="tabla_categorias" data-url="{{route('cliente-table-json-categorias')}}">
 						<thead>
 						<tr>
 							<th>Categoría</th>
@@ -75,53 +78,6 @@
 						</tr>
 						</thead>
 					</table>
-				</div>
-			</div>
-			<!-- END Portlet PORTLET-->
-		</div>
-		<div class="col-md-6">
-			<!-- BEGIN Portlet PORTLET-->
-			<div class="portlet light animated bounceInRight">
-				<div class="portlet-title">
-					<div class="caption">
-						<i class="icon-speech"></i>
-						<span class="caption-subject bold uppercase"> Sub-Categorías</span>
-						<span class="caption-helper">weekly stats...</span>
-					</div>
-				</div>
-				<div class="portlet-body form">
-					@if($llaves)
-						<form role="form">
-							<div class="form-body">
-								<div class="form-group">
-									{!! Form::select('categoria', $options, $llaves[0], array('class' => 'form-control')) !!}
-								</div>
-								<div class="form-group form-md-line-input has-info form-md-floating-label" style="padding-top: 0px">
-									<div class="input-group input-group-sm" style="padding-top: 0px">
-										<div class="input-group-control">
-											<input type="text" class="form-control input-sm" name="subcategoria">
-											<input type="hidden" name="subcategoria_id" value="">
-											<label for="form_control_1">Agrega Subcategoría</label>
-										</div>
-								<span class="input-group-btn btn-right">
-									<button class="btn green-haze" id="add_sub" type="button">Guardar</button>
-								</span>
-									</div>
-								</div>
-							</div>
-						</form>
-						<br>
-						<table class="table table-striped table-hover table-bordered" id="tabla_subcategorias" data-url="{{route('cliente-table-json-subcategorias')}}">
-							<thead>
-							<tr>
-								<th>Subcategoría</th>
-								<th></th>
-							</tr>
-							</thead>
-						</table>
-					@else
-						<h3>No hay categorías registradas.</h3>
-					@endif
 				</div>
 			</div>
 			<!-- END Portlet PORTLET-->

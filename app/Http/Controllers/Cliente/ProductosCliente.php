@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cliente;
 
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests;
+use App\Http\Requests\CreateProducto;
 use Illuminate\Http\Request;
 
 class ProductosCliente extends BaseCliente
@@ -44,6 +45,8 @@ class ProductosCliente extends BaseCliente
             $options[$cliente['id']] = $cliente['nombre'];
         }
 
+        //$categorias = Categorias::where('cliente_id')
+
         $this->data['negocios'] = $options;
 
         return $this->view('cliente.productos.form-nuevo');
@@ -52,12 +55,15 @@ class ProductosCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param \App\Http\Requests\CreateProducto $request
+     *
+     * @return \App\Http\Controllers\Cliente\Response
      */
-    public function store(Request $request)
+    public function store(CreateProducto $request)
     {
-        dd($request->all());
+        if($request->ajax() && $request->wantsJson()){
+            dd($request->all());
+        }
     }
 
     /**

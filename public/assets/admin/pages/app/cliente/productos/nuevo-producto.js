@@ -4,9 +4,6 @@
 
 var NuevoProducto = function () {
 
-    var inicio;
-    var fin;
-
     var slugify = function ()
     {
         $('input[name="nombre"]').on('keyup', function() {
@@ -66,12 +63,12 @@ var NuevoProducto = function () {
 
     var dateRange = function () {
         moment.locale('es');
-        var formato = 'LL';
+        var formato = 'LLLL';
         $('#reportrange').daterangepicker({
                 opens: 'left',
                 drops: 'up',
                 startDate:           moment(),
-                endDate:             moment().add(29, 'days'),
+                endDate:             moment().add(1, 'year'),
                 showDropdowns:       true,
                 showWeekNumbers:     true,
                 timePicker:          true,
@@ -117,19 +114,19 @@ var NuevoProducto = function () {
                 }
             },
             function (start, end) {
-                $('input[name="disp_inicio"]').val(start.format(formato));
-                $('input[name="disp_fin"]').val(end.format(formato));
+                $('input[name="finicio"]').val(start.format(formato));
+                $('input[name="ffin"]').val(end.format(formato));
 
-                inicio = start.format("MM-DD-YYYY HH:mm:ss");
-                fin = end.format("MM-DD-YYYY HH:mm:ss");
+                $('input[name="disp_inicio"]').val(start.format("MM-DD-YYYY HH:mm:ss"));
+                $('input[name="disp_fin"]').val(start.format("MM-DD-YYYY HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
-        $('input[name="disp_inicio"]').val(moment().format(formato));
-        $('input[name="disp_fin"]').val(moment().add(1, 'year').format(formato));
+        $('input[name="finicio"]').val(moment().format(formato));
+        $('input[name="ffin"]').val(moment().add(1, 'year').format(formato));
 
-        inicio = moment().format("MM-DD-YYYY HH:mm:ss");
-        fin = moment().add(1, 'year').format("MM-DD-YYYY HH:mm:ss");
+        $('input[name="disp_inicio"]').val(moment().format("MM-DD-YYYY HH:mm:ss"));
+        $('input[name="disp_fin"]').val(moment().add(1, 'year').format("MM-DD-YYYY HH:mm:ss"));
     }
 
     var submitForm = function() {
@@ -155,7 +152,7 @@ var NuevoProducto = function () {
                     maxlength: 45
                 },
                 slug:          {
-                    required:  true,
+//                    required:  true,
                     maxlength: 45
                 },
                 descripcion:         {

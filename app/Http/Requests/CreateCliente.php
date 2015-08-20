@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class CreateCliente extends Request
 {
     /**
@@ -31,7 +29,7 @@ class CreateCliente extends Request
             'codigo_postal' => 'required|size:5',
             'referencia'    => 'max:45',
             'latlng_gmaps'  => 'max:45',
-            'ciudad_id'     => 'integer'
+            'ciudad_id'     => 'exists:adm_ciudades|integer'
         ];
     }
 }

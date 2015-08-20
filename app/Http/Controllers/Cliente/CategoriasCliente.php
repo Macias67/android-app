@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cliente;
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\Cliente\Categorias;
+use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,19 +36,26 @@ class CategoriasCliente extends BaseCliente
      */
     public function create()
     {
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
+        $optionsClientes = [];
+        foreach ($clientes as $index => $cliente) {
+            $optionsClientes[$cliente['id']] = $cliente['nombre'];
+        }
+
         $categorias = Categorias::where('cliente_id', $this->infoPropietario->id)
             ->orderBy('categoria', 'ASC')
             ->get(['id', 'categoria'])
             ->toArray();
-        $options = array();
+        $optionsCategorias = array();
         foreach ($categorias as $key => $categoria) {
-            $options[$categoria['id']] = $categoria['categoria'];
+            $optionsCategorias[$categoria['id']] = $categoria['categoria'];
         }
-        $llaves = array_keys($options);
+        $llaves = array_keys($optionsCategorias);
 
         $llaves = (empty($llaves)) ? NULL : $llaves;
 
-        $this->data['options'] = $options;
+        $this->data['negocios'] = $optionsClientes;
+        $this->data['categorias'] = $optionsCategorias;
         $this->data['llaves'] = $llaves;
         $this->data['array_form'] = array(
             'url'          => route('cliente.categoria.store'),
@@ -69,9 +77,27 @@ class CategoriasCliente extends BaseCliente
     {
         if($request->ajax() &&  $request->wantsJson()){
             $categoria = new Categorias;
-            $categoria->cliente_id = $this->infoPropietario->id;
+            $categoria->cliente_id = $request->get('cliente_id');
             $categoria->categoria = mb_convert_case(trim(mb_strtolower($request->get('categoria'))), MB_CASE_TITLE, "UTF-8");
-            $categoria->save();
+
+            if ($categoria->save()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Subcategoria añadida',
+                    'texto'  => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
+                    'url'    => ''
+                ];
+            } else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' => 'Ups...',
+                    'texto'  => 'No se guardo el registro en la base de datos',
+                    'url'    => NULL,
+                    'status' => 422
+                ];
+            }
+
+            return $this->responseJSON($response);
         }
     }
 
@@ -120,7 +146,7 @@ class CategoriasCliente extends BaseCliente
         //
     }
 
-    public function datatable(Request $request)
+    public function datatable(Request $request, $cliente_id)
     {
         $draw = $request->get('draw');
         $start = $request->get('start');
@@ -128,7 +154,7 @@ class CategoriasCliente extends BaseCliente
         $order = $request->get('order');
         $columns = $request->get('columns');
         $search = $request->get('search');
-        $total = Categorias::count();
+        $total = Categorias::where('cliente_id', '=', $cliente_id)->count();
 
         if ($length == -1) {
             $length = NULL;
@@ -149,7 +175,7 @@ class CategoriasCliente extends BaseCliente
         $categorias =
             DB::table($tCategoria)
               ->select($campos)
-              ->where($tCategoria . '.cliente_id', $this->infoPropietario->id)
+              ->where($tCategoria . '.cliente_id', $cliente_id)
               ->where($tCategoria . '.categoria', 'LIKE', '%' . $search['value'] . '%')
               ->take($length)
               ->skip($start)

@@ -139,10 +139,10 @@ Route::group(
             'uses' => 'CategoriasCliente@index'
         ]);
 
-        Route::post('categorias/json', [
+        Route::post('categorias/json/{cliente_id?}', [
             'as' => 'cliente-table-json-categorias',
             'uses' => 'CategoriasCliente@datatable'
-        ]);
+        ])->where('cliente_id', '[0-9]+');
 
         Route::group(['prefix' => 'categoria'], function () {
             Route::get('nuevo', [

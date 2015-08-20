@@ -90,6 +90,19 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-md-3 control-label">Categoría <span class="required">*</span></label>
+
+								<div class="col-md-9">
+									{!! Form::select('categoria_id', $negocios, NULL, ['class' => 'form-control']) !!}
+								</div>
+							</div>
+							<div class="form-group">
+
+								<div class="col-md-offset-3 col-md-9">
+									{!! Form::select('subcategoria_id', [], NULL, ['class' => 'form-control']) !!}
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-md-3">Descripción <span class="required">*</span></label>
 
 								<div class="col-md-9">
@@ -142,8 +155,10 @@
 							</div>
 
 							<div class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button type="button" class="btn default" id="reportrange"><i class="fa fa-calendar"></i> Disposición <i class="fa fa-angle-down"></i></button>
+								<div class="col-md-offset-3 col-md-9">
+									<button type="button" class="btn default" id="reportrange">
+										<i class="fa fa-calendar"></i> Disposición
+										<i class="fa fa-angle-down"></i></button>
 								</div>
 							</div>
 							<div class="form-group">
@@ -152,7 +167,8 @@
 								<div class="col-md-9">
 									<div class="input-icon">
 										<i class="fa fa-calendar"></i>
-										<input type="text" class="form-control" name="disp_inicio" placeholder="Url del producto" readonly>
+										<input type="text" class="form-control" name="finicio"  readonly>
+										<input type="hidden" class="form-control" name="disp_inicio">
 									</div>
 								</div>
 							</div>
@@ -162,7 +178,8 @@
 								<div class="col-md-9">
 									<div class="input-icon">
 										<i class="fa fa-calendar"></i>
-										<input type="text" class="form-control" name="disp_fin" placeholder="Url del producto" readonly>
+										<input type="text" class="form-control" name="ffin" placeholder="Url del producto" readonly>
+										<input type="hidden" class="form-control" name="disp_fin">
 									</div>
 								</div>
 							</div>
