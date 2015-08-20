@@ -99,6 +99,18 @@ Route::group(
             'uses' => 'ServiciosCliente@index'
         ]);
 
+        Route::group(['prefix' => 'servicios'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'cliente.servicios.create',
+                'uses' => 'ServiciosCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.servicio.store',
+                'uses' => 'ServiciosCliente@store'
+            ]);
+        });
         /*
         |--------------------------------------------------------------------------
         | PROMOCIONES
