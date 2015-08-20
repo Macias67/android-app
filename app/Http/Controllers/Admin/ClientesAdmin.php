@@ -102,12 +102,22 @@ class ClientesAdmin extends BaseAdmin
 
                 $cliente->subcategorias()->sync($subIDs);
 
-                $texto = '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.';
-                return $this->responseJSON(TRUE, 'Cliente registrado', $texto, route('clientes'));
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Cliente registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
+                    'url'    => route('clientes')
+                ];
             }
             else {
-                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', NULL);
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
             }
+            return $this->responseJSON($response);
         }
     }
 

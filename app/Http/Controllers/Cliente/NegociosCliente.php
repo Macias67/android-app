@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cliente;
 
+use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests;
@@ -46,6 +47,14 @@ class NegociosCliente extends BaseCliente
             $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
         }
 
+        $categorias = Categorias::all(['id', 'categoria'])->ToArray();
+        $options_categorias = ['' => ''];
+        foreach($categorias as $categoria){
+            $options_categorias[$categoria['id']] = $categoria['categoria'];
+        }
+
+        $this->data['options_categorias'] = $options_categorias;
+
         $this->data['options_ciudades'] = $options;
         $this->data['activo_negocio_nuevo'] = TRUE;
 
@@ -65,13 +74,22 @@ class NegociosCliente extends BaseCliente
             $cliente->preparaDatos($request);
 
             if ($cliente->save()) {
-                $texto = '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.';
-
-                return $this->responseJSON(TRUE, 'Cliente registrado', $texto, route('negocios-cliente'));
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Cliente registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
+                    'url'    => route('negocios-cliente')
+                ];
             }
             else {
-                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', NULL);
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
             }
+            return $this->responseJSON($response);
         }
     }
 

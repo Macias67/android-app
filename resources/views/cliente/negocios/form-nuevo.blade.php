@@ -43,127 +43,6 @@
 {{-- Conteindo de la vista. --}}
 @section('content')
       <div class="row">
-            <div class="col-md-6">
-                  <!-- BEGIN Portlet PORTLET-->
-                  <div class="portlet light animated bounceInUp">
-                        <div class="portlet-title">
-                              <div class="caption">
-                                    <i class="icon-user-follow"></i>
-                                    <span class="caption-subject bold uppercase"> Negocio</span>
-                                    <span class="caption-helper">Registro de negocio</span>
-                              </div>
-                              <div class="actions">
-                                    <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
-                              </div>
-                        </div>
-                        <div class="portlet-body form">
-                              {!! Form::open($param) !!}
-                                    <div class="form-body">
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Lugar: </label>
-                                                <div class="col-md-9">
-                                                      <div class="input-icon">
-                                                            <i class="fa fa-institution"></i>
-                                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar">
-                                                            <input type="hidden" name="propietario_id" value="{{$user->id}}">
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Calle</label>
-                                                <div class="col-md-9">
-                                                      <div class="input-icon">
-                                                            <i class="fa fa-map-marker"></i>
-                                                            <input type="text" class="form-control" name="calle" placeholder="Calle">
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="control-label col-md-3">Número</label>
-                                                <div class="col-md-9">
-                                                      <div class="input-icon input-small">
-                                                            <i class="fa fa-slack"></i>
-                                                            <input type="text" class="form-control" name="numero" placeholder="Número">
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Colonia</label>
-                                                <div class="col-md-9">
-                                                      <div class="input-icon">
-                                                            <i class="fa fa-map-marker"></i>
-                                                            <input type="text" class="form-control" name="colonia" placeholder="Colonia">
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="control-label col-md-3">Código Postal</label>
-                                                <div class="col-md-9">
-                                                      <div class="input-icon input-small">
-                                                            <i class="fa fa-globe"></i>
-                                                            <input type="text" class="form-control" name="codigo_postal" placeholder="Código Postal">
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="control-label col-md-3">Referencias</label>
-                                                <div class="col-md-9">
-                                                      <textarea class="form-control" name="referencia" rows="3" style="resize: none;"></textarea>
-                                                      <span class="help-block">Descripción de lugares, monumentos, calles o algún indicador cercano al lugar. </span>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Ciudad</label>
-                                                <div class="col-md-9">
-                                                      {!! Form::select('ciudad_id', $options_ciudades, NULL, ['class' => 'form-control']) !!}
-                                                      <span class="help-block">Lugares actualmente disponibles en la aplicación. </span>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="col-md-3 control-label">Latitud y Longitud</label>
-                                                <div class="col-md-9">
-                                                      <div class="input-group">
-                                                            <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
-                                                            <span class="input-group-btn">
-                                                                  <button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-map-marker"></i></button>
-                                                            </span>
-                                                      </div>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                      <input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                      <div id="gmap_geocoding" class="gmaps"> </div>
-                                                      <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
-                                                <label class="control-label col-md-3">Estatus</label>
-                                                <div class="col-md-9">
-                                                      <input type="checkbox" class="make-switch" name="estatus"
-                                                             data-size="small"
-                                                             data-on-text="Online" data-off-text="Offline"
-                                                             data-on-color="success"
-                                                             data-off-color="default">
-                                                </div>
-                                          </div>
-                                    </div>
-                                    <div class="form-actions">
-                                          <div class="row">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                      <button type="submit" class="btn green">Registrar</button>
-                                                </div>
-                                          </div>
-                                    </div>
-                              </form>
-                        </div>
-                  </div>
-                  <!-- END Portlet PORTLET-->
-            </div>
             <div class="col-md-12">
                   <!-- BEGIN Portlet PORTLET-->
                   <div class="portlet light animated bounceInUp">
@@ -172,12 +51,6 @@
                                     <i class="icon-user-follow"></i>
                                     <span class="caption-subject bold uppercase"> Cliente</span>
                                     <span class="caption-helper">Registro de cliente</span>
-                              </div>
-                              <div class="actions">
-                                    <a href="{{route('adm.nuevo.propietario')}}" class="btn btn-circle btn-success">
-                                          <i class="fa fa-plus"></i> Añadir Propietario
-                                    </a>
-                                    <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
                               </div>
                         </div>
                         <div class="portlet-body form">
@@ -196,17 +69,12 @@
                                                 </div>
                                           </div>
                                           <div class="form-group">
-                                                <label class="col-md-4 control-label">Propietario <span class="required" aria-required="true">*</span></label>
-                                                <div class="col-md-8">
-                                                      <input type="hidden" id="propietario" name="propietario_id" class="form-control select2" data-url="{{route('select-json-propietarios')}}">
-                                                </div>
-                                          </div>
-                                          <div class="form-group">
                                                 <label class="col-md-4 control-label">Lugar <span class="required" aria-required="true">*</span> </label>
                                                 <div class="col-md-8">
                                                       <div class="input-icon">
                                                             <i class="fa fa-institution"></i>
                                                             <input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar">
+                                                          <input type="hidden" name="propietario_id" value="{{$user->id}}">
                                                       </div>
                                                 </div>
                                           </div>
