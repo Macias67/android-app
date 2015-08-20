@@ -54,20 +54,24 @@ class PropietarioAdmin extends BaseAdmin
             $propietario->preparaDatos($request);
 
             if ($propietario->save()) {
-                $texto = $propietario->NombreCompleto() . ' se registro como propietario';
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Propietario registrado',
+                    'texto'  => $propietario->NombreCompleto() . ' se registro como propietario',
+                    'url'    => route('propietarios'),
+                    'extras' =>['addCliente' => route('adm.nuevo.cliente')]
+                ];
 
-                return $this->responseJSON(
-                    TRUE,
-                    'Propietario registrado',
-                    $texto,
-                    route('propietarios'),
-                    NULL,
-                    ['addCliente' => route('adm.nuevo.cliente')]
-                );
             }
             else {
-                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', NULL);
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' => 'No se registró',
+                    'texto'  => 'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
             }
+            return $this->responseJSON($response);
         }
     }
 
