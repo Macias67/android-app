@@ -173,5 +173,29 @@ Route::group(
                 'uses' => 'SubCategoriasCliente@store'
             ]);
         });
+
+        /*
+       |--------------------------------------------------------------------------
+       | PROMOCIONES
+       |--------------------------------------------------------------------------
+       */
+        Route::get('promociones', [
+            'as' => 'promociones-cliente',
+            'uses' => 'PromocionesCliente@index'
+        ]);
+
+        Route::group(['prefix' => 'promociones'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'cliente.promociones.create',
+                'uses' => 'PromocionesCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.promociones.store',
+                'uses' => 'PromocionesCliente@store'
+            ]);
+        });
+
 	}
 );

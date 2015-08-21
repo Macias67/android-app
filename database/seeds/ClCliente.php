@@ -18,8 +18,10 @@ class ClCliente extends Seeder{
                 'referencia'        =>  $faker->paragraph,
                 'latlng_gmaps'      =>  $faker->latitude.', '.$faker->longitude,
                 'ciudad_id'         =>  $faker->randomElement($array = array ('1','2')),
-                'propietario_id'    =>1,
-                'estatus'        =>  $faker->randomElement($array = array ('online','offline'))
+                'propietario_id'    =>  1,
+                'estatus'           =>  $faker->randomElement($array = array ('online','offline')),
+                'created_at'        =>  $faker->dateTime,
+                'updated_at'        =>  $faker->dateTime
             ));
         }
 
