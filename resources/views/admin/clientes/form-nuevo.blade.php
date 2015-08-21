@@ -229,7 +229,7 @@
 
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
-	{!! \Html::script('assets/global/plugins/jquery-inputmask/dist/inputmask/jquery.inputmask.min.js', array('type' => 'text/javascript')) !!}
+	{!! \Html::script('assets/global/plugins/jquery-inputmask/dist/jquery.inputmask.min.js', array('type' => 'text/javascript')) !!}
 	{!! \Html::script('assets/global/plugins/jquery-validation/js/jquery.validate.min.js', array('type' => 'text/javascript')) !!}
 	{!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>

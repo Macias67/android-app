@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CLPropietario::class);
         $this->call(AdmCiudades::class);
         $this->call(AdmCategorias::class);
-        $this->call(ClCliente::class);
+//        $this->call(ClCliente::class);
 
         Model::reguard();
     }
