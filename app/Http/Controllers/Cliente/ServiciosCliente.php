@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cliente;
 
+use App\Http\Models\Cliente\Cliente;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -33,6 +34,13 @@ class ServiciosCliente extends BaseCliente
             'autocomplete' => 'off'
         ];
 
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
+        $options = [];
+        foreach ($clientes as $index => $cliente) {
+            $options[$cliente['id']] = $cliente['nombre'];
+        }
+
+        $this->data['negocios'] = $options;
 
         return $this->view('cliente.servicios.form-nuevo');
     }

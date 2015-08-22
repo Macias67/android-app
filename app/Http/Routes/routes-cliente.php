@@ -35,6 +35,11 @@ Route::group(
 
         Route::group(['prefix' => 'negocio'], function () {
 
+            Route::get('perfil/{cliente_id?}', [
+                'as' => 'cliente.negocio.perfil',
+                'uses' => 'NegociosCliente@show'
+            ])->where('cliente_id', '[0-9]+');
+
             Route::get('nuevo', [
                 'as' => 'cliente.negocio.create',
                 'uses' => 'NegociosCliente@create'
@@ -173,7 +178,7 @@ Route::group(
             'uses' => 'PromocionesCliente@index'
         ]);
 
-        Route::group(['prefix' => 'promociones'], function () {
+        Route::group(['prefix' => 'promocion'], function () {
 
             Route::get('nuevo', [
                 'as' => 'cliente.promociones.create',

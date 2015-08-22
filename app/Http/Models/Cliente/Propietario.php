@@ -39,9 +39,9 @@ class Propietario extends Model implements AuthenticatableContract, CanResetPass
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getClientes ()
+    public function clientes ()
     {
-        return $this->hasMany(Cliente::getTableName(), 'id');
+        return $this->hasMany(Cliente::class, 'id');
     }
 
     /**

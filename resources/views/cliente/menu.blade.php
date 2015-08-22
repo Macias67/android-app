@@ -4,13 +4,13 @@
 <div class="page-actions">
     <div class="btn-group">
         <button type="button" class="btn red-haze btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-            <span class="hidden-sm hidden-xs">Acciones Rápidos&nbsp;</span><i class="fa fa-angle-down"></i>
+            <span class="hidden-sm hidden-xs">Acciones Rápidas&nbsp;</span><i class="fa fa-angle-down"></i>
         </button>
         <ul class="dropdown-menu" role="menu">
             <li><a href="{{route('cliente.negocio.create')}}"><i class="icon-home"></i> Nuevo Negocio</a></li>
 	        <li><a href="{{route('cliente.producto.create')}}"><i class="icon-bag"></i> Nuevo Producto</a></li>
-            <li><a href="{{route('cliente.servicios.create')}}"><i class="icon-bag"></i> Nuevo Servicio</a></li>
-            <li><a href="javascript:"><i class="icon-share"></i> Share</a></li>
+            <li><a href="{{route('cliente.servicios.create')}}"><i class="icon-badge"></i> Nuevo Servicio</a></li>
+            <li><a href="{{route('cliente.promociones.create')}}"><i class="icon-present"></i> Nueva Promoción</a></li>
             <li class="divider"></li>
             <li>
                 <a href="javascript:">
@@ -63,19 +63,25 @@
                                 </a>
                             </li>
                         @else
-                            <li {!! isset($activo_negocio) == TRUE ? ' class="active" ' : '' !!}>
+                            <li {!! isset($activo_negocio_index) == TRUE ? ' class="active" ' : '' !!}>
                                 <a href="{{route('negocios-cliente')}}">
                                     <i class="fa fa-dashboard"></i> General
                                 </a>
                             </li>
+                            {{$menu_cliente_id = (isset($menu_cliente_id) ? $menu_cliente_id : NULL)}}
                             @foreach($clientesRegistrados as $cliente)
-                            <li>
-                                <a href="">
+                                <li {!! ($cliente->id == $menu_cliente_id) ? ' class="active" ' : '' !!}>
+                                <a href="{{route('cliente.negocio.perfil',[$cliente->id])}}">
                                     <i class="fa fa-star "></i>
                                     <b>{{$cliente->nombre}}</b>
                                 </a>
                             </li>
                             @endforeach
+                            <li {!! isset($activo_negocio_nuevo) == TRUE ? ' class="active" ' : '' !!}>
+                                <a href="{{route('cliente.negocio.create')}}">
+                                    <i class="fa fa-plus"></i> Registrar negocio
+                                </a>
+                            </li>
                         @endif
                     </ul>
                 </li>

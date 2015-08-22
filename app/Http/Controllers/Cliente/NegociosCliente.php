@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cliente;
 use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
+use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests;
 use App\Http\Requests\CreateCliente;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class NegociosCliente extends BaseCliente
      */
     public function index()
     {
+        $this->data['activo_negocio_index'] = TRUE;
         return $this->view('cliente.negocios.index');
     }
 
@@ -101,7 +103,13 @@ class NegociosCliente extends BaseCliente
      */
     public function show($id)
     {
-        //
+        $propietario_id = Cliente::find($id)->propietario->id;
+        if($this->infoPropietario->id == $propietario_id) {
+            $this->data['menu_cliente_id'] = $id;
+            return $this->view('cliente.negocios.perfil');
+        } else {
+            return response('no', 412);
+        }
     }
 
     /**

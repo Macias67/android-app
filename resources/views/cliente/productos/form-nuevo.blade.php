@@ -54,6 +54,9 @@
 						<span class="caption-helper">Registro de producto</span>
 					</div>
 					<div class="actions">
+                        <a href="{{route('cliente.categoria.nuevo')}}" target="_blank" class="btn btn-circle btn-success">
+                            <i class="fa fa-plus"></i> Añadir Categoría
+                        </a>
 						<button class="btn btn-circle bg-green-turquoise" id="agregar"><i class="fa fa-plus"></i> Agregar </button>
 						<a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
 					</div>
