@@ -25,6 +25,54 @@ var NuevoProducto = function () {
         });
     }
 
+    var initCategoria = function() {
+
+        var cliente   = $('select[name="cliente_id"]');
+        var id = cliente.val();
+        var categoria = $('select[name="categoria_id"]');
+
+        var url       = cliente.attr('data-url') + '/' + id;
+        var text      = cliente.children("option:selected").text();
+
+        $.get(url, function (data) {
+            categoria.html(data);
+            categoria.select2({
+                placeholder: "Subcategorias de " + text,
+                allowClear:  true
+            });
+        }, 'html');
+    }
+
+    var selectCategoria = function () {
+        var selects = function(cliente, categoria) {
+            cliente.on('change', function() {
+                categoria.select2('destroy');
+
+                var url = $(this).attr('data-url') + '/' + $(this).val();
+                var text = $(this).children("option:selected").text();
+
+                if(text == "") {
+                    categoria.html('');
+                } else {
+                    $.get(url, function(data) {
+                        categoria.html(data);
+                        categoria.select2({
+                            placeholder:"Subcategorias de "+text,
+                            allowClear:            true
+                        });
+                    },'html');
+                }
+
+            });
+
+            categoria.select2({
+                placeholder:"Lista de Subcategorias",
+                allowClear:            true
+            });
+        }
+        selects($('select[name="cliente_id"]'), $('select[name="categoria_id"]'));
+    }
+
     var maxLenght = function () {
         $("textarea[name='descripcion']").maxlength({
             limitReachedClass: "label label-danger",
@@ -117,16 +165,16 @@ var NuevoProducto = function () {
                 $('input[name="finicio"]').val(start.format(formato));
                 $('input[name="ffin"]').val(end.format(formato));
 
-                $('input[name="disp_inicio"]').val(start.format("MM-DD-YYYY HH:mm:ss"));
-                $('input[name="disp_fin"]').val(start.format("MM-DD-YYYY HH:mm:ss"));
+                $('input[name="disp_inicio"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
+                $('input[name="disp_fin"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
         $('input[name="finicio"]').val(moment().format(formato));
         $('input[name="ffin"]').val(moment().add(1, 'year').format(formato));
 
-        $('input[name="disp_inicio"]').val(moment().format("MM-DD-YYYY HH:mm:ss"));
-        $('input[name="disp_fin"]').val(moment().add(1, 'year').format("MM-DD-YYYY HH:mm:ss"));
+        $('input[name="disp_inicio"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
+        $('input[name="disp_fin"]').val(moment().add(1, 'year').format("YYYY-MM-DD HH:mm:ss"));
     }
 
     var submitForm = function() {
@@ -212,9 +260,9 @@ var NuevoProducto = function () {
                             type:               "success",
                             animation:          'slide-from-top',
                             showCancelButton:   true,
-                            cancelButtonText:   "Añadir nuevo cliente",
+                            cancelButtonText:   "Añadir nuevo producto",
                             confirmButtonColor: Metronic.getBrandColor('green'),
-                            confirmButtonText:  "Listado de clientes"
+                            confirmButtonText:  "Listado de productos"
                         }, function (isConfirm) {
                             if (isConfirm) {
                                 window.location.href = data.url;
@@ -242,6 +290,8 @@ var NuevoProducto = function () {
     return {
         init: function () {
             slugify();
+            initCategoria();
+            selectCategoria();
             maxLenght();
             touchSpin();
             dateRange();

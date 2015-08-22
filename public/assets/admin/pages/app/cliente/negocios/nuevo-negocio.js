@@ -4,6 +4,38 @@
 
 var NuevoCliente = function () {
 
+    var selectCategoria = function () {
+        var selects = function(categoria, subcategoria) {
+            categoria.on('change', function() {
+                subcategoria.select2('destroy');
+
+                var url = $(this).attr('data-url') + '/' + $(this).val();
+                var text = categoria.children("option:selected").text();
+
+                if(text == "") {
+                    subcategoria.html('');
+                } else {
+                    $.get(url, function(data) {
+                        subcategoria.html(data);
+                        subcategoria.select2({
+                            placeholder:"Subcategorias de "+text,
+                            allowClear:            true
+                        });
+                    },'html');
+                }
+
+            });
+
+            subcategoria.select2({
+                placeholder:"Lista de Subcategorias",
+                allowClear:            true
+            });
+        }
+        selects($('#categoria'), $('#subcategoria'));
+        selects($('#categoria2'), $('#subcategoria2'));
+        selects($('#categoria3'), $('#subcategoria3'));
+    }
+
     var inputMask = function () {
         $("input[name='codigo_postal']").inputmask("mask", {
             "mask": "99999"
@@ -166,6 +198,7 @@ var NuevoCliente = function () {
 
     return {
         init: function () {
+            selectCategoria();
             inputMask();
             mapGeocoding();
             handleForm();

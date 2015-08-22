@@ -149,10 +149,11 @@ Route::group(
             'uses' => 'SubCategoriasAdmin@datatable'
         ])->where('id', '[0-9]+');
 
-        Route::get('subcategorias/select/{id?}', [
-            'as' => 'select-subcategorias',
-            'uses' => 'SubCategoriasAdmin@dropdown'
-        ])->where('id', '[0-9]+');
+        // Función global
+        //Route::get('subcategorias/select/{id?}', [
+        //    'as' => 'select-subcategorias',
+        //    'uses' => 'SubCategoriasAdmin@dropdown'
+        //])->where('id', '[0-9]+');
 
         Route::group(['prefix' => 'subcategoria'], function () {
             Route::post('store', [

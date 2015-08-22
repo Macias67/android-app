@@ -86,7 +86,7 @@
                     </a>
                 </li>
                 <li {!! isset($activo_productos) == TRUE ? ' class="active open" ' : '' !!}>
-                    <a href="{{route('productos')}}">
+                    <a href="{{route('productos-cliente')}}">
                         <i class="icon-bag"></i>
                         <span class="title">Productos</span>
                     </a>

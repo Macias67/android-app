@@ -200,4 +200,18 @@ class CategoriasCliente extends BaseCliente
 
         return new JsonResponse($data, 200);
     }
+
+    public function select (Request $request, $id)
+    {
+        if($request->ajax()){
+            $categorias = Categorias::where('cliente_id', $id)->get(['id', 'categoria'])->ToArray();
+            $options = '<option value=""></option>';
+
+            foreach($categorias as $categoria){
+                $options .= '<option value="'.$categoria['id'].'">'.$categoria['categoria'].'</option>';
+            }
+
+            return $options;
+        }
+    }
 }
