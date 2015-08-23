@@ -141,8 +141,21 @@ class PropietarioAdmin extends BaseAdmin
                     array_push($res, ['id' => (int) $propietario['id'], 'text' => $text]);
                 }
             }
-
             return new JsonResponse($res, 200);
         }
+    }
+
+    public function genPassword ()
+    {
+        $cadena         = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        $longitudCadena = strlen($cadena);
+        $pass          = "";
+        $longitudPass   = rand(7, 10);
+        for ($i = 1; $i <= $longitudPass; $i++) {
+            $pos = rand(0, $longitudCadena - 1);
+            $pass .= substr($cadena, $pos, 1);
+        }
+
+        return response($pass, 200);
     }
 }

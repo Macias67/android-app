@@ -2,9 +2,9 @@
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
-{!! \Html::style('assets/global/plugins/bootstrap-select/bootstrap-select.min.css', ['rel' => 'stylesheet']) !!}
-{!! \Html::style('assets/global/plugins/select2/select2.css', ['rel' => 'stylesheet']) !!}
-{!! \Html::style('assets/global/plugins/jquery-multi-select/css/multi-select.css', ['rel' => 'stylesheet']) !!}
+	<link href="{{asset('assets/global/plugins/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('assets/global/plugins/select2/select2.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('assets/global/plugins/jquery-multi-select/css/multi-select.css')}}" rel="stylesheet" type="text/css"/>
 @stop
 
 {{-- Sobreescribir el sidebar
@@ -194,6 +194,13 @@
                                           </div>
                                     </div>
                               </div>
+	                        {{-- Logo y Portada --}}
+	                        <div class="col-md-12">
+		                        <h4 class="form-section">Logotipo</h4>
+		                        <div class="col-md-6">
+
+		                        </div>
+	                        </div>
                               {{--Accion--}}
                               <div class="col-md-12">
                                     <div class="form-actions">
@@ -222,7 +229,7 @@
 {!! \Html::script('assets/global/plugins/jquery-validation/js/jquery.validate.min.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
 <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-{!! \Html::script('assets/global/plugins/gmaps/gmaps.min.js', array('type' => 'text/javascript')) !!}
+<script src="{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Cargar los archivos de js  --}}

@@ -6,11 +6,48 @@ var Profile = function () {
 
     var dashboardMainChart = null;
 
+    var activeSection = function() {
+        var v = window.location.pathname;
+        var params = v.split('/');
+        var last = params[params.length - 1];
+
+        switch(last) {
+            case 'settings':
+                $('li#misdatos').addClass('active');
+                break;
+            default:
+                $('li#perfil').addClass('active');
+                break;
+        }
+    }
+
+    var croppic = function() {
+        var token = Metronic.getToken();
+        ;var id = $('#logo').attr('data-id');
+        var cropperOptions = {
+            uploadUrl: $('#logo').attr('data-upload'),
+            cropUrl: $('#logo').attr('data-crop'),
+            uploadData:{
+                "cliente_id": id,
+                "_token": token
+            },
+            cropData: {
+                "cliente_id": id,
+                "_token": token
+            },
+            modal:true,
+            imgEyecandy:false,
+            onAfterImgCrop:		function(){ console.log('onAfterImgCrop') },
+        }
+        var cropperHeader = new Croppic('logo', cropperOptions);
+    }
+
     return {
 
         //main function
         init: function () {
-
+            activeSection();
+            croppic();
             Profile.initMiniCharts();
         },
 

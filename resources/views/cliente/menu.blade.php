@@ -68,9 +68,9 @@
                                     <i class="fa fa-dashboard"></i> General
                                 </a>
                             </li>
-                            {{$menu_cliente_id = (isset($menu_cliente_id) ? $menu_cliente_id : NULL)}}
+                            {{--*/ $menu_cliente_id = (isset($menu_cliente_id) ? $menu_cliente_id : NULL) /*--}}
                             @foreach($clientesRegistrados as $cliente)
-                                <li {!! ($cliente->id == $menu_cliente_id) ? ' class="active" ' : '' !!}>
+                                <li {!! ($cliente->id == $current_cliente_id) ? ' class="active" ' : '' !!}>
                                 <a href="{{route('cliente.negocio.perfil',[$cliente->id])}}">
                                     <i class="fa fa-star "></i>
                                     <b>{{$cliente->nombre}}</b>

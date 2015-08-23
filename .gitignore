@@ -78,4 +78,6 @@ public/assets/global/*
 !public/assets/global/sounds
 !public/assets/global/plugins
 
+/public/tmp
+
 
