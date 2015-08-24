@@ -10,6 +10,7 @@
             <li><a href="{{route('cliente.negocio.create')}}"><i class="icon-home"></i> Nuevo Negocio</a></li>
 	        <li><a href="{{route('cliente.producto.create')}}"><i class="icon-bag"></i> Nuevo Producto</a></li>
             <li><a href="{{route('cliente.servicios.create')}}"><i class="icon-bag"></i> Nuevo Servicio</a></li>
+            <li><a href="{{route('cliente.evento.create')}}"><i class="icon-bag"></i> Nuevo Evento</a></li>
             <li><a href="javascript:"><i class="icon-share"></i> Share</a></li>
             <li class="divider"></li>
             <li>
