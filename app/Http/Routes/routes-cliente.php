@@ -35,6 +35,12 @@ Route::group(
 
         Route::group(['prefix' => 'negocio'], function () {
 
+            Route::get('perfil/{cliente_id?}/{accion?}', [
+                'as' => 'cliente.negocio.perfil',
+                'uses' => 'NegociosCliente@show'
+            ])->where('cliente_id', '[0-9]+')
+                ->where('accion', '[a-z]+');
+
             Route::get('nuevo', [
                 'as' => 'cliente.negocio.create',
                 'uses' => 'NegociosCliente@create'
@@ -77,16 +83,6 @@ Route::group(
         Route::get('usuarios', [
             'as' => 'usuarios-cliente',
             'uses' => 'UsuariosCliente@index'
-        ]);
-
-        /*
-       |--------------------------------------------------------------------------
-       | PRODUCTOS
-       |--------------------------------------------------------------------------
-       */
-        Route::get('productos', [
-            'as' => 'productos',
-            'uses' => 'ProductosCliente@index'
         ]);
 
         /*
@@ -169,6 +165,11 @@ Route::group(
             'uses' => 'CategoriasCliente@datatable'
         ])->where('cliente_id', '[0-9]+');
 
+        Route::get('categorias/select/{cliente_id?}', [
+            'as' => 'cliente-select-categorias',
+            'uses' => 'CategoriasCliente@select'
+        ])->where('cliente_id', '[0-9]+');
+
         Route::group(['prefix' => 'categoria'], function () {
             Route::get('nuevo', [
                 'as' => 'cliente.categoria.nuevo',
@@ -182,24 +183,6 @@ Route::group(
         });
 
         /*
-        |--------------------------------------------------------------------------
-        | SUBCATEGORIAS
-        |--------------------------------------------------------------------------
-        */
-
-        Route::post('subcategorias/json/{id?}', [
-            'as' => 'cliente-table-json-subcategorias',
-            'uses' => 'SubCategoriasCliente@datatable'
-        ])->where('id', '[0-9]+');
-
-        Route::group(['prefix' => 'subcategoria'], function () {
-            Route::post('store', [
-                'as' => 'cliente.subcategoria.store',
-                'uses' => 'SubCategoriasCliente@store'
-            ]);
-        });
-
-        /*
        |--------------------------------------------------------------------------
        | PROMOCIONES
        |--------------------------------------------------------------------------
@@ -209,7 +192,7 @@ Route::group(
             'uses' => 'PromocionesCliente@index'
         ]);
 
-        Route::group(['prefix' => 'promociones'], function () {
+        Route::group(['prefix' => 'promocion'], function () {
 
             Route::get('nuevo', [
                 'as' => 'cliente.promociones.create',

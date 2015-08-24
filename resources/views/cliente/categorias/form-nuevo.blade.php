@@ -100,11 +100,9 @@
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
 	<script type="text/javascript" src="{{asset('assets/admin/pages/app/cliente/categorias/categorias.js')}}"></script>
-	<script type="text/javascript" src="{{asset('assets/admin/pages/app/cliente/categorias/subcategorias.js')}}"></script>
 @stop
 
 {{-- Inicializo los js --}}
 @section('init-js')
 	Categorias.init();
-	Subcategorias.init();
 @stop

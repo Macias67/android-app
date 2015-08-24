@@ -14,7 +14,7 @@
 {{-- Modales de la vista
 @section('modal')@stop --}}
 
-{{-- Sobreescribir el t�tulo de pagina--}}
+{{-- Sobreescribir el título de pagina--}}
 @section('page-title')
     <h1>Registro de nueva promocion
         <small>Información básica de la  promocion</small>
@@ -63,7 +63,6 @@
                     <div class="col-md-6">
                         <div class="form-body">
                             <div class="form-group">
-                                {!! Form::label(null, 'Negocio',[])  !!}
                                 <label class="col-md-3 control-label">Negocio <span class="required">*</span></label>
 
                                 <div class="col-md-9">
@@ -103,7 +102,7 @@
                     <div class="col-md-6">
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="control-label col-md-3">Promoción fija<span class="required">*</span></label>
+                                <label class="control-label col-md-3">Promoción<span class="required">*</span></label>
 
                                 <div class="col-md-9">
                                     <input type="checkbox" class="make-switch" name="siempre"

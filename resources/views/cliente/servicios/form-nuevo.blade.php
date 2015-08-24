@@ -64,12 +64,18 @@
                     <div  class="col-md-6">
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Categoría <span class="required">*</span></label>
+                                <label class="col-md-3 control-label">Negocio <span class="required">*</span></label>
+
                                 <div class="col-md-9">
-                                    {!! Form::select('categoria_id', $servicios, NULL, ['class' => 'form-control']) !!}
+                                    {!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control', 'data-url' => route('cliente-select-categorias')]) !!}
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Categoría <span class="required">*</span></label>
+                                <div class="col-md-9">
+                                    {{--{!! Form::select('categoria_id', $servicios, NULL, ['class' => 'form-control']) !!}--}}
+                                </div>
+                            </div>
                             <div  class="form-group">
                                 <label class="col-md-3 control-label">Servicio <span class="required">*</span></label>
                                 <div class="col-md-9">

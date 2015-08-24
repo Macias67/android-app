@@ -146,7 +146,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Categoría 1 <span class="required" aria-required="true">*</span></label>
                                     <div class="col-md-8">
-                                        {!! Form::select('categoria1', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria', 'data-url' => route('select-subcategorias')]) !!}
+                                        {!! Form::select('categoria1', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria', 'data-url' => route('global-select-subcategorias')]) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -157,7 +157,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Categoría 2</label>
                                     <div class="col-md-8">
-                                        {!! Form::select('categoria2', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria2', 'data-url' => route('select-subcategorias')]) !!}
+                                        {!! Form::select('categoria2', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria2', 'data-url' => route('global-select-subcategorias')]) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -168,7 +168,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Categoría 3</label>
                                     <div class="col-md-8">
-                                        {!! Form::select('categoria3', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria3', 'data-url' => route('select-subcategorias')]) !!}
+                                        {!! Form::select('categoria3', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria3', 'data-url' => route('global-select-subcategorias')]) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -234,13 +234,13 @@
 	{!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 	{!! \Html::script('assets/global/plugins/gmaps/gmaps.min.js', array('type' => 'text/javascript')) !!}
+	{!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
+	{!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
+	{!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
 @stop
 
 {{-- Cargar los archivos de js  --}}
 @section('page-level-js')
-	{!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
-	{!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
-	{!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
 	{!! \Html::script('assets/admin/pages/app/admin/clientes/nuevo-cliente.js', array('type' => 'text/javascript')) !!}
 @stop
 

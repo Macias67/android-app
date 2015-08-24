@@ -12,7 +12,8 @@
     "laravel/framework": "5.1.*",
     "sboo/multiauth": "4.0.*",
     "laravelcollective/html": "5.1.*",
-    "jenssegers/date": "^3.0"
+    "jenssegers/date": "^3.0",
+    "sybio/image-workshop":"~2.0.0"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
