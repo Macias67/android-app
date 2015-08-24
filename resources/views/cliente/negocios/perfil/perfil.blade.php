@@ -51,16 +51,16 @@
                         <div class="portlet light profile-sidebar-portlet">
                               <!-- SIDEBAR USERPIC -->
                               <div class="profile-userpic">
-                                    <img src="{{asset('assets/admin/pages/media/profile/profile_user.jpg')}}" class="img-responsive" alt="">
+                                    <img id="logo" src="{{$logo}}" class="img-responsive" alt="">
                               </div>
                               <!-- END SIDEBAR USERPIC -->
                               <!-- SIDEBAR USER TITLE -->
                               <div class="profile-usertitle">
                                     <div class="profile-usertitle-name">
-                                          Marcus Doe
+                                          {{$cliente->nombre}}
                                     </div>
                                     <div class="profile-usertitle-job">
-                                          Developer
+	                                    {{$categoria}}
                                     </div>
                               </div>
                               <!-- END SIDEBAR USER TITLE -->

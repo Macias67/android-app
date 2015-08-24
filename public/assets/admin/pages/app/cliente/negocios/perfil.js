@@ -23,10 +23,10 @@ var Profile = function () {
 
     var croppic = function() {
         var token = Metronic.getToken();
-        ;var id = $('#logo').attr('data-id');
+        ;var id = $('#newlogo').attr('data-id');
         var cropperOptions = {
-            uploadUrl: $('#logo').attr('data-upload'),
-            cropUrl: $('#logo').attr('data-crop'),
+            uploadUrl: $('#newlogo').attr('data-upload'),
+            cropUrl: $('#newlogo').attr('data-crop'),
             uploadData:{
                 "cliente_id": id,
                 "_token": token
@@ -37,9 +37,13 @@ var Profile = function () {
             },
             modal:true,
             imgEyecandy:false,
-            onAfterImgCrop:		function(){ console.log('onAfterImgCrop') },
+            rotateControls:false,
+            onAfterImgCrop:		function(){
+                var src = $('img.croppedImg').attr('src');
+                $('img#logo').attr('src', src);
+            }
         }
-        var cropperHeader = new Croppic('logo', cropperOptions);
+        var cropperHeader = new Croppic('newlogo', cropperOptions);
     }
 
     return {
