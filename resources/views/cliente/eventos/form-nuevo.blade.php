@@ -62,8 +62,8 @@
                                 <div class="col-md-9">
                                     <div class="input-icon">
                                         <i class="fa fa-institution"></i>
-                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre del evento">
-                                        <input type="hidden" name="propietario_id" value="{{$user->id}}">
+                                        <input type="text" class="form-control" name="nombre_evento" placeholder="Nombre del evento">
+                                        <input type="hidden" name="cliente_id" value="{{$user->id}}">
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Descripción</label>
                                 <div class="col-md-9">
-                                    <textarea class="form-control" name="referencia" rows="3" style="resize: none;"></textarea>
+                                    <textarea class="form-control" name="descripcion" rows="3" style="resize: none;"></textarea>
                                     <span class="help-block">Descripción del evento. </span>
                                 </div>
                             </div>
