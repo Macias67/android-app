@@ -26,8 +26,8 @@ class EventosCliente extends BaseCliente
     public function create()
     {
         $this->data['param'] = [
-            'route' => 'cliente.negocio.store',
-            'class' => 'form-horizontal form-nuevo-cliente',
+            'route' => 'cliente.evento.store',
+            'class' => 'form-horizontal form-nuevo-evento',
             'role' => 'form',
             'autocomplete' => 'off'
         ];
@@ -38,10 +38,10 @@ class EventosCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  CreateEvento  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(EventosCliente $request)
     {
         //
     }

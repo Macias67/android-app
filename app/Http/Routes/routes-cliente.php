@@ -103,7 +103,7 @@ Route::group(
             ]);
 
             Route::post('store', [
-                'as' => 'cliente.servicio.store',
+                'as' => 'cliente.servicios.store',
                 'uses' => 'ServiciosCliente@store'
             ]);
         });
@@ -135,7 +135,7 @@ Route::group(
             ]);
 
             Route::post('store', [
-                'as' => 'cliente.negocio.store',
+                'as' => 'cliente.evento.store',
                 'uses' => 'EventosCliente@store'
             ]);
         });
