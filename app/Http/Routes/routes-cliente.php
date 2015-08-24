@@ -127,6 +127,19 @@ Route::group(
             'uses' => 'EventosCliente@index'
         ]);
 
+        Route::group(['prefix' => 'eventos'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'cliente.evento.create',
+                'uses' => 'EventosCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.negocio.store',
+                'uses' => 'EventosCliente@store'
+            ]);
+        });
+
         /*
         |--------------------------------------------------------------------------
         | FLYERS

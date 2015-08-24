@@ -36,7 +36,7 @@
       </ul>
 @stop
 
-{{-- Conteindo de la vista. --}}
+{{-- Contenido de la vista. --}}
 @section('content')
       <div class="row">
             <div class="col-md-12">
