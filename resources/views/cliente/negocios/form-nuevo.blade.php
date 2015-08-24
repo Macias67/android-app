@@ -194,13 +194,6 @@
                                           </div>
                                     </div>
                               </div>
-	                        {{-- Logo y Portada --}}
-	                        <div class="col-md-12">
-		                        <h4 class="form-section">Logotipo</h4>
-		                        <div class="col-md-6">
-
-		                        </div>
-	                        </div>
                               {{--Accion--}}
                               <div class="col-md-12">
                                     <div class="form-actions">
