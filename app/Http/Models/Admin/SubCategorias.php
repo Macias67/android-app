@@ -19,12 +19,12 @@ class SubCategorias extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function admCategorias()
+    public function categoria()
     {
         return $this->belongsTo(Categorias::class, 'id');
     }
 
-    public function getNegocios()
+    public function negocios()
     {
         return $this->belongsToMany(Cliente::class, 'cl_categoria_negocio', 'subcategoria_id', 'cliente_id');
     }

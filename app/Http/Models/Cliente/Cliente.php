@@ -38,9 +38,9 @@ class Cliente extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getPropietario ()
+    public function propietario ()
     {
-        return $this->belongsTo(Propietario::getTableName(), 'id');
+        return $this->belongsTo(Propietario::class, 'propietario_id');
     }
 
     public function subcategorias()

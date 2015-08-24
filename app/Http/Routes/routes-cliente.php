@@ -35,6 +35,12 @@ Route::group(
 
         Route::group(['prefix' => 'negocio'], function () {
 
+            Route::get('perfil/{cliente_id?}/{accion?}', [
+                'as' => 'cliente.negocio.perfil',
+                'uses' => 'NegociosCliente@show'
+            ])->where('cliente_id', '[0-9]+')
+                ->where('accion', '[a-z]+');
+
             Route::get('nuevo', [
                 'as' => 'cliente.negocio.create',
                 'uses' => 'NegociosCliente@create'
@@ -80,16 +86,6 @@ Route::group(
         ]);
 
         /*
-       |--------------------------------------------------------------------------
-       | PRODUCTOS
-       |--------------------------------------------------------------------------
-       */
-        Route::get('productos', [
-            'as' => 'productos',
-            'uses' => 'ProductosCliente@index'
-        ]);
-
-        /*
       |--------------------------------------------------------------------------
       | SERVICIOS
       |--------------------------------------------------------------------------
@@ -131,6 +127,19 @@ Route::group(
             'uses' => 'EventosCliente@index'
         ]);
 
+        Route::group(['prefix' => 'eventos'], function () {
+
+            Route::get('nuevo', [
+                'as' => 'cliente.evento.create',
+                'uses' => 'EventosCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.negocio.store',
+                'uses' => 'EventosCliente@store'
+            ]);
+        });
+
         /*
         |--------------------------------------------------------------------------
         | FLYERS
@@ -156,6 +165,11 @@ Route::group(
             'uses' => 'CategoriasCliente@datatable'
         ])->where('cliente_id', '[0-9]+');
 
+        Route::get('categorias/select/{cliente_id?}', [
+            'as' => 'cliente-select-categorias',
+            'uses' => 'CategoriasCliente@select'
+        ])->where('cliente_id', '[0-9]+');
+
         Route::group(['prefix' => 'categoria'], function () {
             Route::get('nuevo', [
                 'as' => 'cliente.categoria.nuevo',
@@ -169,21 +183,27 @@ Route::group(
         });
 
         /*
-        |--------------------------------------------------------------------------
-        | SUBCATEGORIAS
-        |--------------------------------------------------------------------------
-        */
+       |--------------------------------------------------------------------------
+       | PROMOCIONES
+       |--------------------------------------------------------------------------
+       */
+        Route::get('promociones', [
+            'as' => 'promociones-cliente',
+            'uses' => 'PromocionesCliente@index'
+        ]);
 
-        Route::post('subcategorias/json/{id?}', [
-            'as' => 'cliente-table-json-subcategorias',
-            'uses' => 'SubCategoriasCliente@datatable'
-        ])->where('id', '[0-9]+');
+        Route::group(['prefix' => 'promocion'], function () {
 
-        Route::group(['prefix' => 'subcategoria'], function () {
+            Route::get('nuevo', [
+                'as' => 'cliente.promociones.create',
+                'uses' => 'PromocionesCliente@create'
+            ]);
+
             Route::post('store', [
-                'as' => 'cliente.subcategoria.store',
-                'uses' => 'SubCategoriasCliente@store'
+                'as' => 'cliente.promociones.store',
+                'uses' => 'PromocionesCliente@store'
             ]);
         });
+
 	}
 );

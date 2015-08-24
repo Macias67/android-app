@@ -102,12 +102,22 @@ class ClientesAdmin extends BaseAdmin
 
                 $cliente->subcategorias()->sync($subIDs);
 
-                $texto = '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.';
-                return $this->responseJSON(TRUE, 'Cliente registrado', $texto, route('clientes'));
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Cliente registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
+                    'url'    => route('clientes')
+                ];
             }
             else {
-                return $this->responseJSON(FALSE, 'No se registró', 'Parece que no hubo registro en la BD', NULL);
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
             }
+            return $this->responseJSON($response);
         }
     }
 
@@ -248,19 +258,5 @@ class ClientesAdmin extends BaseAdmin
         ];
 
         return new JsonResponse($data, 200);
-    }
-
-    public function genPassword ()
-    {
-        $cadena         = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-        $longitudCadena = strlen($cadena);
-        $pass           = "";
-        $longitudPass   = rand(7, 10);
-        for ($i = 1; $i <= $longitudPass; $i++) {
-            $pos = rand(0, $longitudCadena - 1);
-            $pass .= substr($cadena, $pos, 1);
-        }
-
-        return response($pass, 200);
     }
 }

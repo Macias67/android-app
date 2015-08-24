@@ -1,4 +1,5 @@
-@extends('_base.main')
+{{-- Extender de menú cliente o menú admin--}}
+@extends('')
 
 {{-- Adjuntar los links css de los plugins requeridos
 @section('plugins-css')@stop --}}

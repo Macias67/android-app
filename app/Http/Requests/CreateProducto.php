@@ -23,13 +23,13 @@ class CreateProducto extends Request
     {
         return [
             'cliente_id'        => 'required|exists:cl_clientes,id|integer',
-            'subcategoria_id'   => '|exists:cl_subcategorias,id|integer',
+            'categoria_id'   => 'required|exists:cl_categorias,id|integer',
             'nombre'            => 'required|max:45',
             'slug'              => 'required|max:45|alpha_dash',
             'descripcion'       => 'required|max:255',
             'descripcion_corta' => 'required|max:45',
-            'disp_inicio'       => 'required|date_format:m-d-Y H:i:s',
-            'disp_fin'          => 'required|date_format:m-d-Y H:i:s',
+            'disp_inicio'       => 'required|date_format:Y-m-d H:i:s',
+            'disp_fin'          => 'required|date_format:Y-m-d H:i:s',
             'precio'            => 'required|numeric',
             'cantidad'          => 'required|integer'
         ];

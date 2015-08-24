@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cliente;
 
 use App\Http\Models\Cliente\Cliente;
+use App\Http\Models\Cliente\Producto;
 use App\Http\Requests;
 use App\Http\Requests\CreateProducto;
 use Illuminate\Http\Request;
@@ -45,8 +46,6 @@ class ProductosCliente extends BaseCliente
             $options[$cliente['id']] = $cliente['nombre'];
         }
 
-        //$categorias = Categorias::where('cliente_id')
-
         $this->data['negocios'] = $options;
 
         return $this->view('cliente.productos.form-nuevo');
@@ -62,7 +61,26 @@ class ProductosCliente extends BaseCliente
     public function store(CreateProducto $request)
     {
         if($request->ajax() && $request->wantsJson()){
-            dd($request->all());
+           $producto = new Producto;
+            $producto->preparaDatos($request);
+
+            if ($producto->save()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Producto registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $producto->nombre . '</b> se ha registrado.',
+                    'url'    => route('productos-cliente')
+                ];
+            }
+            else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
+            }
+            return $this->responseJSON($response);
         }
     }
 

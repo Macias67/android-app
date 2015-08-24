@@ -45,8 +45,6 @@ Route::group(
                 'uses' => 'ClientesAdmin@create'
             ]);
 
-            Route::post('nuevo/password',['uses' => 'ClientesAdmin@genPassword']);
-
             Route::post('store', [
                 'as' => 'adm.cliente.store',
                 'uses' => 'ClientesAdmin@store'
@@ -74,10 +72,13 @@ Route::group(
         ]);
 
         Route::group(['prefix' => 'propietario'], function () {
+
             Route::get('nuevo', [
                 'as' => 'adm.nuevo.propietario',
                 'uses' => 'PropietarioAdmin@create'
             ]);
+
+            Route::post('nuevo/password',['uses' => 'PropietarioAdmin@genPassword']);
 
             Route::post('store', [
                 'as' => 'adm.propietario.store',
@@ -149,10 +150,11 @@ Route::group(
             'uses' => 'SubCategoriasAdmin@datatable'
         ])->where('id', '[0-9]+');
 
-        Route::get('subcategorias/select/{id?}', [
-            'as' => 'select-subcategorias',
-            'uses' => 'SubCategoriasAdmin@dropdown'
-        ])->where('id', '[0-9]+');
+        // Función global
+        //Route::get('subcategorias/select/{id?}', [
+        //    'as' => 'select-subcategorias',
+        //    'uses' => 'SubCategoriasAdmin@dropdown'
+        //])->where('id', '[0-9]+');
 
         Route::group(['prefix' => 'subcategoria'], function () {
             Route::post('store', [

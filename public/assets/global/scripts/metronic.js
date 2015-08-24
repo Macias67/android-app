@@ -587,6 +587,8 @@ var Metronic = function () {
         });
     };
 
+
+
     //* END:CORE HANDLERS *//
 
     return {
@@ -1043,6 +1045,10 @@ var Metronic = function () {
             };
 
             return sizes[size] ? sizes[size] : 0;
+        },
+
+        getToken: function() {
+            return $('body').attr('token');
         }
     };
 

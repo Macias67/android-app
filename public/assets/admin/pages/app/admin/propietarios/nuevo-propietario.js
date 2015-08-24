@@ -12,7 +12,7 @@ var NuevoPropietario = function () {
 
     var genPassword = function () {
         $('#genpassword').on('click', function () {
-            var url = Metronic.getDomain() + 'admin/cliente/nuevo/password';
+            var url = Metronic.getDomain() + 'admin/propietario/nuevo/password';
             $.post(url, function (data) {
                 $("input[name='password']").val(data);
             }, 'text');

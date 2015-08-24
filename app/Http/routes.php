@@ -13,6 +13,7 @@
 
 // Routes Map
 $partials = [
+    'global',
     'admin',
     'cliente',
     'usuario'
