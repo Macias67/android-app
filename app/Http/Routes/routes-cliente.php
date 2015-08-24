@@ -107,7 +107,7 @@ Route::group(
             ]);
 
             Route::post('store', [
-                'as' => 'cliente.servicio.store',
+                'as' => 'cliente.servicios.store',
                 'uses' => 'ServiciosCliente@store'
             ]);
         });

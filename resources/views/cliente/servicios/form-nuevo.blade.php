@@ -64,12 +64,19 @@
                     <div  class="col-md-6">
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Categoría <span class="required">*</span></label>
+                                <label class="col-md-3 control-label">Negocio <span class="required">*</span></label>
+
                                 <div class="col-md-9">
-                                    {!! Form::select('categoria_id', $servicios, NULL, ['class' => 'form-control']) !!}
+                                    {!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control']) !!}
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Categoría <span class="required">*</span></label>
 
+                                <div class="col-md-9">
+                                    {!! Form::select('categoria_id', $negocios, NULL, ['class' => 'form-control']) !!}
+                                </div>
+                            </div>
                             <div  class="form-group">
                                 <label class="col-md-3 control-label">Servicio <span class="required">*</span></label>
                                 <div class="col-md-9">
@@ -103,13 +110,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">Precio <span class="required">*</span></label>
-
-                                <div class="col-md-9">
-                                    <div class="input-inline input-medium">
-                                        <input id="precio" type="text" name="precio" class="form-control" value="0">
-                                    </div>
-                                    <span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="button" class="btn default" id="reportrange">
+                                        <i class="fa fa-calendar"></i> Disposición
+                                        <i class="fa fa-angle-down"></i></button>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -145,7 +149,26 @@
                                            data-off-color="default">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Precio <span class="required">*</span></label>
 
+                                <div class="col-md-9">
+                                    <div class="input-inline input-medium">
+                                        <input id="precio" type="text" name="precio" class="form-control" value="0">
+                                    </div>
+                                    <span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn green">Registrar</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {!! Form::close() !!}
@@ -175,8 +198,10 @@
     {!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
     {!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
     {!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
-    {!! \Html::script('assets/admin/pages/app/cliente/productos/nuevo-producto.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/admin/pages/app/cliente/servicios/nuevo-servicio.js', array('type' => 'text/javascript')) !!}
 @stop
 
-{{-- Inicializo los js
-@section('init-js')@stop --}}
+{{-- Inicializo los js--}}
+@section('init-js')
+    NuevoServicio.init();
+@stop

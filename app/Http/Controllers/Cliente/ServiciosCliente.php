@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Cliente;
 
 use Illuminate\Http\Request;
-
+use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests;
+use App\Http\Requests\CreateServicio;;
 use App\Http\Controllers\Controller;
 
 class ServiciosCliente extends BaseCliente
@@ -27,12 +28,17 @@ class ServiciosCliente extends BaseCliente
     public function create()
     {
         $this->data['param'] = [
-            'route'        => 'cliente.producto.store',
-            'class'        => 'form-horizontal form-nuevo-producto',
+            'route'        => 'cliente.servicios.store',
+            'class'        => 'form-horizontal form-nuevo-servicio',
             'role'         => 'form',
             'autocomplete' => 'off'
         ];
-
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
+        $options = [];
+        foreach ($clientes as $index => $cliente) {
+            $options[$cliente['id']] = $cliente['nombre'];
+        }
+        $this->data['negocios'] = $options;
 
         return $this->view('cliente.servicios.form-nuevo');
     }
@@ -40,12 +46,14 @@ class ServiciosCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param  \App\Http\Requests\CreateServicio $request
+     * @return \App\Http\Controllers\Cliente\Response
      */
-    public function store(Request $request)
+    public function store(CreateServicio  $request)
     {
-        //
+        if($request->ajax() && $request->wantsJson()){
+            dd($request->all());
+        }
     }
 
     /**
