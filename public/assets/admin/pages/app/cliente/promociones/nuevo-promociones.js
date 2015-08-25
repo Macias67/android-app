@@ -1,35 +1,11 @@
-
 /**
- * Created by Julio on 19/08/2015.
+ * Created by Luis Macias on 02/08/2015.
  */
 
-var NuevoEvento = function () {
+var NuevoPromociones = function () {
 
-    var touchSpin = function () {
-        $("#precio").TouchSpin({
-            buttondown_class: 'btn blue',
-            buttonup_class: 'btn blue',
-            min: 0,
-            max: 1000000000,
-            step: 10,
-            boostat: 5,
-            maxboostedstep: 10,
-            prefix: '$'
-        });
-
-        $("#cantidad").TouchSpin({
-            buttondown_class: 'btn blue',
-            buttonup_class:   'btn blue',
-            min:              0,
-            max:              1000000000,
-            step:             1,
-            boostat:          5,
-            maxboostedstep:   10
-        });
-
-    }
-
-    var slugify = function (){
+    var slugify = function ()
+    {
         $('input[name="nombre"]').on('keyup', function() {
             var acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
             var original = "aaaaaeeeeiiiioooouuuuaaaaaeeeeiiiioooouuuunncc";
@@ -49,58 +25,26 @@ var NuevoEvento = function () {
         });
     }
 
-    var mapGeocoding = function () {
 
-        var map = new GMaps({
-            div: '#gmap_geocoding',
-            lat: 20.3417485,
-            lng: -102.76523259999999
+    var maxLenght = function () {
+        $("textarea[name='descripcion']").maxlength({
+            limitReachedClass: "label label-danger",
+            alwaysShow:        true
         });
 
-        var handleAction = function () {
-            console.log('Entra aqui');
-            var calle = $('input[name="direccion"]').val();
-            $('#gmap_geocoding_address').val($.trim(calle));
-            var text = $.trim($('#gmap_geocoding_address').val());
-            GMaps.geocode({
-                address:  text,
-                callback: function (results, status) {
-                    if (status == 'OK') {
-                        var latlng = results[0].geometry.location;
-                        map.setCenter(latlng.lat(), latlng.lng());
-                        map.addMarker({
-                            lat: latlng.lat(),
-                            lng: latlng.lng()
-                        });
-                        $('input[name="latlng_gmaps"]').val(latlng.lat()+', '+ latlng.lng());
-
-                        Metronic.scrollTo($('#gmap_geocoding'));
-                    }
-                }
-            });
-        }
-
-        $('#gmap_geocoding_btn').click(function (e) {
-            e.preventDefault();
-            handleAction();
+        $("textarea[name='descripcion_corta']").maxlength({
+            limitReachedClass: "label label-danger",
+            alwaysShow:        true
         });
-
-        $("#gmap_geocoding_address").keypress(function (e) {
-            var keycode = (e.keyCode ? e.keyCode : e.which);
-            if (keycode == '13') {
-                e.preventDefault();
-                handleAction();
-            }
-        });
-
     }
+
 
     var dateRange = function () {
         moment.locale('es');
         var formato = 'LLLL';
         $('#reportrange').daterangepicker({
                 opens: 'left',
-                drops: 'down',
+                drops: 'up',
                 startDate:           moment(),
                 endDate:             moment().add(1, 'year'),
                 showDropdowns:       true,
@@ -126,7 +70,6 @@ var NuevoEvento = function () {
                 separator:           ' al ',
                 locale:              {
                     applyLabel:       'Aplicar',
-                    cancelLabel:    'Cancelar',
                     fromLabel:        'Desde',
                     toLabel:          'a',
                     customRangeLabel: 'Otro Rango',
@@ -149,30 +92,19 @@ var NuevoEvento = function () {
                 }
             },
             function (start, end) {
-                $('input[name="fecha_inicio"]').val(start.format("YYYY-MM-DD"));
-                $('input[name="hora_inicio"]').val(start.format("HH:mm:ss"));
-                $('input[name="fecha_termina"]').val(end.format("YYYY-MM-DD"));
-                $('input[name="hora_termina"]').val(end.format.add(1, 'days').format("HH:mm:ss"));
+                $('input[name="finicio"]').val(start.format(formato));
+                $('input[name="ffin"]').val(end.format(formato));
+
+                $('input[name="disp_inicio"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
+                $('input[name="disp_fin"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
         $('input[name="finicio"]').val(moment().format(formato));
-        $('input[name="ffin"]').val(moment().add(1,'days').format(formato));
+        $('input[name="ffin"]').val(moment().add(1, 'year').format(formato));
 
         $('input[name="disp_inicio"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
-        $('input[name="disp_fin"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
-
-        $('input[name="fecha_inicio"]').val(moment().format("YYYY-MM-DD"));
-        $('input[name="hora_inicio"]').val(moment().format("HH:mm:ss"));
-        $('input[name="fecha_termina"]').val(moment().add(1, 'days').format("YYYY-MM-DD"));
-        $('input[name="hora_termina"]').val(moment().format("HH:mm:ss"));
-    }
-
-    var maxLenght = function () {
-        $("textarea[name='descripcion']").maxlength({
-            limitReachedClass: "label label-danger",
-            alwaysShow:        true
-        });
+        $('input[name="disp_fin"]').val(moment().add(1, 'year').format("YYYY-MM-DD HH:mm:ss"));
     }
 
     var submitForm = function() {
@@ -182,7 +114,7 @@ var NuevoEvento = function () {
     }
 
     var handleForm = function () {
-        var form = $('.form-nuevo-evento');
+        var form = $('.form-nuevo-promociones');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -190,7 +122,10 @@ var NuevoEvento = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore:       "",  // validate all fields including form hidden input
             rules:        {
-                nombre:   {
+                cliente_id: {
+                    required: true
+                },
+                nombre:         {
                     required:  true,
                     maxlength: 45
                 },
@@ -198,15 +133,16 @@ var NuevoEvento = function () {
 //                    required:  true,
                     maxlength: 45
                 },
-                direccion:{
-                    maxlength: 145
-                },
-                descripcion:{
+                descripcion:         {
                     required:  true,
-                    maxlength: 255
+                    maxlength: 255,
+                    minlength: 10
                 },
-                latlng_gmaps: {
-                    maxlength: 45
+                disp_inicio:  {
+                    required:  true
+                },
+                disp_fin:  {
+                    required:  true
                 }
             },
 
@@ -236,10 +172,6 @@ var NuevoEvento = function () {
             submitHandler: function (form) {
                 var url  = $(form).attr('action');
                 var data = $(form).serialize();
-
-                console.log("URL:");
-                console.log(url);
-                console.log("DATA:");
                 console.log(data);
 
                 var success = function (data) {
@@ -251,11 +183,11 @@ var NuevoEvento = function () {
                             type:               "success",
                             animation:          'slide-from-top',
                             showCancelButton:   true,
-                            cancelButtonText: "Añadir nuevo evento",
+                            cancelButtonText:   "Añadir nueva promocion",
                             confirmButtonColor: Metronic.getBrandColor('green'),
-                            confirmButtonText:  "Listado de eventos"
+                            confirmButtonText:  "Listado de promociones"
                         }, function (isConfirm) {
-                            if(isConfirm){
+                            if (isConfirm) {
                                 window.location.href = data.url;
                             } else {
                                 location.reload(true);
@@ -268,10 +200,10 @@ var NuevoEvento = function () {
             }
         });
 
-        $('.login-form input').keypress(function (e) {
+        $('.form-nuevo-promociones input').keypress(function (e) {
             if (e.which == 13) {
-                if ($('.login-form').validate().form()) {
-                    $('.login-form').submit(); //form validation success, call ajax form submit
+                if ($('.form-nuevo-promociones').validate().form()) {
+                    $('.form-nuevo-promociones').submit(); //form validation success, call ajax form submit
                 }
                 return false;
             }
@@ -280,9 +212,7 @@ var NuevoEvento = function () {
 
     return {
         init: function () {
-            touchSpin();
             slugify();
-            mapGeocoding();
             maxLenght();
             dateRange();
             submitForm();

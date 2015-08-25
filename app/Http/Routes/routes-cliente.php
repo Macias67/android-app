@@ -123,7 +123,7 @@ Route::group(
         |--------------------------------------------------------------------------
         */
         Route::get('eventos', [
-            'as' => 'eventos',
+            'as' => 'eventos-cliente',
             'uses' => 'EventosCliente@index'
         ]);
 
@@ -135,7 +135,7 @@ Route::group(
             ]);
 
             Route::post('store', [
-                'as' => 'cliente.negocio.store',
+                'as' => 'cliente.evento.store',
                 'uses' => 'EventosCliente@store'
             ]);
         });
