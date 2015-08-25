@@ -111,7 +111,7 @@
                     </a>
                 </li>
                 <li {!! isset($activo_eventos) == TRUE ? ' class="active open" ' : '' !!}>
-                    <a href="{{route('eventos')}}">
+                    <a href="{{route('eventos-cliente')}}">
                         <i class="icon-calendar"></i>
                         <span class="title">Eventos</span>
                     </a>

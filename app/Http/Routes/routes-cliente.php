@@ -123,7 +123,7 @@ Route::group(
         |--------------------------------------------------------------------------
         */
         Route::get('eventos', [
-            'as' => 'eventos',
+            'as' => 'eventos-cliente',
             'uses' => 'EventosCliente@index'
         ]);
 
