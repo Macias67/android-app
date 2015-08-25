@@ -149,18 +149,18 @@ var NuevoEvento = function () {
                 }
             },
             function (start, end) {
+                $('input[name="finicio"]').val(start.format(formato));
+                $('input[name="ffin"]').val(end.format(formato));
+
                 $('input[name="fecha_inicio"]').val(start.format("YYYY-MM-DD"));
                 $('input[name="hora_inicio"]').val(start.format("HH:mm:ss"));
                 $('input[name="fecha_termina"]').val(end.format("YYYY-MM-DD"));
-                $('input[name="hora_termina"]').val(end.format.add(1, 'days').format("HH:mm:ss"));
+                $('input[name="hora_termina"]').val(end.format("HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
         $('input[name="finicio"]').val(moment().format(formato));
         $('input[name="ffin"]').val(moment().add(1,'days').format(formato));
-
-        $('input[name="disp_inicio"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
-        $('input[name="disp_fin"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
 
         $('input[name="fecha_inicio"]').val(moment().format("YYYY-MM-DD"));
         $('input[name="hora_inicio"]').val(moment().format("HH:mm:ss"));

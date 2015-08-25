@@ -11,17 +11,17 @@
 {{-- Modales de la vista
 @section('modal')@stop --}}
 
-{{-- Sobreescribir el título de pagina--}}
+{{-- Sobreescribir el título de página--}}
 @section('page-title')
     <h1>Registro de nuevo evento
         <small>Información del evento</small>
     </h1>
 @stop
 
-{{-- Sobreescribir el toolbar de pagina
+{{-- Sobreescribir el toolbar de página
 @section('page-toolbar')@stop --}}
 
-{{-- Sobreescribir el breadcrumb de pagina --}}
+{{-- Sobreescribir el breadcrumb de página --}}
 @section('page-breadcrumb')
     <ul class="page-breadcrumb breadcrumb">
         <li>
@@ -38,7 +38,7 @@
     </ul>
 @stop
 
-{{-- Contenido de la vista. --}}
+{{-- Contenido de la vista --}}
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -142,25 +142,7 @@
                             </div>
                         </div>
                     <div class="col-md-6">
-                        {{--<!-- Estatus -->--}}
-                        {{--<div class="form-group">--}}
-                            {{--<label class="control-label col-md-3">Estatus<span class="required">*</span></label>--}}
-                            {{--<div class="col-md-9">--}}
-                                {{--<div class="margin-bottom-10">--}}
-                                    {{--<label for="option1">Próximo  &nbsp;</label>--}}
-                                    {{--<input id="option1" type="radio" name="radio1" value="proximo" class="make-switch switch-radio1" checked>--}}
-                                {{--</div>--}}
-                                {{--<div class="margin-bottom-10">--}}
-                                    {{--<label for="option2">Ahora  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>--}}
-                                    {{--<input id="option2" type="radio" name="radio1" value="ahora" class="make-switch switch-radio1">--}}
-                                {{--</div>--}}
-                                {{--<div class="margin-bottom-10">--}}
-                                    {{--<label for="option3">Nunca &nbsp;&nbsp;&nbsp;&nbsp;</label>--}}
-                                    {{--<input id="option3" type="radio" name="radio1" value="nunca" class="make-switch switch-radio1">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
+                        <!-- Estatus -->
                         <div class="form-group">
                             <label class="control-label col-md-3">Estatus<span class="required">*</span></label>
                             <div class="col-md-9">
@@ -176,19 +158,17 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Disponible -->
                         <div class="form-group">
                             <label class="control-label col-md-3">Disponible<span class="required">*</span></label>
                             <div class="col-md-9">
-                                <input type="checkbox" class="make-switch0" name="disponible"
-                                       data-size="small"
-                                       data-on-text="Online" data-off-text="Offline"
-                                       data-on-color="success"
-                                       data-off-color="default" checked>
+                                <input type="checkbox" class="make-switch" name="disponible"
+                                   data-size="small"
+                                   data-on-text="Online" data-off-text="Offline"
+                                   data-on-color="success"
+                                   data-off-color="default" checked>
                             </div>
                         </div>
-
                         <!-- URL externa extra -->
                         <div class="form-group">
                             <label class="col-md-3 control-label">Url externa</label>
@@ -199,7 +179,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- Horario -->
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
@@ -233,6 +212,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Botón registrar -->
                     <div class="col-md-12">
                             <div class="form-actions">
                                 <div class="row">
@@ -251,7 +231,7 @@
     </div>
 @stop
 
-{{-- Sobreescribir el encabezado de pagina
+{{-- Sobreescribir el encabezado de página
 @section('page-footer-inner')@stop --}}
 
 {{-- Cargar los plugins de js--}}
@@ -260,8 +240,8 @@
     <script src="{{asset('assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/global/plugins/moment-with-locales.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js')}}" type="text/javascript"></script>
-    {!! \Html::script('assets/global/plugins/jquery-validation/js/jquery.validate.min.js', array('type' => 'text/javascript')) !!}
-    {!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
+    <script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type="text/javascript"></script>
     <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
     <script src="{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
 @stop

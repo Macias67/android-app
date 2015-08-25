@@ -44,17 +44,6 @@ class Evento extends Model
         }
 
         $this->disponible = (isset($this->disponible) && $this->disponible == 'on') ? 'online' : 'offline';
-//        switch ($this->estatus) {
-//            case "proximo":
-//                echo "i es una manzana";
-//                break;
-//            case "ahora":
-//                echo "i es una barra";
-//                break;
-//            case "caduco":
-//                echo "i es un pastel";
-//                break;
-//        }
         $this->_cleanData();
     }
 
@@ -74,6 +63,5 @@ class Evento extends Model
         $this->url_exterior     = trim($this->url_exterior);
         $this->estatus          = trim($this->estatus);
         $this->disponible       = trim($this->disponible);
-
     }
 }
