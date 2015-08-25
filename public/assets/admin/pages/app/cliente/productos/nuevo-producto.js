@@ -250,7 +250,7 @@ var NuevoProducto = function () {
             submitHandler: function (form) {
                 var url  = $(form).attr('action');
                 var data = $(form).serialize();
-
+                
                 var success = function (data) {
                     App.removeLoader(500, function () {
                         swal({

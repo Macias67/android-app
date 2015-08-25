@@ -99,7 +99,7 @@
                     </a>
                 </li>
                 <li {!! isset($activo_servicios) == TRUE ? ' class="active open" ' : '' !!}>
-                    <a href="{{route('servicios')}}">
+                    <a href="{{route('servicios-cliente')}}">
                         <i class="icon-badge"></i>
                         <span class="title">Servicios</span>
                     </a>

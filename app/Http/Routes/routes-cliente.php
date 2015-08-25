@@ -91,7 +91,7 @@ Route::group(
       |--------------------------------------------------------------------------
       */
         Route::get('servicios', [
-            'as' => 'servicios',
+            'as' => 'servicios-cliente',
             'uses' => 'ServiciosCliente@index'
         ]);
 
