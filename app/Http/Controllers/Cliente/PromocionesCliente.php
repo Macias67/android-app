@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cliente;
 
 use App\Http\Models\Cliente\Cliente;
+use App\Http\Models\Cliente\Promociones;
 use App\Http\Requests;
 use App\Http\Requests\CreatePromociones;
 use Illuminate\Http\Request;
@@ -51,9 +52,30 @@ class PromocionesCliente extends BaseCliente
     }
 
 
-    public function store(Request $request)
+    public function store(CreatePromociones $request)
     {
-       dd($request->all());
+        if($request->ajax() && $request->wantsJson()){
+            $promociones = new Promociones;
+            $promociones->preparaDatos($request);
+
+            if ($promociones->save()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Producto registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $promociones->nombre . '</b> se ha registrado.',
+                    'url'    => route('promociones-cliente')
+                ];
+            }
+            else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
+            }
+            return $this->responseJSON($response);
+        }
     }
 
     /**
@@ -73,9 +95,30 @@ class PromocionesCliente extends BaseCliente
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(CreatePromociones $request, $id)
     {
-        //
+        if($request->ajax() && $request->wantsJson()){
+            $promociones = new Promociones;
+            $promociones->preparaDatos($request);
+
+            if ($promociones->edit()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Producto registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $promociones->nombre . '</b> se ha editado.',
+                    'url'    => route('promociones-cliente')
+                ];
+            }
+            else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
+            }
+            return $this->responseJSON($response);
+        }
     }
 
     /**

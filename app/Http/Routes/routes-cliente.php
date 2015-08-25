@@ -91,7 +91,7 @@ Route::group(
       |--------------------------------------------------------------------------
       */
         Route::get('servicios', [
-            'as' => 'servicios',
+            'as' => 'servicios-cliente',
             'uses' => 'ServiciosCliente@index'
         ]);
 
@@ -123,7 +123,7 @@ Route::group(
         |--------------------------------------------------------------------------
         */
         Route::get('eventos', [
-            'as' => 'eventos',
+            'as' => 'eventos-cliente',
             'uses' => 'EventosCliente@index'
         ]);
 
@@ -196,6 +196,11 @@ Route::group(
 
             Route::get('nuevo', [
                 'as' => 'cliente.promociones.create',
+                'uses' => 'PromocionesCliente@create'
+            ]);
+
+            Route::get('editar', [
+                'as' => 'cliente.promociones.edit',
                 'uses' => 'PromocionesCliente@create'
             ]);
 

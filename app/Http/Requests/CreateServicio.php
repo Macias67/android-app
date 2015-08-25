@@ -28,8 +28,8 @@ class CreateServicio extends Request
             'slug'              => 'required|max:45|alpha_dash',
             'descripcion'       => 'required|max:255',
             'descripcion_corta' => 'required|max:45',
-            'disp_inicio'       => 'required|date_format:m-d-Y H:i:s',
-            'disp_fin'          => 'required|date_format:m-d-Y H:i:s',
+            'disp_inicio'       => 'required|date_format:Y-m-d H:i:s',
+            'disp_fin'          => 'required|date_format:Y-m-d H:i:s',
             'precio'            => 'required|numeric'
         ];
     }

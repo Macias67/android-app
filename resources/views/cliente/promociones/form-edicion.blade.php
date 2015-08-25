@@ -125,6 +125,13 @@
                             </div>
 
                             <div class="form-group">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="button" class="btn default" id="reportrange">
+                                        <i class="fa fa-calendar"></i> Duración
+                                        <i class="fa fa-angle-down"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
 
                                 <div class="col-md-9">
@@ -144,13 +151,6 @@
                                         <input type="text" class="form-control" name="ffin" placeholder="Url del producto" readonly>
                                         <input type="hidden" class="form-control" name="disp_fin">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button type="button" class="btn default" id="reportrange">
-                                        <i class="fa fa-calendar"></i> Duración
-                                        <i class="fa fa-angle-down"></i></button>
                                 </div>
                             </div>
                         </div>

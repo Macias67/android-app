@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use Illuminate\Http\Request;
 use App\Http\Models\Cliente\Cliente;
+use App\Http\Models\Cliente\Servicios;
+use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\CreateServicio;;
-use App\Http\Controllers\Controller;
 
 class ServiciosCliente extends BaseCliente
 {
+    /*public function __construct()
+    {
+        parent::__construct();
+        $this->data['activo_servicios'] = TRUE;
+    }*/
     /**
      * Display a listing of the resource.
      *
@@ -51,8 +56,27 @@ class ServiciosCliente extends BaseCliente
      */
     public function store(CreateServicio  $request)
     {
-        if($request->ajax() && $request->wantsJson()){
-            dd($request->all());
+       if($request->ajax() && $request->wantsJson()){
+            $servicio = new Servicios;;
+            $servicio->preparaDatos($request);
+
+            if ($servicio->save()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Servicio registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $servicio->nombre . '</b> se ha registrado.',
+                    'url'    => route('servicios-cliente')
+                ];
+            }
+            else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
+            }
+            return $this->responseJSON($response);
         }
     }
 
