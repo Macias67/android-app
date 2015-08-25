@@ -54,6 +54,9 @@
                         <span class="caption-helper">Registro de servicios</span>
                     </div>
                     <div class="actions">
+                        <a href="{{route('cliente.categoria.nuevo')}}" target="_blank" class="btn btn-circle btn-success">
+                            <i class="fa fa-plus"></i> Añadir Categoría
+                        </a>
                         <button class="btn btn-circle bg-green-turquoise" id="agregar"><i class="fa fa-plus"></i> Agregar </button>
                         <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
                     </div>
@@ -91,7 +94,7 @@
                                 <div class="col-md-9">
                                     <div class="input-icon">
                                         <i class="fa fa-star"></i>
-                                        <input type="text" class="form-control" name="slug" placeholder="Url del servicio">
+                                        <input type="text" class="form-control" name="slug" placeholder="Url del servicio" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -109,59 +112,60 @@
                                     <span class="help-block">Descripción resumida del servicio. </span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button type="button" class="btn default" id="reportrange">
-                                        <i class="fa fa-calendar"></i> Disposición
-                                        <i class="fa fa-angle-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Estatus <span class="required">*</span></label>
+
+                            <div class="col-md-9">
+                                <input type="checkbox" class="make-switch" name="estatus"
+                                       data-size="small"
+                                       data-on-text="Online" data-off-text="Offline"
+                                       data-on-color="success"
+                                       data-off-color="default">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Precio <span class="required">*</span></label>
+
+                            <div class="col-md-9">
+                                <div class="input-inline input-medium">
+                                    <input id="precio" type="text" name="precio" class="form-control" value="0">
+                                </div>
+                                <span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="button" class="btn default" id="reportrange">
+                                    <i class="fa fa-calendar"></i> Disposición
+                                    <i class="fa fa-angle-down"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
+
+                            <div class="col-md-9">
+                                <div class="input-icon">
+                                    <i class="fa fa-calendar"></i>
+                                    <input type="text" class="form-control" name="finicio"  readonly>
+                                    <input type="hidden" class="form-control" name="disp_inicio">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Final <span class="required">*</span></label>
 
-                                <div class="col-md-9">
-                                    <div class="input-icon">
-                                        <i class="fa fa-calendar"></i>
-                                        <input type="text" class="form-control" name="finicio"  readonly>
-                                        <input type="hidden" class="form-control" name="disp_inicio">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Final <span class="required">*</span></label>
-
-                                <div class="col-md-9">
-                                    <div class="input-icon">
-                                        <i class="fa fa-calendar"></i>
-                                        <input type="text" class="form-control" name="ffin" placeholder="Url del producto" readonly>
-                                        <input type="hidden" class="form-control" name="disp_fin">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Estatus <span class="required">*</span></label>
-
-                                <div class="col-md-9">
-                                    <input type="checkbox" class="make-switch" name="estatus"
-                                           data-size="small"
-                                           data-on-text="Online" data-off-text="Offline"
-                                           data-on-color="success"
-                                           data-off-color="default">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Precio <span class="required">*</span></label>
-
-                                <div class="col-md-9">
-                                    <div class="input-inline input-medium">
-                                        <input id="precio" type="text" name="precio" class="form-control" value="0">
-                                    </div>
-                                    <span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
+                            <div class="col-md-9">
+                                <div class="input-icon">
+                                    <i class="fa fa-calendar"></i>
+                                    <input type="text" class="form-control" name="ffin"  readonly>
+                                    <input type="hidden" class="form-control" name="disp_fin">
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-12">
                         <div class="form-actions">
                             <div class="row">
@@ -191,13 +195,13 @@
     <script src="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js')}}" type="text/javascript"></script>
     {!! \Html::script('assets/global/plugins/jquery-validation/js/jquery.validate.min.js', array('type' => 'text/javascript')) !!}
     {!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
+    {!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
 @stop
 
 {{-- Cargar los archivos de js--}}
 @section('page-level-js')
-    {!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
-    {!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
-    {!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
     {!! \Html::script('assets/admin/pages/app/cliente/servicios/nuevo-servicio.js', array('type' => 'text/javascript')) !!}
 @stop
 
