@@ -12,7 +12,6 @@ class EventosCliente extends BaseCliente
     /**
      * Display a listing of the resource.
      *
-     * @return Response
      */
     public function index()
     {
@@ -22,7 +21,6 @@ class EventosCliente extends BaseCliente
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
      */
     public function create()
     {
@@ -41,7 +39,7 @@ class EventosCliente extends BaseCliente
      *
      * @param \App\Http\Requests\CreateEvento $request
      *
-     * @return \App\Http\Controllers\Cliente\Response
+     * @return \App\Http\Controllers\Cliente\Response $response
      */
     public function store(CreateEvento $request)
     {
@@ -52,16 +50,16 @@ class EventosCliente extends BaseCliente
             if ($evento->save()) {
                 $response = [
                     'exito'  => TRUE,
-                    'titulo' => 'Producto registrado',
-                    'texto'  =>'¡Felicidades! <b>' . $evento->nombre . '</b> se ha registrado.',
+                    'titulo' => 'Evento registrado',
+                    'texto'  => '¡Felicidades! <b>' . $evento->nombre . '</b> se ha registrado.',
                     'url'    => route('eventos-cliente')
                 ];
             }
             else {
                 $response = [
                     'exito'  => FALSE,
-                    'titulo' =>  'No se registró',
-                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'titulo' => 'No se registró el evento',
+                    'texto'  =>'Parece que no hubo registro en la base de datos.',
                     'url'    => NULL
                 ];
             }
