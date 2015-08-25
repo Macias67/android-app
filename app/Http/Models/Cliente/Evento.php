@@ -43,9 +43,18 @@ class Evento extends Model
             $this->{$field} = $request->get($field);
         }
 
-//        var_dump($this->fie);
-
-        $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
+        $this->disponible = (isset($this->disponible) && $this->disponible == 'on') ? 'online' : 'offline';
+//        switch ($this->estatus) {
+//            case "proximo":
+//                echo "i es una manzana";
+//                break;
+//            case "ahora":
+//                echo "i es una barra";
+//                break;
+//            case "caduco":
+//                echo "i es un pastel";
+//                break;
+//        }
         $this->_cleanData();
     }
 

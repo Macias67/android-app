@@ -58,12 +58,9 @@ var NuevoEvento = function () {
         });
 
         var handleAction = function () {
-
-            var calle = $('input[name="dirección"]').val();
-
-
+            console.log('Entra aqui');
+            var calle = $('input[name="direccion"]').val();
             $('#gmap_geocoding_address').val($.trim(calle));
-
             var text = $.trim($('#gmap_geocoding_address').val());
             GMaps.geocode({
                 address:  text,

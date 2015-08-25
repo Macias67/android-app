@@ -181,7 +181,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Disponible<span class="required">*</span></label>
                             <div class="col-md-9">
-                                <input type="checkbox" class="make-switch checked" name="disponible"
+                                <input type="checkbox" class="make-switch0" name="disponible"
                                        data-size="small"
                                        data-on-text="Online" data-off-text="Offline"
                                        data-on-color="success"
