@@ -109,7 +109,7 @@ var NuevoPromociones = function () {
 
     var submitForm = function() {
         $('#agregar').on('click', function() {
-            $('.form-nuevo-producto').submit();
+            $('.form-nuevo-promociones').submit();
         });
     }
 

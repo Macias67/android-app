@@ -199,6 +199,11 @@ Route::group(
                 'uses' => 'PromocionesCliente@create'
             ]);
 
+            Route::get('editar', [
+                'as' => 'cliente.promociones.edit',
+                'uses' => 'PromocionesCliente@create'
+            ]);
+
             Route::post('store', [
                 'as' => 'cliente.promociones.store',
                 'uses' => 'PromocionesCliente@store'
