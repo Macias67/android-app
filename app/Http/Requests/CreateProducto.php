@@ -23,7 +23,7 @@ class CreateProducto extends Request
     {
         return [
             'cliente_id'        => 'required|exists:cl_clientes,id|integer',
-            'categoria_id'   => 'required|exists:cl_categorias,id|integer',
+            'categoria_id'      => 'required|exists:cl_categorias,id|integer',
             'nombre'            => 'required|max:45',
             'slug'              => 'required|max:45|alpha_dash',
             'descripcion'       => 'required|max:255',

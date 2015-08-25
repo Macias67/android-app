@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use Illuminate\Http\Request;
-
+use App\Http\Models\Cliente\Evento;
 use App\Http\Requests;
+use Illuminate\Http\Request;
+use App\Http\Requests\CreateEvento;
 
 class EventosCliente extends BaseCliente
 {
@@ -38,12 +39,34 @@ class EventosCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateEvento  $request
-     * @return Response
+     * @param \App\Http\Requests\CreateEvento $request
+     *
+     * @return \App\Http\Controllers\Cliente\Response
      */
-    public function store(EventosCliente $request)
+    public function store(CreateEvento $request)
     {
-        //
+        if($request->ajax() && $request->wantsJson()){
+            $evento = new Evento;
+            $evento->preparaDatos($request);
+
+            if ($evento->save()) {
+                $response = [
+                    'exito'  => TRUE,
+                    'titulo' => 'Producto registrado',
+                    'texto'  =>'¡Felicidades! <b>' . $evento->nombre . '</b> se ha registrado.',
+                    'url'    => route('eventos-cliente')
+                ];
+            }
+            else {
+                $response = [
+                    'exito'  => FALSE,
+                    'titulo' =>  'No se registró',
+                    'texto'  =>'Parece que no hubo registro en la BD',
+                    'url'    => NULL
+                ];
+            }
+            return $this->responseJSON($response);
+        }
     }
 
     /**

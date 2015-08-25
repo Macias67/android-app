@@ -1,8 +1,53 @@
+
 /**
  * Created by Julio on 19/08/2015.
  */
 
 var NuevoEvento = function () {
+
+    var touchSpin = function () {
+        $("#precio").TouchSpin({
+            buttondown_class: 'btn blue',
+            buttonup_class: 'btn blue',
+            min: 0,
+            max: 1000000000,
+            step: 10,
+            boostat: 5,
+            maxboostedstep: 10,
+            prefix: '$'
+        });
+
+        $("#cantidad").TouchSpin({
+            buttondown_class: 'btn blue',
+            buttonup_class:   'btn blue',
+            min:              0,
+            max:              1000000000,
+            step:             1,
+            boostat:          5,
+            maxboostedstep:   10
+        });
+
+    }
+
+    var slugify = function (){
+        $('input[name="nombre"]').on('keyup', function() {
+            var acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
+            var original = "aaaaaeeeeiiiioooouuuuaaaaaeeeeiiiioooouuuunncc";
+            var text = $(this).val();
+            for (var i=0; i<acentos.length; i++) {
+                text = text.replace(acentos.charAt(i), original.charAt(i));
+            }
+
+            var slug =  text.toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/_+/g, '-')           // Replace spaces with _
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/-+$/, '');            // Trim - from end of text
+            $('input[name="slug"]').val(slug);
+        });
+    }
 
     var mapGeocoding = function () {
 
@@ -13,10 +58,12 @@ var NuevoEvento = function () {
         });
 
         var handleAction = function () {
-            var calle = $('input[name="calle"]').val()+' '+
-                $('input[name="numero"]').val()+', '+
-                $('select[name="ciudad_id"] option:selected').text();
+
+            var calle = $('input[name="dirección"]').val();
+
+
             $('#gmap_geocoding_address').val($.trim(calle));
+
             var text = $.trim($('#gmap_geocoding_address').val());
             GMaps.geocode({
                 address:  text,
@@ -51,147 +98,90 @@ var NuevoEvento = function () {
 
     }
 
-    var slugify = function (){
-        $('input[name="nombre"]').on('keyup', function() {
-            var acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
-            var original = "aaaaaeeeeiiiioooouuuuaaaaaeeeeiiiioooouuuunncc";
-            var text = $(this).val();
-            for (var i=0; i<acentos.length; i++) {
-                text = text.replace(acentos.charAt(i), original.charAt(i));
-            }
-
-            var slug =  text.toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/_+/g, '-')           // Replace spaces with _
-                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                .replace(/^-+/, '')             // Trim - from start of text
-                .replace(/-+$/, '');            // Trim - from end of text
-            $('input[name="slug"]').val(slug);
-        });
-    }
-
-    var touchSpin = function () {
-        $("#precio").TouchSpin({
-            buttondown_class: 'btn blue',
-            buttonup_class: 'btn blue',
-            min: 0,
-            max: 1000000000,
-            step: 10,
-            boostat: 5,
-            maxboostedstep: 10,
-            prefix: '$'
-        });
-
-        $("#cantidad").TouchSpin({
-            buttondown_class: 'btn blue',
-            buttonup_class:   'btn blue',
-            min:              0,
-            max:              1000000000,
-            step:             1,
-            boostat:          5,
-            maxboostedstep:   10
-        });
-
-    }
-
-    var handleDateRangePickers = function () {
-        if (!jQuery().daterangepicker) {
-            return;
-        }
-
+    var dateRange = function () {
         moment.locale('es');
-        $('#defaultrange').daterangepicker({
-                timePicker: true,
-                opens: (Metronic.isRTL() ? 'left' : 'right'),
-                format: 'DD/MM/YYYY',
-                separator: ' to ',
-                minDate: moment().format(),
-                locale: {
-                    "format": "DD/MM/YYYY",
-                    "separator": " - ",
-                    "applyLabel": "Guardar",
-                    "cancelLabel": "Cancelar",
-                    "fromLabel": "Desde",
-                    "toLabel": "Hasta",
-                    "customRangeLabel": "Personalizado",
-                    "daysOfWeek": [
-                        "Do",
-                        "Lu",
-                        "Ma",
-                        "Mi",
-                        "Ju",
-                        "Vi",
-                        "Sa"
-                    ],
-                    "monthNames": [
-                        "Enero",
-                        "Febrero",
-                        "Marzo",
-                        "Abril",
-                        "Mayo",
-                        "Junio",
-                        "Julio",
-                        "Agosto",
-                        "Septiembre",
-                        "Octubre",
-                        "Noviembre",
-                        "Diciembre"
-                    ],
-                    "firstDay": 1,
-                },
-            },
-            function (start, end) {
-                console.log(start);
-                console.log('-------------');
-                console.log(end);
-                $('#defaultrange input').val(start.format('MM/DD/YYYY h:mm A') + ' - ' + end.format('MM/DD/YYYY h:mm A'));
-            }
-        );
-
+        var formato = 'LLLL';
         $('#reportrange').daterangepicker({
-                opens: (Metronic.isRTL() ? 'left' : 'right'),
-                startDate: moment().subtract('days', 29),
-                endDate: moment(),
-                minDate: '01/01/2012',
-                maxDate: '12/31/2014',
-                dateLimit: {
-                    days: 60
-                },
-                showDropdowns: true,
-                showWeekNumbers: true,
-                timePicker: false,
+                opens: 'left',
+                drops: 'down',
+                startDate:           moment(),
+                endDate:             moment().add(1, 'year'),
+                showDropdowns:       true,
+                showWeekNumbers:     true,
+                timePicker:          true,
                 timePickerIncrement: 1,
-                timePicker12Hour: true,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                    'Last 7 Days': [moment().subtract('days', 6), moment()],
-                    'Last 30 Days': [moment().subtract('days', 29), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                timePicker12Hour:    true,
+                ranges:              {
+                    'Hoy':        [moment(), moment()],
+                    'Mañana':    [moment(), moment().add(1, 'days')],
+                    '7 Días':  [moment(), moment().add(7, 'days')],
+                    'Un Mes': [moment(), moment().add(30, 'days')],
+                    '6 Meses':   [moment(), moment().add(6, 'month')],
+                    '1 Año':   [
+                        moment(),
+                        moment().add(1, 'year')
+                    ]
                 },
-                buttonClasses: ['btn'],
-                applyClass: 'green',
-                cancelClass: 'default',
-                format: 'MM/DD/YYYY',
-                separator: ' to ',
-                locale: {
-                    applyLabel: 'Apply',
-                    fromLabel: 'From',
-                    toLabel: 'To',
-                    customRangeLabel: 'Custom Range',
-                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    firstDay: 1
+                buttonClasses:       ['btn'],
+                applyClass:          'green',
+                cancelClass:         'default',
+                format:              'DD/MM/YYYY',
+                separator:           ' al ',
+                locale:              {
+                    applyLabel:       'Aplicar',
+                    cancelLabel:    'Cancelar',
+                    fromLabel:        'Desde',
+                    toLabel:          'a',
+                    customRangeLabel: 'Otro Rango',
+                    daysOfWeek:       ['D', 'L', 'M', 'I', 'J', 'V', 'S'],
+                    monthNames:       [
+                        'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre'
+                    ],
+                    firstDay:         1
                 }
             },
             function (start, end) {
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('input[name="fecha_inicio"]').val(start.format("YYYY-MM-DD"));
+                $('input[name="hora_inicio"]').val(start.format("HH:mm:ss"));
+                $('input[name="fecha_termina"]').val(end.format("YYYY-MM-DD"));
+                $('input[name="hora_termina"]').val(end.format.add(1, 'days').format("HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
-        $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+        $('input[name="finicio"]').val(moment().format(formato));
+        $('input[name="ffin"]').val(moment().add(1,'days').format(formato));
+
+        $('input[name="disp_inicio"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
+        $('input[name="disp_fin"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
+
+        $('input[name="fecha_inicio"]').val(moment().format("YYYY-MM-DD"));
+        $('input[name="hora_inicio"]').val(moment().format("HH:mm:ss"));
+        $('input[name="fecha_termina"]').val(moment().add(1, 'days').format("YYYY-MM-DD"));
+        $('input[name="hora_termina"]').val(moment().format("HH:mm:ss"));
+    }
+
+    var maxLenght = function () {
+        $("textarea[name='descripcion']").maxlength({
+            limitReachedClass: "label label-danger",
+            alwaysShow:        true
+        });
+    }
+
+    var submitForm = function() {
+        $('#agregar').on('click', function() {
+            $('.form-nuevo-producto').submit();
+        });
     }
 
     var handleForm = function () {
@@ -203,37 +193,24 @@ var NuevoEvento = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore:       "",  // validate all fields including form hidden input
             rules:        {
-                cliente_id: {
-                    required:  true
-                },
-                nombre_evento:   {
-                    required:  true,
-                    maxlength: 60
-                },
-                slug:          {
-//                    required:  true,
-                    maxlength: 60
-                },
-                descripcion:         {
-                    required:  true,
-                    maxlength: 255
-                },
-                cupo:  {
-                    required:  true
-                },
-                precio:  {
-                    required:  true
-                },
-                latlng_gmaps: {
+                nombre:   {
                     required:  true,
                     maxlength: 45
                 },
-                estatus:  {
-                    required:  true
+                slug:          {
+//                    required:  true,
+                    maxlength: 45
                 },
-                disponible:  {
-                    required:  true
+                direccion:{
+                    maxlength: 145
                 },
+                descripcion:{
+                    required:  true,
+                    maxlength: 255
+                },
+                latlng_gmaps: {
+                    maxlength: 45
+                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
@@ -262,6 +239,11 @@ var NuevoEvento = function () {
             submitHandler: function (form) {
                 var url  = $(form).attr('action');
                 var data = $(form).serialize();
+
+                console.log("URL:");
+                console.log(url);
+                console.log("DATA:");
+                console.log(data);
 
                 var success = function (data) {
                     App.removeLoader(500, function () {
@@ -299,13 +281,14 @@ var NuevoEvento = function () {
         });
     }
 
-
-        return {
+    return {
         init: function () {
             touchSpin();
-            handleDateRangePickers();
             slugify();
             mapGeocoding();
+            maxLenght();
+            dateRange();
+            submitForm();
             handleForm();
         }
     }
