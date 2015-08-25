@@ -28,10 +28,8 @@ class CreatePromociones extends Request
             'nombre'            => 'required|max:45',
             'slug'              => 'required|max:45|alpha_dash',
             'descripcion'       => 'required|max:255',
-            'siempre'           => 'required',
             'disp_inicio'      => 'required|date_format:Y-m-d H:i:s',
-            'disp_fin'     => 'required|date_format:Y-m-d H:i:s',
-            'estatus'            => 'required'
+            'disp_fin'     => 'required|date_format:Y-m-d H:i:s'
         ];
     }
 
