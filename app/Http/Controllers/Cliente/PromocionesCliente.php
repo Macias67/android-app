@@ -61,7 +61,7 @@ class PromocionesCliente extends BaseCliente
             if ($promociones->save()) {
                 $response = [
                     'exito'  => TRUE,
-                    'titulo' => 'Producto registrado',
+                    'titulo' => 'Promocion registrada',
                     'texto'  =>'¡Felicidades! <b>' . $promociones->nombre . '</b> se ha registrado.',
                     'url'    => route('promociones-cliente')
                 ];
@@ -97,28 +97,9 @@ class PromocionesCliente extends BaseCliente
      */
     public function edit(CreatePromociones $request, $id)
     {
-        if($request->ajax() && $request->wantsJson()){
-            $promociones = new Promociones;
-            $promociones->preparaDatos($request);
+        $promociones = Promociones::findOrFail($id);
 
-            if ($promociones->edit()) {
-                $response = [
-                    'exito'  => TRUE,
-                    'titulo' => 'Producto registrado',
-                    'texto'  =>'¡Felicidades! <b>' . $promociones->nombre . '</b> se ha editado.',
-                    'url'    => route('promociones-cliente')
-                ];
-            }
-            else {
-                $response = [
-                    'exito'  => FALSE,
-                    'titulo' =>  'No se registró',
-                    'texto'  =>'Parece que no hubo registro en la BD',
-                    'url'    => NULL
-                ];
-            }
-            return $this->responseJSON($response);
-        }
+        return view(compact('promociones'));
     }
 
     /**
