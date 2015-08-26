@@ -11,7 +11,7 @@
 	        <li><a href="{{route('cliente.producto.create')}}"><i class="icon-bag"></i> Nuevo Producto</a></li>
             <li><a href="{{route('cliente.servicios.create')}}"><i class="icon-badge"></i> Nuevo Servicio</a></li>
             <li><a href="{{route('cliente.promociones.create')}}"><i class="icon-present"></i> Nueva Promoción</a></li>
-            <li><a href="{{route('cliente.evento.create')}}"><i class="icon-bag"></i> Nuevo Evento</a></li>
+            <li><a href="{{route('cliente.evento.create')}}"><i class="icon-calendar"></i> Nuevo Evento</a></li>
             <li class="divider"></li>
             <li>
                 <a href="javascript:">

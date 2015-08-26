@@ -218,7 +218,7 @@
 
 {{-- Cargar los archivos de js  --}}
 @section('page-level-js')
-	{!! \Html::script('assets/admin/pages/app/cliente/productos/nuevo-producto.js', array('type' => 'text/javascript')) !!}
+	<script src="{{asset('assets/admin/pages/app/cliente/productos/nuevo-producto.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js --}}

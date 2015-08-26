@@ -46,7 +46,7 @@
             <div class="portlet light animated bounceInUp">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="icon-speech"></i>
+                        <i class="icon-calendar"></i>
                         <span class="caption-subject bold uppercase"> Evento</span>
                         <span class="caption-helper"> Registro de evento</span>
                     </div>
@@ -223,8 +223,8 @@
                     <div class="col-md-12">
                             <div class="form-actions">
                                 <div class="row">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button type="submit" class="btn green">Registrar</button>
+                                    <div class="col-md-offset-1 col-md-11">
+                                        <button type="submit" class="btn bg-green-meadow btn-lg">Registrar</button>
                                     </div>
                                 </div>
                             </div>
