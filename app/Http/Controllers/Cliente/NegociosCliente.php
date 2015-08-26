@@ -131,7 +131,7 @@ class NegociosCliente extends BaseCliente
         if ($this->infoPropietario->id == $propietario->id) {
 
             $this->data['logo']               = $this->_getLogo($id);
-            $this->data['categoria']          = $cliente->subcategorias->first()->subcategoria;
+            $this->data['categoria']        = $cliente->subcategorias->first()->subcategoria;
             $this->data['cliente']            = $cliente;
             $this->data['current_cliente_id'] = $id;
 

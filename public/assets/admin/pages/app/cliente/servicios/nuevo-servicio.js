@@ -262,9 +262,9 @@ var NuevoServicio = function(){
                             type:               "success",
                             animation:          'slide-from-top',
                             showCancelButton:   true,
-                            cancelButtonText:   "Añadir nuevo cliente",
+                            cancelButtonText:   "Añadir nuevo servicio",
                             confirmButtonColor: Metronic.getBrandColor('green'),
-                            confirmButtonText:  "Listado de clientes"
+                            confirmButtonText:  "Listado de servicios"
                         }, function (isConfirm) {
                             if (isConfirm) {
                                 window.location.href = data.url;
