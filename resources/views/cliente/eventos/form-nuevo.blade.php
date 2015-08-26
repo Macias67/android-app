@@ -58,89 +58,96 @@
                     {!! Form::open($param) !!}
                     <div class="col-md-6">
                         <div class="form-body">
-                                <!-- Nombre del evento -->
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Nombre del evento: <span class="required">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="input-icon">
-                                            <i class="fa fa-institution"></i>
-                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre del evento">
-                                            <input type="hidden" name="cliente_id" value="{{$user->id}}">
-                                        </div>
-                                    </div>
+                            <!-- Negocio -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Negocio <span class="required">*</span></label>
+                                <div class="col-md-9">
+                                    {!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control', 'data-url' => route('cliente-select-categorias')]) !!}
                                 </div>
-                                <!-- Slug -->
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Slug <span class="required">*</span></label>
-                                    <div class="col-md-9">
-                                        <div class="input-icon">
-                                            <i class="fa fa-desktop"></i>
-                                            <input type="text" class="form-control" name="slug" placeholder="Slug" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Descripción -->
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Descripción <span class="required">*</span></label>
-                                    <div class="col-md-9">
-                                        <textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;"></textarea>
-                                        <span class="help-block">Descripción del evento. </span>
-                                    </div>
-                                </div>
-                                <!-- Cupo -->
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Cupo</label>
-                                    <div class="col-md-9">
-                                        <div class="input-inline input-medium">
-                                            <input id="cantidad" type="text" name="cupo" class="form-control" value="0">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Precio -->
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Precio</label>
-                                    <div class="col-md-9">
-                                        <div class="input-inline input-medium">
-                                            <input id="precio" type="text" name="costo" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Dirección -->
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Dirección</label>
-                                    <div class="col-md-9">
-                                        <div class="input-icon">
-                                            <i class="fa fa-map-marker"></i>
-                                            <input type="text" class="form-control" name="direccion" placeholder="Dirección">
-                                        </div>
-                                        <span class="help-block">Ejemplo: Cuarzo No. 9A, Ocotlán</span>
-                                    </div>
-                                </div>
-                                <!-- Latitud y Longitud -->
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Latitud y Longitud</label>
-                                    <div class="col-md-9">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
-                                                <span class="input-group-btn">
-                                                      <button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-map-marker"></i></button>
-                                                </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <div id="gmap_geocoding" class="gmaps"> </div>
-                                        <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+                                <input type="hidden" name="cliente_id" value="{{$user->id}}">
+                            </div>
+                            <!-- Nombre del evento -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Nombre del evento: <span class="required">*</span></label>
+                                <div class="col-md-9">
+                                    <div class="input-icon">
+                                        <i class="fa fa-institution"></i>
+                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre del evento">
                                     </div>
                                 </div>
                             </div>
+                            <!-- Slug -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Slug <span class="required">*</span></label>
+                                <div class="col-md-9">
+                                    <div class="input-icon">
+                                        <i class="fa fa-desktop"></i>
+                                        <input type="text" class="form-control" name="slug" placeholder="Slug" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Descripción -->
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Descripción <span class="required">*</span></label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;"></textarea>
+                                    <span class="help-block">Descripción del evento. </span>
+                                </div>
+                            </div>
+                            <!-- Cupo -->
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Cupo</label>
+                                <div class="col-md-9">
+                                    <div class="input-inline input-medium">
+                                        <input id="cantidad" type="text" name="cupo" class="form-control" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Precio -->
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Precio</label>
+                                <div class="col-md-9">
+                                    <div class="input-inline input-medium">
+                                        <input id="precio" type="text" name="costo" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Dirección -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Dirección</label>
+                                <div class="col-md-9">
+                                    <div class="input-icon">
+                                        <i class="fa fa-map-marker"></i>
+                                        <input type="text" class="form-control" name="direccion" placeholder="Dirección">
+                                    </div>
+                                    <span class="help-block">Ejemplo: Cuarzo No. 9A, Ocotlán</span>
+                                </div>
+                            </div>
+                            <!-- Latitud y Longitud -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Latitud y Longitud</label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
+                                            <span class="input-group-btn">
+                                                  <button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-map-marker"></i></button>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <div id="gmap_geocoding" class="gmaps"> </div>
+                                    <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                     <div class="col-md-6">
                         <!-- Estatus -->
                         <div class="form-group">
