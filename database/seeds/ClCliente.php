@@ -8,7 +8,7 @@ class ClCliente extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 1; $i < 31; $i++) {
             \DB::table('cl_clientes')->insert(array(
                 'nombre' => $faker->word . $faker->word . $faker->word,
                 'calle' => $faker->streetName,
@@ -20,6 +20,11 @@ class ClCliente extends Seeder
                 'ciudad_id' => $faker->randomElement($array = array('1', '2')),
                 'propietario_id' => 1,
                 'estatus' => $faker->randomElement($array = array('online', 'offline'))
+            ));
+
+            \DB::table('cl_categoria_negocio')->insert(array(
+                'cliente_id' => $i,
+                'subcategoria_id' => $faker->numberBetween($min = 1, $max = 382)
             ));
         }
 
