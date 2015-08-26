@@ -94,7 +94,7 @@
 
                                 <div class="col-md-9">
                                     <textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;"></textarea>
-                                    <span class="help-block">Descripción detallada de la pomoción. </span>
+                                    <span class="help-block">Descripción detallada de la promoción. </span>
                                 </div>
                             </div>
                         </div>
