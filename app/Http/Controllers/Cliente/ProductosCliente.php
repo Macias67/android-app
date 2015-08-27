@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Cliente;
 
+use App\Http\Models\Cliente\Categorias;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Producto;
 use App\Http\Requests;
 use App\Http\Requests\CreateProducto;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductosCliente extends BaseCliente
 {
@@ -23,6 +25,18 @@ class ProductosCliente extends BaseCliente
      */
     public function index()
     {
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
+        $options = [];
+        foreach ($clientes as $index => $cliente) {
+            $options[$cliente['id']] = $cliente['nombre'];
+        }
+        $this->data['negocios'] = $options;
+        $this->data['param'] = [
+            'class'     => 'form-control',
+            'ng-model'  => 'idCliente',
+            'ng-change' => 'showProductos(idCliente, $element.target)',
+            'data-url'  => route('cliente.producto.procutos-json')
+        ];
         return $this->view('cliente.productos.index');
     }
 
@@ -45,7 +59,6 @@ class ProductosCliente extends BaseCliente
         foreach ($clientes as $index => $cliente) {
             $options[$cliente['id']] = $cliente['nombre'];
         }
-
         $this->data['negocios'] = $options;
 
         return $this->view('cliente.productos.form-nuevo');
@@ -127,5 +140,28 @@ class ProductosCliente extends BaseCliente
     public function destroy($id)
     {
         //
+    }
+
+    public function getProductosJson ($id)
+    {
+        $categoria = new Categorias;
+        $categorias = $categoria->where('cliente_id', $id)->get();
+
+        $final = [];
+        foreach($categorias as $categoria) {
+            $productos = $categoria->productos->toArray();
+
+            $arrayProductos = [];
+            foreach ($productos as $key => $producto) {
+                array_push($arrayProductos, $producto);
+            }
+
+            $allCategorias = [];
+            $allCategorias['categoria'] = $categoria['categoria'];
+            $allCategorias['productos'] = $arrayProductos;
+            array_push($final, $allCategorias);
+        }
+
+        return new JsonResponse($final);
     }
 }

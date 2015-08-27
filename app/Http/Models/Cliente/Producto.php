@@ -35,7 +35,7 @@ class Producto extends Model
 
     public function categoria ()
     {
-        return $this->hasOne(Categorias::class, 'categoria_id');
+        return $this->hasOne(Categorias::class, 'id');
     }
 
     public static function getTableName()

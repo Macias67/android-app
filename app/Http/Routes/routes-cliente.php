@@ -73,6 +73,12 @@ Route::group(
                 'as' => 'cliente.producto.store',
                 'uses' => 'ProductosCliente@store'
             ]);
+
+
+            Route::get('json/{id?}', [
+                'as' => 'cliente.producto.procutos-json',
+                'uses' => 'ProductosCliente@getProductosJson'
+            ])->where('id', '[0-9]+');
         });
 
         /*

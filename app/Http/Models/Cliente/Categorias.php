@@ -18,9 +18,9 @@ class Categorias extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getSubcategorias ()
+    public function productos()
     {
-        return $this->hasMany(SubCategorias::class, 'categoria_id');
+        return $this->hasMany(Producto::class, 'categoria_id');
     }
 
     public static function getTableName ()
