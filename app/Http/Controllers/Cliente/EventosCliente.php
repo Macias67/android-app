@@ -16,6 +16,9 @@ class EventosCliente extends BaseCliente
      */
     public function index()
     {
+        $eventos = Evento::all()->toArray();
+        $this->data['eventosMasGustados'] = $eventos;
+
         return $this->view('cliente.eventos.index');
     }
 
@@ -84,7 +87,9 @@ class EventosCliente extends BaseCliente
      */
     public function show($id)
     {
-        //
+        $this->data['img_producto'] = asset('img/cliente/1/eventos/chamarra.jpg');
+        $this->data['current_cliente_id'] = $id;
+        return $this->view('cliente.eventos.perfil.settings');
     }
 
     /**
