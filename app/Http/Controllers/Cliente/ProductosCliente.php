@@ -25,18 +25,9 @@ class ProductosCliente extends BaseCliente
      */
     public function index()
     {
-        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
-        $options = [];
-        foreach ($clientes as $index => $cliente) {
-            $options[$cliente['id']] = $cliente['nombre'];
-        }
-        $this->data['negocios'] = $options;
-        $this->data['param'] = [
-            'class'     => 'form-control',
-            'ng-model'  => 'idCliente',
-            'ng-change' => 'showProductos(idCliente, $element.target)',
-            'data-url'  => route('cliente.producto.procutos-json')
-        ];
+        $productos = Producto::all()->toArray();
+        $this->data['productosMasGustados'] = $productos;
+
         return $this->view('cliente.productos.index');
     }
 

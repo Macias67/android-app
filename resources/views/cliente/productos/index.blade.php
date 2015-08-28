@@ -2,7 +2,6 @@
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
-<link href="{{asset('assets/admin/pages/css/search.css')}}" rel="stylesheet" type="text/css">
 @stop
 
 {{-- Sobreescribir el sidebar
@@ -13,9 +12,9 @@
 
 {{-- Sobreescribir el título de pagina--}}
 @section('page-title')
-      <h1>Página en blanco
-            <small>Página en blanco</small>
-      </h1>
+    <h1>Página en blanco
+        <small>Página en blanco</small>
+    </h1>
 @stop
 
 {{-- Sobreescribir el toolbar de pagina
@@ -23,94 +22,121 @@
 
 {{-- Sobreescribir el breadcrumb de pagina --}}
 @section('page-breadcrumb')
-      <ul class="page-breadcrumb breadcrumb">
-            <li>
-                  <a href="">Inicio</a>
-                  <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                  <a href="#">Page Layouts</a>
-                  <i class="fa fa-circle"></i>
-            </li>
-            <li>
-                  <a href="#">Blank Page</a>
-            </li>
-      </ul>
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="">Inicio</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="#">Page Layouts</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="#">Blank Page</a>
+        </li>
+    </ul>
 @stop
 
 {{-- Conteindo de la vista. --}}
 @section('content')
-      <div class="row">
-            <div class="col-md-8">
-			<div class="portlet light animated fadeIn" ng-app="ang-app" ng-controller="productos">
-				<div class="portlet-title">
-					<div class="caption">
-						<i class="icon-puzzle font-grey-gallery"></i>
-						<span class="caption-subject bold font-grey-gallery uppercase">Más gustados</span>
-						<span class="caption-helper">more samples...</span>
-					</div>
-					<div class="inputs">
-						<div class="portlet-input input-inline input-medium">
-							{!! Form::select('cliente_id', $negocios, NULL, $param) !!}
-						</div>
-					</div>
-				</div>
-				<div class="portlet-body">
+    <style>
+        .layer {
+            border-radius: 4px;
+            background-attachment: scroll;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+        }
 
-					<!-- BEGIN PAGE CONTENT-->
-					<div class="tiles">
-						<div class="col-md-12"  ng-repeat="elemento in listado">
-							<h4 class="animated bounceInLeft"><b><% elemento.categoria %></b></h4>
-							<hr class="animated bounceInLeft">
-							<div class="tile image double animated bounceIn" ng-repeat="producto in elemento.productos">
-								<div class="tile-body">
-									<img src="{{asset('assets/admin/pages/media/gallery/image3.jpg')}}" alt="">
-								</div>
-								<div class="tile-object" style="background-color: rgba(0,0,0, 0.5)">
-									<div class="name">
-										<b><% producto.nombre %></b>
-									</div>
-									<div class="number" style="margin-bottom: 4px">
-										<a href="<% producto.id %>" class="btn bg-red-flamingo btn-xs"><i class="icon-pencil"></i> Editar</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- END PAGE CONTENT-->
+        .layer > .portlet.light {
+            background: rgba(64,64,64,0.1);
+            background: -moz-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+            background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(64,64,64,0.1)), color-stop(0%, rgba(64,64,64,0.1)), color-stop(100%, rgba(0,0,0,0.46)));
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+            background: -o-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+            background: -ms-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+            background: radial-gradient(ellipse at center, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#404040', endColorstr='#000000', GradientType=1 );
+
+            -webkit-box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
+        }
+
+        .layer > .portlet > .portlet-title > .caption > .caption-helper {
+            color: white;
+        }
+
+        .layer > .portlet > .portlet-body {
+            color: white;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- BEGIN Portlet PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="icon-like font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Los más gustados</span>
+                        <span class="caption-helper">Top 10 mas gustados.</span>
+                    </div>
+                    <div class="actions">
+                        <a href="javascript:;" class="btn btn-circle bg-green-jungle"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <!-- BEGIN PAGE CONTENT-->
+                    <div class="tiles">
+                        <div class="col-md-12">
+
+                            @foreach($productosMasGustados as $index => $producto)
+                            <div class="layer animated flipInX" style="background-image: url('http://android.app/img/cliente/5/logo/alas.jpg')">
+                                <div class="portlet light">
+                                    <div class="portlet-title">
+                                        <div class="caption font-yellow-crusta">
+                                            <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$producto['nombre']}} </span>
+                                            <br>
+                                            <span class="caption-helper">
+                                                <b>Código</b>
+                                            </span>
 
 
-					{{--<div class="col-md-12"  ng-repeat="elemento in listado">--}}
-						{{--<h4 class="animated bounceInLeft"><b><% elemento.categoria %></b></h4>--}}
-						{{--<hr class="animated bounceInLeft">--}}
-						{{--<div class="col-sm-12 col-md-4 animated bounceIn" ng-repeat="producto in elemento.productos">--}}
-							{{--<div class="thumbnail">--}}
-								{{--<img src="{{asset('assets/admin/pages/media/search/1.jpg')}}" class="img-responsive" alt="">--}}
-								{{--<div class="caption">--}}
-									{{--<h5><b><% producto.nombre %></b></h5>--}}
-									{{--<p>--}}
-										{{--<a href="javascript:;" class="btn blue btn-xs">Button </a>--}}
-										{{--<a href="javascript:;" class="btn default btn-xs">Button </a>--}}
-									{{--</p>--}}
-								{{--</div>--}}
-							{{--</div>--}}
-						{{--</div>--}}
-					{{--</div>--}}
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="col-md-12">
+                                            <h4 style="margin-top: 5px">{{$producto['descripcion_corta']}}</h4>
+                                        </div>
 
-					{{--<div class="col-md-6" ng-repeat="producto in productos">--}}
-						{{--<div class="booking-offer">--}}
-							{{--<img src="{{asset('assets/admin/pages/media/search/1.jpg')}}" class="img-responsive" alt="">--}}
-							{{--<div class="booking-offer-in">--}}
-								{{--<span>London, UK </span>--}}
-								{{--<em>Sign Up Today and Get 30% Discount!</em>--}}
-							{{--</div>--}}
-						{{--</div>--}}
-					{{--</div>--}}
-					<div class="clearfix"></div>
-				</div>
-                  </div>
+                                        <div class="col-md-6">
+                                            <span class="label bg-red-thunderbird">
+                                                <i class="fa fa-heart"></i>
+                                                <b>457 les gusta</b>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="javascript:;" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
+                                            {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
+                                        </div>
+
+                                        <div class="clearfix"></div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+
+                        </div>
+                    </div>
+                    <!-- END PAGE CONTENT-->
+                </div>
             </div>
-      </div>
+            <!-- END Portlet PORTLET-->
+        </div>
+    </div>
 @stop
 
 {{-- Sobreescribir el encabezado de pagina
@@ -118,15 +144,14 @@
 
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js" type="text/javascript"></script>
 @stop
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-	<script src="{{asset('assets/admin/pages/app/cliente/productos/ang-app/index.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/pages/app/cliente/productos/index.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js --}}
 @section('init-js')
-{{--Productos.init();--}}
+    Productos.init();
 @stop
