@@ -73,7 +73,7 @@ class ProductosCliente extends BaseCliente
                     'exito'  => TRUE,
                     'titulo' => 'Producto registrado',
                     'texto'  =>'¡Felicidades! <b>' . $producto->nombre . '</b> se ha registrado.',
-                    'url'    => route('productos-cliente')
+                    'url' => route('productos-cliente')
                 ];
             }
             else {
@@ -96,7 +96,11 @@ class ProductosCliente extends BaseCliente
      */
     public function show($id)
     {
-        //
+        dd($this->infoPropietario->id);
+
+        $this->data['img_producto'] = asset('img/cliente/1/productos/chamarra.jpg');
+        $this->data['current_cliente_id'] = $id;
+        return $this->view('cliente.productos.perfil.settings');
     }
 
     /**

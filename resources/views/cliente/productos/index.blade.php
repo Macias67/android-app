@@ -92,7 +92,7 @@
                         <div class="col-md-12">
 
                             @foreach($productosMasGustados as $index => $producto)
-                            <div class="layer animated flipInX" style="background-image: url('http://android.app/img/cliente/5/logo/alas.jpg')">
+                            <div class="layer animated flipInX" style="background-image: url('http://android.app/img/cliente/5/logo/chamarra.jpg')">
                                 <div class="portlet light">
                                     <div class="portlet-title">
                                         <div class="caption font-yellow-crusta">
@@ -117,7 +117,7 @@
                                             </span>
                                         </div>
                                         <div class="col-md-6">
-                                            <a href="javascript:;" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
+                                            <a href="{{route('cliente.producto.show', [$producto['id']])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
                                             {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
                                         </div>
 
