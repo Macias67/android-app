@@ -28,4 +28,13 @@ Route::group(
             'as' => 'global-select-subcategorias',
             'uses' => 'Admin\SubCategoriasAdmin@dropdown'
         ])->where('id', '[0-9]+');
+
+        /*
+        |--------------------------------------------------------------------------
+        | TEST ANDROID
+        |--------------------------------------------------------------------------
+        */
+        Route::get('negocios/json', [
+            'uses' => 'Android@index'
+        ]);
     });
