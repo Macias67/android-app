@@ -45,21 +45,54 @@
 
 {{-- Conteindo de la vista. --}}
 @section('content')
+      <style>
+          .layer {
+              border-radius: 4px;
+              background-attachment: scroll;
+              background-repeat: no-repeat;
+              background-position: center center;
+              background-size: cover;
+          }
+
+          .layer > .portlet.light {
+              background: rgba(64,64,64,0.1);
+              background: -moz-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+              background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(64,64,64,0.1)), color-stop(0%, rgba(64,64,64,0.1)), color-stop(100%, rgba(0,0,0,0.46)));
+              background: -webkit-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+              background: -o-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+              background: -ms-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+              background: radial-gradient(ellipse at center, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#404040', endColorstr='#000000', GradientType=1 );
+
+              -webkit-box-shadow: 0px 0px 5px -3px rgba(0,0,0,0.75);
+              -moz-box-shadow: 0px 0px 5px -3px rgba(0,0,0,0.75);
+              box-shadow: 0px 0px 5px -3px rgba(0,0,0,0.75);
+          }
+
+          .profile-usertitle-name {
+              color: #ffe400;
+              font-size: 20px;
+              font-weight: 600;
+              margin-bottom: 5px;
+          }
+      </style>
       <div class="row">
             <div class="col-md-12 animated bounceInUp">
                   <!-- BEGIN PROFILE SIDEBAR -->
                   <div class="profile-sidebar" style="width: 250px;">
+
                         <!-- PORTLET MAIN -->
-                        <div class="portlet light profile-sidebar-portlet">
+                      <div class="layer animated flipInX" style="background-image: url('{{$img_producto}}');">
+                          <div class="portlet light profile-sidebar-portlet picture">
                               <!-- SIDEBAR USERPIC -->
                               <div class="profile-userpic">
-                                    <img id="logo" src="{{$img_producto}}" class="img-responsive" alt="">
+                                    {{--<img id="logo" src="{{$img_producto}}" class="img-responsive" alt="">--}}
                               </div>
                               <!-- END SIDEBAR USERPIC -->
                               <!-- SIDEBAR USER TITLE -->
                               <div class="profile-usertitle">
                                     <div class="profile-usertitle-name">
-                                          Nombre del Producto
+                                          {{$producto->nombre}}
                                     </div>
                                     <div class="profile-usertitle-job">
 	                                   Negocio
@@ -68,14 +101,16 @@
                               <!-- END SIDEBAR USER TITLE -->
                               <!-- SIDEBAR BUTTONS -->
                               <div class="profile-userbuttons">
-                                    <button type="button" class="btn btn-circle green-haze btn-sm">Follow</button>
-                                    <button type="button" class="btn btn-circle btn-danger btn-sm">Message</button>
+                                    <button type="button" class="btn btn-circle btn-danger btn-sm"><i class="fa fa-star"></i> 4.2</button>
+                                    <button type="button" class="btn btn-circle green-haze btn-xs"><i class="fa fa-heart"></i> 58</button>
                               </div>
                               <!-- END SIDEBAR BUTTONS -->
 	                        <br>
 
                         </div>
+                      </div>
                         <!-- END PORTLET MAIN -->
+                      
                         <!-- PORTLET MAIN -->
                         <div class="portlet light">
                               <!-- STAT -->

@@ -92,14 +92,14 @@
                         <div class="col-md-12">
 
                             @foreach($productosMasGustados as $index => $producto)
-                            <div class="layer animated flipInX" style="background-image: url('http://android.app/img/cliente/5/logo/chamarra.jpg')">
+                            <div class="layer animated flipInX" style="background-image: url('{{$producto->imagen}}')">
                                 <div class="portlet light">
                                     <div class="portlet-title">
                                         <div class="caption font-yellow-crusta">
-                                            <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$producto['nombre']}} </span>
+                                            <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$producto->nombre_producto}} </span>
                                             <br>
                                             <span class="caption-helper">
-                                                <b>Código</b>
+                                                <a href="{{route('cliente.negocio.perfil', [$producto->cliente_id])}}"><b>{{$producto->nombre_cliente}}</b></a>
                                             </span>
 
 
@@ -107,22 +107,21 @@
                                     </div>
                                     <div class="portlet-body">
                                         <div class="col-md-12">
-                                            <h4 style="margin-top: 5px">{{$producto['descripcion_corta']}}</h4>
+                                            <h4 style="margin-top: 5px">{{$producto->descripcion_corta}}</h4>
                                         </div>
 
                                         <div class="col-md-6">
                                             <span class="label bg-red-thunderbird">
                                                 <i class="fa fa-heart"></i>
-                                                <b>457 les gusta</b>
+                                                <b>{{$producto->totalLikes}} les gusta</b>
                                             </span>
                                         </div>
                                         <div class="col-md-6">
-                                            <a href="{{route('cliente.producto.show', [$producto['id']])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
+                                            <a href="{{route('cliente.producto.show', [$producto->id])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
                                             {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
                                         </div>
 
                                         <div class="clearfix"></div>
-
 
                                     </div>
                                 </div>

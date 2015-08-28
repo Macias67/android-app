@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Cliente;
 use App\Http\Models\Cliente\Categorias;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Producto;
+use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests;
 use App\Http\Requests\CreateProducto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductosCliente extends BaseCliente
@@ -25,7 +28,34 @@ class ProductosCliente extends BaseCliente
      */
     public function index()
     {
-        $productos = Producto::all()->toArray();
+        $cl_productos = Producto::getTableName();
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+
+        $productos = DB::table($cl_productos)
+            ->select(
+                $cl_productos.'.id',
+                $cl_clientes.'.id as cliente_id',
+                $cl_clientes.'.nombre as nombre_cliente',
+                $cl_productos.'.nombre as nombre_producto',
+                $cl_productos.'.descripcion_corta',
+                DB::raw('COUNT(usr_usuario_gusta_producto.producto_id) AS totalLikes')
+            )
+            ->join($cl_clientes, $cl_productos.'.cliente_id', '=', $cl_clientes.'.id')
+            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+            ->join('usr_usuario_gusta_producto', $cl_productos.'.id', '=', 'usr_usuario_gusta_producto.producto_id')
+            ->where($cl_propietario.'.id', '=', $this->infoPropietario->id)
+            ->groupBy($cl_productos.'.nombre')
+            ->orderBy('totalLikes', 'DESC')
+            ->take(10)
+            ->get();
+
+        foreach($productos as $producto) {
+            $producto->imagen = $this->_getImaageProducto($producto->id);
+        }
+
+//        dd($productos);
+
         $this->data['productosMasGustados'] = $productos;
 
         return $this->view('cliente.productos.index');
@@ -96,9 +126,9 @@ class ProductosCliente extends BaseCliente
      */
     public function show($id)
     {
-        dd($this->infoPropietario->id);
-
-        $this->data['img_producto'] = asset('img/cliente/1/productos/chamarra.jpg');
+        $producto = Producto::find($id);
+        $this->data['producto'] = $producto;
+        $this->data['img_producto'] = $this->_getImaageProducto($id);
         $this->data['current_cliente_id'] = $id;
         return $this->view('cliente.productos.perfil.settings');
     }
@@ -158,5 +188,32 @@ class ProductosCliente extends BaseCliente
         }
 
         return new JsonResponse($final);
+    }
+
+    private function  _getImaageProducto ($id)
+    {
+        $files = File::files('img/cliente/' . $id . '/productos');
+        $logoDefault = asset('assets/admin/pages/media/productos/producto.jpg');
+        $count = count($files);
+        if ($count > 1 || $count == 0) {
+            if ($count > 1) {
+                foreach ($files as $file) {
+                    unlink($file);
+                }
+            }
+
+            return asset($logoDefault);
+        }
+        else if ($count == 1) {
+            list($width, $height) = getimagesize($files[0]);
+            if ($width != 500 || $height != 500) {
+                unlink($files[0]);
+
+                return asset($logoDefault);
+            }
+            else if ($width == 500 && $height == 500) {
+                return asset($files[0]);
+            }
+        }
     }
 }
