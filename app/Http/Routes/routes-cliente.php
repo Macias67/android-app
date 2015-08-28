@@ -149,6 +149,11 @@ Route::group(
                 'as' => 'cliente.evento.store',
                 'uses' => 'EventosCliente@store'
             ]);
+
+            Route::get('{id?}', [
+                'as' => 'cliente.evento.show',
+                'uses' => 'EventosCliente@show'
+            ])->where('id', '[0-9]+');
         });
 
         /*
