@@ -52,7 +52,7 @@ class ProductosCliente extends BaseCliente
             ->get();
 
         foreach($productos as $producto) {
-            $producto->imagen = $this->_getImageProducto($producto->id);
+            $producto->imagen = $this->_getImageProducto($producto->cliente_id, $producto->id);
         }
         $this->data['productosMasGustados'] = $productos;
 
@@ -141,7 +141,7 @@ class ProductosCliente extends BaseCliente
 
         $this->data['producto'] = $producto;
         $this->data['categorias'] = $options;
-        $this->data['img_producto'] = $this->_getImageProducto($id);
+        $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, $id);
         $this->data['current_producto_id'] = $id;
         return $this->view('cliente.productos.perfil.settings');
     }
@@ -184,7 +184,8 @@ class ProductosCliente extends BaseCliente
     {
         if ($request->ajax() && $request->file('img')) {
             $producto_id  = $request->get('producto_id');
-            $imagePath   = "img/cliente/" . $producto_id . "/productos/";
+            $cliente_id  = $request->get('cliente_id');
+            $imagePath   = "img/cliente/" . $cliente_id . "/productos/".$producto_id.'/';
             $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
             $temp        = explode(".", $_FILES["img"]["name"]);
             $extension   = end($temp);
@@ -239,6 +240,7 @@ class ProductosCliente extends BaseCliente
     {
         if ($request->ajax()) {
             $producto_id = $request->get('producto_id');
+            $cliente_id = $request->get('cliente_id');
             $imgUrl     = $request->get('imgUrl');
             // original sizes
             $imgInitW = $request->get('imgInitW');
@@ -260,9 +262,9 @@ class ProductosCliente extends BaseCliente
             $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
             $layer->cropInPixel($cropW, $cropH, $imgX1, $imgY1, 'LT');
 
-            unlink("img/cliente/" . $producto_id . "/productos/" . pathinfo($imgUrl, PATHINFO_BASENAME));
+            unlink("img/cliente/" . $cliente_id . "/productos/".$producto_id."/" . pathinfo($imgUrl, PATHINFO_BASENAME));
 
-            $dirPath         = "img/cliente/" . $producto_id . "/productos/";
+            $dirPath         = "img/cliente/" . $cliente_id . "/productos/".$producto_id.'/';
             $filename = strtolower(str_random(15)) . '-' . $producto_id . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
             $createFolders   = TRUE;
             $backgroundColor = NULL; // transparent, only for PNG (otherwise it will be white if set null)
@@ -302,9 +304,9 @@ class ProductosCliente extends BaseCliente
         return new JsonResponse($final);
     }
 
-    private function  _getImageProducto ($id)
+    private function  _getImageProducto ($cliente_id, $producto_id)
     {
-        $files = File::files('img/cliente/' . $id . '/productos');
+        $files = File::files('img/cliente/' . $cliente_id . '/productos/'.$producto_id);
         $logoDefault = asset('assets/admin/pages/media/productos/producto.jpg');
         $count = count($files);
         if ($count > 1 || $count == 0) {

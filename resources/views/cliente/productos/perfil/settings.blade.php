@@ -162,7 +162,12 @@
 								</p>
 								<form action="#" role="form">
 									<div class="form-group">
-										<div id="newlogo" style="height: 502px; width: 502px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_producto}}') " data-id="{{$current_producto_id}}" data-upload="{{route('global-upload-logo-producto')}}" data-crop="{{route('global-crop-logo-producto')}}">
+										<div id="newlogo"
+                                             style="height: 502px; width: 502px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_producto}}') "
+											 data-id="{{$current_producto_id}}"
+                                             data-cliente-id="{{$producto->cliente_id}}"
+                                             data-upload="{{route('global-upload-logo-producto')}}"
+                                             data-crop="{{route('global-crop-logo-producto')}}">
 										</div>
 										<div class="clearfix margin-top-10">
 											<span class="label label-danger">NOTE! </span>
