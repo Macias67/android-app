@@ -21,7 +21,6 @@ class NegociosCliente extends BaseCliente
     {
         parent::__construct();
         $this->data['activo_negocio'] = TRUE;
-
     }
 
     /**
@@ -32,7 +31,6 @@ class NegociosCliente extends BaseCliente
     public function index ()
     {
         $this->data['activo_negocio_index'] = TRUE;
-
         return $this->view('cliente.negocios.index');
     }
 

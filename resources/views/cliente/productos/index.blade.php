@@ -4,6 +4,42 @@
 @section('plugins-css')
 @stop
 
+{{-- Sobreescribir el CSS  --}}
+@section('override-css')
+	<style>
+		.layer {
+			border-radius: 4px;
+			background-attachment: scroll;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+		}
+
+		.layer > .portlet.light {
+			background: rgba(64,64,64,0.1);
+			background: -moz-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+			background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(64,64,64,0.1)), color-stop(0%, rgba(64,64,64,0.1)), color-stop(100%, rgba(0,0,0,0.46)));
+			background: -webkit-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+			background: -o-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+			background: -ms-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+			background: radial-gradient(ellipse at center, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#404040', endColorstr='#000000', GradientType=1 );
+
+			-webkit-box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
+			-moz-box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
+			box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
+		}
+
+		.layer > .portlet > .portlet-title > .caption > .caption-helper a{
+			color: white;
+		}
+
+		.layer > .portlet > .portlet-body {
+			color: white;
+		}
+	</style>
+@stop
+
 {{-- Sobreescribir el sidebar
 @section('sidebar')@stop --}}
 
@@ -39,39 +75,6 @@
 
 {{-- Conteindo de la vista. --}}
 @section('content')
-    <style>
-        .layer {
-            border-radius: 4px;
-            background-attachment: scroll;
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-        }
-
-        .layer > .portlet.light {
-            background: rgba(64,64,64,0.1);
-            background: -moz-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
-            background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(64,64,64,0.1)), color-stop(0%, rgba(64,64,64,0.1)), color-stop(100%, rgba(0,0,0,0.46)));
-            background: -webkit-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
-            background: -o-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
-            background: -ms-radial-gradient(center, ellipse cover, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
-            background: radial-gradient(ellipse at center, rgba(64,64,64,0.1) 0%, rgba(64,64,64,0.1) 0%, rgba(0,0,0,0.46) 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#404040', endColorstr='#000000', GradientType=1 );
-
-            -webkit-box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
-            -moz-box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
-            box-shadow: 0px 0px 11px -3px rgba(0,0,0,0.75);
-        }
-
-        .layer > .portlet > .portlet-title > .caption > .caption-helper {
-            color: white;
-        }
-
-        .layer > .portlet > .portlet-body {
-            color: white;
-        }
-    </style>
-
     <div class="row">
         <div class="col-md-6">
             <!-- BEGIN Portlet PORTLET-->
@@ -99,7 +102,9 @@
                                             <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$producto->nombre_producto}} </span>
                                             <br>
                                             <span class="caption-helper">
-                                                <a href="{{route('cliente.negocio.perfil', [$producto->cliente_id])}}"><b>{{$producto->nombre_cliente}}</b></a>
+                                                <a href="{{route('cliente.negocio.perfil', [$producto->cliente_id])}}" class="faa-parent animated-icon-hover">
+	                                                <i class="fa fa-angle-double-right faa-horizontal"></i> <b>{{$producto->nombre_cliente}}</b>
+                                                </a>
                                             </span>
 
 
@@ -112,12 +117,14 @@
 
                                         <div class="col-md-6">
                                             <span class="label bg-red-thunderbird">
-                                                <i class="fa fa-heart"></i>
+                                                <i class="fa fa-heart faa-pulse animated-icon faa-fast"></i>
                                                 <b>{{$producto->totalLikes}} les gusta</b>
                                             </span>
                                         </div>
                                         <div class="col-md-6">
-                                            <a href="{{route('cliente.producto.show', [$producto->id])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
+                                            <a href="{{route('cliente.producto.show', [$producto->id])}}" class="btn bg-green-jungle btn-xs pull-right faa-parent animated-icon-hover  hvr-grow">
+	                                            <i class="icon-pencil faa-ring"></i> Editar
+                                            </a>
                                             {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
                                         </div>
 
@@ -147,10 +154,10 @@
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-    <script src="{{asset('assets/admin/pages/app/cliente/productos/index.js')}}" type="text/javascript"></script>
+    {{--<script src="{{asset('assets/admin/pages/app/cliente/productos/index.js')}}" type="text/javascript"></script>--}}
 @stop
 
 {{-- Inicializo los js --}}
 @section('init-js')
-    Productos.init();
+    {{--Productos.init();--}}
 @stop

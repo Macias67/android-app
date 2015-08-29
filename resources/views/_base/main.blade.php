@@ -27,8 +27,10 @@
 
 		<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
 		@yield('plugins-css')
-		<link href="{{asset('assets/global/plugins/sweetalert/dist/sweetalert.css')}}" rel="stylesheet" type="text/css">
+		<link href="{{asset('assets/global/plugins/hover/css/hover-min.css')}}" rel="stylesheet" type="text/css"/>
 		<link href="{{asset('assets/global/plugins/animate/animate.css')}}" rel="stylesheet" type="text/css">
+		<link href="{{asset('assets/global/plugins/font-awesome/css/font-awesome-animation.min.css')}}" rel="stylesheet" type="text/css"/>
+		<link href="{{asset('assets/global/plugins/sweetalert/dist/sweetalert.css')}}" rel="stylesheet" type="text/css">
 		<!-- END PAGE LEVEL PLUGIN STYLES -->
 
 		<!-- BEGIN THEME STYLES -->
@@ -37,6 +39,9 @@
 		<link href="{{asset('assets/admin/layout4/css/layout.css')}}" rel="stylesheet" type="text/css"/>
 		<link id="style_color" href="{{asset('assets/admin/layout4/css/themes/light.css')}}" rel="stylesheet" type="text/css"/>
 		<link href="{{asset('assets/admin/layout4/css/custom.css')}}" rel="stylesheet" type="text/css"/>
+
+		@yield('override-css')
+
 		<!-- END THEME STYLES -->
 		<link rel="shortcut icon" href="favicon.ico"/>
 	</head>

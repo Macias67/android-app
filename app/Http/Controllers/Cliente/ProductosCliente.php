@@ -11,6 +11,7 @@ use App\Http\Requests\CreateProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use PHPImageWorkshop\ImageWorkshop;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductosCliente extends BaseCliente
@@ -51,11 +52,8 @@ class ProductosCliente extends BaseCliente
             ->get();
 
         foreach($productos as $producto) {
-            $producto->imagen = $this->_getImaageProducto($producto->id);
+            $producto->imagen = $this->_getImageProducto($producto->id);
         }
-
-//        dd($productos);
-
         $this->data['productosMasGustados'] = $productos;
 
         return $this->view('cliente.productos.index');
@@ -127,9 +125,24 @@ class ProductosCliente extends BaseCliente
     public function show($id)
     {
         $producto = Producto::find($id);
+        $this->data['param'] = [
+            'route'        => 'cliente.producto.store',
+            'class'        => 'form-horizontal form-nuevo-producto',
+            'role'         => 'form',
+            'autocomplete' => 'off'
+        ];
+
+        $categorias = Categorias::where('cliente_id', $producto->cliente_id)->get(['id', 'categoria'])->ToArray();
+        $options  = [];
+        foreach ($categorias as $index => $categoria) {
+            $options[$categoria['id']] = $categoria['categoria'];
+        }
+
+
         $this->data['producto'] = $producto;
-        $this->data['img_producto'] = $this->_getImaageProducto($id);
-        $this->data['current_cliente_id'] = $id;
+        $this->data['categorias'] = $options;
+        $this->data['img_producto'] = $this->_getImageProducto($id);
+        $this->data['current_producto_id'] = $id;
         return $this->view('cliente.productos.perfil.settings');
     }
 
@@ -167,6 +180,105 @@ class ProductosCliente extends BaseCliente
         //
     }
 
+    public function uploadImage (Request $request)
+    {
+        if ($request->ajax() && $request->file('img')) {
+            $producto_id  = $request->get('producto_id');
+            $imagePath   = "img/cliente/" . $producto_id . "/productos/";
+            $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
+            $temp        = explode(".", $_FILES["img"]["name"]);
+            $extension   = end($temp);
+
+            if (!File::isDirectory($imagePath)) {
+                File::makeDirectory($imagePath, 0777, TRUE);
+            }
+            else {
+                File::cleanDirectory($imagePath);
+            }
+
+            if (!File::isWritable($imagePath)) {
+                $response = Array(
+                    "status"  => 'error',
+                    "message" => 'Can`t upload File; no write Access'
+                );
+
+                return new JsonResponse($response);
+            }
+
+            if (in_array($extension, $allowedExts)) {
+                if ($_FILES["img"]["error"] > 0) {
+                    $response = array(
+                        "status"  => 'error',
+                        "message" => 'ERROR Return Code: ' . $_FILES["img"]["error"],
+                    );
+                }
+                else {
+                    $filename = $_FILES["img"]["tmp_name"];
+                    list($width, $height) = getimagesize($filename);
+                    $request->file('img')->move($imagePath, $_FILES["img"]["name"]);
+                    $response = array(
+                        "status" => 'success',
+                        "url"    => asset($imagePath . $_FILES["img"]["name"]),
+                        "width"  => $width,
+                        "height" => $height
+                    );
+                }
+            }
+            else {
+                $response = array(
+                    "status"  => 'error',
+                    "message" => 'something went wrong, most likely file is to large for upload. check upload_max_filesize, post_max_size and memory_limit in you php.ini',
+                );
+            }
+
+            return new JsonResponse($response);
+        }
+    }
+
+    public function cropImage (Request $request)
+    {
+        if ($request->ajax()) {
+            $producto_id = $request->get('producto_id');
+            $imgUrl     = $request->get('imgUrl');
+            // original sizes
+            $imgInitW = $request->get('imgInitW');
+            $imgInitH = $request->get('imgInitH');
+            // resized sizes
+            $imgW = $request->get('imgW');
+            $imgH = $request->get('imgH');
+            // offsets
+            $imgX1 = $request->get('imgX1');
+            $imgY1 = $request->get('imgY1');
+            // crop box
+            $cropW = $request->get('cropW');
+            $cropH = $request->get('cropH');
+            // rotation angle
+            $angle = $request->get('rotation');
+
+            $layer = ImageWorkshop::initFromPath($imgUrl);
+
+            $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
+            $layer->cropInPixel($cropW, $cropH, $imgX1, $imgY1, 'LT');
+
+            unlink("img/cliente/" . $producto_id . "/productos/" . pathinfo($imgUrl, PATHINFO_BASENAME));
+
+            $dirPath         = "img/cliente/" . $producto_id . "/productos/";
+            $filename = strtolower(str_random(15)) . '-' . $producto_id . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
+            $createFolders   = TRUE;
+            $backgroundColor = NULL; // transparent, only for PNG (otherwise it will be white if set null)
+            $imageQuality    = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
+
+            $layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
+
+            $response = [
+                "status" => 'success',
+                "url"    => asset($dirPath . $filename)
+            ];
+
+            return new JsonResponse($response);
+        }
+    }
+
     public function getProductosJson ($id)
     {
         $categoria = new Categorias;
@@ -190,7 +302,7 @@ class ProductosCliente extends BaseCliente
         return new JsonResponse($final);
     }
 
-    private function  _getImaageProducto ($id)
+    private function  _getImageProducto ($id)
     {
         $files = File::files('img/cliente/' . $id . '/productos');
         $logoDefault = asset('assets/admin/pages/media/productos/producto.jpg');

@@ -84,6 +84,17 @@ Route::group(
                 'as' => 'cliente.producto.procutos-json',
                 'uses' => 'ProductosCliente@getProductosJson'
             ])->where('id', '[0-9]+');
+
+            Route::post('upload/logo', [
+                'as' => 'global-upload-logo-producto',
+                'uses' => 'ProductosCliente@uploadImage'
+            ]);
+
+            Route::post('crop/logo', [
+                'as' => 'global-crop-logo-producto',
+                'uses' => 'ProductosCliente@cropImage'
+            ]);
+
         });
 
         /*
