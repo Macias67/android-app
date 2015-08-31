@@ -178,12 +178,36 @@ class ProductosCliente extends BaseCliente
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param CreateProducto $request
      * @return Response
      */
-    public function update(Request $request)
+    public function update(CreateProducto $request)
     {
-        dd($request->all());
+        if($request->ajax() && $request->wantsJson()){
+
+            if(!is_null($producto = Producto::find($request->get('id')))) {
+                $producto->preparaDatos($request);
+
+                if ($producto->save()) {
+                    $response = [
+                        'exito'  => TRUE,
+                        'titulo' => 'Producto actualizado',
+                        'texto'  =>'<b>' . $producto->nombre . '</b> se ha actualizado.',
+                        'url' => route('productos-cliente')
+                    ];
+                }
+                else {
+                    $response = [
+                        'exito'  => FALSE,
+                        'titulo' =>  'No se actualizó',
+                        'texto'  =>'Parece que no hubo cambios en la BD',
+                        'url'    => NULL
+                    ];
+                }
+                return $this->responseJSON($response);
+
+            }
+        }
     }
 
     /**

@@ -122,7 +122,7 @@ var EditaProducto = function () {
                 $('input[name="ffin"]').val(end.format(formato));
 
                 $('input[name="disp_inicio"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
-                $('input[name="disp_fin"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
+                $('input[name="disp_fin"]').val(end.format("YYYY-MM-DD HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
