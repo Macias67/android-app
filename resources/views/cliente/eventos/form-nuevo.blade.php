@@ -68,7 +68,7 @@
                             </div>
                             <!-- Nombre del evento -->
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Nombre del evento: <span class="required">*</span></label>
+                                <label class="col-md-3 control-label">Nombre del evento <span class="required">*</span></label>
                                 <div class="col-md-9">
                                     <div class="input-icon">
                                         <i class="fa fa-institution"></i>

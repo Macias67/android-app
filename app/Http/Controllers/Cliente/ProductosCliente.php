@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cliente;
 
+use App\Http\Controllers\Traits\GetImagesCliente;
 use App\Http\Models\Cliente\Categorias;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Producto;
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductosCliente extends BaseCliente
 {
+    use GetImagesCliente;
+
     public function __construct()
     {
         parent::__construct();
@@ -52,7 +55,7 @@ class ProductosCliente extends BaseCliente
             ->get();
 
         foreach($productos as $producto) {
-            $producto->imagen = $this->_getImageProducto($producto->cliente_id, $producto->id);
+            $producto->imagen = $this->_getImageProducto($producto->cliente_id, 'productos', $producto->id);
         }
         $this->data['productosMasGustados'] = $productos;
 
@@ -162,6 +165,14 @@ class ProductosCliente extends BaseCliente
         }
 
 
+<<<<<<< HEAD
+        $this->data['producto'] = $producto;
+        $this->data['categorias'] = $options;
+        $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, 'productos', $id);
+        $this->data['current_producto_id'] = $id;
+        return $this->view('cliente.productos.perfil.settings');
+=======
+>>>>>>> 1e2bc4c45ee9a7b20c5fffc2a01b33fe6c4bdf67
     }
 
     /**
@@ -301,7 +312,7 @@ class ProductosCliente extends BaseCliente
             $layer = ImageWorkshop::initFromPath($imgUrl);
 
             $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
-            $layer->cropInPixel($cropW, $cropH, $imgX1, $imgY1, 'LT');
+            $layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
             unlink("img/cliente/" . $cliente_id . "/productos/".$producto_id."/" . pathinfo($imgUrl, PATHINFO_BASENAME));
 
@@ -343,32 +354,5 @@ class ProductosCliente extends BaseCliente
         }
 
         return new JsonResponse($final);
-    }
-
-    private function  _getImageProducto ($cliente_id, $producto_id)
-    {
-        $files = File::files('img/cliente/' . $cliente_id . '/productos/'.$producto_id);
-        $logoDefault = asset('assets/admin/pages/media/productos/producto.jpg');
-        $count = count($files);
-        if ($count > 1 || $count == 0) {
-            if ($count > 1) {
-                foreach ($files as $file) {
-                    unlink($file);
-                }
-            }
-
-            return asset($logoDefault);
-        }
-        else if ($count == 1) {
-            list($width, $height) = getimagesize($files[0]);
-            if ($width != 500 || $height != 500) {
-                unlink($files[0]);
-
-                return asset($logoDefault);
-            }
-            else if ($width == 500 && $height == 500) {
-                return asset($files[0]);
-            }
-        }
     }
 }

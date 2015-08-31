@@ -1,4 +1,4 @@
-@extends('cliente.productos.perfil.perfil')
+@extends('cliente.eventos.perfil.perfil')
 
 @section('profile-content')
 	<div class="profile-content">
@@ -21,7 +21,7 @@
 								<a href="#tab_sociales" data-toggle="tab">Redes Sociales</a>
 							</li>
 							<li>
-								<a href="#tab_logotipo" data-toggle="tab">Logotipo</a>
+								<a href="#tab_logotipo" data-toggle="tab">Imagen del evento</a>
 							</li>
 							<li>
 								<a href="#tab_1_3" data-toggle="tab">Change Password</a>
@@ -31,52 +31,189 @@
 							</li>
 						</ul>
 					</div>
-					<div class="portlet-body">
+					<div class="portlet-body form">
 						<div class="tab-content">
 							<!-- PERSONAL INFO TAB -->
 							<div class="tab-pane active" id="tab_principal">
-								<form role="form" action="#">
+								{!! Form::open($param) !!}
 									<div class="col-md-6">
+										<!-- Nombre del evento -->
 										<div class="form-group">
-											<label class="control-label">Nombre</label>
-											<input type="text" value="" class="form-control"/>
-											<input type="hidden" name="id" value="">
+											<label class="col-md-3 control-label">Nombre<span class="required">*</span></label>
+
+											<div class="col-md-9">
+												<div class="input-icon">
+													<i class="fa fa-institution"></i>
+													<input type="text" class="form-control" name="nombre" placeholder="Nombre del evento" value="{{$evento->nombre}}">
+                                                    <input type="hidden" name="cliente_id" value="{{$user->id}}">
+												</div>
+											</div>
 										</div>
+										<!-- Slug -->
 										<div class="form-group">
-											<label class="control-label">Slug</label>
-											<input type="text" value="" class="form-control input-large"/>
+											<label class="col-md-3 control-label">Slug <span class="required">*</span></label>
+
+											<div class="col-md-9">
+												<div class="input-icon">
+													<i class="fa fa-desktop"></i>
+													<input type="text" class="form-control" name="slug" placeholder="Slug" value="{{$evento->slug}}" readonly>
+												</div>
+											</div>
 										</div>
+										<!-- Descripción -->
 										<div class="form-group">
-											<label class="control-label">Descripción</label>
-											<input type="text" value="" class="form-control input-small"/>
+											<label class="control-label col-md-3">Descripción <span class="required">*</span></label>
+											<div class="col-md-9">
+												<textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;">{{$evento->descripcion}}</textarea>
+												<span class="help-block">Descripción del evento. </span>
+											</div>
 										</div>
+										<!-- Cupo -->
 										<div class="form-group">
-											<label class="control-label">Descripción Corta</label>
-											<input type="text" value="" class="form-control input-small"/>
+											<label class="control-label col-md-3">Cupo</label>
+											<div class="col-md-9">
+												<div class="input-inline input-medium">
+													<input id="cantidad" type="text" name="cupo" class="form-control" value="{{$evento->cupo}}">
+												</div>
+											</div>
+										</div>
+										<!-- Precio -->
+										<div class="form-group">
+											<label class="control-label col-md-3">Precio</label>
+											<div class="col-md-9">
+												<div class="input-inline input-medium">
+													<input id="precio" type="text" name="costo" class="form-control" value="{{$evento->costo}}">
+												</div>
+											</div>
+										</div>
+										<!-- Dirección -->
+										<div class="form-group">
+											<label class="col-md-3 control-label">Dirección</label>
+											<div class="col-md-9">
+												<div class="input-icon">
+													<i class="fa fa-map-marker"></i>
+													<input type="text" class="form-control" name="direccion" placeholder="Dirección" value="{{$evento->direccion}}">
+												</div>
+												<span class="help-block">Ejemplo: Cuarzo No. 9A, Ocotlán</span>
+											</div>
 										</div>
 									</div>
 									<div class="col-md-6">
-										<div class="form-group">
-											<label class="control-label">Precio</label>
-											<input type="text" value="" class="form-control input-small"/>
-										</div>
-										<div class="form-group">
-											<label class="control-label">Cantidad</label>
-											<textarea class="form-control" rows="3" placeholder=""></textarea>
-										</div>
-										<div class="form-group">
-											<label class="control-label">Estatus</label><br>
-											<input type="checkbox" class="form-control make-switch" name="estatus"
-											       data-size="small"
-											       data-on-text="Online" data-off-text="Offline"
-											       data-on-color="success"
-											       data-off-color="default">
-										</div>
+                                        <div class="form-body">
+                                            <!-- Estatus -->
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Estatus<span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                    <div class="clearfix">
+                                                        <div class="btn-group" data-toggle="buttons">
+
+                                                            @if ($evento->estatus == 'proximo')
+
+                                                            <label class="btn btn-default active">
+                                                                <input id="option1" type="radio" name="estatus" class="toggle" value="proximo"> Próximo </label>
+
+                                                                <label class="btn btn-default">
+                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
+
+                                                                <label class="btn btn-default">
+                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
+
+                                                            @elseif ($evento->estatus == 'ahora')
+
+                                                                <label class="btn btn-default">
+                                                                    <input id="option1" type="radio" name="estatus" class="toggle" value="proximo"> Próximo </label>
+
+                                                                <label class="btn btn-default active">
+                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
+
+                                                                <label class="btn btn-default">
+                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
+
+                                                            @elseif($evento->estatus == 'caduco')
+
+                                                                <label class="btn btn-default">
+                                                                    <input id="option1" type="radio" name="estatus" class="toggle" value="proximo"> Próximo </label>
+
+                                                                <label class="btn btn-default">
+                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
+
+                                                                <label class="btn btn-default active">
+                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Disponible -->
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Disponible<span class="required">*</span></label>
+
+                                                @if($evento->disponible == 'online')
+                                                    <div class="col-md-9">
+                                                        <input type="checkbox" class="make-switch" name="disponible"
+                                                               data-size="small"
+                                                               data-on-text="Online" data-off-text="Offline"
+                                                               data-on-color="success"
+                                                               data-off-color="default" checked>
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-9">
+                                                        <input type="checkbox" class="make-switch" name="disponible"
+                                                               data-size="small"
+                                                               data-on-text="Online" data-off-text="Offline"
+                                                               data-on-color="success"
+                                                               data-off-color="default">
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <!-- URL externa extra -->
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Url externa</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-institution"></i>
+                                                        <input type="text" class="form-control" name="url_exterior" placeholder="Url externa" value="{{$evento->url_exterior}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Horario -->
+                                            <div class="form-group">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                    <button type="button" class="btn default" id="reportrange">
+                                                        <i class="fa fa-calendar">
+                                                        </i> Horario<i class="fa fa-angle-down">
+                                                        </i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        <input type="text" class="form-control" name="finicio" value="{{$finicio}}"  readonly>
+                                                        <input type="hidden" class="form-control" name="fecha_inicio">
+                                                        <input type="hidden" class="form-control" name="hora_inicio">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Final <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        <input type="text" class="form-control" name="ffin" value="{{$ffin}}" readonly>
+                                                        <input type="hidden" class="form-control" name="fecha_termina">
+                                                        <input type="hidden" class="form-control" name="hora_termina">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 									</div>
-									{{--Mapas--}}
 									<div class="col-md-12">
+										{{--Mapas--}}
 										<h4 class="form-section">Coordenadas y ubicación</h4>
-										<hr>
 										<div class="form-group">
 											<label class="control-label">Latitud y Longitud <span class="required" aria-required="true">*</span></label>
 											<div class="input-group">
@@ -94,13 +231,14 @@
 											<div id="gmap_geocoding" class="gmaps"></div>
 											<span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
 										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="margin-top-20">
-											<a href="javascript:;" class="btn green-haze">Save Changes </a>
-											<a href="javascript:;" class="btn default">Cancel </a>
-										</div>
-									</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        {{-- Botón Enviar --}}
+                                        <div class="margin-top-20">
+                                            <button type="submit" class="btn green-haze">Guardar cambios</button>
+                                            {{--<a href="javascript:;" class="btn default">Cancelar </a>--}}
+                                        </div>
+                                    </div>
 								</form>
 								<div class="clearfix"></div>
 							</div>
