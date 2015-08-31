@@ -125,25 +125,43 @@ class ProductosCliente extends BaseCliente
     public function show($id)
     {
         $producto = Producto::find($id);
-        $this->data['param'] = [
-            'route'        => 'cliente.producto.store',
-            'class'        => 'form-horizontal form-nuevo-producto',
-            'role'         => 'form',
-            'autocomplete' => 'off'
-        ];
 
-        $categorias = Categorias::where('cliente_id', $producto->cliente_id)->get(['id', 'categoria'])->ToArray();
-        $options  = [];
-        foreach ($categorias as $index => $categoria) {
-            $options[$categoria['id']] = $categoria['categoria'];
+        if(!is_null($producto)) {
+
+            $idPropietario = $producto->idPropietario($this->infoPropietario->id, $id);
+
+            if($this->infoPropietario->id == $idPropietario[0]['id']) {
+
+                $this->data['param'] = [
+                    'route'        => 'cliente.producto.update',
+                    'class'        => 'form-horizontal form-edita-producto',
+                    'role'         => 'form',
+                    'autocomplete' => 'off'
+                ];
+
+                $categorias = Categorias::where('cliente_id', $producto->cliente_id)->get(['id', 'categoria'])->ToArray();
+                $options  = [];
+                foreach ($categorias as $index => $categoria) {
+                    $options[$categoria['id']] = $categoria['categoria'];
+                }
+
+
+                $this->data['producto'] = $producto;
+                $this->data['categorias'] = $options;
+                $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, $id);
+                $this->data['current_producto_id'] = $id;
+
+                return $this->view('cliente.productos.perfil.settings');
+            }
+            else {
+                return response('No es tu producto.', 412);
+            }
+        }
+        else {
+            return response('No existe producto.', 412);
         }
 
 
-        $this->data['producto'] = $producto;
-        $this->data['categorias'] = $options;
-        $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, $id);
-        $this->data['current_producto_id'] = $id;
-        return $this->view('cliente.productos.perfil.settings');
     }
 
     /**
@@ -161,12 +179,11 @@ class ProductosCliente extends BaseCliente
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

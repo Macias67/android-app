@@ -38,6 +38,22 @@ class Producto extends Model
         return $this->hasOne(Categorias::class, 'id');
     }
 
+    public function idPropietario($id_propietario, $id_producto)
+    {
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+        $query = $this
+            ->select($cl_propietario.'.id')
+            ->join($cl_clientes, $this->table.'.cliente_id', '=', $cl_clientes.'.id')
+            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+            ->where($cl_propietario.'.id', '=', $id_propietario)
+            ->where($this->table.'.id', '=', $id_producto)
+            ->get()
+            ->toArray();
+
+        return$query;
+    }
+
     public static function getTableName()
     {
         return with(new static)->getTable();
