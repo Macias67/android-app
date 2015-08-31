@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cliente;
 
+use App\Http\Controllers\Traits\GetImagesCliente;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Evento;
 use App\Http\Requests;
@@ -10,6 +11,8 @@ use App\Http\Requests\CreateEvento;
 
 class EventosCliente extends BaseCliente
 {
+    use GetImagesCliente;
+
     /**
      * Display a listing of the resource.
      *
@@ -87,8 +90,26 @@ class EventosCliente extends BaseCliente
      */
     public function show($id)
     {
-        $this->data['img_producto'] = asset('img/cliente/1/eventos/chamarra.jpg');
+        $evento = Evento::find($id);
+
+        $fechaInicio = str_replace("-", "/", $evento->fecha_inicio .' '.$evento->hora_inicio);
+        $fechaFin = str_replace("-", "/", $evento->fecha_termina .' '.$evento->hora_termina);
+        $fecha_inicio   = strftime("%A, %d"." de "."%B"." de "."%Y",strtotime($fechaInicio));
+        $fecha_fin   = strftime("%A, %d"." de "."%B"." de "."%Y",strtotime($fechaFin));
+
+        $this->data['param'] = [
+            'route'        => 'cliente.evento.store',
+            'class'        => 'form-horizontal form-nuevo-evento',
+            'role'         => 'form',
+            'autocomplete' => 'off'
+        ];
+
+//        $this->data['img_producto'] = asset('img/cliente/1/eventos/chamarra.jpg');
         $this->data['current_cliente_id'] = $id;
+        $this->data['evento'] = $evento;
+        $this->data['finicio'] = $fecha_inicio;
+        $this->data['ffin'] = $fecha_fin;
+        $this->data['img_producto'] = $this->_getImageProducto($evento->cliente_id, 'eventos', $id);
         return $this->view('cliente.eventos.perfil.settings');
     }
 
