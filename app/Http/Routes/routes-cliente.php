@@ -246,15 +246,38 @@ Route::group(
                 'uses' => 'PromocionesCliente@create'
             ]);
 
-            Route::get('editar', [
-                'as' => 'cliente.promociones.edit',
-                'uses' => 'PromocionesCliente@create'
-            ]);
-
             Route::post('store', [
                 'as' => 'cliente.promociones.store',
                 'uses' => 'PromocionesCliente@store'
             ]);
+
+            Route::get('{id?}', [
+                'as' => 'cliente.promociones.show',
+                'uses' => 'PromocionesCliente@show'
+            ])->where('id', '[0-9]+');
+
+            Route::post('update', [
+                'as' => 'cliente.promociones.update',
+                'uses' => 'promocionesCliente@update'
+            ]);
+
+            Route::get('json/{id?}', [
+                'as' => 'cliente.promocion.promociones-json',
+                'uses' => 'promocionesCliente@getPromocionesJson'
+            ])->where('id', '[0-9]+');
+
+            Route::post('upload/logo', [
+                'as' => 'global-upload-logo-promocion',
+                'uses' => 'PromocionesCliente@uploadImage'
+            ]);
+
+            Route::post('crop/logo', [
+                'as' => 'global-crop-logo-promocio',
+                'uses' => 'PromocionesCliente@cropImage'
+            ]);
+
+
+
         });
 
 	}
