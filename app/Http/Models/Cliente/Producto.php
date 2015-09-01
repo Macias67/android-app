@@ -54,6 +54,11 @@ class Producto extends Model
         return$query;
     }
 
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'id', 'cliente_id');
+    }
+
     public static function getTableName()
     {
         return with(new static)->getTable();

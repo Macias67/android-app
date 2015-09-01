@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\File;
 
 trait GetImagesCliente
 {
-    private function  _getImageProducto ($id, $funcion, $id)
+    private function  _getImageProducto ($cliente_id, $funcion, $id)
     {
-        $files = File::files('img/cliente/' . $id . '/'. $funcion .'/'.$id);
+        $files = File::files('img/cliente/' . $cliente_id . '/'. $funcion .'/'.$id);
         $logoDefault = asset('assets/admin/pages/media/productos/'.$funcion.'.jpg');
         $count = count($files);
         if ($count > 1 || $count == 0) {

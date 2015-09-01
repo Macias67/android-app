@@ -21,7 +21,7 @@ class SubCategorias extends Model
      */
     public function categoria()
     {
-        return $this->belongsTo(Categorias::class, 'id');
+        return $this->belongsTo(Categorias::class, 'categoria_id');
     }
 
     public function negocios()

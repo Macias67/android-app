@@ -127,9 +127,7 @@ class ProductosCliente extends BaseCliente
      */
     public function show($id)
     {
-        $producto = Producto::find($id);
-
-        if(!is_null($producto)) {
+        if(!is_null($producto = Producto::find($id))) {
 
             $idPropietario = $producto->idPropietario($this->infoPropietario->id, $id);
 
@@ -151,7 +149,7 @@ class ProductosCliente extends BaseCliente
 
                 $this->data['producto'] = $producto;
                 $this->data['categorias'] = $options;
-                $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, $id);
+                $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, 'productos',$id);
                 $this->data['current_producto_id'] = $id;
 
                 return $this->view('cliente.productos.perfil.settings');
@@ -163,16 +161,6 @@ class ProductosCliente extends BaseCliente
         else {
             return response('No existe producto.', 412);
         }
-
-
-<<<<<<< HEAD
-        $this->data['producto'] = $producto;
-        $this->data['categorias'] = $options;
-        $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, 'productos', $id);
-        $this->data['current_producto_id'] = $id;
-        return $this->view('cliente.productos.perfil.settings');
-=======
->>>>>>> 1e2bc4c45ee9a7b20c5fffc2a01b33fe6c4bdf67
     }
 
     /**
