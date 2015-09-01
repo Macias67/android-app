@@ -175,12 +175,6 @@ var NuevoEvento = function () {
         });
     }
 
-    var submitForm = function() {
-        $('#agregar').on('click', function() {
-            $('.form-nuevo-producto').submit();
-        });
-    }
-
     var handleForm = function () {
         var form = $('.form-nuevo-evento');
 
@@ -195,7 +189,6 @@ var NuevoEvento = function () {
                     maxlength: 45
                 },
                 slug:          {
-//                    required:  true,
                     maxlength: 45
                 },
                 direccion:{
@@ -285,7 +278,6 @@ var NuevoEvento = function () {
             mapGeocoding();
             maxLenght();
             dateRange();
-            submitForm();
             handleForm();
         }
     }
