@@ -57,7 +57,6 @@ var EditaEvento = function () {
         });
 
         var handleAction = function () {
-            console.log('Entra aqui');
             var calle = $('input[name="direccion"]').val();
             $('#gmap_geocoding_address').val($.trim(calle));
             var text = $.trim($('#gmap_geocoding_address').val());
@@ -91,6 +90,9 @@ var EditaEvento = function () {
                 handleAction();
             }
         });
+
+        //Cuando edita ya está una dirección.
+        handleAction();
 
     }
 
@@ -173,14 +175,8 @@ var EditaEvento = function () {
         });
     }
 
-    var submitForm = function() {
-        $('#agregar').on('click', function() {
-            $('.form-nuevo-producto').submit();
-        });
-    }
-
     var handleForm = function () {
-        var form = $('.form-nuevo-evento');
+        var form = $('.form-edita-evento');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -241,6 +237,7 @@ var EditaEvento = function () {
                 console.log(data);
 
                 var success = function (data) {
+                    console.log(data);
                     App.removeLoader(500, function () {
                         swal({
                             title:              '<h3>' + data.titulo + '</h3>',
@@ -283,7 +280,6 @@ var EditaEvento = function () {
             mapGeocoding();
             maxLenght();
             dateRange();
-            submitForm();
             handleForm();
         }
     }

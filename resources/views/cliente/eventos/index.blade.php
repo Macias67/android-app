@@ -142,16 +142,11 @@
 {{-- Sobreescribir el encabezado de pagina
 @section('page-footer-inner')@stop --}}
 
-{{-- Cargar los plugins de js --}}
-@section('plugins-core-js')
-@stop
+{{-- Cargar los plugins de js
+@section('plugins-core-js')@stop --}}
 
-{{-- Cargar los archivos de js --}}
-@section('page-level-js')
-    <script src="{{asset('assets/admin/pages/app/cliente/productos/index.js')}}" type="text/javascript"></script>
-@stop
+{{-- Cargar los archivos de js
+@section('page-level-js')@stop --}}
 
-{{-- Inicializo los js --}}
-@section('init-js')
-    Productos.init();
-@stop
+{{-- Inicializo los js
+@section('init-js')@stop --}}

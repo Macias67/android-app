@@ -1,20 +1,53 @@
-
 /**
- * Created by Julio on 19/08/2015.
+ * Created by Luis Macias on 02/08/2015.
  */
 
-var NuevoEvento = function () {
+var EditaPromocion = function () {
+
+    var slugify = function ()
+    {
+        $('input[name="nombre"]').on('keyup', function() {
+            var acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
+            var original = "aaaaaeeeeiiiioooouuuuaaaaaeeeeiiiioooouuuunncc";
+            var text = $(this).val();
+            for (var i=0; i<acentos.length; i++) {
+                text = text.replace(acentos.charAt(i), original.charAt(i));
+            }
+
+           var slug =  text.toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+               .replace(/_+/g, '-')           // Replace spaces with _
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/-+$/, '');            // Trim - from end of text
+            $('input[name="slug"]').val(slug);
+        });
+    }
+
+    var maxLenght = function () {
+        $("textarea[name='descripcion']").maxlength({
+            limitReachedClass: "label label-danger",
+            alwaysShow:        true
+        });
+
+        $("textarea[name='descripcion_corta']").maxlength({
+            limitReachedClass: "label label-danger",
+            alwaysShow:        true
+        });
+    }
 
     var touchSpin = function () {
         $("#precio").TouchSpin({
             buttondown_class: 'btn blue',
-            buttonup_class: 'btn blue',
-            min: 0,
-            max: 1000000000,
-            step: 10,
-            boostat: 5,
-            maxboostedstep: 10,
-            prefix: '$'
+            buttonup_class:   'btn blue',
+            min:              0,
+            max:              1000000000,
+            step:             0.1,
+            decimals:         2,
+            boostat:          5,
+            maxboostedstep:   10,
+            prefix:           '$'
         });
 
         $("#cantidad").TouchSpin({
@@ -26,83 +59,20 @@ var NuevoEvento = function () {
             boostat:          5,
             maxboostedstep:   10
         });
-
-    }
-
-    var slugify = function (){
-        $('input[name="nombre"]').on('keyup', function() {
-            var acentos = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç";
-            var original = "aaaaaeeeeiiiioooouuuuaaaaaeeeeiiiioooouuuunncc";
-            var text = $(this).val();
-            for (var i=0; i<acentos.length; i++) {
-                text = text.replace(acentos.charAt(i), original.charAt(i));
-            }
-
-            var slug =  text.toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/_+/g, '-')           // Replace spaces with _
-                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                .replace(/^-+/, '')             // Trim - from start of text
-                .replace(/-+$/, '');            // Trim - from end of text
-            $('input[name="slug"]').val(slug);
-        });
-    }
-
-    var mapGeocoding = function () {
-
-        var map = new GMaps({
-            div: '#gmap_geocoding',
-            lat: 20.3417485,
-            lng: -102.76523259999999
-        });
-
-        var handleAction = function () {
-            console.log('Entra aqui');
-            var calle = $('input[name="direccion"]').val();
-            $('#gmap_geocoding_address').val($.trim(calle));
-            var text = $.trim($('#gmap_geocoding_address').val());
-            GMaps.geocode({
-                address:  text,
-                callback: function (results, status) {
-                    if (status == 'OK') {
-                        var latlng = results[0].geometry.location;
-                        map.setCenter(latlng.lat(), latlng.lng());
-                        map.addMarker({
-                            lat: latlng.lat(),
-                            lng: latlng.lng()
-                        });
-                        $('input[name="latlng_gmaps"]').val(latlng.lat()+', '+ latlng.lng());
-
-                        Metronic.scrollTo($('#gmap_geocoding'));
-                    }
-                }
-            });
-        }
-
-        $('#gmap_geocoding_btn').click(function (e) {
-            e.preventDefault();
-            handleAction();
-        });
-
-        $("#gmap_geocoding_address").keypress(function (e) {
-            var keycode = (e.keyCode ? e.keyCode : e.which);
-            if (keycode == '13') {
-                e.preventDefault();
-                handleAction();
-            }
-        });
-
     }
 
     var dateRange = function () {
+
+        var startDate = $('input[name="disp_inicio"]').val();
+        var endDate = $('input[name="disp_fin"]').val();
+
         moment.locale('es');
         var formato = 'LLLL';
         $('#reportrange').daterangepicker({
                 opens: 'left',
-                drops: 'down',
-                startDate:           moment(),
-                endDate:             moment().add(1, 'year'),
+                drops: 'up',
+                startDate:           moment(startDate),
+                endDate:             moment(endDate),
                 showDropdowns:       true,
                 showWeekNumbers:     true,
                 timePicker:          true,
@@ -126,7 +96,6 @@ var NuevoEvento = function () {
                 separator:           ' al ',
                 locale:              {
                     applyLabel:       'Aplicar',
-                    cancelLabel:    'Cancelar',
                     fromLabel:        'Desde',
                     toLabel:          'a',
                     customRangeLabel: 'Otro Rango',
@@ -152,31 +121,26 @@ var NuevoEvento = function () {
                 $('input[name="finicio"]').val(start.format(formato));
                 $('input[name="ffin"]').val(end.format(formato));
 
-                $('input[name="fecha_inicio"]').val(start.format("YYYY-MM-DD"));
-                $('input[name="hora_inicio"]').val(start.format("HH:mm:ss"));
-                $('input[name="fecha_termina"]').val(end.format("YYYY-MM-DD"));
-                $('input[name="hora_termina"]').val(end.format("HH:mm:ss"));
+                $('input[name="disp_inicio"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
+                $('input[name="disp_fin"]').val(end.format("YYYY-MM-DD HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
-        $('input[name="finicio"]').val(moment().format(formato));
-        $('input[name="ffin"]').val(moment().add(1,'days').format(formato));
+        $('input[name="finicio"]').val(moment(startDate).format(formato));
+        $('input[name="ffin"]').val(moment(endDate).format(formato));
 
-        $('input[name="fecha_inicio"]').val(moment().format("YYYY-MM-DD"));
-        $('input[name="hora_inicio"]').val(moment().format("HH:mm:ss"));
-        $('input[name="fecha_termina"]').val(moment().add(1, 'days').format("YYYY-MM-DD"));
-        $('input[name="hora_termina"]').val(moment().format("HH:mm:ss"));
+        $('input[name="disp_inicio"]').val(startDate);
+        $('input[name="disp_fin"]').val(endDate);
     }
 
-    var maxLenght = function () {
-        $("textarea[name='descripcion']").maxlength({
-            limitReachedClass: "label label-danger",
-            alwaysShow:        true
+    var submitForm = function() {
+        $('#agregar').on('click', function() {
+            $('.form-edita-promocion').submit();
         });
     }
 
     var handleForm = function () {
-        var form = $('.form-nuevo-evento');
+        var form = $('.form-edita-promocion');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -184,22 +148,35 @@ var NuevoEvento = function () {
             focusInvalid: false, // do not focus the last invalid input
             ignore:       "",  // validate all fields including form hidden input
             rules:        {
-                nombre:   {
+                cliente_id: {
+                    required: true
+                },
+                nombre:         {
                     required:  true,
                     maxlength: 45
                 },
                 slug:          {
+//                    required:  true,
                     maxlength: 45
                 },
-                direccion:{
-                    maxlength: 145
-                },
-                descripcion:{
+                descripcion:         {
                     required:  true,
-                    maxlength: 255
+                    maxlength: 255,
+                    minlength: 10
                 },
-                latlng_gmaps: {
-                    maxlength: 45
+                descripcion_corta:        {
+                    required:  true,
+                    maxlength: 45,
+                    minlength: 10
+                },
+                precio:  {
+                    required:  true
+                },
+                disp_inicio:  {
+                    required:  true
+                },
+                disp_fin:  {
+                    required:  true
                 }
             },
 
@@ -229,12 +206,7 @@ var NuevoEvento = function () {
             submitHandler: function (form) {
                 var url  = $(form).attr('action');
                 var data = $(form).serialize();
-
-                console.log("URL:");
-                console.log(url);
-                console.log("DATA:");
-                console.log(data);
-
+                
                 var success = function (data) {
                     App.removeLoader(500, function () {
                         swal({
@@ -244,11 +216,11 @@ var NuevoEvento = function () {
                             type:               "success",
                             animation:          'slide-from-top',
                             showCancelButton:   true,
-                            cancelButtonText: "Añadir nuevo evento",
+                            cancelButtonText:   "Añadir nuevo promocion",
                             confirmButtonColor: Metronic.getBrandColor('green'),
-                            confirmButtonText:  "Listado de eventos"
+                            confirmButtonText:  "Listado de promociones"
                         }, function (isConfirm) {
-                            if(isConfirm){
+                            if (isConfirm) {
                                 window.location.href = data.url;
                             } else {
                                 location.reload(true);
@@ -261,10 +233,10 @@ var NuevoEvento = function () {
             }
         });
 
-        $('.login-form input').keypress(function (e) {
+        $('.form-nueva-promocion input').keypress(function (e) {
             if (e.which == 13) {
-                if ($('.login-form').validate().form()) {
-                    $('.login-form').submit(); //form validation success, call ajax form submit
+                if ($('.form-edita-promocion').validate().form()) {
+                    $('.form-edita-promocion').submit(); //form validation success, call ajax form submit
                 }
                 return false;
             }
@@ -273,11 +245,11 @@ var NuevoEvento = function () {
 
     return {
         init: function () {
-            touchSpin();
             slugify();
-            mapGeocoding();
             maxLenght();
+            touchSpin();
             dateRange();
+            submitForm();
             handleForm();
         }
     }

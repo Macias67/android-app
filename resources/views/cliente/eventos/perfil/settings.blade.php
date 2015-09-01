@@ -110,7 +110,7 @@
                                                             @if ($evento->estatus == 'proximo')
 
                                                             <label class="btn btn-default active">
-                                                                <input id="option1" type="radio" name="estatus" class="toggle" value="proximo"> Próximo </label>
+                                                                <input id="option1" type="radio" name="estatus" class="toggle" value="proximo" checked> Próximo </label>
 
                                                                 <label class="btn btn-default">
                                                                     <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
@@ -124,7 +124,7 @@
                                                                     <input id="option1" type="radio" name="estatus" class="toggle" value="proximo"> Próximo </label>
 
                                                                 <label class="btn btn-default active">
-                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
+                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora" checked> Ahora </label>
 
                                                                 <label class="btn btn-default">
                                                                     <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
@@ -138,7 +138,7 @@
                                                                     <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
 
                                                                 <label class="btn btn-default active">
-                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
+                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco" checked> Caduco </label>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -217,7 +217,7 @@
 										<div class="form-group">
 											<label class="control-label">Latitud y Longitud <span class="required" aria-required="true">*</span></label>
 											<div class="input-group">
-												<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
+												<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa..." value="{{$evento->direccion}}">
 												<span class="input-group-btn">
 													<button class="btn blue" id="gmap_geocoding_btn">
 													<i class="fa fa-map-marker"></i></button>
@@ -343,15 +343,20 @@
 							</div>
 							<!-- END SOCIALES INFO TAB -->
 
-							<!-- CHANGE AVATAR TAB -->
+							<!-- CAMBIO DE IMAGEN DE EVENTO -->
 							<div class="tab-pane" id="tab_logotipo">
 								<p>
 									Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
 								</p>
 								<form action="#" role="form">
 									<div class="form-group">
-										<div id="newlogo" style="height: 502px; width: 502px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_producto}}') " data-id="{{$current_cliente_id}}" data-upload="{{route('global-upload-logo-negocio')}}" data-crop="{{route('global-crop-logo-negocio')}}">
-										</div>
+                                        <div id="newlogo"
+                                             style="height: 503px; width: 503px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_evento}}') "
+                                             data-evento-id="{{$current_evento_id}}"
+                                             data-cliente-id="{{$evento->cliente_id}}"
+                                             data-upload="{{route('global-upload-logo-evento')}}"
+                                             data-crop="{{route('global-crop-logo-evento')}}">
+                                        </div>
 										<div class="clearfix margin-top-10">
 											<span class="label label-danger">NOTE! </span>
 											<span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
