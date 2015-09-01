@@ -5,6 +5,7 @@
 <link href="{{asset('assets/global/plugins/croppic/croppic.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{asset('assets/admin/pages/css/profile.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{asset('assets/global/plugins/select2/select2.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css"/>
 @stop
 
 {{-- Sobreescribir CSS  --}}
@@ -42,6 +43,7 @@
 			padding: 5px;
 			font-size: 18px;
 			font-weight: 600;
+            text-shadow: 0px 0px 5px rgba(20, 20, 20, 1);
 			background-color: rgba(0,0,0,0.5);
 		}
 
@@ -53,6 +55,7 @@
 			border-radius: 4px;
 			margin-bottom: 7px;
 			text-transform: uppercase;
+            text-shadow: 0px 0px 5px rgba(20, 20, 20, 1);
 			background-color: rgba(0,0,0,0.5);
 		}
 
@@ -108,7 +111,7 @@
                                           <h3>{{$producto->nombre}}</h3>
                                     </div>
                                     <div class="profile-usertitle-job">
-	                                    <b>Negocio</b>
+	                                    <b>{{$producto->cliente->nombre}}</b>
                                     </div>
                               </div>
                               <!-- END SIDEBAR USER TITLE -->

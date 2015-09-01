@@ -38,6 +38,8 @@
 												<div class="input-icon">
 													<i class="fa fa-star"></i>
 													<input type="text" class="form-control" name="nombre" placeholder="Nombre del producto" value="{{$producto->nombre}}">
+                                                    <input type="hidden" name="id" value="{{$producto->id}}">
+                                                    <input type="hidden" name="cliente_id" value="{{$producto->cliente_id}}">
 												</div>
 											</div>
 										</div>
@@ -96,7 +98,7 @@
 
 												<div class="col-md-9">
 													<div class="input-inline input-medium">
-														<input id="precio" type="text" name="precio" class="form-control" value="0">
+														<input id="precio" type="text" name="precio" class="form-control" value="{{$producto->precio}}">
 													</div>
 													<span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
 												</div>
@@ -106,7 +108,7 @@
 
 												<div class="col-md-9">
 													<div class="input-inline input-medium">
-														<input id="cantidad" type="text" name="cantidad" class="form-control" value="0">
+														<input id="cantidad" type="text" name="cantidad" class="form-control" value="{{$producto->cantidad}}">
 													</div>
 													<span class="help-block">Unidades enteras</span>
 												</div>
@@ -126,7 +128,7 @@
 													<div class="input-icon">
 														<i class="fa fa-calendar"></i>
 														<input type="text" class="form-control" name="finicio"  readonly>
-														<input type="hidden" class="form-control" name="disp_inicio">
+														<input type="hidden" class="form-control" name="disp_inicio" value="{{$producto->disp_inicio}}">
 													</div>
 												</div>
 											</div>
@@ -137,7 +139,7 @@
 													<div class="input-icon">
 														<i class="fa fa-calendar"></i>
 														<input type="text" class="form-control" name="ffin" placeholder="Url del producto" readonly>
-														<input type="hidden" class="form-control" name="disp_fin">
+														<input type="hidden" class="form-control" name="disp_fin" value="{{$producto->disp_fin}}">
 													</div>
 												</div>
 											</div>
@@ -146,8 +148,7 @@
 
 									<div class="col-md-12">
 										<div class="margin-top-20">
-											<a href="javascript:;" class="btn green-haze">Save Changes </a>
-											<a href="javascript:;" class="btn default">Cancel </a>
+                                            <button type="submit" class="btn green-haze">Guardar cambios</button>
 										</div>
 									</div>
 								</form>
@@ -163,7 +164,7 @@
 								<form action="#" role="form">
 									<div class="form-group">
 										<div id="newlogo"
-                                             style="height: 502px; width: 502px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_producto}}') "
+                                             style="height: 503px; width: 503px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_producto}}') "
 											 data-id="{{$current_producto_id}}"
                                              data-cliente-id="{{$producto->cliente_id}}"
                                              data-upload="{{route('global-upload-logo-producto')}}"

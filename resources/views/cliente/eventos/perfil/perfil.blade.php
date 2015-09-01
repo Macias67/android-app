@@ -34,11 +34,11 @@
                   <i class="fa fa-circle"></i>
             </li>
             <li>
-                  <a href="#">Page Layouts</a>
+                  <a href="#">Eventos</a>
                   <i class="fa fa-circle"></i>
             </li>
             <li>
-                  <a href="#">Blank Page</a>
+                  <a href="#">Editar eventos</a>
             </li>
       </ul>
 @stop
@@ -144,17 +144,25 @@
 <script src="{{asset('assets/global/plugins/croppic/croppic.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/moment-with-locales.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type="text/javascript"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script src="{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
 
 @stop
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-    <script src="{{asset('assets/admin/pages/app/cliente/negocios/perfil.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/admin/pages/app/cliente/negocios/info-adicional.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/pages/app/cliente/eventos/nuevo-evento.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/pages/app/cliente/eventos/edita-evento.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js  --}}
 @section('init-js')
-Profile.init();
-InfoAdicional.init();
+      {{--NuevoEvento.init();--}}
+      EditaEvento.init();
 @stop

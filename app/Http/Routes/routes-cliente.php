@@ -79,6 +79,11 @@ Route::group(
                 'uses' => 'ProductosCliente@show'
             ])->where('id', '[0-9]+');
 
+            Route::post('update', [
+                'as' => 'cliente.producto.update',
+                'uses' => 'ProductosCliente@update'
+            ]);
+
 
             Route::get('json/{id?}', [
                 'as' => 'cliente.producto.procutos-json',

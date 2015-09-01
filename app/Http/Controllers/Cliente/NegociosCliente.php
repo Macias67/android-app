@@ -124,27 +124,60 @@ class NegociosCliente extends BaseCliente
      */
     public function show (Request $request, $id, $accion = NULL)
     {
-        $cliente     = Cliente::find($id);
-        $propietario = $cliente->propietario;
-        if ($this->infoPropietario->id == $propietario->id) {
+        if(!is_null($cliente     = Cliente::find($id))) {
 
-            $this->data['logo']               = $this->_getLogo($id);
-            $this->data['categoria']        = $cliente->subcategorias->first()->subcategoria;
-            $this->data['cliente']            = $cliente;
-            $this->data['current_cliente_id'] = $id;
+//            foreach($cliente->subcategorias as $subcategoria) {
+//                dd($subcategoria->categoria->id);
+//            }
 
-            switch ($accion) {
-                case NULL:
-                    return $this->view('cliente.negocios.perfil.index');
-                    break;
-                case 'settings':
-                    return $this->view('cliente.negocios.perfil.settings');
-                    break;
+            if ($this->infoPropietario->id == $cliente->propietario->id) {
+
+                $this->data['param'] = [
+                    'route'        => 'cliente.negocio.store',
+                    'class'        => 'form-horizontal form-nuevo-cliente',
+                    'role'         => 'form',
+                    'autocomplete' => 'off'
+                ];
+
+                $categorias         = Categorias::all(['id', 'categoria'])->ToArray();
+                $options_categorias = ['' => ''];
+                foreach ($categorias as $categoria) {
+                    $options_categorias[$categoria['id']] = $categoria['categoria'];
+                }
+
+                for($i = 0; $i < 3; $i++) {
+                    if(array_key_exists($i, $cliente->subcategorias->toArray())) {
+                        $cl_categorias[$i]['categoria'] = $cliente->subcategorias[$i]->categoria->id;
+                        $cl_categorias[$i]['subcategoria'] = $cliente->subcategorias[$i]->id;
+                    } else {
+                        $cl_categorias[$i]['categoria'] = NULL;
+                        $cl_categorias[$i]['subcategoria'] = NULL;
+                    }
+                }
+
+                $this->data['options_categorias'] = $options_categorias;
+
+                $this->data['logo']               = $this->_getLogo($id);
+                $this->data['categoria']        = $cliente->subcategorias->first()->subcategoria;
+                $this->data['cl_categorias'] = $cl_categorias;
+                $this->data['cliente']            = $cliente;
+                $this->data['current_cliente_id'] = $id;
+
+                switch ($accion) {
+                    case NULL:
+                        return $this->view('cliente.negocios.perfil.index');
+                        break;
+                    case 'settings':
+                        return $this->view('cliente.negocios.perfil.settings');
+                        break;
+                }
+
             }
-
-        }
-        else {
-            return response('No autorizado', 401);
+            else {
+                return response('No autorizado', 401);
+            }
+        } else {
+            return response('Este negocio no existe', 412);
         }
     }
 

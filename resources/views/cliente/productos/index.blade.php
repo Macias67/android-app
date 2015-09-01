@@ -86,7 +86,7 @@
                         <span class="caption-helper">Top 10 mas gustados.</span>
                     </div>
                     <div class="actions">
-                        <a href="javascript:;" class="btn btn-circle bg-green-jungle"><i class="fa fa-plus"></i></a>
+                        <a href="{{route('cliente.producto.create')}}" class="btn btn-circle bg-green-jungle  hvr-grow"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
                 <div class="portlet-body">
