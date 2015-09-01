@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdmCategorias::class);
         $this->call(ClCliente::class);
         $this->call(ClCategorias::class);
+        $this->call(ClProductos::class);
 
         Model::reguard();
     }

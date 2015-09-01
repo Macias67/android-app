@@ -10,7 +10,7 @@ class ClCliente extends Seeder
 
         for ($i = 1; $i < 31; $i++) {
             \DB::table('cl_clientes')->insert(array(
-                'nombre' => $faker->word . $faker->word . $faker->word,
+                'nombre' => $faker->word . $faker->name . $faker->word,
                 'calle' => $faker->streetName,
                 'numero' => $faker->buildingNumber,
                 'colonia' => $faker->citySuffix,

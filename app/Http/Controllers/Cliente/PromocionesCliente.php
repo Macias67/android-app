@@ -95,11 +95,8 @@ class PromocionesCliente extends BaseCliente
      * @param  int  $id
      * @return Response
      */
-    public function edit(CreatePromociones $request, $id)
+    public function edit()
     {
-        $promociones = Promociones::findOrFail($id);
-
-        return view(compact('promociones'));
     }
 
     /**
