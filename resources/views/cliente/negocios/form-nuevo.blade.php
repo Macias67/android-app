@@ -219,6 +219,8 @@
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
 {!! \Html::script('assets/global/plugins/jquery-inputmask/dist/jquery.inputmask.min.js', array('type' => 'text/javascript')) !!}
+{!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
+{!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/global/plugins/jquery-validation/js/jquery.validate.min.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
 <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
@@ -227,9 +229,6 @@
 
 {{-- Cargar los archivos de js  --}}
 @section('page-level-js')
-{!! \Html::script('assets/global/plugins/bootstrap-select/bootstrap-select.min.js', array('type' => 'text/javascript')) !!}
-{!! \Html::script('assets/global/plugins/select2/select2.min.js', array('type' => 'text/javascript')) !!}
-{!! \Html::script('assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/admin/pages/app/admin/clientes/nuevo-cliente.js', array('type' => 'text/javascript')) !!}
 @stop
 

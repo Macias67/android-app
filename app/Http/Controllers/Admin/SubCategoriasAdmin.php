@@ -105,4 +105,12 @@ class SubCategoriasAdmin extends BaseAdmin
             return $options;
         }
     }
+
+    public function jsonSelect2 (Request $request, $id)
+    {
+//        if($request->ajax()){
+            $subcategorias = SubCategorias::where('categoria_id', $id)->get(['id', 'subcategoria as text'])->ToArray();
+            return new JsonResponse($subcategorias);
+//        }
+    }
 }

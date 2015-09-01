@@ -29,6 +29,11 @@ Route::group(
             'uses' => 'Admin\SubCategoriasAdmin@dropdown'
         ])->where('id', '[0-9]+');
 
+        Route::get('subcategorias/select2/{id?}', [
+            'as' => 'global-select2-subcategorias',
+            'uses' => 'Admin\SubCategoriasAdmin@jsonSelect2'
+        ])->where('id', '[0-9]+');
+
         /*
         |--------------------------------------------------------------------------
         | TEST ANDROID
