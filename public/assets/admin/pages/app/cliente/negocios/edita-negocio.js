@@ -98,7 +98,7 @@ var EditaCliente = function () {
                                 animation: google.maps.Animation.DROP,
                                 lat: latlng.lat(),
                                 lng: latlng.lng(),
-                                icon: 'http://wcdn1.dataknet.com/static/resources/icons/set94/be39f3b7.png',
+                                //icon: 'http://wcdn1.dataknet.com/static/resources/icons/set94/be39f3b7.png',
                                 drag: function(e) {
                                     $('input[name="latlng_gmaps"]').val(e.latLng.lat() + ', ' + e.latLng.lng());
                                 },

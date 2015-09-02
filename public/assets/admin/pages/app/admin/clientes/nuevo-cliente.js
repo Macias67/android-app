@@ -68,6 +68,8 @@ var NuevoCliente = function () {
 
     var mapGeocoding = function () {
 
+        var marker;
+
         var map = new GMaps({
             div: '#gmap_geocoding',
             lat: 20.3417485,
@@ -86,12 +88,33 @@ var NuevoCliente = function () {
                     if (status == 'OK') {
                         var latlng = results[0].geometry.location;
                         map.setCenter(latlng.lat(), latlng.lng());
-                        map.addMarker({
-                            lat: latlng.lat(),
-                            lng: latlng.lng()
-                        });
+                        if(marker) {
+                            marker.setPosition({lat:latlng.lat(), lng:latlng.lng()});
+                        } else {
+                            marker = map.addMarker({
+                                draggable: true,
+                                animation: google.maps.Animation.DROP,
+                                lat: latlng.lat(),
+                                lng: latlng.lng(),
+                                //icon: 'http://wcdn1.dataknet.com/static/resources/icons/set94/be39f3b7.png',
+                                drag: function(e) {
+                                    $('input[name="latlng_gmaps"]').val(e.latLng.lat() + ', ' + e.latLng.lng());
+                                },
+                                dragend: function(e) {
+                                    map.setCenter(e.latLng.lat(), e.latLng.lng());
+                                    GMaps.geocode(
+                                        {
+                                            location: {lat:e.latLng.lat(), lng:e.latLng.lng()},
+                                            callback: function (results, status) {
+                                                console.log(results);
+                                                $('#gmap_geocoding_address').val(results[0].formatted_address);
+                                                console.log(results[0].formatted_address);
+                                            }
+                                        });
+                                }
+                            });
+                        }
                         $('input[name="latlng_gmaps"]').val(latlng.lat() + ', ' + latlng.lng());
-
                         Metronic.scrollTo($('#gmap_geocoding'));
                     }
                 }
