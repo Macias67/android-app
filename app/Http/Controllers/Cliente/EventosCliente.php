@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Cliente;
 use App\Http\Controllers\Traits\GetImagesCliente;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Evento;
+use App\Http\Models\Cliente\Propietario;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use PHPImageWorkshop\ImageWorkshop;
@@ -22,7 +24,30 @@ class EventosCliente extends BaseCliente
      */
     public function index()
     {
-        $eventos = Evento::all()->toArray();
+        $cl_eventos = Evento::getTableName();
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+
+        $eventos = DB::table($cl_eventos)
+                       ->select(
+                           $cl_eventos.'.id',
+                           $cl_clientes.'.id as cliente_id',
+                           $cl_clientes.'.nombre as nombre_cliente',
+                           $cl_eventos.'.nombre as nombre_evento',
+                           $cl_eventos.'.descripcion'
+                       )
+                       ->join($cl_clientes, $cl_eventos.'.cliente_id', '=', $cl_clientes.'.id')
+                       ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+                       ->where($cl_propietario.'.id', '=', $this->infoPropietario->id)
+                       ->groupBy($cl_eventos.'.nombre')
+                       ->take(10)
+                       ->get();
+
+        foreach($eventos as $evento) {
+            $evento->imagen = $this->_getImageProducto($evento->cliente_id, 'eventos', $evento->id);
+        }
+
+
         $this->data['eventosMasGustados'] = $eventos;
 
         return $this->view('cliente.eventos.index');
@@ -188,9 +213,9 @@ class EventosCliente extends BaseCliente
     public function uploadImage (Request $request)
     {
         if ($request->ajax() && $request->file('img')) {
-            $evento_id  = $request->get('producto_id');
+            $evento_id  = $request->get('evento_id');
             $cliente_id  = $request->get('cliente_id');
-            $imagePath   = "img/cliente/" . $cliente_id . "/eventos/".$evento_id.'/';
+            $imagePath   = "img/cliente/" . $cliente_id . "/eventos/". $evento_id .'/';
             $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
             $temp        = explode(".", $_FILES["img"]["name"]);
             $extension   = end($temp);

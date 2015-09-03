@@ -350,12 +350,12 @@
 								</p>
 								<form action="#" role="form">
 									<div class="form-group">
-                                        <div id="newlogo"
+                                        <div id="newImage"
                                              style="height: 503px; width: 503px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_evento}}') "
                                              data-evento-id="{{$current_evento_id}}"
                                              data-cliente-id="{{$evento->cliente_id}}"
-                                             data-upload="{{route('global-upload-logo-evento')}}"
-                                             data-crop="{{route('global-crop-logo-evento')}}">
+                                             data-upload="{{route('global-upload-image-evento')}}"
+                                             data-crop="{{route('global-crop-image-evento')}}">
                                         </div>
 										<div class="clearfix margin-top-10">
 											<span class="label label-danger">NOTE! </span>

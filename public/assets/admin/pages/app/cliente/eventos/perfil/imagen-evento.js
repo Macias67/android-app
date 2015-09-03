@@ -6,11 +6,11 @@ var ImagenEvento = function() {
 
     var croppic = function() {
         var token = Metronic.getToken();
-        var id = $('#newlogo').attr('data-id');
-        var cliente_id = $('#newlogo').attr('data-cliente-id');
+        var id = $('#newImage').attr('data-evento-id');
+        var cliente_id = $('#newImage').attr('data-cliente-id');
         var cropperOptions = {
-            uploadUrl: $('#newlogo').attr('data-upload'),
-            cropUrl: $('#newlogo').attr('data-crop'),
+            uploadUrl: $('#newImage').attr('data-upload'),
+            cropUrl: $('#newImage').attr('data-crop'),
             uploadData:{
                 "evento_id": id,
                 "cliente_id": cliente_id,
@@ -30,7 +30,7 @@ var ImagenEvento = function() {
             }
         }
         console.log(cropperOptions);
-        var cropperHeader = new Croppic('newlogo', cropperOptions);
+        var cropperHeader = new Croppic('newImage', cropperOptions);
     }
 
     return {
