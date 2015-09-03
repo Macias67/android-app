@@ -47,6 +47,11 @@ class Evento extends Model
         $this->_cleanData();
     }
 
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
+    }
+
     public function idPropietario($id_propietario, $id_evento)
     {
         $cl_clientes = Cliente::getTableName();
