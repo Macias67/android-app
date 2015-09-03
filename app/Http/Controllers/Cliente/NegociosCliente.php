@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Cliente;
 use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
-use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests;
+use App\Http\Requests\Cliente\EditCliente;
 use App\Http\Requests\CreateCliente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -129,7 +129,7 @@ class NegociosCliente extends BaseCliente
             if ($this->infoPropietario->id == $cliente->propietario->id) {
 
                 $this->data['param'] = [
-                    'route'        => 'cliente.negocio.store',
+                    'route'        => 'cliente.negocio.update',
                     'class'        => 'form-horizontal form-nuevo-cliente',
                     'role'         => 'form',
                     'autocomplete' => 'off'
@@ -199,14 +199,42 @@ class NegociosCliente extends BaseCliente
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @param  int     $id
+     * @param \App\Http\Requests\Cliente\EditCliente $request
      *
-     * @return Response
+     * @return \App\Http\Controllers\Cliente\Response
      */
-    public function update (Request $request, $id)
+    public function update (EditCliente $request)
     {
-        //
+        if ($request->ajax() && $request->wantsJson()) {
+            if(!is_null($cliente = Cliente::find($request->get('id')))) {
+                if ($this->infoPropietario->id == $cliente->propietario->id) {
+                    $cliente->preparaDatos($request);
+                    if ($cliente->save()) {
+                        $response = [
+                            'exito'  => TRUE,
+                            'titulo' => 'Cliente actualizado',
+                            'texto'  =>'<b>' . $cliente->nombre . '</b> se ha actualizado.',
+                            'url' => route('negocios-cliente')
+                        ];
+                    }
+                    else {
+                        $response = [
+                            'exito'  => FALSE,
+                            'titulo' =>  'No se actualizó',
+                            'texto'  =>'Parece que no hubo cambios en la BD',
+                            'url'    => NULL
+                        ];
+                    }
+                    return $this->responseJSON($response);
+                }
+                else {
+                    return response('No autorizado', 401);
+                }
+            }
+            else {
+                return response('Este negocio no existe', 412);
+            }
+        }
     }
 
     /**

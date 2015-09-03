@@ -50,6 +50,11 @@ Route::group(
                 'as' => 'cliente.negocio.store',
                 'uses' => 'NegociosCliente@store'
             ]);
+
+            Route::post('update', [
+                'as' => 'cliente.negocio.update',
+                'uses' => 'NegociosCliente@update'
+            ]);
         });
 
         /*

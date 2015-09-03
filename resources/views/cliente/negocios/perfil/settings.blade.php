@@ -36,7 +36,6 @@
 							<!-- PERSONAL INFO TAB -->
 							<div class="tab-pane active" id="tab_principal">
 								{!! Form::open($param) !!}
-
 									{{--Datos basicos--}}
 									<div class="col-md-6">
 										<div class="form-body">
@@ -60,7 +59,7 @@
 														<i class="fa fa-institution"></i>
 														<input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar" value="{{$cliente->nombre}}">
 														<input type="hidden" name="propietario_id" value="{{$user->id}}">
-                                                        <input type="hidden" name="id" value="{{$cliente->id}}">
+														<input type="hidden" name="id" value="{{$cliente->id}}">
 													</div>
 												</div>
 											</div>
@@ -153,37 +152,62 @@
 											</div>
 										</div>
 									</div>
-
 									{{--Mapas--}}
 									<div class="col-md-12">
-										<h4 class="form-section">Coordenadas y ubicación</h4>
+										<h4 class="form-section">Google Maps</h4>
 										<hr>
 										<div class="form-group">
-											<label class="control-label">Latitud y Longitud <span class="required" aria-required="true">*</span></label>
-											<div class="input-group">
-												<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
-												<span class="input-group-btn">
-													<button class="btn blue" id="gmap_geocoding_btn">
-														<i class="fa fa-map-marker"></i>
-													</button>
-												</span>
+											<div class="col-md-offset-2 col-md-10">
+												<div class="input-group">
+													<input type="text" class="form-control" id="calle_registrada" placeholder="Calle No. Colonia, Ciudad Estado">
+													<span class="input-group-btn">
+														<button class="btn blue faa-parent animated-icon-hover" id="gmap_geocoding_btn">
+															<i class="fa fa-map-marker faa-vertical"></i> Ubicar
+														</button>
+													</span>
+												</div>
+												<span class="help-block">Dirección formada en base a los datos del formulario. Presione ubicar para mostrarlo en el mapa.</span>
 											</div>
 										</div>
+
 										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" value="{{$cliente->latlng_gmaps}}" readonly>
+											<div class="col-md-offset-2 col-md-10">
+												<div class="input-group">
+													<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección de Google Maps" readonly>
+													<span class="input-group-btn">
+														<button class="btn red faa-parent animated-icon-hover" id="gmap_address_replace">
+															<i class="fa fa-repeat faa-spin"></i> Remplazar
+														</button>
+													</span>
+												</div>
+												<span class="help-block">Dirección formada pro Google Maps. Presione Remplazar para sustituir la dirección por los valores de Google Maps.</span>
+											</div>
 										</div>
-                                        <div class="form-group">
-                                            <button type="button" class="btn green btn-xs">Extra small button</button>
-                                        </div>
+
 										<div class="form-group">
-											<div id="gmap_geocoding" class="gmaps"></div>
-											<span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+											<div class="col-md-offset-2 col-md-10">
+												<div class="col-md-6">
+													<label class="control-label">Latitud</label>
+													<input type="text" class="form-control input-large" placeholder="Latitud" name="latitud" value="{{$cliente->latitud}}" readonly>
+												</div>
+												<div class="col-md-6">
+													<label class="control-label">Longitud</label>
+													<input type="text" class="form-control input-large" placeholder="Longitud" name="longitud" value="{{$cliente->longitud}}" readonly>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="col-md-offset-2 col-md-10">
+												<div id="gmap_geocoding" class="gmaps"></div>
+												<span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+											</div>
 										</div>
 									</div>
-									<div class="col-md-12">
+									{{--Accion--}}
+									<div class="col-md-offset-2 col-md-10">
 										<div class="margin-top-20">
-											<a href="javascript:;" class="btn green-haze">Save Changes </a>
-											<a href="javascript:;" class="btn default">Cancel </a>
+											<button type="submit" class="btn green-haze hvr-grow">Guardar cambios</button>
 										</div>
 									</div>
 								</form>
@@ -194,22 +218,30 @@
 							<!-- ADICIONAL INFO TAB -->
 							<div class="tab-pane" id="tab_adicional">
 								<form role="form" action="#" class="form-horizontal form-row-sepe">
-                                    <h4 class="form-section">Dias y horarios</h4>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Dias</label>
-                                        <div class="col-md-10">
-                                            <div class="btn-group" data-toggle="buttons">
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="1"> Lunes </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="2"> Martes </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="3"> Miércoles </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="4"> Jueves </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="5"> Viernes </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="6"> Sábado </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="7"> Domingo </label>
-                                            </div>
-                                        </div>
-                                    </div>
+									<h4 class="form-section">Dias y horarios</h4>
+									<hr>
+									<div class="form-group">
+										<label class="col-md-2 control-label">Dias</label>
+
+										<div class="col-md-10">
+											<div class="btn-group" data-toggle="buttons">
+												<label class="btn btn-default"><input type="checkbox" class="toggle" value="1"> Lunes
+												</label>
+												<label class="btn btn-default"><input type="checkbox" class="toggle" value="2"> Martes
+												</label>
+												<label class="btn btn-default"><input type="checkbox" class="toggle" value="3"> Miércoles
+												</label>
+												<label class="btn btn-default"><input type="checkbox" class="toggle" value="4"> Jueves
+												</label>
+												<label class="btn btn-default"><input type="checkbox" class="toggle" value="5"> Viernes
+												</label>
+												<label class="btn btn-default"><input type="checkbox" class="toggle" value="6"> Sábado
+												</label>
+												<label class="btn btn-default"><input type="checkbox" class="toggle" value="7"> Domingo
+												</label>
+											</div>
+										</div>
+									</div>
 									<div class="form-group">
                                         <label class="col-md-2 control-label">Abre</label>
 										<div class="col-md-9">
