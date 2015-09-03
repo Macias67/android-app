@@ -47,6 +47,11 @@ class Promociones extends Model
         $this->_cleanData();
     }
 
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'id', 'cliente_id');
+    }
+
     private function _cleanData ()
     {
         $this->cliente_id         = mb_convert_case(trim(mb_strtolower($this->cliente_id)), MB_CASE_TITLE, "UTF-8");
@@ -57,6 +62,22 @@ class Promociones extends Model
         $this->disp_inicio        = trim($this->disp_inicio);
         $this->disp_fin           = trim($this->disp_fin);
         $this->estatus            = trim($this->estatus);
+    }
+
+    public function idPropietario($id_propietario, $id_promocion)
+    {
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+        $query = $this
+            ->select($cl_propietario.'.id')
+            ->join($cl_clientes, $this->table.'.cliente_id', '=', $cl_clientes.'.id')
+            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+            ->where($cl_propietario.'.id', '=', $id_propietario)
+            ->where($this->table.'.id', '=', $id_promocion)
+            ->get()
+            ->toArray();
+
+        return$query;
     }
 
 }

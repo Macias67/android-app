@@ -32,14 +32,14 @@
 								{!! Form::open($param) !!}
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="col-md-3 control-label">Producto <span class="required">*</span></label>
+											<label class="col-md-3 control-label">Nombre<span class="required">*</span></label>
 
 											<div class="col-md-9">
 												<div class="input-icon">
 													<i class="fa fa-star"></i>
-													<input type="text" class="form-control" name="nombre" placeholder="Nombre del producto" value="{{$producto->nombre}}">
+													<input type="text" class="form-control" name="nombre" placeholder="Nombre de la promocion" value="{{$promocion->nombre}}">
                                                     <input type="hidden" name="id" value="{{$promocion->id}}">
-                                                    <input type="hidden" name="cliente_id" value="{{$producto->cliente_id}}">
+                                                    <input type="hidden" name="cliente_id" value="{{$promocion->cliente_id}}">
 												</div>
 											</div>
 										</div>
@@ -49,42 +49,34 @@
 											<div class="col-md-9">
 												<div class="input-icon">
 													<i class="fa fa-desktop"></i>
-													<input type="text" class="form-control" name="slug" placeholder="Url del producto" value="{{$producto->slug}}" readonly>
+													<input type="text" class="form-control" name="slug" placeholder="Url de la promocion" value="{{$promocion->slug}}" readonly>
 												</div>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label">Categoría <span class="required">*</span></label>
+											<label class="col-md-3 control-label">Categoría<span class="required">*</span></label>
 
 											<div class="col-md-9">
-												{!! Form::select('categoria_id', $categorias, $producto->categoria_id, ['class' => 'form-control']) !!}
+												{!! Form::select('categoria_id', $categorias, $promocion->categoria_id, ['class' => 'form-control']) !!}
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="control-label col-md-3">Descripción <span class="required">*</span></label>
+											<label class="control-label col-md-3">Descripción<span class="required">*</span></label>
 
 											<div class="col-md-9">
-												<textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;">{{$producto->descripcion}}</textarea>
-												<span class="help-block">Descripción detallada del producto. </span>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="control-label col-md-3">Descripción corta <span class="required">*</span></label>
-
-											<div class="col-md-9">
-												<textarea class="form-control" name="descripcion_corta" maxlength="45" rows="2" style="resize: none;">{{$producto->descripcion_corta}}</textarea>
-												<span class="help-block">Descripción resumida del producto. </span>
+												<textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;">{{$promocion->descripcion}}</textarea>
+												<span class="help-block">Descripción detallada de la promocion. </span>
 											</div>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-body">
 											<div class="form-group">
-												<label class="control-label col-md-3">Estatus <span class="required">*</span></label>
+												<label class="control-label col-md-3">Estatus<span class="required">*</span></label>
 
 												<div class="col-md-9">
 													<input type="checkbox" class="make-switch" name="estatus"
-													       @if($producto->estatus == 'online')
+													       @if($promocion->estatus == 'online')
 														       checked
 													       @endif
 													       data-size="small"
@@ -93,34 +85,7 @@
 													       data-off-color="default">
 												</div>
 											</div>
-											<div class="form-group">
-												<label class="control-label col-md-3">Precio <span class="required">*</span></label>
 
-												<div class="col-md-9">
-													<div class="input-inline input-medium">
-														<input id="precio" type="text" name="precio" class="form-control" value="{{$producto->precio}}">
-													</div>
-													<span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="control-label col-md-3">Cantidad</label>
-
-												<div class="col-md-9">
-													<div class="input-inline input-medium">
-														<input id="cantidad" type="text" name="cantidad" class="form-control" value="{{$producto->cantidad}}">
-													</div>
-													<span class="help-block">Unidades enteras</span>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-offset-3 col-md-9">
-													<button type="button" class="btn default" id="reportrange">
-														<i class="fa fa-calendar"></i> Disposición
-														<i class="fa fa-angle-down"></i></button>
-												</div>
-											</div>
 											<div class="form-group">
 												<label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
 
@@ -128,7 +93,7 @@
 													<div class="input-icon">
 														<i class="fa fa-calendar"></i>
 														<input type="text" class="form-control" name="finicio"  readonly>
-														<input type="hidden" class="form-control" name="disp_inicio" value="{{$producto->disp_inicio}}">
+														<input type="hidden" class="form-control" name="disp_inicio" value="{{$promocion->disp_inicio}}">
 													</div>
 												</div>
 											</div>
@@ -138,9 +103,16 @@
 												<div class="col-md-9">
 													<div class="input-icon">
 														<i class="fa fa-calendar"></i>
-														<input type="text" class="form-control" name="ffin" placeholder="Url del producto" readonly>
-														<input type="hidden" class="form-control" name="disp_fin" value="{{$producto->disp_fin}}">
+														<input type="text" class="form-control" name="ffin" placeholder="Url del promocion" readonly>
+														<input type="hidden" class="form-control" name="disp_fin" value="{{$promocion->disp_fin}}">
 													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-md-offset-3 col-md-9">
+													<button type="button" class="btn default" id="reportrange">
+														<i class="fa fa-calendar"></i> Disposición
+														<i class="fa fa-angle-down"></i></button>
 												</div>
 											</div>
 										</div>
@@ -164,11 +136,11 @@
 								<form action="#" role="form">
 									<div class="form-group">
 										<div id="newlogo"
-                                             style="height: 503px; width: 503px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_producto}}') "
-											 data-id="{{$current_producto_id}}"
-                                             data-cliente-id="{{$producto->cliente_id}}"
-                                             data-upload="{{route('global-upload-logo-producto')}}"
-                                             data-crop="{{route('global-crop-logo-producto')}}">
+                                             style="height: 503px; width: 503px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$img_promocion}}') "
+											 data-id="{{$current_promocion_id}}"
+                                             data-cliente-id="{{$promocion->cliente_id}}"
+                                             data-upload="{{route('global-upload-logo-promocion')}}"
+                                             data-crop="{{route('global-crop-logo-promocion')}}">
 										</div>
 										<div class="clearfix margin-top-10">
 											<span class="label label-danger">NOTE! </span>

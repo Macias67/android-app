@@ -2,7 +2,7 @@
  * Created by Luis Macias on 02/08/2015.
  */
 
-var EditaPromocion = function () {
+var EditaPromociones = function () {
 
     var slugify = function ()
     {
