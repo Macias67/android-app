@@ -148,11 +148,11 @@ class PromocionesCliente extends BaseCliente
                 return $this->view('cliente.promociones.perfil.settings');
             }
             else {
-                return response('No es tu producto.', 412);
+                return response('No es tu promocion.', 412);
             }
         }
     else {
-            return response('No existe producto.', 412);
+            return response('No existe esta promocion.', 412);
         }
     }
 
@@ -183,7 +183,7 @@ class PromocionesCliente extends BaseCliente
                 if ($promocion->save()) {
                     $response = [
                         'exito'  => TRUE,
-                        'titulo' => 'Producto actualizado',
+                        'titulo' => 'Promocion actualizado',
                         'texto'  =>'<b>' . $promocion->nombre . '</b> se ha actualizado.',
                         'url' => route('promociones-cliente')
                     ];

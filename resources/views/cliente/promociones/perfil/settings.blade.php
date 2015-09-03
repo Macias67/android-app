@@ -37,7 +37,7 @@
 											<div class="col-md-9">
 												<div class="input-icon">
 													<i class="fa fa-star"></i>
-													<input type="text" class="form-control" name="nombre" placeholder="Nombre del producto" value="{{$promocion->nombre}}">
+													<input type="text" class="form-control" name="nombre" placeholder="Nombre de la promocion" value="{{$promocion->nombre}}">
                                                     <input type="hidden" name="id" value="{{$promocion->id}}">
                                                     <input type="hidden" name="cliente_id" value="{{$promocion->cliente_id}}">
 												</div>
@@ -49,7 +49,7 @@
 											<div class="col-md-9">
 												<div class="input-icon">
 													<i class="fa fa-desktop"></i>
-													<input type="text" class="form-control" name="slug" placeholder="Url del producto" value="{{$promocion->slug}}" readonly>
+													<input type="text" class="form-control" name="slug" placeholder="Url de la promocion" value="{{$promocion->slug}}" readonly>
 												</div>
 											</div>
 										</div>
@@ -103,7 +103,7 @@
 												<div class="col-md-9">
 													<div class="input-icon">
 														<i class="fa fa-calendar"></i>
-														<input type="text" class="form-control" name="ffin" placeholder="Url del producto" readonly>
+														<input type="text" class="form-control" name="ffin" placeholder="Url del promocion" readonly>
 														<input type="hidden" class="form-control" name="disp_fin" value="{{$promocion->disp_fin}}">
 													</div>
 												</div>
