@@ -7,6 +7,7 @@ var Logotipo = function() {
     var croppic = function() {
         var token = Metronic.getToken();
         var id = $('#newlogo').attr('data-id');
+        console.log(id);
         var cliente_id = $('#newlogo').attr('data-cliente-id');
         var cropperOptions = {
             uploadUrl: $('#newlogo').attr('data-upload'),
@@ -26,10 +27,12 @@ var Logotipo = function() {
             rotateControls:false,
             onAfterImgCrop:		function(){
                 var src = $('img.croppedImg').attr('src');
+                console.log(src);
                 $('#img-promocion').css('background-image', 'url(' + src + ')');
             }
         }
         var cropperHeader = new Croppic('newlogo', cropperOptions);
+        console.log(cropperHeader);
     }
 
     return {

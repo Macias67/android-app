@@ -54,7 +54,7 @@ class PromocionesCliente extends BaseCliente
             ->get();
 
         foreach($promociones as $promocion) {
-            $promocion->imagen = $this->_getImagePromociones($promocion->cliente_id, 'promociones', $promocion->id);
+            $promocion->imagen = $this->_getImage($promocion->cliente_id, 'promociones', $promocion->id);
         }
         $this->data['promocionesMasGustadas'] = $promociones;
 
@@ -142,7 +142,7 @@ class PromocionesCliente extends BaseCliente
 
                 $this->data['promocion'] = $promocion;
                 $this->data['categorias'] = $options;
-                $this->data['img_promocion'] = $this->_getImagePromociones($promocion->cliente_id, 'promocion',$id);
+                $this->data['img_promocion'] = $this->_getImage($promocion->cliente_id, 'promociones',$id);
                 $this->data['current_promocion_id'] = $id;
 
                 return $this->view('cliente.promociones.perfil.settings');
