@@ -55,7 +55,7 @@ class ProductosCliente extends BaseCliente
             ->get();
 
         foreach($productos as $producto) {
-            $producto->imagen = $this->_getImageProducto($producto->cliente_id, 'productos', $producto->id);
+            $producto->imagen = $this->_getImage($producto->cliente_id, 'productos', $producto->id);
         }
         $this->data['productosMasGustados'] = $productos;
 
@@ -149,7 +149,7 @@ class ProductosCliente extends BaseCliente
 
                 $this->data['producto'] = $producto;
                 $this->data['categorias'] = $options;
-                $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, 'productos',$id);
+                $this->data['img_producto'] = $this->_getImage($producto->cliente_id, 'productos',$id);
                 $this->data['current_producto_id'] = $id;
 
                 return $this->view('cliente.productos.perfil.settings');
