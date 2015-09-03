@@ -44,7 +44,7 @@ class EventosCliente extends BaseCliente
                        ->get();
 
         foreach($eventos as $evento) {
-            $evento->imagen = $this->_getImageProducto($evento->cliente_id, 'eventos', $evento->id);
+            $evento->imagen = $this->_getImage($evento->cliente_id, 'eventos', $evento->id);
         }
 
 
@@ -140,7 +140,7 @@ class EventosCliente extends BaseCliente
                 $this->data['ffin'] = $fecha_fin;
                 $this->data['finicio'] = $fecha_inicio;
                 $this->data['current_evento_id'] = $id;
-                $this->data['img_evento'] = $this->_getImageProducto($evento->cliente_id, 'eventos', $id);
+                $this->data['img_evento'] = $this->_getImage($evento->cliente_id, 'eventos', $id);
 
                 return $this->view('cliente.eventos.perfil.settings');
             }
