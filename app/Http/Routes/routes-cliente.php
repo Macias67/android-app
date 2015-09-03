@@ -272,7 +272,7 @@ Route::group(
             ]);
 
             Route::post('crop/logo', [
-                'as' => 'global-crop-logo-promocio',
+                'as' => 'global-crop-logo-promocion',
                 'uses' => 'PromocionesCliente@cropImage'
             ]);
 
