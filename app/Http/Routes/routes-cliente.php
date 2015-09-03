@@ -50,6 +50,11 @@ Route::group(
                 'as' => 'cliente.negocio.store',
                 'uses' => 'NegociosCliente@store'
             ]);
+
+            Route::post('update', [
+                'as' => 'cliente.negocio.update',
+                'uses' => 'NegociosCliente@update'
+            ]);
         });
 
         /*
@@ -176,13 +181,13 @@ Route::group(
                 'uses' => 'EventosCliente@show'
             ])->where('id', '[0-9]+');
 
-            Route::post('upload/logo', [
-                'as' => 'global-upload-logo-evento',
+            Route::post('upload/image', [
+                'as' => 'global-upload-image-evento',
                 'uses' => 'EventosCliente@uploadImage'
             ]);
 
-            Route::post('crop/logo', [
-                'as' => 'global-crop-logo-evento',
+            Route::post('crop/image', [
+                'as' => 'global-crop-image-evento',
                 'uses' => 'EventosCliente@cropImage'
             ]);
         });
