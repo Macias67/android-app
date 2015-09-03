@@ -23,7 +23,7 @@ var Profile = function () {
 
     var croppic = function() {
         var token = Metronic.getToken();
-        ;var id = $('#newlogo').attr('data-id');
+        var id = $('#newlogo').attr('data-id');
         var cropperOptions = {
             uploadUrl: $('#newlogo').attr('data-upload'),
             cropUrl: $('#newlogo').attr('data-crop'),

@@ -108,6 +108,12 @@
 													<span class="help-block">Descripción de lugares, monumentos, calles o algún indicador cercano al lugar. </span>
 												</div>
 											</div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Ciudad <span class="required" aria-required="true">*</span></label>
+                                                <div class="col-md-8">
+                                                    {!! Form::select('ciudad_id', $options_ciudades, $cliente->ciudad_id, ['class' => 'form-control']) !!}
+                                                </div>
+                                            </div>
 										</div>
 									</div>
 									<div class="col-md-6">
@@ -120,71 +126,34 @@
 											</div>
 											<div class="form-group">
 												<div class="col-md-offset-4 col-md-8">
-													{!! Form::select('subcategoria1', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria']) !!}
+													{!! Form::select('subcategoria1', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria', 'sub' => $cl_categorias[0]['subcategoria']]) !!}
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-4 control-label">Categoría 2</label>
 												<div class="col-md-8">
-													{!! Form::select('categoria2', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria2', 'data-url' => route('global-select-subcategorias')]) !!}
+													{!! Form::select('categoria2', $options_categorias, $cl_categorias[1]['categoria'], ['class' => 'form-control select2', 'id' => 'categoria2', 'data-url' => route('global-select-subcategorias')]) !!}
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="col-md-offset-4 col-md-8">
-													{!! Form::select('subcategoria2', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria2']) !!}
+													{!! Form::select('subcategoria2', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria2',  'sub' => $cl_categorias[1]['subcategoria']]) !!}
 												</div>
 											</div>
 											<div class="form-group">
 												<label class="col-md-4 control-label">Categoría 3</label>
 												<div class="col-md-8">
-													{!! Form::select('categoria3', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria3', 'data-url' => route('global-select-subcategorias')]) !!}
+													{!! Form::select('categoria3', $options_categorias, $cl_categorias[2]['categoria'], ['class' => 'form-control select2', 'id' => 'categoria3', 'data-url' => route('global-select-subcategorias')]) !!}
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="col-md-offset-4 col-md-8">
-													{!! Form::select('subcategoria3', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria3']) !!}
+													{!! Form::select('subcategoria3', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria3', 'sub' => $cl_categorias[2]['subcategoria']]) !!}
 												</div>
 											</div>
 										</div>
 									</div>
 
-									{{--<div class="col-md-6">--}}
-										{{--<div class="form-group">--}}
-											{{--<label class="control-label">Nombre</label>--}}
-											{{--<input type="text" value="{{$cliente->nombre}}" class="form-control"/>--}}
-											{{--<input type="hidden" name="id" value="{{$cliente->id}}">--}}
-										{{--</div>--}}
-										{{--<div class="form-group">--}}
-											{{--<label class="control-label">Calle</label>--}}
-											{{--<input type="text" value="{{$cliente->calle}}" class="form-control input-large"/>--}}
-										{{--</div>--}}
-										{{--<div class="form-group">--}}
-											{{--<label class="control-label">Número</label>--}}
-											{{--<input type="text" value="{{$cliente->numero}}" class="form-control input-small"/>--}}
-										{{--</div>--}}
-										{{--<div class="form-group">--}}
-											{{--<label class="control-label">Colonia</label>--}}
-											{{--<input type="text" value="{{$cliente->colonia}}" class="form-control input-small"/>--}}
-										{{--</div>--}}
-									{{--</div>--}}
-									{{--<div class="col-md-6">--}}
-										{{--<div class="form-group">--}}
-											{{--<label class="control-label">Código Postal</label>--}}
-											{{--<input type="text" value="{{$cliente->codigo_postal}}" class="form-control input-small"/>--}}
-										{{--</div>--}}
-										{{--<div class="form-group">--}}
-											{{--<label class="control-label">Referencía</label>--}}
-											{{--<textarea class="form-control" rows="3" placeholder="">{{$cliente->referencia}}</textarea>--}}
-										{{--</div>--}}
-										{{--<div class="form-group">--}}
-											{{--<label class="control-label">Estatus</label><br>--}}
-											{{--<input type="checkbox" class="form-control make-switch" name="estatus"--}}
-											       {{--data-size="small"--}}
-											       {{--data-on-text="Online" data-off-text="Offline"--}}
-											       {{--data-on-color="success"--}}
-											       {{--data-off-color="default">--}}
-										{{--</div>--}}
-									{{--</div>--}}
 									{{--Mapas--}}
 									<div class="col-md-12">
 										<h4 class="form-section">Coordenadas y ubicación</h4>
@@ -195,13 +164,17 @@
 												<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
 												<span class="input-group-btn">
 													<button class="btn blue" id="gmap_geocoding_btn">
-													<i class="fa fa-map-marker"></i></button>
+														<i class="fa fa-map-marker"></i>
+													</button>
 												</span>
 											</div>
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
+											<input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" value="{{$cliente->latlng_gmaps}}" readonly>
 										</div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn green btn-xs">Extra small button</button>
+                                        </div>
 										<div class="form-group">
 											<div id="gmap_geocoding" class="gmaps"></div>
 											<span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>

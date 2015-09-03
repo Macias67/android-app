@@ -126,10 +126,6 @@ class NegociosCliente extends BaseCliente
     {
         if(!is_null($cliente     = Cliente::find($id))) {
 
-//            foreach($cliente->subcategorias as $subcategoria) {
-//                dd($subcategoria->categoria->id);
-//            }
-
             if ($this->infoPropietario->id == $cliente->propietario->id) {
 
                 $this->data['param'] = [
@@ -138,6 +134,12 @@ class NegociosCliente extends BaseCliente
                     'role'         => 'form',
                     'autocomplete' => 'off'
                 ];
+
+                $ciudades = Ciudades::get()->ToArray();
+                $options  = [];
+                foreach ($ciudades as $index => $ciudad) {
+                    $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
+                }
 
                 $categorias         = Categorias::all(['id', 'categoria'])->ToArray();
                 $options_categorias = ['' => ''];
@@ -158,6 +160,7 @@ class NegociosCliente extends BaseCliente
                 $this->data['options_categorias'] = $options_categorias;
 
                 $this->data['logo']               = $this->_getLogo($id);
+                $this->data['options_ciudades']     = $options;
                 $this->data['categoria']        = $cliente->subcategorias->first()->subcategoria;
                 $this->data['cl_categorias'] = $cl_categorias;
                 $this->data['cliente']            = $cliente;
