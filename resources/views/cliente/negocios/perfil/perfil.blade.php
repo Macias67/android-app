@@ -163,22 +163,28 @@
 
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
-<script src="{{asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/croppic/croppic.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
-
+    <script src="{{asset('assets/global/plugins/jquery-inputmask/dist/jquery.inputmask.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/croppic/croppic.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type="text/javascript"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyARXL3JkbiYGEd5OK-82-ybYj2t9W9qldo&sensor=false" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
     <script src="{{asset('assets/admin/pages/app/cliente/negocios/perfil.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/pages/app/cliente/negocios/edita-negocio.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/admin/pages/app/cliente/negocios/info-adicional.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js  --}}
 @section('init-js')
 Profile.init();
+EditaCliente.init();
 InfoAdicional.init();
 @stop

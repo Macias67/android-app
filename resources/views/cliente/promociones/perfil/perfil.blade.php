@@ -103,15 +103,15 @@
                   <div class="profile-sidebar" style="width: 300px;">
 
                         <!-- PORTLET MAIN -->
-                      <div class="layer animated flipInX" id="img-producto" style="background-image: url('{{$img_producto}}');">
+                      <div class="layer animated flipInX" id="img-promocion" style="background-image: url('{{$img_promocion}}');">
                           <div class="portlet light profile-sidebar-portlet picture">
                               <!-- SIDEBAR USER TITLE -->
                               <div class="profile-usertitle">
                                     <div class="profile-usertitle-name">
-                                          <h3>{{$producto->nombre}}</h3>
+                                          <h3>{{$promocion->nombre}}</h3>
                                     </div>
                                     <div class="profile-usertitle-job">
-	                                    <b>{{$producto->cliente->nombre}}</b>
+	                                    <b>{{$promocion->cliente->nombre}}</b>
                                     </div>
                               </div>
                               <!-- END SIDEBAR USER TITLE -->
@@ -200,12 +200,12 @@
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-	<script src="{{asset('assets/admin/pages/app/cliente/productos/edita-producto.js')}}" type="text/javascript"></script>
-	<script src="{{asset('assets/admin/pages/app/cliente/productos/perfil/logotipo.js')}}" type="text/javascript"></script>
+	<script src="{{asset('assets/admin/pages/app/cliente/promociones/edita-promociones.js')}}" type="text/javascript"></script>
+	<script src="{{asset('assets/admin/pages/app/cliente/promociones/perfil/logotipo.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js  --}}
 @section('init-js')
-	EditaProducto.init();
+	EditaPromociones.init();
 	Logotipo.init();
 @stop

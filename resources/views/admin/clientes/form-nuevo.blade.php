@@ -53,168 +53,212 @@
 						<span class="caption-helper">Registro de cliente</span>
 					</div>
 					<div class="actions">
-						<a href="{{route('adm.nuevo.propietario')}}" class="btn btn-circle btn-success">
+						<a href="{{route('adm.nuevo.propietario')}}" class="btn btn-circle btn-success hvr-grow">
 							<i class="fa fa-plus"></i> Añadir Propietario
 						</a>
-						<a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
 					</div>
 				</div>
 				<div class="portlet-body form">
 					{!! Form::open($param) !!}
-                        {{--Datos basicos--}}
-                        <div class="col-md-6">
-                            <div class="form-body">
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Estatus <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        <input type="checkbox" class="make-switch" name="estatus"
-                                               data-size="small"
-                                               data-on-text="Online" data-off-text="Offline"
-                                               data-on-color="success"
-                                               data-off-color="default">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Propietario <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        <input type="hidden" id="propietario" name="propietario_id" class="form-control select2" data-url="{{route('select-json-propietarios')}}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Lugar <span class="required" aria-required="true">*</span> </label>
-                                    <div class="col-md-8">
-                                        <div class="input-icon">
-                                            <i class="fa fa-institution"></i>
-                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Calle <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        <div class="input-icon">
-                                            <i class="fa fa-map-marker"></i>
-                                            <input type="text" class="form-control" name="calle" placeholder="Calle">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Número <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        <div class="input-icon input-small">
-                                            <i class="fa fa-slack"></i>
-                                            <input type="text" class="form-control" name="numero" placeholder="Número">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Colonia <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        <div class="input-icon">
-                                            <i class="fa fa-map-marker"></i>
-                                            <input type="text" class="form-control" name="colonia" placeholder="Colonia">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Código Postal <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        <div class="input-icon input-small">
-                                            <i class="fa fa-globe"></i>
-                                            <input type="text" class="form-control" name="codigo_postal" placeholder="Código Postal">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Referencias <span class="required" aria-required="true">*</span></label>
+					{{--Datos basicos--}}
+					<div class="col-md-6">
+						<div class="form-body">
+							<div class="form-group">
+								<label class="control-label col-md-4">Estatus
+									<span class="required" aria-required="true">*</span></label>
 
-                                    <div class="col-md-8">
-                                        <textarea class="form-control" name="referencia" rows="3" style="resize: none;"></textarea>
-                                        <span class="help-block">Descripción de lugares, monumentos, calles o algún indicador cercano al lugar. </span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Ciudad <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        {!! Form::select('ciudad_id', $options_ciudades, NULL, ['class' => 'form-control']) !!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-body">
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Categoría 1 <span class="required" aria-required="true">*</span></label>
-                                    <div class="col-md-8">
-                                        {!! Form::select('categoria1', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria', 'data-url' => route('global-select-subcategorias')]) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-4 col-md-8">
-                                        {!! Form::select('subcategoria1', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Categoría 2</label>
-                                    <div class="col-md-8">
-                                        {!! Form::select('categoria2', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria2', 'data-url' => route('global-select-subcategorias')]) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-4 col-md-8">
-                                        {!! Form::select('subcategoria2', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria2']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Categoría 3</label>
-                                    <div class="col-md-8">
-                                        {!! Form::select('categoria3', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria3', 'data-url' => route('global-select-subcategorias')]) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-4 col-md-8">
-                                        {!! Form::select('subcategoria3', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria3']) !!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{--Mapas--}}
-                        <div class="col-md-12">
-                            <h4 class="form-section">Coordenadas y ubicación</h4>
-                            <div class="form-group">
-                                <label class="col-md-2 control-label">Latitud y Longitud <span class="required" aria-required="true">*</span></label>
-                                <div class="col-md-10">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
-                                            <span class="input-group-btn">
-                                                  <button class="btn blue" id="gmap_geocoding_btn">
-                                                      <i class="fa fa-map-marker"></i></button>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <div id="gmap_geocoding" class="gmaps"></div>
-                                    <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
-                                </div>
-                            </div>
-                        </div>
-                        {{--Accion--}}
-                        <div class="col-md-12">
-                            <div class="form-actions">
-                                <div class="row">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <button type="submit" class="btn green">Registrar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+								<div class="col-md-8">
+									<input type="checkbox" class="make-switch" name="estatus"
+									       data-size="small"
+									       data-on-text="Online" data-off-text="Offline"
+									       data-on-color="success"
+									       data-off-color="default">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Propietario
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									<input type="hidden" id="propietario" name="propietario_id" class="form-control select2" data-url="{{route('select-json-propietarios')}}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Lugar
+									<span class="required" aria-required="true">*</span> </label>
+
+								<div class="col-md-8">
+									<div class="input-icon">
+										<i class="fa fa-institution"></i>
+										<input type="text" class="form-control" name="nombre" placeholder="Nombre del lugar">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Calle
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									<div class="input-icon">
+										<i class="fa fa-map-marker"></i>
+										<input type="text" class="form-control" name="calle" placeholder="Calle">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4">Número
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									<div class="input-icon input-small">
+										<i class="fa fa-slack"></i>
+										<input type="text" class="form-control" name="numero" placeholder="Número">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Colonia
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									<div class="input-icon">
+										<i class="fa fa-map-marker"></i>
+										<input type="text" class="form-control" name="colonia" placeholder="Colonia">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4">Código Postal
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									<div class="input-icon input-small">
+										<i class="fa fa-globe"></i>
+										<input type="text" class="form-control" name="codigo_postal" placeholder="Código Postal">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-4">Referencias
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									<textarea class="form-control" name="referencia" rows="3" style="resize: none;"></textarea>
+									<span class="help-block">Descripción de lugares, monumentos, calles o algún indicador cercano al lugar. </span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Ciudad
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									{!! Form::select('ciudad_id', $options_ciudades, NULL, ['class' => 'form-control']) !!}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-body">
+							<div class="form-group">
+								<label class="col-md-4 control-label">Categoría 1
+									<span class="required" aria-required="true">*</span></label>
+
+								<div class="col-md-8">
+									{!! Form::select('categoria1', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria', 'data-url' => route('global-select-subcategorias')]) !!}
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-offset-4 col-md-8">
+									{!! Form::select('subcategoria1', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria']) !!}
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Categoría 2</label>
+
+								<div class="col-md-8">
+									{!! Form::select('categoria2', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria2', 'data-url' => route('global-select-subcategorias')]) !!}
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-offset-4 col-md-8">
+									{!! Form::select('subcategoria2', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria2']) !!}
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-4 control-label">Categoría 3</label>
+
+								<div class="col-md-8">
+									{!! Form::select('categoria3', $options_categorias, NULL, ['class' => 'form-control select2', 'id' => 'categoria3', 'data-url' => route('global-select-subcategorias')]) !!}
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-offset-4 col-md-8">
+									{!! Form::select('subcategoria3', [], NULL, ['class' => 'form-control select2', 'id' => 'subcategoria3']) !!}
+								</div>
+							</div>
+						</div>
+					</div>
+					{{--Mapas--}}
+					<div class="col-md-12">
+						<h4 class="form-section">Google Maps</h4>
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<div class="input-group">
+									<input type="text" class="form-control" id="calle_registrada" placeholder="Calle No. Colonia, Ciudad Estado">
+									<span class="input-group-btn">
+										<button class="btn blue faa-parent animated-icon-hover" id="gmap_geocoding_btn">
+											<i class="fa fa-map-marker faa-vertical"></i> Ubicar
+										</button>
+									</span>
+								</div>
+								<span class="help-block">Dirección formada en base a los datos del formulario. Presione ubicar para mostrarlo en el mapa.</span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<div class="input-group">
+									<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección de Google Maps" readonly>
+									<span class="input-group-btn">
+										<button class="btn red faa-parent animated-icon-hover" id="gmap_address_replace">
+											<i class="fa fa-repeat faa-spin"></i> Remplazar
+										</button>
+									</span>
+								</div>
+								<span class="help-block">Dirección formada pro Google Maps. Presione Remplazar para sustituir la dirección por los valores de Google Maps.</span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<div class="col-md-6">
+									<label class="control-label">Latitud</label>
+									<input type="text" class="form-control input-large" placeholder="Latitud" name="latitud" readonly>
+								</div>
+								<div class="col-md-6">
+									<label class="control-label">Longitud</label>
+									<input type="text" class="form-control input-large" placeholder="Longitud" name="longitud" readonly>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-10">
+								<div id="gmap_geocoding" class="gmaps" style="height: 500px"></div>
+								<span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+							</div>
+						</div>
+					</div>
+					{{--Accion--}}
+					<div class="col-md-12">
+						<div class="form-actions">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-10">
+									<button type="submit" class="btn green hvr-grow"><b>Registrar</b></button>
+								</div>
+							</div>
+						</div>
+					</div>
 					</form>
 					<div class="clearfix"></div>
 				</div>

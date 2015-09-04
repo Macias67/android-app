@@ -50,6 +50,11 @@ Route::group(
                 'as' => 'cliente.negocio.store',
                 'uses' => 'NegociosCliente@store'
             ]);
+
+            Route::post('update', [
+                'as' => 'cliente.negocio.update',
+                'uses' => 'NegociosCliente@update'
+            ]);
         });
 
         /*
@@ -78,6 +83,11 @@ Route::group(
                 'as' => 'cliente.producto.show',
                 'uses' => 'ProductosCliente@show'
             ])->where('id', '[0-9]+');
+
+            Route::post('update', [
+                'as' => 'cliente.producto.update',
+                'uses' => 'ProductosCliente@update'
+            ]);
 
 
             Route::get('json/{id?}', [
@@ -161,10 +171,25 @@ Route::group(
                 'uses' => 'EventosCliente@store'
             ]);
 
+            Route::post('update', [
+                'as' => 'cliente.evento.update',
+                'uses' => 'EventosCliente@update'
+            ]);
+
             Route::get('{id?}', [
                 'as' => 'cliente.evento.show',
                 'uses' => 'EventosCliente@show'
             ])->where('id', '[0-9]+');
+
+            Route::post('upload/image', [
+                'as' => 'global-upload-image-evento',
+                'uses' => 'EventosCliente@uploadImage'
+            ]);
+
+            Route::post('crop/image', [
+                'as' => 'global-crop-image-evento',
+                'uses' => 'EventosCliente@cropImage'
+            ]);
         });
 
         /*
@@ -226,15 +251,38 @@ Route::group(
                 'uses' => 'PromocionesCliente@create'
             ]);
 
-            Route::get('editar', [
-                'as' => 'cliente.promociones.edit',
-                'uses' => 'PromocionesCliente@create'
-            ]);
-
             Route::post('store', [
                 'as' => 'cliente.promociones.store',
                 'uses' => 'PromocionesCliente@store'
             ]);
+
+            Route::get('{id?}', [
+                'as' => 'cliente.promociones.show',
+                'uses' => 'PromocionesCliente@show'
+            ])->where('id', '[0-9]+');
+
+            Route::post('update', [
+                'as' => 'cliente.promociones.update',
+                'uses' => 'promocionesCliente@update'
+            ]);
+
+            Route::get('json/{id?}', [
+                'as' => 'cliente.promocion.promociones-json',
+                'uses' => 'promocionesCliente@getPromocionesJson'
+            ])->where('id', '[0-9]+');
+
+            Route::post('upload/logo', [
+                'as' => 'global-upload-logo-promocion',
+                'uses' => 'PromocionesCliente@uploadImage'
+            ]);
+
+            Route::post('crop/logo', [
+                'as' => 'global-crop-logo-promocion',
+                'uses' => 'PromocionesCliente@cropImage'
+            ]);
+
+
+
         });
 
 	}

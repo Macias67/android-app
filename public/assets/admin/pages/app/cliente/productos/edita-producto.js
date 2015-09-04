@@ -25,36 +25,6 @@ var EditaProducto = function () {
         });
     }
 
-//    var selectCategoria = function () {
-//        var selects = function(cliente, categoria) {
-//            cliente.on('change', function() {
-//                categoria.select2('destroy');
-//
-//                var url = $(this).attr('data-url') + '/' + $(this).val();
-//                var text = $(this).children("option:selected").text();
-//
-//                if(text == "") {
-//                    categoria.html('');
-//                } else {
-//                    $.get(url, function(data) {
-//                        categoria.html(data);
-//                        categoria.select2({
-//                            placeholder:"Subcategorias de "+text,
-//                            allowClear:            true
-//                        });
-//                    },'html');
-//                }
-//
-//            });
-//
-//            categoria.select2({
-//                placeholder:"Lista de Subcategorias",
-//                allowClear:            true
-//            });
-//        }
-//        selects($('select[name="cliente_id"]'), $('select[name="categoria_id"]'));
-//    }
-
     var maxLenght = function () {
         $("textarea[name='descripcion']").maxlength({
             limitReachedClass: "label label-danger",
@@ -92,13 +62,17 @@ var EditaProducto = function () {
     }
 
     var dateRange = function () {
+
+        var startDate = $('input[name="disp_inicio"]').val();
+        var endDate = $('input[name="disp_fin"]').val();
+
         moment.locale('es');
         var formato = 'LLLL';
         $('#reportrange').daterangepicker({
                 opens: 'left',
                 drops: 'up',
-                startDate:           moment(),
-                endDate:             moment().add(1, 'year'),
+                startDate:           moment(startDate),
+                endDate:             moment(endDate),
                 showDropdowns:       true,
                 showWeekNumbers:     true,
                 timePicker:          true,
@@ -148,25 +122,25 @@ var EditaProducto = function () {
                 $('input[name="ffin"]').val(end.format(formato));
 
                 $('input[name="disp_inicio"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
-                $('input[name="disp_fin"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
+                $('input[name="disp_fin"]').val(end.format("YYYY-MM-DD HH:mm:ss"));
             }
         );
         //Set the initial state of the picker label
-        $('input[name="finicio"]').val(moment().format(formato));
-        $('input[name="ffin"]').val(moment().add(1, 'year').format(formato));
+        $('input[name="finicio"]').val(moment(startDate).format(formato));
+        $('input[name="ffin"]').val(moment(endDate).format(formato));
 
-        $('input[name="disp_inicio"]').val(moment().format("YYYY-MM-DD HH:mm:ss"));
-        $('input[name="disp_fin"]').val(moment().add(1, 'year').format("YYYY-MM-DD HH:mm:ss"));
+        $('input[name="disp_inicio"]').val(startDate);
+        $('input[name="disp_fin"]').val(endDate);
     }
 
     var submitForm = function() {
         $('#agregar').on('click', function() {
-            $('.form-nuevo-producto').submit();
+            $('.form-edita-producto').submit();
         });
     }
 
     var handleForm = function () {
-        var form = $('.form-nuevo-producto');
+        var form = $('.form-edita-producto');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -261,8 +235,8 @@ var EditaProducto = function () {
 
         $('.form-nuevo-producto input').keypress(function (e) {
             if (e.which == 13) {
-                if ($('.form-nuevo-producto').validate().form()) {
-                    $('.form-nuevo-producto').submit(); //form validation success, call ajax form submit
+                if ($('.form-edita-producto').validate().form()) {
+                    $('.form-edita-producto').submit(); //form validation success, call ajax form submit
                 }
                 return false;
             }

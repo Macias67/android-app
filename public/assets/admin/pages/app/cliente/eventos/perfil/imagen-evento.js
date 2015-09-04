@@ -1,24 +1,23 @@
 /**
- * Created by Luis Macias on 28/08/2015.
+ * Created by Julio Trujillo on 01/09/2015.
  */
 
-var Logotipo = function() {
+var ImagenEvento = function() {
 
     var croppic = function() {
         var token = Metronic.getToken();
-        var id = $('#newlogo').attr('data-id');
-        console.log(id);
-        var cliente_id = $('#newlogo').attr('data-cliente-id');
+        var id = $('#newImage').attr('data-evento-id');
+        var cliente_id = $('#newImage').attr('data-cliente-id');
         var cropperOptions = {
-            uploadUrl: $('#newlogo').attr('data-upload'),
-            cropUrl: $('#newlogo').attr('data-crop'),
+            uploadUrl: $('#newImage').attr('data-upload'),
+            cropUrl: $('#newImage').attr('data-crop'),
             uploadData:{
-                "producto_id": id,
+                "evento_id": id,
                 "cliente_id": cliente_id,
                 "_token": token
             },
             cropData: {
-                "producto_id": id,
+                "evento_id": id,
                 "cliente_id": cliente_id,
                 "_token": token
             },
@@ -27,10 +26,11 @@ var Logotipo = function() {
             rotateControls:false,
             onAfterImgCrop:		function(){
                 var src = $('img.croppedImg').attr('src');
-                $('#img-producto').css('background-image', 'url(' + src + ')');
+                $('#img-evento').css('background-image', 'url(' + src + ')');
             }
         }
-        var cropperHeader = new Croppic('newlogo', cropperOptions);
+        console.log(cropperOptions);
+        var cropperHeader = new Croppic('newImage', cropperOptions);
     }
 
     return {

@@ -47,6 +47,27 @@ class Evento extends Model
         $this->_cleanData();
     }
 
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
+    }
+
+    public function idPropietario($id_propietario, $id_evento)
+    {
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+        $query = $this
+            ->select($cl_propietario.'.id')
+            ->join($cl_clientes, $this->table.'.cliente_id', '=', $cl_clientes.'.id')
+            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+            ->where($cl_propietario.'.id', '=', $id_propietario)
+            ->where($this->table.'.id', '=', $id_evento)
+            ->get()
+            ->toArray();
+
+        return$query;
+    }
+
     private function _cleanData ()
     {
         $this->nombre           = mb_convert_case(trim(mb_strtolower($this->nombre)), MB_CASE_TITLE, "UTF-8");

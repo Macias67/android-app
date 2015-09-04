@@ -22,12 +22,14 @@ class Cliente extends Model
      */
     protected $fillable = [
         'nombre',
+        'slug',
         'calle',
         'numero',
         'colonia',
         'codigo_postal',
         'referencia',
-        'latlng_gmaps',
+        'latitud',
+        'longitud',
         'ciudad_id',
         'propietario_id',
         'estatus'
@@ -66,12 +68,14 @@ class Cliente extends Model
     private function _cleanData ()
     {
         $this->nombre         = mb_convert_case(trim(mb_strtolower($this->nombre)), MB_CASE_TITLE, "UTF-8");
+        $this->slug         = str_slug($this->nombre);
         $this->calle          = mb_convert_case(trim(mb_strtolower($this->calle)), MB_CASE_TITLE, "UTF-8");
         $this->numero         = trim(strtoupper($this->numero));
         $this->colonia        = mb_convert_case(trim(mb_strtolower($this->colonia)), MB_CASE_TITLE, "UTF-8");
         $this->codigo_postal  = trim($this->codigo_postal);
-        $this->referencia     = mb_convert_case(trim(mb_strtolower($this->referencia)), MB_CASE_TITLE, "UTF-8");
-        $this->latlng_gmaps   = trim($this->latlng_gmaps);
+        $this->referencia     = trim(ucfirst($this->referencia));
+        $this->latitud   = trim($this->latitud);
+        $this->longitud   = trim($this->longitud);
         $this->ciudad_id      = trim($this->ciudad_id);
         $this->propietario_id = trim($this->propietario_id);
         $this->estatus        = trim($this->estatus);

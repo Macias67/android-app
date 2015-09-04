@@ -2,12 +2,12 @@
 
 {{-- Adjuntar los links css de los plugins requeridos --}}
 @section('plugins-css')
-<link href="{{asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css"/>
-<link href="{{asset('assets/global/plugins/croppic/croppic.css')}}" rel="stylesheet" type="text/css"/>
-<link href="{{asset('assets/admin/pages/css/profile.css')}}" rel="stylesheet" type="text/css"/>
-<link href="{{asset('assets/admin/pages/css/tasks.css')}}" rel="stylesheet" type="text/css"/>
-<link href="{{asset('assets/global/plugins/select2/select2.css')}}" rel="stylesheet" type="text/css"/>
-<link href="{{asset('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/global/plugins/croppic/croppic.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/admin/pages/css/profile.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/admin/pages/css/tasks.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/global/plugins/select2/select2.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css"/>
 @stop
 
 {{-- Sobreescribir el sidebar
@@ -34,11 +34,11 @@
                   <i class="fa fa-circle"></i>
             </li>
             <li>
-                  <a href="#">Page Layouts</a>
+                  <a href="#">Eventos</a>
                   <i class="fa fa-circle"></i>
             </li>
             <li>
-                  <a href="#">Blank Page</a>
+                  <a href="#">Editar eventos</a>
             </li>
       </ul>
 @stop
@@ -53,16 +53,16 @@
                         <div class="portlet light profile-sidebar-portlet">
                               <!-- SIDEBAR USERPIC -->
                               <div class="profile-userpic">
-                                    <img id="logo" src="{{$img_producto}}" class="img-responsive" alt="">
+                                    <img id="logo" src="{{$img_evento}}" class="img-responsive" alt="">
                               </div>
                               <!-- END SIDEBAR USERPIC -->
                               <!-- SIDEBAR USER TITLE -->
                               <div class="profile-usertitle">
                                     <div class="profile-usertitle-name">
-                                          Nombre del Producto
+                                        {{$evento->nombre}}
                                     </div>
                                     <div class="profile-usertitle-job">
-	                                   Negocio
+Negocio
                                     </div>
                               </div>
                               <!-- END SIDEBAR USER TITLE -->
@@ -139,22 +139,29 @@
 
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
-<script src="{{asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/croppic/croppic.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
-
+    <script src="{{asset('assets/global/plugins/croppic/croppic.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/moment-with-locales.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type="text/javascript"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    <script src="{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-    <script src="{{asset('assets/admin/pages/app/cliente/negocios/perfil.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/admin/pages/app/cliente/negocios/info-adicional.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/pages/app/cliente/eventos/edita-evento.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/pages/app/cliente/eventos/perfil/imagen-evento.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js  --}}
 @section('init-js')
-Profile.init();
-InfoAdicional.init();
+      EditaEvento.init();
+      ImagenEvento.init();
 @stop

@@ -1,9 +1,8 @@
-
 /**
- * Created by Julio on 19/08/2015.
+ * Created by Julio on 30/08/2015.
  */
 
-var NuevoEvento = function () {
+var EditaEvento = function () {
 
     var touchSpin = function () {
         $("#precio").TouchSpin({
@@ -58,7 +57,6 @@ var NuevoEvento = function () {
         });
 
         var handleAction = function () {
-            console.log('Entra aqui');
             var calle = $('input[name="direccion"]').val();
             $('#gmap_geocoding_address').val($.trim(calle));
             var text = $.trim($('#gmap_geocoding_address').val());
@@ -92,6 +90,9 @@ var NuevoEvento = function () {
                 handleAction();
             }
         });
+
+        //Cuando edita ya está una dirección.
+        handleAction();
 
     }
 
@@ -159,8 +160,7 @@ var NuevoEvento = function () {
             }
         );
         //Set the initial state of the picker label
-        $('input[name="finicio"]').val(moment().format(formato));
-        $('input[name="ffin"]').val(moment().add(1,'days').format(formato));
+
 
         $('input[name="fecha_inicio"]').val(moment().format("YYYY-MM-DD"));
         $('input[name="hora_inicio"]').val(moment().format("HH:mm:ss"));
@@ -176,7 +176,7 @@ var NuevoEvento = function () {
     }
 
     var handleForm = function () {
-        var form = $('.form-nuevo-evento');
+        var form = $('.form-edita-evento');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -189,6 +189,7 @@ var NuevoEvento = function () {
                     maxlength: 45
                 },
                 slug:          {
+//                    required:  true,
                     maxlength: 45
                 },
                 direccion:{
@@ -236,6 +237,7 @@ var NuevoEvento = function () {
                 console.log(data);
 
                 var success = function (data) {
+                    console.log(data);
                     App.removeLoader(500, function () {
                         swal({
                             title:              '<h3>' + data.titulo + '</h3>',

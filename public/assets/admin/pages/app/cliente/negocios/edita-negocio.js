@@ -2,57 +2,62 @@
  * Created by Luis Macias on 02/08/2015.
  */
 
-var NuevoCliente = function () {
+var EditaCliente = function () {
 
-    var selectPropietario = function () {
-        $('#propietario').select2({
-            placeholder:        "Lista de Propietarios",
-            allowClear:         true,
-            minimumInputLength: 1,
-            ajax:               {
-                url:         $('#propietario').attr('data-url'),
-                type:        'post',
-                dataType:    'json',
-                quietMillis: 500,
-                data:        function (term, page) {
-                    return {
-                        q:          term, // search term
-                        page_limit: 2
-                    };
-                },
-                results:     function (data, page) { // parse the results into the format expected by Select2.
-                    // since we are using custom formatting functions we do not need to alter remote JSON data
-                    return {results: data};
-                }
+    var map;
+    var marker;
+    var latitud, longitud;
+    var calle, numero, colonia, codigo_postal;
+
+    var setSubCategoria = function () {
+        var subSelects = function (categoria, subcategoria) {
+            var cateoria_id = categoria.val();
+            var url         = categoria.attr('data-url') + '/' + cateoria_id;
+            var text        = categoria.children("option:selected").text();
+
+            if (categoria.val() != "") {
+                $.get(url, function (data) {
+                    subcategoria.html(data);
+                    subcategoria.val(subcategoria.attr('sub')).trigger("change");
+
+                    subcategoria.select2({
+                        placeholder: "Subcategorias de " + text,
+                        allowClear:  true,
+                    });
+                }, 'html');
             }
-        });
+
+        }
+
+        subSelects($('#categoria'), $('#subcategoria'));
+        subSelects($('#categoria2'), $('#subcategoria2'));
+        subSelects($('#categoria3'), $('#subcategoria3'));
     }
 
     var selectCategoria = function () {
-        var selects = function(categoria, subcategoria) {
-            categoria.on('change', function() {
+        var selects = function (categoria, subcategoria) {
+            categoria.on('change', function () {
                 subcategoria.select2('destroy');
 
-                var url = $(this).attr('data-url') + '/' + $(this).val();
+                var url  = $(this).attr('data-url') + '/' + $(this).val();
                 var text = categoria.children("option:selected").text();
 
-                if(text == "") {
+                if (text == "") {
                     subcategoria.html('');
                 } else {
-                    $.get(url, function(data) {
+                    $.get(url, function (data) {
                         subcategoria.html(data);
                         subcategoria.select2({
-                            placeholder:"Subcategorias de "+text,
-                            allowClear:            true
+                            placeholder: "Subcategorias de " + text,
+                            allowClear:  true
                         });
-                    },'html');
+                    }, 'html');
                 }
-
             });
 
             subcategoria.select2({
-                placeholder:"Lista de Subcategorias",
-                allowClear:            true
+                placeholder: "Lista de Subcategorias",
+                allowClear:  true
             });
         }
         selects($('#categoria'), $('#subcategoria'));
@@ -63,6 +68,28 @@ var NuevoCliente = function () {
     var inputMask = function () {
         $("input[name='codigo_postal']").inputmask("mask", {
             "mask": "99999"
+        });
+    }
+
+    var initCalleRegistrada = function () {
+        var calle =
+                $.trim($('input[name="calle"]').val()) + ' ' +
+                $.trim($('input[name="numero"]').val()) + ', ' +
+                $.trim($('input[name="colonia"]').val()) + ' ' +
+                $.trim($('input[name="codigo_postal"]').val()) + ' ' +
+                $('select[name="ciudad_id"] option:selected').text();
+        $('#calle_registrada').val($.trim(calle));
+    }
+
+    var initMap = function () {
+        latitud  = $('input[name="latitud"]').val();
+        longitud = $('input[name="longitud"]').val();
+
+        map = new GMaps({
+            div:  '#gmap_geocoding',
+            lat:  latitud,
+            lng:  longitud,
+            zoom: 16
         });
     }
 
@@ -84,27 +111,53 @@ var NuevoCliente = function () {
         }
     }
 
+    var setMarker = function () {
+
+        var inputLatitud  = $('input[name="latitud"]');
+        var inputLongitud = $('input[name="longitud"]');
+
+        GMaps.geocode({
+            location: {
+                lat: parseFloat(latitud),
+                lng: parseFloat(longitud)
+            },
+            callback: function (results, status) {
+                if (status == 'OK') {
+                    updateGeocodingAddress(results);
+                }
+            }
+        });
+
+        marker = map.addMarker({
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            lat:       latitud,
+            lng:       longitud,
+            //icon: 'http://wcdn1.dataknet.com/static/resources/icons/set94/be39f3b7.png',
+            drag:      function (e) {
+                inputLatitud.val(e.latLng.lat());
+                inputLongitud.val(e.latLng.lng());
+            },
+            dragend:   function (e) {
+                map.setCenter(e.latLng.lat(), e.latLng.lng());
+                GMaps.geocode({
+                    location: {
+                        lat: e.latLng.lat(),
+                        lng: e.latLng.lng()
+                    },
+                    callback: function (results, status) {
+                        if (status == 'OK') {
+                            updateGeocodingAddress(results);
+                            inputLatitud.val(e.latLng.lat());
+                            inputLongitud.val(e.latLng.lng());
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     var mapGeocoding = function () {
-
-        $('#calle_registrada').focus(function() {
-            var calle =
-                    $.trim($('input[name="calle"]').val())+' '+
-                    $.trim($('input[name="numero"]').val())+', '+
-                    $.trim($('input[name="colonia"]').val())+' '+
-                    $.trim($('input[name="codigo_postal"]').val())+' '+
-                    $('select[name="ciudad_id"] option:selected').text();
-
-            $('#calle_registrada').val($.trim(calle));
-        });
-
-        var marker;
-        var calle, numero, colonia, codigo_postal;
-
-        var map = new GMaps({
-            div: '#gmap_geocoding',
-            lat: 20.3417485,
-            lng: -102.76523259999999
-        });
 
         var handleAction = function () {
             GMaps.geocode({
@@ -113,45 +166,11 @@ var NuevoCliente = function () {
                     if (status == 'OK') {
                         var latlng = results[0].geometry.location;
                         map.setCenter(latlng.lat(), latlng.lng());
-                        if(marker) {
-                            marker.setPosition({lat:latlng.lat(), lng:latlng.lng()});
-                        }
-                        else {
-                            marker = map.addMarker({
-                                draggable: true,
-                                animation: google.maps.Animation.DROP,
-                                lat: latlng.lat(),
-                                lng: latlng.lng(),
-                                //icon: 'http://wcdn1.dataknet.com/static/resources/icons/set94/be39f3b7.png',
-                                drag: function(e) {
-                                    $('input[name="latitud"]').val(e.latLng.lat());
-                                    $('input[name="longitud"]').val(e.latLng.lng());
-                                },
-                                dragend: function(e) {
-                                    map.setCenter(e.latLng.lat(), e.latLng.lng());
-                                    GMaps.geocode(
-                                        {
-                                            location: {lat:e.latLng.lat(), lng:e.latLng.lng()},
-                                            callback: function (results, status) {
-                                                if(status == 'OK') {
-
-                                                    numero = results[0].address_components[0].long_name;
-                                                    calle = results[0].address_components[1].long_name;
-                                                    colonia = results[0].address_components[2].long_name;
-                                                    codigo_postal = results[0].address_components[6].long_name;
-
-                                                    $('#gmap_geocoding_address').val(results[0].formatted_address);
-                                                    $('input[name="latitud"]').val(e.latLng.lat());
-                                                    $('input[name="longitud"]').val(e.latLng.lng());
-                                                }
-                                            }
-                                        });
-                                }
-                            });
-                        }
-
+                        marker.setPosition({
+                            lat: latlng.lat(),
+                            lng: latlng.lng()
+                        });
                         updateGeocodingAddress(results);
-
                         $('input[name="latitud"]').val(latlng.lat());
                         $('input[name="longitud"]').val(latlng.lng());
 
@@ -161,11 +180,16 @@ var NuevoCliente = function () {
             });
         }
 
+        $('#calle_registrada').focus(function () {
+            initCalleRegistrada();
+        });
+
         $('#gmap_address_replace').click(function (e) {
             e.preventDefault();
-            if($('#gmap_geocoding_address').val() != '') {
+
+            if ($('#gmap_geocoding_address').val() != '') {
                 swal({
-                    title:            "¿Estás seguro?",
+                    title:              "¿Estás seguro?",
                     text:               "La dirección de Google Maps reemplazará la dirección que escribiste.",
                     type:               "warning",
                     showCancelButton:   true,
@@ -174,14 +198,15 @@ var NuevoCliente = function () {
                     cancelButtonText:   "Cancelar"
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        $('#calle_registrada').val($('#gmap_geocoding_address').val()),
-                            $('input[name="calle"]').val(calle);
+                        $('#calle_registrada').val($('#gmap_geocoding_address').val());
+                        $('input[name="calle"]').val(calle);
                         $('input[name="numero"]').val(numero);
                         $('input[name="colonia"]').val(colonia);
                         $('input[name="codigo_postal"]').val(codigo_postal);
                     }
                 });
             }
+
         });
 
         $('#gmap_geocoding_btn').click(function (e) {
@@ -241,9 +266,6 @@ var NuevoCliente = function () {
                 categoria1:      {
                     required: true
                 },
-                subcategoria1:      {
-                    required: true
-                },
                 latitud: {
                     required:  true,
                     maxlength: 45
@@ -290,14 +312,12 @@ var NuevoCliente = function () {
                             type:               "success",
                             animation:          'slide-from-top',
                             showCancelButton:   true,
-                            cancelButtonText:   "Añadir nuevo cliente",
+                            cancelButtonText:   "Ok",
                             confirmButtonColor: Metronic.getBrandColor('green'),
                             confirmButtonText:  "Listado de clientes"
                         }, function (isConfirm) {
                             if (isConfirm) {
                                 window.location.href = data.url;
-                            } else {
-                                location.reload(true);
                             }
                         });
                     });
@@ -319,9 +339,12 @@ var NuevoCliente = function () {
 
     return {
         init: function () {
-            selectPropietario();
-            selectCategoria();
             inputMask();
+            setSubCategoria();
+            selectCategoria();
+            initCalleRegistrada();
+            initMap();
+            setMarker();
             mapGeocoding();
             handleForm();
         }

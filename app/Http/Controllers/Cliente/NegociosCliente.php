@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Cliente;
 use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
-use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests;
+use App\Http\Requests\Cliente\EditCliente;
 use App\Http\Requests\CreateCliente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -124,27 +124,63 @@ class NegociosCliente extends BaseCliente
      */
     public function show (Request $request, $id, $accion = NULL)
     {
-        $cliente     = Cliente::find($id);
-        $propietario = $cliente->propietario;
-        if ($this->infoPropietario->id == $propietario->id) {
+        if(!is_null($cliente     = Cliente::find($id))) {
 
-            $this->data['logo']               = $this->_getLogo($id);
-            $this->data['categoria']        = $cliente->subcategorias->first()->subcategoria;
-            $this->data['cliente']            = $cliente;
-            $this->data['current_cliente_id'] = $id;
+            if ($this->infoPropietario->id == $cliente->propietario->id) {
 
-            switch ($accion) {
-                case NULL:
-                    return $this->view('cliente.negocios.perfil.index');
-                    break;
-                case 'settings':
-                    return $this->view('cliente.negocios.perfil.settings');
-                    break;
+                $this->data['param'] = [
+                    'route'        => 'cliente.negocio.update',
+                    'class'        => 'form-horizontal form-nuevo-cliente',
+                    'role'         => 'form',
+                    'autocomplete' => 'off'
+                ];
+
+                $ciudades = Ciudades::get()->ToArray();
+                $options  = [];
+                foreach ($ciudades as $index => $ciudad) {
+                    $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
+                }
+
+                $categorias         = Categorias::all(['id', 'categoria'])->ToArray();
+                $options_categorias = ['' => ''];
+                foreach ($categorias as $categoria) {
+                    $options_categorias[$categoria['id']] = $categoria['categoria'];
+                }
+
+                for($i = 0; $i < 3; $i++) {
+                    if(array_key_exists($i, $cliente->subcategorias->toArray())) {
+                        $cl_categorias[$i]['categoria'] = $cliente->subcategorias[$i]->categoria->id;
+                        $cl_categorias[$i]['subcategoria'] = $cliente->subcategorias[$i]->id;
+                    } else {
+                        $cl_categorias[$i]['categoria'] = NULL;
+                        $cl_categorias[$i]['subcategoria'] = NULL;
+                    }
+                }
+
+                $this->data['options_categorias'] = $options_categorias;
+
+                $this->data['logo']               = $this->_getLogo($id);
+                $this->data['options_ciudades']     = $options;
+                $this->data['categoria']        = $cliente->subcategorias->first()->subcategoria;
+                $this->data['cl_categorias'] = $cl_categorias;
+                $this->data['cliente']            = $cliente;
+                $this->data['current_cliente_id'] = $id;
+
+                switch ($accion) {
+                    case NULL:
+                        return $this->view('cliente.negocios.perfil.index');
+                        break;
+                    case 'settings':
+                        return $this->view('cliente.negocios.perfil.settings');
+                        break;
+                }
+
             }
-
-        }
-        else {
-            return response('No autorizado', 401);
+            else {
+                return response('No autorizado', 401);
+            }
+        } else {
+            return response('Este negocio no existe', 412);
         }
     }
 
@@ -163,14 +199,42 @@ class NegociosCliente extends BaseCliente
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @param  int     $id
+     * @param \App\Http\Requests\Cliente\EditCliente $request
      *
-     * @return Response
+     * @return \App\Http\Controllers\Cliente\Response
      */
-    public function update (Request $request, $id)
+    public function update (EditCliente $request)
     {
-        //
+        if ($request->ajax() && $request->wantsJson()) {
+            if(!is_null($cliente = Cliente::find($request->get('id')))) {
+                if ($this->infoPropietario->id == $cliente->propietario->id) {
+                    $cliente->preparaDatos($request);
+                    if ($cliente->save()) {
+                        $response = [
+                            'exito'  => TRUE,
+                            'titulo' => 'Cliente actualizado',
+                            'texto'  =>'<b>' . $cliente->nombre . '</b> se ha actualizado.',
+                            'url' => route('negocios-cliente')
+                        ];
+                    }
+                    else {
+                        $response = [
+                            'exito'  => FALSE,
+                            'titulo' =>  'No se actualizó',
+                            'texto'  =>'Parece que no hubo cambios en la BD',
+                            'url'    => NULL
+                        ];
+                    }
+                    return $this->responseJSON($response);
+                }
+                else {
+                    return response('No autorizado', 401);
+                }
+            }
+            else {
+                return response('Este negocio no existe', 412);
+            }
+        }
     }
 
     /**

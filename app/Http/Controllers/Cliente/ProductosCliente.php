@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cliente;
 
+use App\Http\Controllers\Traits\GetImagesCliente;
 use App\Http\Models\Cliente\Categorias;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Producto;
@@ -16,6 +17,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductosCliente extends BaseCliente
 {
+    use GetImagesCliente;
+
     public function __construct()
     {
         parent::__construct();
@@ -52,7 +55,7 @@ class ProductosCliente extends BaseCliente
             ->get();
 
         foreach($productos as $producto) {
-            $producto->imagen = $this->_getImageProducto($producto->cliente_id, $producto->id);
+            $producto->imagen = $this->_getImage($producto->cliente_id, 'productos', $producto->id);
         }
         $this->data['productosMasGustados'] = $productos;
 
@@ -124,26 +127,40 @@ class ProductosCliente extends BaseCliente
      */
     public function show($id)
     {
-        $producto = Producto::find($id);
-        $this->data['param'] = [
-            'route'        => 'cliente.producto.store',
-            'class'        => 'form-horizontal form-nuevo-producto',
-            'role'         => 'form',
-            'autocomplete' => 'off'
-        ];
+        if(!is_null($producto = Producto::find($id))) {
 
-        $categorias = Categorias::where('cliente_id', $producto->cliente_id)->get(['id', 'categoria'])->ToArray();
-        $options  = [];
-        foreach ($categorias as $index => $categoria) {
-            $options[$categoria['id']] = $categoria['categoria'];
+            $idPropietario = $producto->idPropietario($this->infoPropietario->id, $id);
+
+            if($this->infoPropietario->id == $idPropietario[0]['id']) {
+
+                $this->data['param'] = [
+                    'route'        => 'cliente.producto.update',
+                    'class'        => 'form-horizontal form-edita-producto',
+                    'role'         => 'form',
+                    'autocomplete' => 'off'
+                ];
+
+                $categorias = Categorias::where('cliente_id', $producto->cliente_id)->get(['id', 'categoria'])->ToArray();
+                $options  = [];
+                foreach ($categorias as $index => $categoria) {
+                    $options[$categoria['id']] = $categoria['categoria'];
+                }
+
+
+                $this->data['producto'] = $producto;
+                $this->data['categorias'] = $options;
+                $this->data['img_producto'] = $this->_getImage($producto->cliente_id, 'productos',$id);
+                $this->data['current_producto_id'] = $id;
+
+                return $this->view('cliente.productos.perfil.settings');
+            }
+            else {
+                return response('No es tu producto.', 412);
+            }
         }
-
-
-        $this->data['producto'] = $producto;
-        $this->data['categorias'] = $options;
-        $this->data['img_producto'] = $this->_getImageProducto($producto->cliente_id, $id);
-        $this->data['current_producto_id'] = $id;
-        return $this->view('cliente.productos.perfil.settings');
+        else {
+            return response('No existe producto.', 412);
+        }
     }
 
     /**
@@ -160,13 +177,36 @@ class ProductosCliente extends BaseCliente
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param CreateProducto $request
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateProducto $request)
     {
-        //
+        if($request->ajax() && $request->wantsJson()){
+
+            if(!is_null($producto = Producto::find($request->get('id')))) {
+                $producto->preparaDatos($request);
+
+                if ($producto->save()) {
+                    $response = [
+                        'exito'  => TRUE,
+                        'titulo' => 'Producto actualizado',
+                        'texto'  =>'<b>' . $producto->nombre . '</b> se ha actualizado.',
+                        'url' => route('productos-cliente')
+                    ];
+                }
+                else {
+                    $response = [
+                        'exito'  => FALSE,
+                        'titulo' =>  'No se actualizó',
+                        'texto'  =>'Parece que no hubo cambios en la BD',
+                        'url'    => NULL
+                    ];
+                }
+                return $this->responseJSON($response);
+
+            }
+        }
     }
 
     /**
@@ -260,7 +300,7 @@ class ProductosCliente extends BaseCliente
             $layer = ImageWorkshop::initFromPath($imgUrl);
 
             $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
-            $layer->cropInPixel($cropW, $cropH, $imgX1, $imgY1, 'LT');
+            $layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
             unlink("img/cliente/" . $cliente_id . "/productos/".$producto_id."/" . pathinfo($imgUrl, PATHINFO_BASENAME));
 
@@ -302,32 +342,5 @@ class ProductosCliente extends BaseCliente
         }
 
         return new JsonResponse($final);
-    }
-
-    private function  _getImageProducto ($cliente_id, $producto_id)
-    {
-        $files = File::files('img/cliente/' . $cliente_id . '/productos/'.$producto_id);
-        $logoDefault = asset('assets/admin/pages/media/productos/producto.jpg');
-        $count = count($files);
-        if ($count > 1 || $count == 0) {
-            if ($count > 1) {
-                foreach ($files as $file) {
-                    unlink($file);
-                }
-            }
-
-            return asset($logoDefault);
-        }
-        else if ($count == 1) {
-            list($width, $height) = getimagesize($files[0]);
-            if ($width != 500 || $height != 500) {
-                unlink($files[0]);
-
-                return asset($logoDefault);
-            }
-            else if ($width == 500 && $height == 500) {
-                return asset($files[0]);
-            }
-        }
     }
 }

@@ -13,12 +13,12 @@ var Logotipo = function() {
             uploadUrl: $('#newlogo').attr('data-upload'),
             cropUrl: $('#newlogo').attr('data-crop'),
             uploadData:{
-                "producto_id": id,
+                "promocion_id": id,
                 "cliente_id": cliente_id,
                 "_token": token
             },
             cropData: {
-                "producto_id": id,
+                "promocion_id": id,
                 "cliente_id": cliente_id,
                 "_token": token
             },
@@ -27,10 +27,12 @@ var Logotipo = function() {
             rotateControls:false,
             onAfterImgCrop:		function(){
                 var src = $('img.croppedImg').attr('src');
-                $('#img-producto').css('background-image', 'url(' + src + ')');
+                console.log(src);
+                $('#img-promocion').css('background-image', 'url(' + src + ')');
             }
         }
         var cropperHeader = new Croppic('newlogo', cropperOptions);
+        console.log(cropperHeader);
     }
 
     return {

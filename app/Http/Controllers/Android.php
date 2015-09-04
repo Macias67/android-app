@@ -24,7 +24,8 @@ class Android extends Controller
         foreach($negocios as $index => $negocio) {
             $negocios[$index]['logo'] = $this->_getLogo ($negocio['id']);
         }
-        return new JsonResponse(["negocios"=>$negocios]);
+
+        return new JsonResponse(["negocios" => $negocios]);
     }
 
     private function  _getLogo ($id)

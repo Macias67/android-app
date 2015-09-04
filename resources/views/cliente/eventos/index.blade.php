@@ -92,11 +92,11 @@
                         <div class="col-md-12">
 
                             @foreach($eventosMasGustados as $index => $evento)
-                                <div class="layer animated flipInX" style="background-image: url('http://android.app/img/cliente/5/logo/chamarra.jpg')">
+                                <div class="layer animated flipInX" style="background-image: url('{{$evento->imagen}}')">
                                     <div class="portlet light">
                                         <div class="portlet-title">
                                             <div class="caption font-yellow-crusta">
-                                                <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$evento['nombre']}} </span>
+                                                <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$evento->nombre_evento}} </span>
                                                 <br>
                                             <span class="caption-helper">
                                                 <b>Código</b>
@@ -107,7 +107,7 @@
                                         </div>
                                         <div class="portlet-body">
                                             <div class="col-md-12">
-                                                <h4 style="margin-top: 5px">{{$evento['descripcion']}}</h4>
+                                                <h4 style="margin-top: 5px">{{$evento->descripcion}}</h4>
                                             </div>
 
                                             <div class="col-md-6">
@@ -117,7 +117,7 @@
                                             </span>
                                             </div>
                                             <div class="col-md-6">
-                                                <a href="{{route('cliente.evento.show', [$evento['id']])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
+                                                <a href="{{route('cliente.evento.show', [$evento->id])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
                                                 {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
                                             </div>
 
@@ -142,16 +142,11 @@
 {{-- Sobreescribir el encabezado de pagina
 @section('page-footer-inner')@stop --}}
 
-{{-- Cargar los plugins de js --}}
-@section('plugins-core-js')
-@stop
+{{-- Cargar los plugins de js
+@section('plugins-core-js')@stop --}}
 
-{{-- Cargar los archivos de js --}}
-@section('page-level-js')
-    <script src="{{asset('assets/admin/pages/app/cliente/productos/index.js')}}" type="text/javascript"></script>
-@stop
+{{-- Cargar los archivos de js
+@section('page-level-js')@stop --}}
 
-{{-- Inicializo los js --}}
-@section('init-js')
-    Productos.init();
-@stop
+{{-- Inicializo los js
+@section('init-js')@stop --}}
