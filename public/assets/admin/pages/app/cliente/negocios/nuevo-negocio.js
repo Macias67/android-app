@@ -42,6 +42,24 @@ var NuevoCliente = function () {
         });
     }
 
+    var updateGeocodingAddress = function (results) {
+        if(results[0].address_components.length == 7) {
+            numero        = results[0].address_components[0].long_name;
+            calle         = results[0].address_components[1].long_name;
+            colonia       = results[0].address_components[2].long_name;
+            codigo_postal = results[0].address_components[6].long_name;
+            $('#gmap_geocoding_address').val(results[0].formatted_address);
+        }
+        else {
+            swal({
+                title: "Dirección no encontrada",
+                text: "Parece ser que la dirección no existe en Google Maps, intente cambiando la dirección.",
+                type: "error",
+                confirmButtonColor: Metronic.getBrandColor('red')
+            });
+        }
+    }
+
     var mapGeocoding = function () {
 
         $('#calle_registrada').focus(function() {
@@ -73,7 +91,8 @@ var NuevoCliente = function () {
                         map.setCenter(latlng.lat(), latlng.lng());
                         if(marker) {
                             marker.setPosition({lat:latlng.lat(), lng:latlng.lng()});
-                        } else {
+                        }
+                        else {
                             marker = map.addMarker({
                                 draggable: true,
                                 animation: google.maps.Animation.DROP,
@@ -107,13 +126,8 @@ var NuevoCliente = function () {
                             });
                         }
 
-                        numero = results[0].address_components[0].long_name;
-                        calle = results[0].address_components[1].long_name;
-                        colonia = results[0].address_components[2].long_name;
-                        console.log(results[0].address_components);
-                        codigo_postal = results[0].address_components[6].long_name;
+                        updateGeocodingAddress(results);
 
-                        $('#gmap_geocoding_address').val(results[0].formatted_address);
                         $('input[name="latitud"]').val(latlng.lat());
                         $('input[name="longitud"]').val(latlng.lng());
 
@@ -196,6 +210,12 @@ var NuevoCliente = function () {
                 },
                 referencia: {
                     maxlength: 140
+                },
+                categoria1:      {
+                    required: true
+                },
+                subcategoria1:      {
+                    required: true
                 },
                 ciudad_id: {
                     required:  true

@@ -109,8 +109,6 @@ var EditaCliente = function () {
                 confirmButtonColor: Metronic.getBrandColor('red')
             });
         }
-
-
     }
 
     var setMarker = function () {
