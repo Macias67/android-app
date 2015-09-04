@@ -158,7 +158,7 @@ var NuevoCliente = function () {
                 },
                 numero:         {
                     required:  true,
-                    maxlength: 5
+                    maxlength: 10
                 },
                 colonia:        {
                     required:  true,
@@ -166,10 +166,11 @@ var NuevoCliente = function () {
                 },
                 codigo_postal:  {
                     required:  true,
-                    maxlength: 45
+                    minlength: 5,
+                    maxlength: 5
                 },
                 referencia:     {
-                    maxlength: 45
+                    maxlength: 140
                 },
                 ciudad_id:      {
                     required: true
@@ -177,10 +178,14 @@ var NuevoCliente = function () {
                 categoria1:      {
                     required: true
                 },
-                latlng_gmaps:   {
+                latitud: {
                     required:  true,
                     maxlength: 45
                 },
+                longitud: {
+                    required:  true,
+                    maxlength: 45
+                }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit

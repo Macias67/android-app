@@ -244,7 +244,7 @@ var EditaCliente = function () {
                 },
                 calle:          {
                     required:  true,
-                    maxlength: 14
+                    maxlength: 45
                 },
                 numero:         {
                     required:  true,
@@ -263,6 +263,9 @@ var EditaCliente = function () {
                     maxlength: 140
                 },
                 ciudad_id:      {
+                    required: true
+                },
+                categoria1:      {
                     required: true
                 },
                 latitud: {

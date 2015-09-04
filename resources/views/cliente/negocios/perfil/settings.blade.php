@@ -188,11 +188,11 @@
 											<div class="col-md-offset-2 col-md-10">
 												<div class="col-md-6">
 													<label class="control-label">Latitud</label>
-													<input type="text" class="form-control input-large" placeholder="Latitud" name="latitud" value="{{$cliente->latitud}}" readonly>
+													<input type="text" class="form-control input-medium" placeholder="Latitud" name="latitud" value="{{$cliente->latitud}}" readonly>
 												</div>
 												<div class="col-md-6">
 													<label class="control-label">Longitud</label>
-													<input type="text" class="form-control input-large" placeholder="Longitud" name="longitud" value="{{$cliente->longitud}}" readonly>
+													<input type="text" class="form-control input-medium" placeholder="Longitud" name="longitud" value="{{$cliente->longitud}}" readonly>
 												</div>
 											</div>
 										</div>
