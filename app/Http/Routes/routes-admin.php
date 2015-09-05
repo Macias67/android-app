@@ -101,7 +101,7 @@ Route::group(
        | CIUDADES
        |--------------------------------------------------------------------------
        */
-        Route::get('ciduades', [
+        Route::get('ciudades', [
             'as' => 'ciudades',
             'uses' => 'CiudadesAdmin@index'
         ]);

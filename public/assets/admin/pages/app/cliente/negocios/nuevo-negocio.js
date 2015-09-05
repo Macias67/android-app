@@ -51,6 +51,7 @@ var NuevoCliente = function () {
             $('#gmap_geocoding_address').val(results[0].formatted_address);
         }
         else {
+            $('#gmap_geocoding_address').val('');
             swal({
                 title: "Dirección no encontrada",
                 text: "Parece ser que la dirección no existe en Google Maps, intente cambiando la dirección.",

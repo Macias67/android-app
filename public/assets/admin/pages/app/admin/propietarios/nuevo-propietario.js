@@ -88,7 +88,7 @@ var NuevoPropietario = function () {
                             showCancelButton:   true,
                             cancelButtonText: "Ok",
                             confirmButtonColor: Metronic.getBrandColor('green'),
-                            confirmButtonText:  "Añadir Cliente"
+                            confirmButtonText:  "Añadir Propietario"
                         }, function (isConfirm) {
                             if(isConfirm) {
                                 window.location.href = data.extras.addCliente;

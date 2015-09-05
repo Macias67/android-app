@@ -49,9 +49,6 @@
                                     <span class="caption-subject bold uppercase"> Propietario</span>
                                     <span class="caption-helper">Registro de propietario</span>
                               </div>
-                              <div class="actions">
-                                    <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
-                              </div>
                         </div>
                         <div class="portlet-body form">
                               {!! Form::open($param) !!}
@@ -149,7 +146,7 @@
 
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
-{!! \Html::script('assets/global/plugins/jquery-inputmask/dist/inputmask/jquery.inputmask.min.js', array('type' => 'text/javascript')) !!}
+{!! \Html::script('assets/global/plugins/jquery-inputmask/dist/jquery.inputmask.min.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/global/plugins/jquery-validation/js/jquery.validate.min.js', array('type' => 'text/javascript')) !!}
 {!! \Html::script('assets/global/plugins/jquery-validation/js/localization/messages_es.js', array('type' => 'text/javascript')) !!}
 @stop

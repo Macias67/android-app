@@ -327,7 +327,7 @@ class NegociosCliente extends BaseCliente
             $layer = ImageWorkshop::initFromPath($imgUrl);
 
             $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
-            $layer->cropInPixel($cropW, $cropH, $imgX1, $imgY1, 'LT');
+            $layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
             unlink("img/cliente/" . $cliente_id . "/logo/" . pathinfo($imgUrl, PATHINFO_BASENAME));
 

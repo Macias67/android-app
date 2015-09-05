@@ -84,6 +84,28 @@ var NuevoCliente = function () {
         }
     }
 
+    var updateGeocodingAddress = function (results) {
+        console.log(results[0]);
+        console.log(results[0].formatted_address);
+        console.log(results[0].address_components);
+        if(results[0].address_components.length == 7) {
+            numero        = results[0].address_components[0].long_name;
+            calle         = results[0].address_components[1].long_name;
+            colonia       = results[0].address_components[2].long_name;
+            codigo_postal = results[0].address_components[6].long_name;
+            $('#gmap_geocoding_address').val(results[0].formatted_address);
+        }
+        else {
+            $('#gmap_geocoding_address').val('');
+            swal({
+                title: "Dirección no encontrada",
+                text: "Parece ser que la dirección no existe en Google Maps, intente cambiando la dirección.",
+                type: "error",
+                confirmButtonColor: Metronic.getBrandColor('red')
+            });
+        }
+    }
+
     var mapGeocoding = function () {
 
         $('#calle_registrada').focus(function() {
@@ -134,13 +156,7 @@ var NuevoCliente = function () {
                                             location: {lat:e.latLng.lat(), lng:e.latLng.lng()},
                                             callback: function (results, status) {
                                                 if(status == 'OK') {
-
-                                                    numero = results[0].address_components[0].long_name;
-                                                    calle = results[0].address_components[1].long_name;
-                                                    colonia = results[0].address_components[2].long_name;
-                                                    codigo_postal = results[0].address_components[6].long_name;
-
-                                                    $('#gmap_geocoding_address').val(results[0].formatted_address);
+                                                    updateGeocodingAddress(results);
                                                     $('input[name="latitud"]').val(e.latLng.lat());
                                                     $('input[name="longitud"]').val(e.latLng.lng());
                                                 }
@@ -165,17 +181,17 @@ var NuevoCliente = function () {
             e.preventDefault();
             if($('#gmap_geocoding_address').val() != '') {
                 swal({
-                    title:            "¿Estás seguro?",
-                    text:               "La dirección de Google Maps reemplazará la dirección que escribiste.",
-                    type:               "warning",
+                    title: "¿Estás seguro?",
+                    text: "La dirección de Google Maps reemplazará la dirección que escribiste.",
+                    type:  "warning",
                     showCancelButton:   true,
                     confirmButtonColor: Metronic.getBrandColor('red'),
                     confirmButtonText:  "Remplazar",
                     cancelButtonText:   "Cancelar"
                 }, function (isConfirm) {
                     if (isConfirm) {
-                        $('#calle_registrada').val($('#gmap_geocoding_address').val()),
-                            $('input[name="calle"]').val(calle);
+                        $('#calle_registrada').val($('#gmap_geocoding_address').val());
+                        $('input[name="calle"]').val(calle);
                         $('input[name="numero"]').val(numero);
                         $('input[name="colonia"]').val(colonia);
                         $('input[name="codigo_postal"]').val(codigo_postal);

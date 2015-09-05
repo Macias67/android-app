@@ -1,5 +1,11 @@
 @extends('cliente.negocios.perfil.perfil')
 
+{{-- Adjuntar los links css de los plugins requeridos --}}
+@section('plugins-css')
+    <link href="{{asset('assets/admin/pages/css/profile.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('assets/admin/pages/css/tasks.css')}}" rel="stylesheet" type="text/css"/>
+@stop
+
 @section('profile-content')
 	<div class="profile-content">
 		{{--Columnas--}}
@@ -1276,4 +1282,19 @@
 			</div>
 		</div>
 	</div>
+@stop
+
+{{-- Cargar los plugins de js --}}
+@section('plugins-core-js')
+    <script src="{{asset('assets/global/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
+@stop
+
+{{-- Cargar los archivos de js --}}
+@section('page-level-js')
+    <script src="{{asset('assets/admin/pages/app/cliente/negocios/perfil.js')}}" type="text/javascript"></script>
+@stop
+
+{{-- Inicializo los js  --}}
+@section('init-js')
+    Profile.init();
 @stop

@@ -51,7 +51,6 @@
                               <div class="actions">
                                     <a href="{{route('adm.nuevo.cliente')}}" class="btn btn-circle bg-green-turquoise"><i class="fa fa-plus"></i> Nuevo Cliente </a>
 	                              <a href="{{route('adm.nuevo.propietario')}}" class="btn btn-circle bg-green-turquoise"><i class="fa fa-plus"></i> Nuevo Propietario </a>
-                                    <a href="" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
                               </div>
                         </div>
                         <div class="portlet-body">
