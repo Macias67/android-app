@@ -2,36 +2,11 @@
  * Created by Luis Macias on 04/09/2015.
  */
 
-var InfoAdicional = function () {
+var RedesSociales = function () {
 
-    var maskTelefonos = function () {
-        $("input[name='telefono1']").inputmask("mask", {
-            "mask": "(999) 999-9999"
-        });
-
-        $("input[name='telefono2']").inputmask("mask", {
-            "mask": "(999) 999-9999"
-        });
-
-        $("input[name='telefono3']").inputmask("mask", {
-            "mask": "(999) 999-9999"
-        });
-    }
-
-    var maxLenght = function () {
-        $("textarea[name='descripcion']").maxlength({
-            limitReachedClass: "label label-danger",
-            alwaysShow:        true
-        });
-
-        $("textarea[name='slogan']").maxlength({
-            limitReachedClass: "label label-danger",
-            alwaysShow:        true
-        });
-    }
 
     var handleForm = function () {
-        var form = $('.form-edita-cliente-detalles');
+        var form = $('.form-edita-cliente-redes-sociales');
 
         form.validate({
             errorElement: 'b', //default input error message containerz
@@ -42,28 +17,25 @@ var InfoAdicional = function () {
                 cliente_id:    {
                     required: true
                 },
-                descripcion:   {
-                    maxlength: 200
-                },
-                slogan:        {
-                    maxlength: 140
-                },
-                website:       {
-                    maxlength: 45,
+                facebook:   {
+                    maxlength: 100,
                     url:       true
                 },
-                email_negocio: {
-                    maxlength: 45,
-                    email:     true
+                twitter:   {
+                    maxlength: 100,
+                    url:       true
                 },
-                telefono1:     {
-                    maxlength: 14
+                instagram:   {
+                    maxlength: 100,
+                    url:       true
                 },
-                telefono2:     {
-                    maxlength: 14
+                youtube:   {
+                    maxlength: 100,
+                    url:       true
                 },
-                telefono3:     {
-                    maxlength: 14
+                googleplus:   {
+                    maxlength: 100,
+                    url:       true
                 }
             },
 
@@ -130,8 +102,6 @@ var InfoAdicional = function () {
 
     return {
         init: function () {
-            maskTelefonos();
-            maxLenght();
             handleForm();
         }
     }

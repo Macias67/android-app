@@ -103,8 +103,12 @@ class ClientesAdmin extends BaseAdmin
                 $cliente->subcategorias()->sync($subIDs);
 
                 $detalles = new ClienteDetalles();
-                $detalles->cliente_id = $cliente->id;
+                $detalles->id = $cliente->id;
                 $cliente->detalles()->save($detalles);
+
+                $redes_sociales = new ClienteRedesSociales();
+                $redes_sociales->id = $cliente->id;
+                $cliente->redesSociales()->save($redes_sociales);
 
                 $response = [
                     'exito'  => TRUE,

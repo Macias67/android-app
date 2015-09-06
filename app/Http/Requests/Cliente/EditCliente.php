@@ -46,6 +46,9 @@ class EditCliente extends Request
             case 'adicional':
                 return $this->getRulesClienteDetalles();
                 break;
+            case 'redessociales':
+                return $this->getRulesClienteRedesSociales();;
+                break;
         }
 
     }
@@ -78,6 +81,19 @@ class EditCliente extends Request
             'slogan'         => 'max:140',
             'website'        => 'max:45|url',
             'email_negocio'  => 'max:45|email',
+            'propietario_id' => 'exists:cl_clientes,propietario_id|integer'
+        ];
+    }
+
+    public function getRulesClienteRedesSociales ()
+    {
+        return [
+            'id'             => 'required|exists:cl_clientes,id|integer',
+            'facebook'        => 'max:100|url',
+            'twitter'        => 'max:100|url',
+            'instagram'        => 'max:100|url',
+            'youtube'        => 'max:100|url',
+            'googleplus'        => 'max:100|url',
             'propietario_id' => 'exists:cl_clientes,propietario_id|integer'
         ];
     }

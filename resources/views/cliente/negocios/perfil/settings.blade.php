@@ -272,8 +272,8 @@
 
 											<div class="col-md-8">
 												<div class="input-icon">
-													<i class="fa fa-map-marker"></i>
-													{!! Form::textarea('descripcion', NULL, ['class' => 'form-control', 'rows' => 3, 'style' => 'resize: none;']) !!}
+													<i class="fa fa-edit"></i>
+													{!! Form::textarea('descripcion', NULL, ['class' => 'form-control', 'rows' => 3, 'style' => 'resize: none;', 'maxlength' => 200]) !!}
 												</div>
 												<span class="help-block">Descripción detallado del negocio. </span>
 											</div>
@@ -284,8 +284,8 @@
 
 											<div class="col-md-8">
 												<div class="input-icon">
-													<i class="fa fa-map-marker"></i>
-													{!! Form::textarea('slogan', NULL, ['class' => 'form-control', 'rows' => 2, 'style' => 'resize: none;']) !!}
+													<i class="fa fa-star"></i>
+													{!! Form::textarea('slogan', NULL, ['class' => 'form-control', 'rows' => 2, 'style' => 'resize: none;', 'maxlength' => 140]) !!}
 												</div>
 											</div>
 										</div>
@@ -295,7 +295,7 @@
 
 											<div class="col-md-8">
 												<div class="input-icon">
-													<i class="fa fa-slack"></i>
+													<i class="fa fa-desktop"></i>
 													{!! Form::text('website', NULL, ['class' => 'form-control', 'placeholder' => 'Website']) !!}
 												</div>
 											</div>
@@ -306,7 +306,7 @@
 
 											<div class="col-md-8">
 												<div class="input-icon">
-													<i class="fa fa-map-marker"></i>
+													<i class="fa fa-envelope-o"></i>
 													{!! Form::text('email_negocio', NULL, ['class' => 'form-control', 'placeholder' => 'Email del Negocio']) !!}
 												</div>
 											</div>
@@ -321,7 +321,7 @@
 
 											<div class="col-md-7">
 												<div class="input-icon input-small">
-													<i class="fa fa-globe"></i>
+													<i class="fa fa-phone"></i>
 													{!! Form::text('telefono1', NULL, ['class' => 'form-control', 'placeholder' => 'Teléfono 1']) !!}
 												</div>
 											</div>
@@ -332,7 +332,7 @@
 
 											<div class="col-md-7">
 												<div class="input-icon input-small">
-													<i class="fa fa-globe"></i>
+													<i class="fa fa-phone"></i>
 													{!! Form::text('telefono2', NULL, ['class' => 'form-control', 'placeholder' => 'Teléfono 2']) !!}
 												</div>
 											</div>
@@ -343,7 +343,7 @@
 
 											<div class="col-md-7">
 												<div class="input-icon input-small">
-													<i class="fa fa-globe"></i>
+													<i class="fa fa-phone"></i>
 													{!! Form::text('telefono3', NULL, ['class' => 'form-control', 'placeholder' => 'Teléfono 3']) !!}
 												</div>
 											</div>
@@ -354,6 +354,9 @@
 
 											<div class="col-md-7">
 												<input type="checkbox" class="make-switch" name="pago_tarjeta"
+												       @if($cliente->detalles->pago_tarjeta)
+												       checked
+												       @endif
 												       data-size="small"
 												       data-on-text="Sí" data-off-text="No"
 												       data-on-color="success"
@@ -366,6 +369,9 @@
 
 											<div class="col-md-7">
 												<input type="checkbox" class="make-switch" name="reservaciones"
+												       @if($cliente->detalles->reservaciones)
+												       checked
+												       @endif
 												       data-size="small"
 												       data-on-text="Sí" data-off-text="No"
 												       data-on-color="success"
@@ -378,6 +384,9 @@
 
 											<div class="col-md-7">
 												<input type="checkbox" class="make-switch" name="servicio_domicilio"
+												       @if($cliente->detalles->servicio_domicilio)
+												       checked
+												       @endif
 												       data-size="small"
 												       data-on-text="Sí" data-off-text="No"
 												       data-on-color="success"
@@ -390,6 +399,9 @@
 
 											<div class="col-md-7">
 												<input type="checkbox" class="make-switch" name="mesa_aire_libre"
+												       @if($cliente->detalles->mesa_aire_libre)
+												       checked
+												       @endif
 												       data-size="small"
 												       data-on-text="Sí" data-off-text="No"
 												       data-on-color="success"
@@ -402,6 +414,24 @@
 
 											<div class="col-md-7">
 												<input type="checkbox" class="make-switch" name="wifi"
+												       @if($cliente->detalles->wifi)
+												       checked
+												       @endif
+												       data-size="small"
+												       data-on-text="Sí" data-off-text="No"
+												       data-on-color="success"
+												       data-off-color="default">
+											</div>
+										</div>
+										{{--Estacionamiento--}}
+										<div class="form-group">
+											<label class="control-label col-md-5">Estacionamiento </label>
+
+											<div class="col-md-7">
+												<input type="checkbox" class="make-switch" name="estacionamiento"
+												       @if($cliente->detalles->estacionamiento)
+												       checked
+												       @endif
 												       data-size="small"
 												       data-on-text="Sí" data-off-text="No"
 												       data-on-color="success"
@@ -423,42 +453,83 @@
 
 							<!-- SOCIALES INFO TAB -->
 							<div class="tab-pane" id="tab_sociales">
-								<form role="form" action="#">
-									<div class="form-group">
-										<label class="control-label">First Name</label>
-										<input type="text" placeholder="John" class="form-control"/>
+								{!! Form::model($cliente->redesSociales, $formredessociales) !!}
+									{!! Form::hidden ('id', $cliente->id) !!}
+									{!! Form::hidden ('propietario_id', $cliente->propietario_id) !!}
+									<div class="col-md-8">
+									<div class="form-body">
+										{{--Facebook--}}
+										<div class="form-group">
+											<label class="control-label col-md-3">Facebook </label>
+
+											<div class="col-md-7">
+												<div class="input-icon">
+													<i class="fa fa-facebook"></i>
+													{!! Form::text('facebook', NULL, ['class' => 'form-control', 'placeholder' => 'Facebook']) !!}
+												</div>
+												<span class="help-block">Ejemplo: <b>https://www.facebook.com/mi-negocio</b> </span>
+											</div>
+										</div>
+										{{--Twitter--}}
+										<div class="form-group">
+											<label class="control-label col-md-3">Twitter </label>
+
+											<div class="col-md-7">
+												<div class="input-icon">
+													<i class="fa fa-twitter"></i>
+													{!! Form::text('twitter', NULL, ['class' => 'form-control', 'placeholder' => 'Twitter']) !!}
+												</div>
+												<span class="help-block">Ejemplo: <b>https://twitter.com/MiNegocio</b> </span>
+											</div>
+										</div>
+										{{--Instagram--}}
+										<div class="form-group">
+											<label class="control-label col-md-3">Instagram </label>
+
+											<div class="col-md-7">
+												<div class="input-icon">
+													<i class="fa fa-instagram"></i>
+													{!! Form::text('instagram', NULL, ['class' => 'form-control', 'placeholder' => 'Instagram']) !!}
+												</div>
+												<span class="help-block">Ejemplo: <b>https://instagram.com/mi-cuenta</b> </span>
+											</div>
+										</div>
+										{{--YouTube--}}
+										<div class="form-group">
+											<label class="control-label col-md-3">YouTube </label>
+
+											<div class="col-md-7">
+												<div class="input-icon">
+													<i class="fa fa-youtube-play"></i>
+													{!! Form::text('youtube', NULL, ['class' => 'form-control', 'placeholder' => 'YouTube']) !!}
+												</div>
+												<span class="help-block">Ejemplo: <b>https://www.youtube.com/watch?v=fIeBpbNpJz0</b> </span>
+											</div>
+										</div>
+										{{--Google Plus--}}
+										<div class="form-group">
+											<label class="control-label col-md-3">Google Plus </label>
+
+											<div class="col-md-7">
+												<div class="input-icon">
+													<i class="fa fa-google-plus"></i>
+													{!! Form::text('googleplus', NULL, ['class' => 'form-control', 'placeholder' => 'Google Plus']) !!}
+												</div>
+												<span class="help-block">Ejemplo: <b>https://plus.google.com/+MiCuenta</b> </span>
+											</div>
+										</div>
 									</div>
-									<div class="form-group">
-										<label class="control-label">Last Name</label>
-										<input type="text" placeholder="Doe" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Mobile Number</label>
-										<input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Interests</label>
-										<input type="text" placeholder="Design, Web etc." class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Occupation</label>
-										<input type="text" placeholder="Web Developer" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">About</label>
-										<textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Website Url</label>
-										<input type="text" placeholder="http://www.mywebsite.com" class="form-control"/>
-									</div>
-									<div class="margiv-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Save Changes </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
+
+								</div>
+
+									{{--Accion--}}
+									<div class="col-md-offset-2 col-md-10">
+										<div class="margin-top-20">
+											<button type="submit" class="btn green-haze hvr-grow">Guardar cambios</button>
+										</div>
 									</div>
 								</form>
+								<div class="clearfix"></div>
 							</div>
 							<!-- END SOCIALES INFO TAB -->
 
@@ -641,6 +712,7 @@
 
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
+	<script src="{{asset('assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/global/plugins/jquery-inputmask/dist/jquery.inputmask.min.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/global/plugins/croppic/croppic.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/global/plugins/select2/select2.min.js')}}" type="text/javascript"></script>
@@ -655,6 +727,7 @@
 @section('page-level-js')
 	<script src="{{asset('assets/admin/pages/app/cliente/negocios/edita-negocio.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/admin/pages/app/cliente/negocios/info-adicional.js')}}" type="text/javascript"></script>
+	<script src="{{asset('assets/admin/pages/app/cliente/negocios/redes-sociales.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/admin/pages/app/cliente/negocios/horarios.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/admin/pages/app/cliente/negocios/logotipo.js')}}" type="text/javascript"></script>
 @stop
@@ -663,6 +736,7 @@
 @section('init-js')
 	EditaCliente.init();
 	InfoAdicional.init();
+	RedesSociales.init();
 	Horarios.init();
 	Logo.init();
 @stop

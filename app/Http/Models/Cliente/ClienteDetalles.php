@@ -12,7 +12,7 @@ class ClienteDetalles extends Model
      *
      * @var string
      */
-    protected $table = 'cl_cliente_detalles';
+    protected $table = 'cl_clientes_detalles';
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +32,8 @@ class ClienteDetalles extends Model
         'reservaciones',
         'servicio_domicilio',
         'mesa_aire_libre',
-        'wifi'
+        'wifi',
+        'estacionamiento'
     ];
 
     /**
@@ -64,6 +65,7 @@ class ClienteDetalles extends Model
         $this->servicio_domicilio = (isset($this->servicio_domicilio) && $this->servicio_domicilio == 'on') ? 1 : 0;
         $this->mesa_aire_libre    = (isset($this->mesa_aire_libre) && $this->mesa_aire_libre == 'on') ? 1 : 0;
         $this->wifi               = (isset($this->wifi) && $this->wifi == 'on') ? 1 : 0;
+        $this->estacionamiento = (isset($this->estacionamiento) && $this->estacionamiento == 'on') ? 1 : 0;
         $this->_cleanData();
     }
 

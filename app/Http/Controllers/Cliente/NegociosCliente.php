@@ -6,6 +6,7 @@ use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\ClienteDetalles;
+use App\Http\Models\Cliente\ClienteRedesSociales;
 use App\Http\Requests;
 use App\Http\Requests\Cliente\EditCliente;
 use App\Http\Requests\CreateCliente;
@@ -98,6 +99,10 @@ class NegociosCliente extends BaseCliente
                 $detalles->id = $cliente->id;
                 $cliente->detalles()->save($detalles);
 
+                $redes_sociales = new ClienteRedesSociales();
+                $redes_sociales->id = $cliente->id;
+                $cliente->redesSociales()->save($redes_sociales);
+
                 $response = [
                     'exito'  => TRUE,
                     'titulo' => 'Cliente registrado',
@@ -154,6 +159,13 @@ class NegociosCliente extends BaseCliente
                         $this->data['formadicional'] = [
                             'route'        => ['cliente.negocio.update', 'adicional'],
                             'class'        => 'form-horizontal form-edita-cliente-detalles',
+                            'role'         => 'form',
+                            'autocomplete' => 'off'
+                        ];
+
+                        $this->data['formredessociales'] = [
+                            'route'        => ['cliente.negocio.update', 'redessociales'],
+                            'class'        => 'form-horizontal form-edita-cliente-redes-sociales',
                             'role'         => 'form',
                             'autocomplete' => 'off'
                         ];
@@ -247,6 +259,17 @@ class NegociosCliente extends BaseCliente
                                 'exito'  => TRUE,
                                 'titulo' => 'Información adicional actualizada',
                                 'texto'  => 'Se ha actualizado la información adicional del negocio',
+                                'url'    => route('negocios-cliente')
+                            ];
+                            break;
+                        case 'redessociales':
+                            $cliente->redesSociales->preparaDatos($request);
+                            $save =  $cliente->redesSociales->save();
+
+                            $response = [
+                                'exito'  => TRUE,
+                                'titulo' => 'Redes Sociales actualizadas',
+                                'texto'  => 'Se ha actualizado las redes sociales del negocio',
                                 'url'    => route('negocios-cliente')
                             ];
                             break;

@@ -60,6 +60,15 @@ class Cliente extends Model
         return $this->hasOne(ClienteDetalles::class, 'id');
     }
 
+    /**
+     * Cliente tiene una tabla Redes Sociales
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function redesSociales ()
+    {
+        return $this->hasOne(ClienteRedesSociales::class, 'id');
+    }
 
     public static function getTableName()
     {

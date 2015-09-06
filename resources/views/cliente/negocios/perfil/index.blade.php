@@ -1291,10 +1291,8 @@
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-    <script src="{{asset('assets/admin/pages/app/cliente/negocios/perfil.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js  --}}
 @section('init-js')
-    Profile.init();
 @stop
