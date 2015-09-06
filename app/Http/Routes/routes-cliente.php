@@ -51,10 +51,10 @@ Route::group(
                 'uses' => 'NegociosCliente@store'
             ]);
 
-            Route::post('update', [
+            Route::post('update/{accion?}', [
                 'as' => 'cliente.negocio.update',
                 'uses' => 'NegociosCliente@update'
-            ]);
+            ])->where('accion', '[a-z]+');
         });
 
         /*

@@ -226,7 +226,7 @@ var EditaCliente = function () {
     }
 
     var handleForm = function () {
-        var form = $('.form-nuevo-cliente');
+        var form = $('.form-edita-cliente');
 
         form.validate({
             errorElement: 'b', //default input error message containerz

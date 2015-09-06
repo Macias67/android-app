@@ -50,6 +50,17 @@ class Cliente extends Model
         return $this->belongsToMany(SubCategorias::class, 'cl_categoria_negocio', 'cliente_id', 'subcategoria_id');
     }
 
+    /**
+     * Cliente tiene una tabla Detalles
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function detalles ()
+    {
+        return $this->hasOne(ClienteDetalles::class, 'id');
+    }
+
+
     public static function getTableName()
     {
         return with(new static)->getTable();

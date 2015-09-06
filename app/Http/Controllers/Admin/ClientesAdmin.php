@@ -102,6 +102,10 @@ class ClientesAdmin extends BaseAdmin
 
                 $cliente->subcategorias()->sync($subIDs);
 
+                $detalles = new ClienteDetalles();
+                $detalles->cliente_id = $cliente->id;
+                $cliente->detalles()->save($detalles);
+
                 $response = [
                     'exito'  => TRUE,
                     'titulo' => 'Cliente registrado',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cliente;
 use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
+use App\Http\Models\Cliente\ClienteDetalles;
 use App\Http\Requests;
 use App\Http\Requests\Cliente\EditCliente;
 use App\Http\Requests\CreateCliente;
@@ -31,6 +32,7 @@ class NegociosCliente extends BaseCliente
     public function index ()
     {
         $this->data['activo_negocio_index'] = TRUE;
+
         return $this->view('cliente.negocios.index');
     }
 
@@ -81,8 +83,8 @@ class NegociosCliente extends BaseCliente
             $cliente = new Cliente;
             $cliente->preparaDatos($request);
 
-            if ($cliente->save()) {
 
+            if ($cliente->save()) {
                 $subIDs = [];
                 for ($i = 0; $i < 3; $i++) {
                     $var = $request->get("subcategoria" . ($i + 1));
@@ -90,8 +92,11 @@ class NegociosCliente extends BaseCliente
                         array_push($subIDs, $var);
                     }
                 }
-
                 $cliente->subcategorias()->sync($subIDs);
+
+                $detalles = new ClienteDetalles();
+                $detalles->id = $cliente->id;
+                $cliente->detalles()->save($detalles);
 
                 $response = [
                     'exito'  => TRUE,
@@ -124,45 +129,12 @@ class NegociosCliente extends BaseCliente
      */
     public function show (Request $request, $id, $accion = NULL)
     {
-        if(!is_null($cliente     = Cliente::find($id))) {
+        if (!is_null($cliente = Cliente::find($id))) {
 
             if ($this->infoPropietario->id == $cliente->propietario->id) {
 
-                $this->data['param'] = [
-                    'route'        => 'cliente.negocio.update',
-                    'class'        => 'form-horizontal form-nuevo-cliente',
-                    'role'         => 'form',
-                    'autocomplete' => 'off'
-                ];
-
-                $ciudades = Ciudades::get()->ToArray();
-                $options  = [];
-                foreach ($ciudades as $index => $ciudad) {
-                    $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
-                }
-
-                $categorias         = Categorias::all(['id', 'categoria'])->ToArray();
-                $options_categorias = ['' => ''];
-                foreach ($categorias as $categoria) {
-                    $options_categorias[$categoria['id']] = $categoria['categoria'];
-                }
-
-                for($i = 0; $i < 3; $i++) {
-                    if(array_key_exists($i, $cliente->subcategorias->toArray())) {
-                        $cl_categorias[$i]['categoria'] = $cliente->subcategorias[$i]->categoria->id;
-                        $cl_categorias[$i]['subcategoria'] = $cliente->subcategorias[$i]->id;
-                    } else {
-                        $cl_categorias[$i]['categoria'] = NULL;
-                        $cl_categorias[$i]['subcategoria'] = NULL;
-                    }
-                }
-
-                $this->data['options_categorias'] = $options_categorias;
-
                 $this->data['logo']               = $this->_getLogo($id);
-                $this->data['options_ciudades']     = $options;
-                $this->data['categoria']        = $cliente->subcategorias->first()->subcategoria;
-                $this->data['cl_categorias'] = $cl_categorias;
+                $this->data['categoria']          = $cliente->subcategorias->first()->subcategoria;
                 $this->data['cliente']            = $cliente;
                 $this->data['current_cliente_id'] = $id;
 
@@ -171,6 +143,48 @@ class NegociosCliente extends BaseCliente
                         return $this->view('cliente.negocios.perfil.index');
                         break;
                     case 'settings':
+
+                        $this->data['formprincipal'] = [
+                            'route'        => ['cliente.negocio.update', 'principal'],
+                            'class'        => 'form-horizontal form-edita-cliente',
+                            'role'         => 'form',
+                            'autocomplete' => 'off'
+                        ];
+
+                        $this->data['formadicional'] = [
+                            'route'        => ['cliente.negocio.update', 'adicional'],
+                            'class'        => 'form-horizontal form-edita-cliente-detalles',
+                            'role'         => 'form',
+                            'autocomplete' => 'off'
+                        ];
+
+                        $ciudades = Ciudades::get()->ToArray();
+                        $options  = [];
+                        foreach ($ciudades as $index => $ciudad) {
+                            $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
+                        }
+
+                        $categorias         = Categorias::all(['id', 'categoria'])->ToArray();
+                        $options_categorias = ['' => ''];
+                        foreach ($categorias as $categoria) {
+                            $options_categorias[$categoria['id']] = $categoria['categoria'];
+                        }
+
+                        for ($i = 0; $i < 3; $i++) {
+                            if (array_key_exists($i, $cliente->subcategorias->toArray())) {
+                                $cl_categorias[$i]['categoria']    = $cliente->subcategorias[$i]->categoria->id;
+                                $cl_categorias[$i]['subcategoria'] = $cliente->subcategorias[$i]->id;
+                            }
+                            else {
+                                $cl_categorias[$i]['categoria']    = NULL;
+                                $cl_categorias[$i]['subcategoria'] = NULL;
+                            }
+                        }
+
+                        $this->data['options_categorias'] = $options_categorias;
+                        $this->data['options_ciudades']   = $options;
+                        $this->data['cl_categorias']      = $cl_categorias;
+
                         return $this->view('cliente.negocios.perfil.settings');
                         break;
                 }
@@ -179,7 +193,8 @@ class NegociosCliente extends BaseCliente
             else {
                 return response('No autorizado', 401);
             }
-        } else {
+        }
+        else {
             return response('Este negocio no existe', 412);
         }
     }
@@ -201,30 +216,52 @@ class NegociosCliente extends BaseCliente
      *
      * @param \App\Http\Requests\Cliente\EditCliente $request
      *
+     * @param                                        $accion
+     *
      * @return \App\Http\Controllers\Cliente\Response
      */
-    public function update (EditCliente $request)
+    public function update (EditCliente $request, $accion)
     {
         if ($request->ajax() && $request->wantsJson()) {
-            if(!is_null($cliente = Cliente::find($request->get('id')))) {
+            if (!is_null($cliente = Cliente::find($request->get('id')))) {
                 if ($this->infoPropietario->id == $cliente->propietario->id) {
-                    $cliente->preparaDatos($request);
-                    if ($cliente->save()) {
-                        $response = [
-                            'exito'  => TRUE,
-                            'titulo' => 'Cliente actualizado',
-                            'texto'  =>'<b>' . $cliente->nombre . '</b> se ha actualizado.',
-                            'url' => route('negocios-cliente')
-                        ];
+
+                    $save = FALSE;
+                    switch($accion) {
+                        case 'principal':
+                            $cliente->preparaDatos($request);
+                            $save = $cliente->save();
+
+                            $response = [
+                                'exito'  => TRUE,
+                                'titulo' => 'Cliente actualizado',
+                                'texto'  => '<b>' . $cliente->nombre . '</b> se ha actualizado.',
+                                'url'    => route('negocios-cliente')
+                            ];
+                            break;
+                        case 'adicional':
+                            $cliente->detalles->preparaDatos($request);
+                            $save =  $cliente->detalles->save();
+
+                            $response = [
+                                'exito'  => TRUE,
+                                'titulo' => 'Información adicional actualizada',
+                                'texto'  => 'Se ha actualizado la información adicional del negocio',
+                                'url'    => route('negocios-cliente')
+                            ];
+                            break;
                     }
-                    else {
+
+
+                    if (!$save) {
                         $response = [
                             'exito'  => FALSE,
-                            'titulo' =>  'No se actualizó',
-                            'texto'  =>'Parece que no hubo cambios en la BD',
+                            'titulo' => 'No se actualizó',
+                            'texto'  => 'Parece que no hubo cambios en la BD',
                             'url'    => NULL
                         ];
                     }
+
                     return $this->responseJSON($response);
                 }
                 else {
