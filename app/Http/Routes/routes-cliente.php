@@ -138,6 +138,35 @@ Route::group(
                 'as' => 'cliente.servicios.store',
                 'uses' => 'ServiciosCliente@store'
             ]);
+
+            Route::get('{id?}', [
+                'as' => 'cliente.servicios.show',
+                'uses' => 'ServiciosCliente@show'
+            ])->where('id', '[0-9]+');
+
+            Route::post('update', [
+                'as' => 'cliente.servicios.update',
+                'uses' => 'ServiciosCliente@update'
+            ]);
+
+
+            Route::get('json/{id?}', [
+                'as' => 'cliente.servicios.servicios-json',
+                'uses' => 'ServiciosCliente@getServiciosJson'
+            ])->where('id', '[0-9]+');
+
+            Route::post('upload/logo', [
+                'as' => 'global-upload-logo-servicios',
+                'uses' => 'ServiciosCliente@uploadImage'
+            ]);
+
+            Route::post('crop/logo', [
+                'as' => 'global-crop-logo-servicios',
+                'uses' => 'ServiciosCliente@cropImage'
+            ]);
+
+
+
         });
         /*
         |--------------------------------------------------------------------------

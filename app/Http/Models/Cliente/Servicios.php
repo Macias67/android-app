@@ -63,5 +63,22 @@ class Servicios extends Model
         $this->estatus = trim($this->estatus);
         $this->precio        = trim($this->precio);
     }
+
+    public function idPropietario($id_propietario, $id_servicio)
+    {
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+        $query = $this
+            ->select($cl_propietario.'.id')
+            ->join($cl_clientes, $this->table.'.cliente_id', '=', $cl_clientes.'.id')
+            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+            ->where($cl_propietario.'.id', '=', $id_propietario)
+            ->where($this->table.'.id', '=', $id_servicio)
+            ->get()
+            ->toArray();
+
+        return$query;
+    }
+
 }
 
