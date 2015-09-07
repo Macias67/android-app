@@ -170,6 +170,13 @@ class NegociosCliente extends BaseCliente
                             'autocomplete' => 'off'
                         ];
 
+                        $this->data['formhorarios'] = [
+                            'route'        => ['cliente.negocio.update', 'horarios'],
+                            'class'        => 'form-horizontal form-edita-cliente-horarios',
+                            'role'         => 'form',
+                            'autocomplete' => 'off'
+                        ];
+
                         $ciudades = Ciudades::get()->ToArray();
                         $options  = [];
                         foreach ($ciudades as $index => $ciudad) {
@@ -272,6 +279,9 @@ class NegociosCliente extends BaseCliente
                                 'texto'  => 'Se ha actualizado las redes sociales del negocio',
                                 'url'    => route('negocios-cliente')
                             ];
+                            break;
+                        case 'horarios':
+                            dd($request->all());
                             break;
                     }
 

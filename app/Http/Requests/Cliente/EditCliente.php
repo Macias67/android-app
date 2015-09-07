@@ -47,7 +47,10 @@ class EditCliente extends Request
                 return $this->getRulesClienteDetalles();
                 break;
             case 'redessociales':
-                return $this->getRulesClienteRedesSociales();;
+                return $this->getRulesClienteRedesSociales();
+                break;
+            case 'horarios':
+                return[];
                 break;
         }
 
