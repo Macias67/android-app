@@ -5,6 +5,7 @@
 var Horarios = function() {
 
 
+
     var timepicker = function() {
         $('.abre').timepicker({
             autoclose: true,
@@ -21,9 +22,69 @@ var Horarios = function() {
         });
     }
 
+    var addHorario = function() {
+        $("#addHorario").click(function(e) {
+            e.preventDefault();
+
+            var url = $('form.form-edita-cliente-horarios').attr('action');
+            var data = $('form.form-edita-cliente-horarios').serialize();
+            var success = function (data) {
+                App.removeLoader(500, function () {
+                    swal({
+                        title:              '<h3>' + data.titulo + '</h3>',
+                        text:               '<p>' + data.texto + '</p>',
+                        html:               true,
+                        type:               "success",
+                        animation:          'slide-from-top',
+                        showCancelButton:   true,
+                        cancelButtonText:   "Ok",
+                        confirmButtonColor: Metronic.getBrandColor('green'),
+                        confirmButtonText:  "Listado de clientes"
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            window.location.href = data.url;
+                        }
+                    });
+                });
+            }
+            App.initAjax(url, data, success);
+        });
+    }
+
+    var deleteHorario = function() {
+        $(".horario > button").click(function(e) {
+            e.preventDefault();
+
+            var grupoid = $(this).parent().attr('grupo-id');
+            var id = $(this).parent().attr('id');
+            var url = $(this).parent().attr('delete-url');
+
+            swal({
+                title:              '<h3>Eliminar horario</h3>',
+                text:               '<p>¿Estás seguro de eliminar este horario?</p>',
+                html:               true,
+                type:               "warning",
+                animation:          'slide-from-top',
+                showCancelButton:   true,
+                cancelButtonText:   "No",
+                confirmButtonColor: Metronic.getBrandColor('red'),
+                confirmButtonText:  "Eliminar"
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    App.initAjax(url, {grupoid:grupoid, id:id}, function(data) {
+                        $(this).parent().fadeOut(300);
+                    });
+                }
+            });
+
+        });
+    }
+
     return {
         init: function() {
             timepicker();
+            addHorario();
+            deleteHorario();
         }
     }
 }();

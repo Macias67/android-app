@@ -24,9 +24,10 @@ class CreateEvento extends Request
         return [
             'nombre'        => 'required|max:45|',
             'slug'          => 'max:45|alpha_dash',
-            'direccion'     => 'max:45',
+            'direccion'     => 'max:145',
             'descripcion'   => 'required|max:255',
-            'latlng_gmaps'  => 'max:45',
+            'latitud'       => 'max:45',
+            'longitud'      => 'max:45'
         ];
     }
 }

@@ -53,7 +53,6 @@ class Cliente extends Model
     /**
      * Cliente tiene una tabla Detalles
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function detalles ()
     {
@@ -63,11 +62,19 @@ class Cliente extends Model
     /**
      * Cliente tiene una tabla Redes Sociales
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function redesSociales ()
     {
         return $this->hasOne(ClienteRedesSociales::class, 'id');
+    }
+
+    /**
+     * Cliente tiene una tabla Horarios
+     *
+     */
+    public function horarios ()
+    {
+        return $this->hasOne(ClienteHorarios::class, 'id');
     }
 
     public static function getTableName()

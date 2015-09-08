@@ -119,7 +119,6 @@ class EventosCliente extends BaseCliente
     public function show($id)
     {
         if(!is_null($evento = Evento::find($id))) {
-
             $idPropietario = $evento->idPropietario($this->infoPropietario->id, $id);
 
             if($this->infoPropietario->id == $idPropietario[0]['id']) {
@@ -134,7 +133,6 @@ class EventosCliente extends BaseCliente
                     'role'         => 'form',
                     'autocomplete' => 'off'
                 ];
-
 
                 $this->data['evento'] = $evento;
                 $this->data['ffin'] = $fecha_fin;
@@ -172,7 +170,6 @@ class EventosCliente extends BaseCliente
      */
     public function update(CreateEvento $request)
     {
-        dd($request);
         if($request->ajax() && $request->wantsJson()){
 
             if(!is_null($evento = Evento::find($request->get('cliente_id')))) {

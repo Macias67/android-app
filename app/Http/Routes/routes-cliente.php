@@ -55,6 +55,11 @@ Route::group(
                 'as' => 'cliente.negocio.update',
                 'uses' => 'NegociosCliente@update'
             ])->where('accion', '[a-z]+');
+
+            Route::post('destroy/horario', [
+                'as' => 'cliente.negocio.destroy.horario',
+                'uses' => 'NegociosCliente@destroyGrupoHorario'
+            ]);
         });
 
         /*

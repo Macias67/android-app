@@ -68,6 +68,11 @@ class Evento extends Model
         return$query;
     }
 
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'id', 'cliente_id');
+    }
+
     private function _cleanData ()
     {
         $this->nombre           = mb_convert_case(trim(mb_strtolower($this->nombre)), MB_CASE_TITLE, "UTF-8");
