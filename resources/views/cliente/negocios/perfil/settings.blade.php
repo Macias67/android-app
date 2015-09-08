@@ -607,28 +607,13 @@
 
 									<div class="form-group">
 										<div class="col-md-offset-2 col-md-10">
-											<div class="alert alert-info alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-												Lun, Mar, Mie, Jue, Vie -
-												<strong>9:00 a 14:00</strong>
-											</div>
-											<div class="alert alert-info alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-												Lun, Mar, Mie, Jue, Vie -
-												<strong>16:00 a 20:30</strong>
-											</div>
-											<div class="alert alert-info alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-												Sáb - <strong>09:00 a 14:30</strong>
-											</div>
+											@foreach($horarios as $horario)
+												<div class="alert alert-info horario" grupo-id="{{$horario['grupo_id']}}" delete-url="{{route('cliente.negocio.destroy.horario')}}" id="{{$current_cliente_id}}">
+													<button type="button" class="close"></button>
+													{{$horario['dias']}} - <strong>{{$horario['horario']}}</strong>
+												</div>
+											@endforeach
 										</div>
-									</div>
-
-									<div class="margiv-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Save Changes </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
 									</div>
 								</form>
 							</div>

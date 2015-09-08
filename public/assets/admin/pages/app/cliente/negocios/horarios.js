@@ -51,10 +51,40 @@ var Horarios = function() {
         });
     }
 
+    var deleteHorario = function() {
+        $(".horario > button").click(function(e) {
+            e.preventDefault();
+
+            var grupoid = $(this).parent().attr('grupo-id');
+            var id = $(this).parent().attr('id');
+            var url = $(this).parent().attr('delete-url');
+
+            swal({
+                title:              '<h3>Eliminar horario</h3>',
+                text:               '<p>¿Estás seguro de eliminar este horario?</p>',
+                html:               true,
+                type:               "warning",
+                animation:          'slide-from-top',
+                showCancelButton:   true,
+                cancelButtonText:   "No",
+                confirmButtonColor: Metronic.getBrandColor('red'),
+                confirmButtonText:  "Eliminar"
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    App.initAjax(url, {grupoid:grupoid, id:id}, function(data) {
+                        $(this).parent().fadeOut(300);
+                    });
+                }
+            });
+
+        });
+    }
+
     return {
         init: function() {
             timepicker();
             addHorario();
+            deleteHorario();
         }
     }
 }();
