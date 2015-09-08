@@ -37,6 +37,27 @@ class Servicios extends Model
         return $this->hasOne(Categorias::class, 'categoria_id');
     }
 
+    public function idPropietario($id_propietario, $id_servicio)
+    {
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+        $query = $this
+            ->select($cl_propietario.'.id')
+            ->join($cl_clientes, $this->table.'.cliente_id', '=', $cl_clientes.'.id')
+            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+            ->where($cl_propietario.'.id', '=', $id_propietario)
+            ->where($this->table.'.id', '=', $id_servicio)
+            ->get()
+            ->toArray();
+
+        return$query;
+    }
+
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'id', 'cliente_id');
+    }
+
     public static function getTableName()
     {
         return with(new static)->getTable();
@@ -62,22 +83,6 @@ class Servicios extends Model
         $this->disp_fin      = trim($this->disp_fin);
         $this->estatus = trim($this->estatus);
         $this->precio        = trim($this->precio);
-    }
-
-    public function idPropietario($id_propietario, $id_servicio)
-    {
-        $cl_clientes = Cliente::getTableName();
-        $cl_propietario = Propietario::getTableName();
-        $query = $this
-            ->select($cl_propietario.'.id')
-            ->join($cl_clientes, $this->table.'.cliente_id', '=', $cl_clientes.'.id')
-            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
-            ->where($cl_propietario.'.id', '=', $id_propietario)
-            ->where($this->table.'.id', '=', $id_servicio)
-            ->get()
-            ->toArray();
-
-        return$query;
     }
 
 }
