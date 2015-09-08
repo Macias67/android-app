@@ -62,7 +62,7 @@
                                         {{$evento->nombre}}
                                     </div>
                                     <div class="profile-usertitle-job">
-Negocio
+                                        {{$evento->cliente->nombre}}
                                     </div>
                               </div>
                               <!-- END SIDEBAR USER TITLE -->
