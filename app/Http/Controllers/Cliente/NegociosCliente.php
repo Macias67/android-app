@@ -6,6 +6,7 @@ use App\Http\Models\Admin\Categorias;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\ClienteDetalles;
+use App\Http\Models\Cliente\ClienteHorarios;
 use App\Http\Models\Cliente\ClienteRedesSociales;
 use App\Http\Requests;
 use App\Http\Requests\Cliente\EditCliente;
@@ -170,6 +171,13 @@ class NegociosCliente extends BaseCliente
                             'autocomplete' => 'off'
                         ];
 
+                        $this->data['formhorarios'] = [
+                            'route'        => ['cliente.negocio.update', 'horarios'],
+                            'class'        => 'form-horizontal form-edita-cliente-horarios',
+                            'role'         => 'form',
+                            'autocomplete' => 'off'
+                        ];
+
                         $ciudades = Ciudades::get()->ToArray();
                         $options  = [];
                         foreach ($ciudades as $index => $ciudad) {
@@ -193,9 +201,34 @@ class NegociosCliente extends BaseCliente
                             }
                         }
 
+                        $grupos = ClienteHorarios::grupoId()
+                            ->where('cliente_id' , $id)
+                            ->orderBy('id')
+                            ->get();
+                        $horarios = [];
+                        if(count($grupos) > 0) {
+                            foreach($grupos as $grupo) {
+                                $dias = ClienteHorarios::where('grupo_id', $grupo->grupo_id)->get();
+
+                                $str_dias = '';
+                                foreach($dias as $dia) {
+                                    $str_dias .= mb_substr($dia->dia_semana, 0, 3).', ';
+                                }
+                                $str_dias =  trim($str_dias, ", ");
+
+                                array_push($horarios, [
+                                    'grupo_id' => $grupo->grupo_id,
+                                    'dias'     =>  $str_dias,
+                                    'horario'  => date('h:i a', strtotime($dias[0]->hora_abre)) . ' a ' . date('h:i a', strtotime($dias[0]->hora_cierra))
+                                ]);
+                            }
+                        }
+
+
                         $this->data['options_categorias'] = $options_categorias;
                         $this->data['options_ciudades']   = $options;
                         $this->data['cl_categorias']      = $cl_categorias;
+                        $this->data['horarios']      = $horarios;
 
                         return $this->view('cliente.negocios.perfil.settings');
                         break;
@@ -273,6 +306,17 @@ class NegociosCliente extends BaseCliente
                                 'url'    => route('negocios-cliente')
                             ];
                             break;
+                        case 'horarios':
+                            $horarios = new ClienteHorarios();
+                            $data     = $horarios->preparaDatos($request);
+                            $save     = $horarios->insert($data);
+                            $response = [
+                                'exito'  => TRUE,
+                                'titulo' => 'Nuevo horario añadido',
+                                'texto'  => 'Se añadio nuevo grupo de horario al negocio',
+                                'url'    => route('negocios-cliente')
+                            ];
+                            break;
                     }
 
 
@@ -307,6 +351,16 @@ class NegociosCliente extends BaseCliente
     public function destroy ($id)
     {
         //
+    }
+
+    public function destroyGrupoHorario(Request $request) {
+        $id = $request->get('id');
+        $grupoid = $request->get('grupoid');
+        if(!is_null($horarios = ClienteHorarios::where('grupo_id', $grupoid)->where('cliente_id', $id)->get())) {
+            $exito = $horarios->delete();
+        }
+
+        return $this->responseJSON(['exito' => $exito]);
     }
 
     public function uploadImage (Request $request)

@@ -535,7 +535,9 @@
 
 							<!-- HORARIOS INFO TAB -->
 							<div class="tab-pane" id="tab_horarios">
-								<form role="form" action="#" class="form-horizontal form-row-sepe">
+								{!! Form::open($formhorarios) !!}
+									{!! Form::hidden ('id', $cliente->id) !!}
+									{!! Form::hidden ('propietario_id', $cliente->propietario_id) !!}
 									<h4 class="form-section">Dias y horarios</h4>
 									<hr>
 									<div class="form-group">
@@ -543,19 +545,26 @@
 
 										<div class="col-md-10">
 											<div class="btn-group" data-toggle="buttons">
-												<label class="btn btn-default"><input type="checkbox" class="toggle" value="1"> Lunes
+												<label class="btn btn-default">
+													<input type="checkbox" name="dias[]" class="toggle" value="1"> Lunes
 												</label>
-												<label class="btn btn-default"><input type="checkbox" class="toggle" value="2"> Martes
+												<label class="btn btn-default">
+													<input type="checkbox" name="dias[]" class="toggle" value="2"> Martes
 												</label>
-												<label class="btn btn-default"><input type="checkbox" class="toggle" value="3"> Miércoles
+												<label class="btn btn-default">
+													<input type="checkbox" name="dias[]" class="toggle" value="3"> Miércoles
 												</label>
-												<label class="btn btn-default"><input type="checkbox" class="toggle" value="4"> Jueves
+												<label class="btn btn-default">
+													<input type="checkbox" name="dias[]" class="toggle" value="4"> Jueves
 												</label>
-												<label class="btn btn-default"><input type="checkbox" class="toggle" value="5"> Viernes
+												<label class="btn btn-default">
+													<input type="checkbox" name="dias[]" class="toggle" value="5"> Viernes
 												</label>
-												<label class="btn btn-default"><input type="checkbox" class="toggle" value="6"> Sábado
+												<label class="btn btn-default">
+													<input type="checkbox" name="dias[]" class="toggle" value="6"> Sábado
 												</label>
-												<label class="btn btn-default"><input type="checkbox" class="toggle" value="7"> Domingo
+												<label class="btn btn-default">
+													<input type="checkbox" name="dias[]" class="toggle" value="7"> Domingo
 												</label>
 											</div>
 										</div>
@@ -565,7 +574,7 @@
 
 										<div class="col-md-9">
 											<div class="input-group input-small">
-												<input type="text" class="form-control timepicker abre">
+												<input type="text" name="abre" class="form-control timepicker abre">
 												<span class="input-group-btn">
 												<button class="btn default" type="button">
 													<i class="fa fa-clock-o"></i>
@@ -579,7 +588,7 @@
 
 										<div class="col-md-9">
 											<div class="input-group input-small">
-												<input type="text" class="form-control timepicker cierra">
+												<input type="text" name="cierra" class="form-control timepicker cierra">
 												<span class="input-group-btn">
 												<button class="btn default" type="button">
 													<i class="fa fa-clock-o"></i>
@@ -590,7 +599,7 @@
 									</div>
 									<div class="form-group">
 										<div class="col-md-offset-2 col-md-10">
-											<button type="button" class="btn blue btn-sm">Añadir horario</button>
+											<button type="button" class="btn blue btn-sm" id="addHorario">Añadir horario</button>
 										</div>
 									</div>
 
@@ -598,28 +607,13 @@
 
 									<div class="form-group">
 										<div class="col-md-offset-2 col-md-10">
-											<div class="alert alert-info alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-												Lun, Mar, Mie, Jue, Vie -
-												<strong>9:00 a 14:00</strong>
-											</div>
-											<div class="alert alert-info alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-												Lun, Mar, Mie, Jue, Vie -
-												<strong>16:00 a 20:30</strong>
-											</div>
-											<div class="alert alert-info alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-												Sáb - <strong>09:00 a 14:30</strong>
-											</div>
+											@foreach($horarios as $horario)
+												<div class="alert alert-info horario" grupo-id="{{$horario['grupo_id']}}" delete-url="{{route('cliente.negocio.destroy.horario')}}" id="{{$current_cliente_id}}">
+													<button type="button" class="close"></button>
+													{{$horario['dias']}} - <strong>{{$horario['horario']}}</strong>
+												</div>
+											@endforeach
 										</div>
-									</div>
-
-									<div class="margiv-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Save Changes </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
 									</div>
 								</form>
 							</div>

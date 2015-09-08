@@ -47,7 +47,10 @@ class EditCliente extends Request
                 return $this->getRulesClienteDetalles();
                 break;
             case 'redessociales':
-                return $this->getRulesClienteRedesSociales();;
+                return $this->getRulesClienteRedesSociales();
+                break;
+            case 'horarios':
+                return $this->getRulesClienteHorarios();
                 break;
         }
 
@@ -66,7 +69,7 @@ class EditCliente extends Request
             'latitud'        => 'max:45',
             'longitud'       => 'max:45',
             'ciudad_id'      => 'exists:adm_ciudades,id|integer',
-            'propietario_id' => 'exists:cl_clientes,propietario_id|integer'
+            'propietario_id' => 'required|exists:cl_clientes,propietario_id|integer'
         ];
     }
 
@@ -81,7 +84,7 @@ class EditCliente extends Request
             'slogan'         => 'max:140',
             'website'        => 'max:45|url',
             'email_negocio'  => 'max:45|email',
-            'propietario_id' => 'exists:cl_clientes,propietario_id|integer'
+            'propietario_id' => 'required|exists:cl_clientes,propietario_id|integer'
         ];
     }
 
@@ -94,7 +97,18 @@ class EditCliente extends Request
             'instagram'        => 'max:100|url',
             'youtube'        => 'max:100|url',
             'googleplus'        => 'max:100|url',
-            'propietario_id' => 'exists:cl_clientes,propietario_id|integer'
+            'propietario_id' => 'required|exists:cl_clientes,propietario_id|integer'
+        ];
+    }
+
+    public function getRulesClienteHorarios ()
+    {
+        return [
+            'id'             => 'required|exists:cl_clientes,id|integer',
+            'dias'        => 'required|array',
+            'abre'        => 'required|date_format:H:i',
+            'cierra'        => 'required|date_format:H:i',
+            'propietario_id' => 'required|exists:cl_clientes,propietario_id|integer'
         ];
     }
 }
