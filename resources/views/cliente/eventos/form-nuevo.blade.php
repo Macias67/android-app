@@ -120,30 +120,7 @@
                                         <i class="fa fa-map-marker"></i>
                                         <input type="text" class="form-control" name="direccion" placeholder="Dirección">
                                     </div>
-                                    <span class="help-block">Ejemplo: Cuarzo No. 9A, Ocotlán</span>
-                                </div>
-                            </div>
-                            <!-- Latitud y Longitud -->
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Latitud y Longitud</label>
-                                <div class="col-md-9">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa...">
-                                            <span class="input-group-btn">
-                                                  <button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-map-marker"></i></button>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <div id="gmap_geocoding" class="gmaps"> </div>
-                                    <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+                                    <span class="help-block">Ejemplo: Cuarzo 9, Solidaridad, 47800 Ocotlán, Jal., México</span>
                                 </div>
                             </div>
                         </div>
@@ -219,6 +196,59 @@
                             </div>
                         </div>
                     </div>
+
+                    {{--Mapas--}}
+                    <div class="col-md-12">
+                        <h4 class="form-section">Google Maps</h4>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="calle_registrada" placeholder="Calle No. Colonia, Ciudad Estado">
+									<span class="input-group-btn">
+										<button class="btn blue faa-parent animated-icon-hover" id="gmap_geocoding_btn">
+                                            <i class="fa fa-map-marker faa-vertical"></i> Ubicar
+                                        </button>
+									</span>
+                                </div>
+                                <span class="help-block">Dirección formada en base a los datos del formulario. Presione ubicar para mostrarlo en el mapa.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección de Google Maps" readonly>
+									<span class="input-group-btn">
+										<button class="btn red faa-parent animated-icon-hover" id="gmap_address_replace">
+                                            <i class="fa fa-repeat faa-spin"></i> Remplazar
+                                        </button>
+									</span>
+                                </div>
+                                <span class="help-block">Dirección formada pro Google Maps. Presione Remplazar para sustituir la dirección por los valores de Google Maps.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-9">
+                                <div class="col-md-6">
+                                    <label class="control-label">Latitud</label>
+                                    <input type="text" class="form-control input-large" placeholder="Latitud" name="latitud" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label">Longitud</label>
+                                    <input type="text" class="form-control input-large" placeholder="Longitud" name="longitud" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div id="gmap_geocoding" class="gmaps" style="height: 500px"></div>
+                                <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Botón registrar -->
                     <div class="col-md-12">
                             <div class="form-actions">

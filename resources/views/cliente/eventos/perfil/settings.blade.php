@@ -211,27 +211,59 @@
                                             </div>
                                         </div>
 									</div>
+
+									{{--Mapas--}}
 									<div class="col-md-12">
-										{{--Mapas--}}
-										<h4 class="form-section">Coordenadas y ubicación</h4>
+										<h4 class="form-section">Google Maps</h4>
 										<div class="form-group">
-											<label class="control-label">Latitud y Longitud <span class="required" aria-required="true">*</span></label>
-											<div class="input-group">
-												<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección completa..." value="{{$evento->direccion}}">
-												<span class="input-group-btn">
-													<button class="btn blue" id="gmap_geocoding_btn">
-													<i class="fa fa-map-marker"></i></button>
-												</span>
+											<div class="col-md-offset-2 col-md-9">
+												<div class="input-group">
+													<input type="text" class="form-control" id="calle_registrada" placeholder="Calle No. Colonia, Ciudad Estado" value="{{$evento->direccion}}">
+										<span class="input-group-btn">
+											<button class="btn blue faa-parent animated-icon-hover" id="gmap_geocoding_btn">
+												<i class="fa fa-map-marker faa-vertical"></i> Ubicar
+											</button>
+										</span>
+												</div>
+												<span class="help-block">Dirección formada en base a los datos del formulario. Presione ubicar para mostrarlo en el mapa.</span>
 											</div>
 										</div>
+
 										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Readonly" name="latlng_gmaps" readonly>
+											<div class="col-md-offset-2 col-md-9">
+												<div class="input-group">
+													<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección de Google Maps" readonly>
+										<span class="input-group-btn">
+											<button class="btn red faa-parent animated-icon-hover" id="gmap_address_replace">
+												<i class="fa fa-repeat faa-spin"></i> Remplazar
+											</button>
+										</span>
+												</div>
+												<span class="help-block">Dirección formada pro Google Maps. Presione Remplazar para sustituir la dirección por los valores de Google Maps.</span>
+											</div>
 										</div>
+
 										<div class="form-group">
-											<div id="gmap_geocoding" class="gmaps"></div>
-											<span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+											<div class="col-md-offset-2 col-md-9">
+												<div class="col-md-6">
+													<label class="control-label">Latitud</label>
+													<input type="text" class="form-control input-large" placeholder="Latitud" name="latitud" readonly>
+												</div>
+												<div class="col-md-6">
+													<label class="control-label">Longitud</label>
+													<input type="text" class="form-control input-large" placeholder="Longitud" name="longitud" readonly>
+												</div>
+											</div>
 										</div>
-                                    </div>
+
+										<div class="form-group">
+											<div class="col-md-offset-2 col-md-10">
+												<div id="gmap_geocoding" class="gmaps" style="height: 500px"></div>
+												<span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
+											</div>
+										</div>
+									</div>
+
                                     <div class="col-md-12">
                                         {{-- Botón Enviar --}}
                                         <div class="margin-top-20">

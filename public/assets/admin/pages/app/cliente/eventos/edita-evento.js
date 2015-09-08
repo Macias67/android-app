@@ -48,7 +48,16 @@ var EditaEvento = function () {
         });
     }
 
+    //Nueva función para el cambio de latitud
     var mapGeocoding = function () {
+
+        $('#calle_registrada').focus(function() {
+            var calle = $('input[name="direccion"]').val();
+            $('#calle_registrada').val($.trim(calle));
+        });
+
+        var marker;
+        var calle, numero, colonia, codigo_postal;
 
         var map = new GMaps({
             div: '#gmap_geocoding',
@@ -57,26 +66,79 @@ var EditaEvento = function () {
         });
 
         var handleAction = function () {
-            var calle = $('input[name="direccion"]').val();
-            $('#gmap_geocoding_address').val($.trim(calle));
-            var text = $.trim($('#gmap_geocoding_address').val());
+            console.log('Entró al handleAction');
+            console.log($('#calle_registrada').val());
             GMaps.geocode({
-                address:  text,
+                address:  $('#calle_registrada').val(),
                 callback: function (results, status) {
                     if (status == 'OK') {
+                        console.log(results);
                         var latlng = results[0].geometry.location;
                         map.setCenter(latlng.lat(), latlng.lng());
-                        map.addMarker({
-                            lat: latlng.lat(),
-                            lng: latlng.lng()
-                        });
-                        $('input[name="latlng_gmaps"]').val(latlng.lat()+', '+ latlng.lng());
+                        if(marker) {
+                            marker.setPosition({lat:latlng.lat(), lng:latlng.lng()});
+                        }
+                        else {
+                            marker = map.addMarker({
+                                draggable: true,
+                                animation: google.maps.Animation.DROP,
+                                lat: latlng.lat(),
+                                lng: latlng.lng(),
+                                //icon: 'http://wcdn1.dataknet.com/static/resources/icons/set94/be39f3b7.png',
+                                drag: function(e) {
+                                    $('input[name="latitud"]').val(e.latLng.lat());
+                                    $('input[name="longitud"]').val(e.latLng.lng());
+                                },
+                                dragend: function(e) {
+                                    map.setCenter(e.latLng.lat(), e.latLng.lng());
+                                    GMaps.geocode(
+                                        {
+                                            location: {lat:e.latLng.lat(), lng:e.latLng.lng()},
+                                            callback: function (results, status) {
+                                                if(status == 'OK') {
+                                                    calle = results[0].address_components[0].long_name;
+
+                                                    $('#gmap_geocoding_address').val(results[0].formatted_address);
+                                                    $('input[name="latitud"]').val(e.latLng.lat());
+                                                    $('input[name="longitud"]').val(e.latLng.lng());
+                                                }
+                                            }
+                                        });
+                                }
+                            });
+                        }
+
+                        updateGeocodingAddress(results);
+
+                        $('input[name="latitud"]').val(latlng.lat());
+                        $('input[name="longitud"]').val(latlng.lng());
 
                         Metronic.scrollTo($('#gmap_geocoding'));
                     }
                 }
             });
+
         }
+
+        $('#gmap_address_replace').click(function (e) {
+            e.preventDefault();
+            if($('#gmap_geocoding_address').val() != '') {
+                swal({
+                    title:            "¿Estás seguro?",
+                    text:               "La dirección de Google Maps reemplazará la dirección que escribiste.",
+                    type:               "warning",
+                    showCancelButton:   true,
+                    confirmButtonColor: Metronic.getBrandColor('red'),
+                    confirmButtonText:  "Remplazar",
+                    cancelButtonText:   "Cancelar"
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        $('#calle_registrada').val($('#gmap_geocoding_address').val()),
+                            $('input[name="calle"]').val(calle);
+                    }
+                });
+            }
+        });
 
         $('#gmap_geocoding_btn').click(function (e) {
             e.preventDefault();
@@ -90,10 +152,27 @@ var EditaEvento = function () {
                 handleAction();
             }
         });
-
-        //Cuando edita ya está una dirección.
         handleAction();
 
+    }
+
+    var updateGeocodingAddress = function (results) {
+        if(results[0].address_components.length == 7) {
+            numero        = results[0].address_components[0].long_name;
+            calle         = results[0].address_components[1].long_name;
+            colonia       = results[0].address_components[2].long_name;
+            codigo_postal = results[0].address_components[6].long_name;
+            $('#gmap_geocoding_address').val(results[0].formatted_address);
+        }
+        else {
+            $('#gmap_geocoding_address').val('');
+            swal({
+                title: "Dirección no encontrada",
+                text: "Parece ser que la dirección no existe en Google Maps, intente cambiando la dirección.",
+                type: "error",
+                confirmButtonColor: Metronic.getBrandColor('red')
+            });
+        }
     }
 
     var dateRange = function () {
@@ -199,7 +278,12 @@ var EditaEvento = function () {
                     required:  true,
                     maxlength: 255
                 },
-                latlng_gmaps: {
+                latitud: {
+                    required:  true,
+                    maxlength: 45
+                },
+                longitud: {
+                    required:  true,
                     maxlength: 45
                 }
             },

@@ -172,7 +172,6 @@ class EventosCliente extends BaseCliente
      */
     public function update(CreateEvento $request)
     {
-        dd($request);
         if($request->ajax() && $request->wantsJson()){
 
             if(!is_null($evento = Evento::find($request->get('cliente_id')))) {
