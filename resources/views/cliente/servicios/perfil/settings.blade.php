@@ -32,6 +32,13 @@
 								{!! Form::open($param) !!}
 									<div class="col-md-6">
 										<div class="form-group">
+											<label class="col-md-3 control-label">Categoría<span class="required">*</span></label>
+
+											<div class="col-md-9">
+												{!! Form::select('categoria_id', $categorias, $servicio->categoria_id, ['class' => 'form-control']) !!}
+											</div>
+										</div>
+										<div class="form-group">
 											<label class="col-md-3 control-label">Nombre<span class="required">*</span></label>
 
 											<div class="col-md-9">
@@ -54,13 +61,6 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label">Categoría<span class="required">*</span></label>
-
-											<div class="col-md-9">
-												{!! Form::select('categoria_id', $categorias, $servicio->categoria_id, ['class' => 'form-control']) !!}
-											</div>
-										</div>
-										<div class="form-group">
 											<label class="control-label col-md-3">Descripción<span class="required">*</span></label>
 
 											<div class="col-md-9">
@@ -68,6 +68,16 @@
 												<span class="help-block">Descripción detallada del servicio. </span>
 											</div>
 										</div>
+										<div class="form-group">
+											<label class="control-label col-md-3">Descripción corta
+												<span class="required">*</span></label>
+
+											<div class="col-md-9">
+												<textarea class="form-control" name="descripcion_corta" maxlength="45" rows="2" style="resize: none;">{{$servicio->descripcion_corta}}</textarea>
+												<span class="help-block">Descripción resumida del servicio. </span>
+											</div>
+										</div>
+
 									</div>
 									<div class="col-md-6">
 										<div class="form-body">
@@ -85,7 +95,24 @@
 													       data-off-color="default">
 												</div>
 											</div>
+											<div class="form-group">
+												<label class="control-label col-md-3">Precio
+													<span class="required">*</span></label>
 
+												<div class="col-md-9">
+													<div class="input-inline input-medium">
+														<input id="precio" type="text" name="precio" class="form-control" value="{{$servicio->precio}}">
+													</div>
+													<span class="help-block">Solo dos deciamles (99.99), 0 es gratis </span>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-md-offset-3 col-md-9">
+													<button type="button" class="btn default" id="reportrange">
+														<i class="fa fa-calendar"></i> Disposición
+														<i class="fa fa-angle-down"></i></button>
+												</div>
+											</div>
 											<div class="form-group">
 												<label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
 
@@ -106,13 +133,6 @@
 														<input type="text" class="form-control" name="ffin" placeholder="Url del servicio" readonly>
 														<input type="hidden" class="form-control" name="disp_fin" value="{{$servicio->disp_fin}}">
 													</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="col-md-offset-3 col-md-9">
-													<button type="button" class="btn default" id="reportrange">
-														<i class="fa fa-calendar"></i> Disposición
-														<i class="fa fa-angle-down"></i></button>
 												</div>
 											</div>
 										</div>
