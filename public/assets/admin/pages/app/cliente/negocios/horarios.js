@@ -34,15 +34,21 @@ var Horarios = function() {
                         html:               true,
                         type:               "success",
                         animation:          'slide-from-top',
-                        showCancelButton:   true,
-                        cancelButtonText:   "Ok",
                         confirmButtonColor: Metronic.getBrandColor('green'),
-                        confirmButtonText:  "Listado de clientes"
-                    }, function (isConfirm) {
-                        if (isConfirm) {
-                            window.location.href = data.url;
-                        }
-                    });
+                        confirmButtonText:  "OK"
+                    },
+                        function () {
+                            $('label.btn').removeClass('active');
+                            $('input:checkbox[name="dias[]"]').removeAttr('checked');
+                        });
+
+                    var alert ='' +
+                        '<div class="alert alert-info horario" grupo-id="'+data.extras.grupo_id+'" delete-url="'+data.extras.delete_url+'" id="'+data.extras.cliente_id+'">' +
+                        '<button type="button" class="close"></button>' +
+                        ''+data.extras.dias+' - <strong>'+data.extras.horas+'</strong>' +
+                        '</div>';
+
+                    $("#horarios").append(alert);
                 });
             }
             App.initAjax(url, data, success);
@@ -50,7 +56,7 @@ var Horarios = function() {
     }
 
     var deleteHorario = function() {
-        $(".horario > button").click(function(e) {
+        $("#horarios").on('click', '.horario button.close', function(e) {
             e.preventDefault();
 
             var grupoid = $(this).parent().attr('grupo-id');
@@ -75,7 +81,9 @@ var Horarios = function() {
                     var success = function(data) {
                         App.removeLoader(500, function () {
                             if(data.exito){
-                                alert.fadeOut(300);
+                                alert.fadeOut(300, function() {
+                                    $(this).remove();
+                                });
                             }
                         });
                     }

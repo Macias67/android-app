@@ -605,7 +605,7 @@
 									<hr>
 
 									<div class="form-group">
-										<div class="col-md-offset-2 col-md-10">
+										<div class="col-md-offset-2 col-md-10" id="horarios">
 											@if(count($horarios) > 0)
 												@foreach($horarios as $horario)
 													<div class="alert alert-info horario" grupo-id="{{$horario['grupo_id']}}" delete-url="{{route('cliente.negocio.destroy.horario')}}" id="{{$current_cliente_id}}">

@@ -312,27 +312,13 @@ class NegociosCliente extends BaseCliente
                             $save     = $horarios->insert($data);
 
                             if($save) {
-                                $grupos = ClienteHorarios::where('grupo_id', $cliente->id)
-                                     ->orderBy('id')
-                                     ->get();
-                                $horarios = [];
-                                if(count($grupos) > 0) {
-                                    foreach($grupos as $grupo) {
-                                        $dias = ClienteHorarios::where('grupo_id', $grupo->grupo_id)->get();
-
-                                        $str_dias = '';
-                                        foreach($dias as $dia) {
-                                            $str_dias .= mb_substr($dia->dia_semana, 0, 3).', ';
-                                        }
-                                        $str_dias =  trim($str_dias, ", ");
-
-                                        array_push($horarios, [
-                                            'grupo_id' => $grupo->grupo_id,
-                                            'dias'     =>  $str_dias,
-                                            'horario'  => date('h:i a', strtotime($dias[0]->hora_abre)) . ' a ' . date('h:i a', strtotime($dias[0]->hora_cierra))
-                                        ]);
-                                    }
+                                $dias = $data;
+                                $str_dias = '';
+                                foreach($dias as $dia) {
+                                    $str_dias .= mb_substr($dia['dia_semana'], 0, 3).', ';
                                 }
+                                $str_dias =  trim($str_dias, ", ");
+                                $horas = date('h:i a', strtotime($dias[0]['hora_abre'])) . ' a ' . date('h:i a', strtotime($dias[0]['hora_cierra']));
                             }
 
                             $response = [
@@ -340,7 +326,13 @@ class NegociosCliente extends BaseCliente
                                 'titulo' => 'Nuevo horario añadido',
                                 'texto'  => 'Se añadio nuevo grupo de horario al negocio',
                                 'url'    => route('negocios-cliente'),
-                                'extras' => ''
+                                'extras' => [
+                                    'cliente_id' =>$cliente->id,
+                                    'grupo_id' =>$dias[0]['grupo_id'],
+                                    'dias' => $str_dias,
+                                    'horas' => $horas,
+                                    'delete_url' => route('cliente.negocio.destroy.horario')
+                                ]
                             ];
                             break;
                     }
