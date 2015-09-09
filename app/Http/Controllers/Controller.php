@@ -45,7 +45,6 @@ abstract class Controller extends BaseController
 
     /**
      * @param     $data
-     * @param int $status
      *
      * @return \Illuminate\Http\JsonResponse
      */

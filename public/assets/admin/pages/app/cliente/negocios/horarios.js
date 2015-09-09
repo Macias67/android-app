@@ -4,8 +4,6 @@
 
 var Horarios = function() {
 
-
-
     var timepicker = function() {
         $('.abre').timepicker({
             autoclose: true,
@@ -59,6 +57,8 @@ var Horarios = function() {
             var id = $(this).parent().attr('id');
             var url = $(this).parent().attr('delete-url');
 
+            var alert = $(this).parent();
+
             swal({
                 title:              '<h3>Eliminar horario</h3>',
                 text:               '<p>¿Estás seguro de eliminar este horario?</p>',
@@ -71,9 +71,16 @@ var Horarios = function() {
                 confirmButtonText:  "Eliminar"
             }, function (isConfirm) {
                 if (isConfirm) {
-                    App.initAjax(url, {grupoid:grupoid, id:id}, function(data) {
-                        $(this).parent().fadeOut(300);
-                    });
+
+                    var success = function(data) {
+                        App.removeLoader(500, function () {
+                            if(data.exito){
+                                alert.fadeOut(300);
+                            }
+                        });
+                    }
+
+                    App.initAjax(url, {grupoid:grupoid, id:id}, success);
                 }
             });
 

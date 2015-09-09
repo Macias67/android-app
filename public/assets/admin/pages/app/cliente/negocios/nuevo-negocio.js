@@ -4,6 +4,9 @@
 
 var NuevoCliente = function () {
 
+    var marker;
+    var calle, numero, colonia, codigo_postal;
+
     var selectCategoria = function () {
         var selects = function(categoria, subcategoria) {
             categoria.on('change', function() {
@@ -74,9 +77,6 @@ var NuevoCliente = function () {
             $('#calle_registrada').val($.trim(calle));
         });
 
-        var marker;
-        var calle, numero, colonia, codigo_postal;
-
         var map = new GMaps({
             div: '#gmap_geocoding',
             lat: 20.3417485,
@@ -112,12 +112,7 @@ var NuevoCliente = function () {
                                             callback: function (results, status) {
                                                 if(status == 'OK') {
 
-                                                    numero = results[0].address_components[0].long_name;
-                                                    calle = results[0].address_components[1].long_name;
-                                                    colonia = results[0].address_components[2].long_name;
-                                                    codigo_postal = results[0].address_components[6].long_name;
-
-                                                    $('#gmap_geocoding_address').val(results[0].formatted_address);
+                                                    updateGeocodingAddress(results);
                                                     $('input[name="latitud"]').val(e.latLng.lat());
                                                     $('input[name="longitud"]').val(e.latLng.lng());
                                                 }

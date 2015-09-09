@@ -310,11 +310,37 @@ class NegociosCliente extends BaseCliente
                             $horarios = new ClienteHorarios();
                             $data     = $horarios->preparaDatos($request);
                             $save     = $horarios->insert($data);
+
+                            if($save) {
+                                $grupos = ClienteHorarios::where('grupo_id', $cliente->id)
+                                     ->orderBy('id')
+                                     ->get();
+                                $horarios = [];
+                                if(count($grupos) > 0) {
+                                    foreach($grupos as $grupo) {
+                                        $dias = ClienteHorarios::where('grupo_id', $grupo->grupo_id)->get();
+
+                                        $str_dias = '';
+                                        foreach($dias as $dia) {
+                                            $str_dias .= mb_substr($dia->dia_semana, 0, 3).', ';
+                                        }
+                                        $str_dias =  trim($str_dias, ", ");
+
+                                        array_push($horarios, [
+                                            'grupo_id' => $grupo->grupo_id,
+                                            'dias'     =>  $str_dias,
+                                            'horario'  => date('h:i a', strtotime($dias[0]->hora_abre)) . ' a ' . date('h:i a', strtotime($dias[0]->hora_cierra))
+                                        ]);
+                                    }
+                                }
+                            }
+
                             $response = [
-                                'exito'  => TRUE,
+                                'exito'  => $save,
                                 'titulo' => 'Nuevo horario añadido',
                                 'texto'  => 'Se añadio nuevo grupo de horario al negocio',
-                                'url'    => route('negocios-cliente')
+                                'url'    => route('negocios-cliente'),
+                                'extras' => ''
                             ];
                             break;
                     }
@@ -356,11 +382,20 @@ class NegociosCliente extends BaseCliente
     public function destroyGrupoHorario(Request $request) {
         $id = $request->get('id');
         $grupoid = $request->get('grupoid');
-        if(!is_null($horarios = ClienteHorarios::where('grupo_id', $grupoid)->where('cliente_id', $id)->get())) {
-            $exito = $horarios->delete();
+        if(!is_null($horarios = ClienteHorarios::where('grupo_id', $grupoid)->where('cliente_id', $id)->get(['id'])->toArray())) {
+            $ids = [];
+            foreach($horarios as $horario) {
+                array_push($ids, $horario['id']);
+            }
+            $exito = ClienteHorarios::destroy($ids);
         }
 
-        return $this->responseJSON(['exito' => $exito]);
+        return $this->responseJSON([
+            'exito' => ($exito) ? TRUE : FALSE,
+            'titulo' => 'Horario eliminado',
+            'texto' => 'Grupo de horario eliminado',
+            'url' => NULL
+        ]);
     }
 
     public function uploadImage (Request $request)

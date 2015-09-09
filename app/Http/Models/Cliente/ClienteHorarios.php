@@ -35,6 +35,7 @@ class ClienteHorarios extends Model
         'cliente_id',
         'grupo_id',
         'dia_semana',
+        'int_dia_semana',
         'hora_abre',
         'hora_cierra'
     ];

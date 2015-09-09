@@ -456,8 +456,8 @@
 								{!! Form::model($cliente->redesSociales, $formredessociales) !!}
 									{!! Form::hidden ('id', $cliente->id) !!}
 									{!! Form::hidden ('propietario_id', $cliente->propietario_id) !!}
-									<div class="col-md-8">
-									<div class="form-body">
+									<div class="col-md-9">
+									    <div class="form-body">
 										{{--Facebook--}}
 										<div class="form-group">
 											<label class="control-label col-md-3">Facebook </label>
@@ -519,8 +519,7 @@
 											</div>
 										</div>
 									</div>
-
-								</div>
+								    </div>
 
 									{{--Accion--}}
 									<div class="col-md-offset-2 col-md-10">
@@ -607,12 +606,14 @@
 
 									<div class="form-group">
 										<div class="col-md-offset-2 col-md-10">
-											@foreach($horarios as $horario)
-												<div class="alert alert-info horario" grupo-id="{{$horario['grupo_id']}}" delete-url="{{route('cliente.negocio.destroy.horario')}}" id="{{$current_cliente_id}}">
-													<button type="button" class="close"></button>
-													{{$horario['dias']}} - <strong>{{$horario['horario']}}</strong>
-												</div>
-											@endforeach
+											@if(count($horarios) > 0)
+												@foreach($horarios as $horario)
+													<div class="alert alert-info horario" grupo-id="{{$horario['grupo_id']}}" delete-url="{{route('cliente.negocio.destroy.horario')}}" id="{{$current_cliente_id}}">
+														<button type="button" class="close"></button>
+														{{$horario['dias']}} - <strong>{{$horario['horario']}}</strong>
+													</div>
+												@endforeach
+											@endif
 										</div>
 									</div>
 								</form>
