@@ -62,7 +62,11 @@
                                         {{$evento->nombre}}
                                     </div>
                                     <div class="profile-usertitle-job">
+<<<<<<< HEAD
                                        {{$evento->cliente->nombre}}
+=======
+                                        {{$evento->cliente->nombre}}
+>>>>>>> origin/master
                                     </div>
                               </div>
                               <!-- END SIDEBAR USER TITLE -->

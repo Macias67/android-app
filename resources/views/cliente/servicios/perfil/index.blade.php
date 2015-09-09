@@ -1,4 +1,4 @@
-@extends('cliente.promociones.perfil.perfil')
+@extends('cliente.servicios.perfil.perfil')
 
 @section('profile-content')
 	<div class="profile-content">
