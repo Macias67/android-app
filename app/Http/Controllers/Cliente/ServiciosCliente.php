@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Cliente;
 
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Servicios;
-use App\Http\Requests\CreateServicios;
+use App\Http\Requests\CreateServicio;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Requests\CreateServicio;
 use App\Http\Controllers\Traits\GetImagesCliente;
 use App\Http\Models\Cliente\Categorias;
 use App\Http\Models\Cliente\Producto;
@@ -184,7 +183,6 @@ class ServiciosCliente extends BaseCliente
      */
     public function update(CreateServicio $request)
     {
-        dd($request);
         if($request->ajax() && $request->wantsJson()){
 
             if(!is_null($servicio = Servicios::find($request->get('id')))) {
