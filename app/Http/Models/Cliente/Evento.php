@@ -34,7 +34,8 @@ class Evento extends Model
         'cupo',
         'costo',
         'direccion',
-        'latlng_gmaps',
+        'latitud',
+        'longitud',
         'url_exterior',
         'estatus',
         'disponible',
@@ -89,7 +90,8 @@ class Evento extends Model
         $this->cupo             = trim($this->cupo);
         $this->costo            = trim($this->costo);
         $this->direccion        = trim($this->direccion);
-        $this->latlng_gmaps     = trim($this->latlng_gmaps);
+        $this->latitud          = trim($this->latitud);
+        $this->longitud         = trim($this->longitud);
         $this->url_exterior     = trim($this->url_exterior);
         $this->estatus          = trim($this->estatus);
         $this->disponible       = trim($this->disponible);
