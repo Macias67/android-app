@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\Cliente;
 
+use App\Http\Models\Traits\UniqueID;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 
 class Propietario extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-    use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword, UniqueID;
 
     /**
      * Nombre de la tabla usada por el modelo
@@ -65,6 +66,7 @@ class Propietario extends Model implements AuthenticatableContract, CanResetPass
             $this->{$field} = $request->get($field);
         }
 
+        $this->id = $this->getUniqueID();
         $this->genero  = (isset($this->genero) && $this->genero == 'on') ? 'H' : 'M';
         $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
         $this->_cleanData();

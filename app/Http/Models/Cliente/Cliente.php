@@ -3,11 +3,13 @@
 namespace App\Http\Models\Cliente;
 
 use App\Http\Models\Admin\SubCategorias;
+use App\Http\Models\Traits\UniqueID;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class Cliente extends Model
 {
+    use UniqueID;
     /**
      * Nombre de la tabla usada por el modelo
      *
@@ -21,6 +23,7 @@ class Cliente extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'nombre',
         'slug',
         'calle',
@@ -88,6 +91,7 @@ class Cliente extends Model
             $this->{$field} = $request->get($field);
         }
 
+        $this->id = $this->getUniqueID();
         $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
         $this->_cleanData();
     }

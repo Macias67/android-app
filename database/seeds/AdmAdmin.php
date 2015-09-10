@@ -1,5 +1,6 @@
 <?php
 
+use Hashids\Hashids;
 use Illuminate\Database\Seeder;
 
 class AdmAdmin extends Seeder
@@ -11,8 +12,12 @@ class AdmAdmin extends Seeder
      */
     public function run ()
     {
+        $hashid = new Hashids(md5('android.app'), 16);
+        $unique_id = $hashid->encode(time());
+
         \DB::table('adm_admin')->insert(
             [
+                'id' => $unique_id,
                 'nombre'     => 'Luis',
                 'apellido'   => 'Macias',
                 'genero'     => 'H',

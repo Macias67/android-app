@@ -2,12 +2,14 @@
 
 namespace App\http\models\Cliente;
 
+use App\Http\Models\Traits\UniqueID;
 use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Model;
 
 
 class Promociones extends Model
 {
+    use UniqueID;
     /**
      * Nombre de la tabla usada por el modelo
      *
@@ -42,6 +44,7 @@ class Promociones extends Model
             $this->{$field} = $request->get($field);
         }
 
+        $this->id = $this->getUniqueID();
         $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
         $this->siempre = (isset($this->siempre) && $this->siempre == 'on') ? 1 : 0;
         $this->_cleanData();

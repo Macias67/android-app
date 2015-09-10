@@ -2,11 +2,13 @@
 
 namespace App\Http\Models\Cliente;
 
+use App\Http\Models\Traits\UniqueID;
 use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class Evento extends Model
 {
+    use UniqueID;
     /**
      * Nombre de la tabla usada por el modelo
      *
@@ -20,6 +22,7 @@ class Evento extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'cliente_id',
         'nombre',
         'slug',
@@ -43,6 +46,7 @@ class Evento extends Model
             $this->{$field} = $request->get($field);
         }
 
+        $this->id = $this->getUniqueID();
         $this->disponible = (isset($this->disponible) && $this->disponible == 'on') ? 'online' : 'offline';
         $this->_cleanData();
     }

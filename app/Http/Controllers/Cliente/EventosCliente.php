@@ -29,19 +29,19 @@ class EventosCliente extends BaseCliente
         $cl_propietario = Propietario::getTableName();
 
         $eventos = DB::table($cl_eventos)
-                       ->select(
-                           $cl_eventos.'.id',
-                           $cl_clientes.'.id as cliente_id',
-                           $cl_clientes.'.nombre as nombre_cliente',
-                           $cl_eventos.'.nombre as nombre_evento',
-                           $cl_eventos.'.descripcion'
-                       )
-                       ->join($cl_clientes, $cl_eventos.'.cliente_id', '=', $cl_clientes.'.id')
-                       ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
-                       ->where($cl_propietario.'.id', '=', $this->infoPropietario->id)
-                       ->groupBy($cl_eventos.'.nombre')
-                       ->take(10)
-                       ->get();
+               ->select(
+                   $cl_eventos.'.id',
+                   $cl_clientes.'.id as cliente_id',
+                   $cl_clientes.'.nombre as nombre_cliente',
+                   $cl_eventos.'.nombre as nombre_evento',
+                   $cl_eventos.'.descripcion'
+               )
+               ->join($cl_clientes, $cl_eventos.'.cliente_id', '=', $cl_clientes.'.id')
+               ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
+               ->where($cl_propietario.'.id', '=', $this->infoPropietario->id)
+               ->groupBy($cl_eventos.'.nombre')
+               ->take(10)
+               ->get();
 
         foreach($eventos as $evento) {
             $evento->imagen = $this->_getImage($evento->cliente_id, 'eventos', $evento->id);

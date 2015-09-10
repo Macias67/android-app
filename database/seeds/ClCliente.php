@@ -1,4 +1,5 @@
 <?php
+use Hashids\Hashids;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
@@ -7,6 +8,8 @@ class ClCliente extends Seeder
     public function run()
     {
         $faker = Faker::create();
+        $hashid = new Hashids(md5('android.app'), 16);
+        $unique_id = $hashid->encode(time());
 
         for ($i = 1; $i < 31; $i++) {
             \DB::table('cl_clientes')->insert(array(

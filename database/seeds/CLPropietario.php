@@ -1,5 +1,6 @@
 <?php
 
+use Hashids\Hashids;
 use Illuminate\Database\Seeder;
 
 class CLPropietario extends Seeder
@@ -11,8 +12,11 @@ class CLPropietario extends Seeder
      */
     public function run()
     {
+        $hashid = new Hashids(md5('android.app'), 16);
+        $unique_id = $hashid->encode(time());
         \DB::table('cl_propietario')->insert(
             [
+                'id' => $unique_id,
                 'nombre' => 'Juan',
                 'apellido' => 'Angulo',
                 'genero' => 'H',

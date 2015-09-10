@@ -2,10 +2,12 @@
 
 namespace App\Http\Models\Cliente;
 
+use App\Http\Models\Traits\UniqueID;
 use Illuminate\Database\Eloquent\Model;
 
 class Categorias extends Model
 {
+    use UniqueID;
     /**
      * Nombre de la tabla usada por el modelo
      *

@@ -2,11 +2,13 @@
 
 namespace App\Http\Models\Cliente;
 
+use App\Http\Models\Traits\UniqueID;
 use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
+    use UniqueID;
     /**
      * Nombre de la tabla usada por el modelo
      *
@@ -20,6 +22,7 @@ class Producto extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'cliente_id',
         'categoria_id',
         'nombre',
@@ -70,6 +73,7 @@ class Producto extends Model
             $this->{$field} = $request->get($field);
         }
 
+        $this->id = $this->getUniqueID();
         $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
         $this->_cleanData();
     }
