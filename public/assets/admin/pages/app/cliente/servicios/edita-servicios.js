@@ -3,7 +3,6 @@
  */
 
 var EditaServicios = function () {
-    console.log("ola k ase");
 
     var slugify = function ()
     {

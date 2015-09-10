@@ -135,7 +135,7 @@ class ServiciosCliente extends BaseCliente
 
                 $this->data['param'] = [
                     'route'        => 'cliente.servicios.update',
-                    'class'        => 'form-horizontal form-edita-servicio',
+                    'class'        => 'form-horizontal form-edita-servicios',
                     'role'         => 'form',
                     'autocomplete' => 'off'
                 ];
