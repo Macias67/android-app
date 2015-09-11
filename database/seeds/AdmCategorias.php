@@ -20,22 +20,28 @@ class AdmCategorias extends Seeder
         $categorias = $json->categories;
 
         $hashid = new Hashids(md5('android.app'), 16);
-        $unique_id = $hashid->encode(time());
-        foreach ($categorias as $categoria) {
+
+        foreach ($categorias as $index => $categoria) {
             if (!Categorias::where('categoria', $categoria->name)->exists()) {
-                $id = \DB::table('adm_categorias')->insertGetId(
+                $id =$hashid->encode($index);
+                \DB::table('adm_categorias')->insert(
                     [
-                        'id' => $unique_id,
+                        'id' => $id,
                         'categoria'  => mb_convert_case(trim(mb_strtolower($categoria->name)), MB_CASE_TITLE, "UTF-8"),
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s')
                     ]
                 );
+
+
                 $sub = $categoria->categories;
-                foreach ($sub as $subc) {
+
+                foreach ($sub as $indice=>$subc) {
+                    $hashid = new Hashids(md5(uniqid()), 16);
                     if (!SubCategorias::where('subcategoria', $subc->name)->exists()) {
                         \DB::table('adm_subcategorias')->insert(
                             [
+                                'id' => $hashid->encode($indice),
                                 'categoria_id'  => $id,
                                 'subcategoria'  => mb_convert_case(trim(mb_strtolower($subc->name)), MB_CASE_TITLE, "UTF-8"),
                                 'created_at' => date('Y-m-d H:i:s'),

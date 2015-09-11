@@ -91,9 +91,13 @@ class NegociosCliente extends BaseCliente
                 for ($i = 0; $i < 3; $i++) {
                     $var = $request->get("subcategoria" . ($i + 1));
                     if (isset($var) && !empty($var)) {
-                        array_push($subIDs, $var);
+                        array_push($subIDs, [
+                            'cliente_id' => $cliente->id,
+                            'subcategoria_id' => $var
+                        ]);
                     }
                 }
+
                 $cliente->subcategorias()->sync($subIDs);
 
                 $detalles = new ClienteDetalles();

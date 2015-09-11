@@ -9,11 +9,13 @@
 namespace App\Http\Models\Traits;
 
 
+use Hashids\Hashids;
+
 trait UniqueID
 {
     public function getUniqueID($length = 16)
     {
-        $hashid = new Hashids(md5('android.app'), $length);
-        return $hashid->encode(time());
+        $hashid = new Hashids(time(), $length);
+        return $hashid->encode(rand(0,1000));
     }
 }

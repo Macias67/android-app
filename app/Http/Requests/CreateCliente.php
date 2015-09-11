@@ -30,7 +30,7 @@ class CreateCliente extends Request
             'referencia'    => 'max:140',
             'latitud'  => 'max:45',
             'longitud'  => 'max:45',
-            'ciudad_id'     => 'exists:adm_ciudades,id|integer'
+            'ciudad_id'     => 'exists:adm_ciudades,id|alpha_num'
         ];
     }
 }

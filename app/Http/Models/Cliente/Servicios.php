@@ -16,6 +16,8 @@ class Servicios extends Model
      */
     protected $table = 'cl_servicios';
 
+    public $incrementing  = FALSE;
+
     /**
      * Nombre de la tabla usada por el modelo
      *

@@ -16,6 +16,8 @@ class Producto extends Model
      */
     protected $table = 'cl_productos';
 
+    public $incrementing  = FALSE;
+
     /**
      * The attributes that are mass assignable.
      *

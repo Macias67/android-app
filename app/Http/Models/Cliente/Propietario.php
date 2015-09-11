@@ -21,6 +21,8 @@ class Propietario extends Model implements AuthenticatableContract, CanResetPass
      */
     protected $table = 'cl_propietario';
 
+    public $incrementing  = FALSE;
+
     /**
      * Atributos excluidos del modelo JSON
      *

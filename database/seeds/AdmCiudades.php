@@ -12,11 +12,10 @@ class AdmCiudades extends Seeder
      */
     public function run ()
     {
-        $hashid = new Hashids(md5('android.app'), 16);
-        $unique_id = $hashid->encode(time());
+        $hashid = new Hashids(microtime(TRUE), 16);
         \DB::table('adm_ciudades')->insert(
             [
-                'id' => $unique_id,
+                'id' => $hashid->encode(1),
                 'ciudad'       => 'Ocotlán',
                 'estado'       => 'Jalisco',
                 'latlng_gmaps' => '20.3417485, -102.76523259999999',
@@ -24,10 +23,9 @@ class AdmCiudades extends Seeder
                 'updated_at' => date('Y-m-d H:i:s')
             ]
         );
-
         \DB::table('adm_ciudades')->insert(
             [
-                'id' => $unique_id,
+                'id' => $hashid->encode(2),
                 'ciudad'       => 'Chapala',
                 'estado'       => 'Jalisco',
                 'latlng_gmaps' => '20.3051576,-103.18460160000001',

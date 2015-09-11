@@ -1,5 +1,7 @@
 <?php
 
+use Hashids\Hashids;
+
 Route::group(
     ['prefix' => 'global'],
     function () {
@@ -27,12 +29,12 @@ Route::group(
         Route::get('subcategorias/select/{id?}', [
             'as' => 'global-select-subcategorias',
             'uses' => 'Admin\SubCategoriasAdmin@dropdown'
-        ])->where('id', '[0-9]+');
+        ])->where('id', '[0-9a-zA-Z]+');
 
         Route::get('subcategorias/select2/{id?}', [
             'as' => 'global-select2-subcategorias',
             'uses' => 'Admin\SubCategoriasAdmin@jsonSelect2'
-        ])->where('id', '[0-9]+');
+        ])->where('id', '[0-9a-zA-Z]+');
 
         /*
         |--------------------------------------------------------------------------
@@ -42,4 +44,14 @@ Route::group(
         Route::get('negocios/json', [
             'uses' => 'Android@index'
         ]);
+
+
+        Route::get('time', function() {
+            $hashid = new Hashids('macias', 16);
+//            echo ;
+//            echo $hashid->encode(time());
+            $index = 0;
+            $num  = (int)$index.time();
+            echo $hashid->encode($num);
+        });
     });

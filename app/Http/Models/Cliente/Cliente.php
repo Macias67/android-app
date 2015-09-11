@@ -17,13 +17,16 @@ class Cliente extends Model
      */
     protected $table = 'cl_clientes';
 
+    protected $primaryKey = 'id';
+
+    public $incrementing  = FALSE;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id',
         'nombre',
         'slug',
         'calle',
@@ -37,6 +40,8 @@ class Cliente extends Model
         'propietario_id',
         'estatus'
     ];
+
+    protected $guarded = ['id'];
 
     /**
      * Cliente pertenece a un propietario

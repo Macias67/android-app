@@ -17,6 +17,8 @@ class Promociones extends Model
      */
     protected $table = 'cl_promociones';
 
+    public $incrementing  = FALSE;
+
     /**
      * The attributes that are mass assignable.
      *

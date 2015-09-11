@@ -15,6 +15,8 @@ class Categorias extends Model
      */
     protected $table = 'cl_categorias';
 
+    public $incrementing  = FALSE;
+
     /**
      * Categoria tiene muchas subcategorias
      *

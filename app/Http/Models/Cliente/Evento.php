@@ -16,6 +16,8 @@ class Evento extends Model
      */
     protected $table = 'cl_eventos';
 
+    public $incrementing  = FALSE;
+
     /**
      * The attributes that are mass assignable.
      *
