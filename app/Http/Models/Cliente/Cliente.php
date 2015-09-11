@@ -90,13 +90,16 @@ class Cliente extends Model
         return with(new static)->getTable();
     }
 
+    /**
+     * @param Request $request
+     */
     public function preparaDatos (Request $request)
     {
         foreach ($this->fillable as $field) {
             $this->{$field} = $request->get($field);
         }
 
-        $this->id = $this->getUniqueID();
+        $this->id = (isset($this->id)) ? $this->id : $this->getUniqueID();
         $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
         $this->_cleanData();
     }
