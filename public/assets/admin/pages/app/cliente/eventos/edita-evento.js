@@ -175,7 +175,7 @@ var EditaEvento = function () {
         }
     }
 
-    var dateRange = function () {
+    /*var dateRange = function () {
         moment.locale('es');
         var formato = 'LLLL';
         $('#reportrange').daterangepicker({
@@ -245,6 +245,83 @@ var EditaEvento = function () {
         $('input[name="hora_inicio"]').val(moment().format("HH:mm:ss"));
         $('input[name="fecha_termina"]').val(moment().add(1, 'days').format("YYYY-MM-DD"));
         $('input[name="hora_termina"]').val(moment().format("HH:mm:ss"));
+    }*/
+
+    var dateRange = function () {
+
+        var startDate = $('input[name="disp_inicio"]').val();
+        var endDate = $('input[name="disp_fin"]').val();
+
+        moment.locale('es');
+        var formato = 'LLLL';
+        $('#reportrange').daterangepicker({
+                opens: 'left',
+                drops: 'up',
+                startDate:           moment(startDate),
+                endDate:             moment(endDate),
+                showDropdowns:       true,
+                showWeekNumbers:     true,
+                timePicker:          true,
+                timePickerIncrement: 1,
+                timePicker12Hour:    true,
+                ranges:              {
+                    'Hoy':        [moment(), moment()],
+                    'Mañana':    [moment(), moment().add(1, 'days')],
+                    '7 Días':  [moment(), moment().add(7, 'days')],
+                    'Un Mes': [moment(), moment().add(30, 'days')],
+                    '6 Meses':   [moment(), moment().add(6, 'month')],
+                    '1 Año':   [
+                        moment(),
+                        moment().add(1, 'year')
+                    ]
+                },
+                buttonClasses:       ['btn'],
+                applyClass:          'green',
+                cancelClass:         'default',
+                format:              'DD/MM/YYYY',
+                separator:           ' al ',
+                locale:              {
+                    applyLabel:       'Aplicar',
+                    fromLabel:        'Desde',
+                    toLabel:          'a',
+                    customRangeLabel: 'Otro Rango',
+                    daysOfWeek:       ['D', 'L', 'M', 'I', 'J', 'V', 'S'],
+                    monthNames:       [
+                        'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre'
+                    ],
+                    firstDay:         1
+                }
+            },
+            function (start, end) {
+                $('input[name="finicio"]').val(start.format(formato));
+                $('input[name="ffin"]').val(end.format(formato));
+
+                $('input[name="fecha_inicio"]').val(start.format("YYYY-MM-DD"));
+                $('input[name="hora_inicio"]').val(start.format("HH:mm:ss"));
+                $('input[name="fecha_termina"]').val(end.format("YYYY-MM-DD"));
+                $('input[name="hora_termina"]').val(end.format("HH:mm:ss"));
+
+                $('input[name="disp_inicio"]').val(start.format("YYYY-MM-DD HH:mm:ss"));
+                $('input[name="disp_fin"]').val(end.format("YYYY-MM-DD HH:mm:ss"));
+            }
+        );
+        //Set the initial state of the picker label
+        $('input[name="finicio"]').val(moment(startDate).format(formato));
+        $('input[name="ffin"]').val(moment(endDate).format(formato));
+
+        $('input[name="disp_inicio"]').val(startDate);
+        $('input[name="disp_fin"]').val(endDate);
     }
 
     var maxLenght = function () {

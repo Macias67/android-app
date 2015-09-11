@@ -22,6 +22,7 @@ class CreateEvento extends Request
     public function rules()
     {
         return [
+            'cliente_id'    => 'required|exists:cl_clientes,id|alpha_num|size:16',
             'nombre'        => 'required|max:45|',
             'slug'          => 'max:45|alpha_dash',
             'direccion'     => 'max:145',

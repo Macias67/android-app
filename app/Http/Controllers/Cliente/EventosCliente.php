@@ -122,10 +122,8 @@ class EventosCliente extends BaseCliente
             $idPropietario = $evento->idPropietario($this->infoPropietario->id, $id);
 
             if($this->infoPropietario->id == $idPropietario[0]['id']) {
-                $fechaInicio = str_replace("-", "/", $evento->fecha_inicio .' '.$evento->hora_inicio);
-                $fechaFin = str_replace("-", "/", $evento->fecha_termina .' '.$evento->hora_termina);
-                $fecha_inicio   = strftime("%A, %d"." de "."%B"." de "."%Y",strtotime($fechaInicio));
-                $fecha_fin   = strftime("%A, %d"." de "."%B"." de "."%Y",strtotime($fechaFin));
+                $fechaInicio = $evento->fecha_inicio .' '.$evento->hora_inicio;
+                $fechaFin = $evento->fecha_termina .' '.$evento->hora_termina;
 
                 $this->data['param'] = [
                     'route'        => 'cliente.evento.update',
@@ -135,8 +133,8 @@ class EventosCliente extends BaseCliente
                 ];
 
                 $this->data['evento'] = $evento;
-                $this->data['ffin'] = $fecha_fin;
-                $this->data['finicio'] = $fecha_inicio;
+                $this->data['disp_fin'] = $fechaFin;
+                $this->data['disp_inicio'] = $fechaInicio;
                 $this->data['current_evento_id'] = $id;
                 $this->data['img_evento'] = $this->_getImage($evento->cliente_id, 'eventos', $id);
 
