@@ -1,7 +1,5 @@
 <?php
 
-use Hashids\Hashids;
-
 Route::group(
     ['prefix' => 'global'],
     function () {
@@ -44,14 +42,4 @@ Route::group(
         Route::get('negocios/json', [
             'uses' => 'Android@index'
         ]);
-
-
-        Route::get('time', function() {
-            $hashid = new Hashids('macias', 16);
-//            echo ;
-//            echo $hashid->encode(time());
-            $index = 0;
-            $num  = (int)$index.time();
-            echo $hashid->encode($num);
-        });
     });

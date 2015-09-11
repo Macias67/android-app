@@ -23,7 +23,7 @@ class CreateEvento extends Request
     {
         return [
             'cliente_id'    => 'required|exists:cl_clientes,id|alpha_num|size:16',
-            'nombre'        => 'required|max:45|',
+            'nombre'        => 'required|max:45',
             'slug'          => 'max:45|alpha_dash',
             'direccion'     => 'max:145',
             'descripcion'   => 'required|max:255',

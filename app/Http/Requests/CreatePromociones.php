@@ -24,7 +24,7 @@ class CreatePromociones extends Request
     public function rules()
     {
         return [
-            'cliente_id'        => 'required',
+            'cliente_id'        => 'required|alpha_num|size:16',
             'nombre'            => 'required|max:45',
             'slug'              => 'required|max:45|alpha_dash',
             'descripcion'       => 'required|max:255',
