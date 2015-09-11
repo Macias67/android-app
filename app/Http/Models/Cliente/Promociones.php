@@ -46,7 +46,7 @@ class Promociones extends Model
             $this->{$field} = $request->get($field);
         }
 
-        $this->id = $this->getUniqueID();
+        $this->id = (isset($this->id))? $this->id : $this->getUniqueID();
         $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
         $this->siempre = (isset($this->siempre) && $this->siempre == 'on') ? 1 : 0;
         $this->_cleanData();

@@ -54,13 +54,6 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-3 control-label">Categoría<span class="required">*</span></label>
-
-											<div class="col-md-9">
-												{!! Form::select('categoria_id', $categorias, $promocion->categoria_id, ['class' => 'form-control']) !!}
-											</div>
-										</div>
-										<div class="form-group">
 											<label class="control-label col-md-3">Descripción<span class="required">*</span></label>
 
 											<div class="col-md-9">
