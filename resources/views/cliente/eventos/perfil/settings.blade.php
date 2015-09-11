@@ -181,9 +181,10 @@
                                                 <div class="col-md-9">
                                                     <div class="input-icon">
                                                         <i class="fa fa-calendar"></i>
-                                                        <input type="text" class="form-control" name="finicio" value="{{$finicio}}"  readonly>
-                                                        <input type="hidden" class="form-control" name="fecha_inicio">
-                                                        <input type="hidden" class="form-control" name="hora_inicio">
+                                                        <input type="text" class="form-control" name="finicio" readonly>
+                                                        <input type="hidden" class="form-control" name="fecha_inicio" value="{{$evento->fecha_inicio}}">
+                                                        <input type="hidden" class="form-control" name="hora_inicio" value="{{$evento->hora_inicio}}">
+														<input type="hidden" class="form-control" name="disp_inicio" value="{{$disp_inicio}}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,9 +193,10 @@
                                                 <div class="col-md-9">
                                                     <div class="input-icon">
                                                         <i class="fa fa-calendar"></i>
-                                                        <input type="text" class="form-control" name="ffin" value="{{$ffin}}" readonly>
-                                                        <input type="hidden" class="form-control" name="fecha_termina">
-                                                        <input type="hidden" class="form-control" name="hora_termina">
+                                                        <input type="text" class="form-control" name="ffin" readonly>
+                                                        <input type="hidden" class="form-control" name="fecha_termina" value="{{$evento->fecha_termina}}">
+                                                        <input type="hidden" class="form-control" name="hora_termina" value="{{$evento->hora_termina}}">
+														<input type="hidden" class="form-control" name="disp_fin" value="{{$disp_fin}}">
                                                     </div>
                                                 </div>
                                             </div>
