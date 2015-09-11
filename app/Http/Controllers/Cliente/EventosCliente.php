@@ -172,7 +172,7 @@ class EventosCliente extends BaseCliente
     {
         if($request->ajax() && $request->wantsJson()){
 
-            if(!is_null($evento = Evento::find($request->get('cliente_id')))) {
+            if(!is_null($evento = Evento::find($request->get('id')))) {
                 $evento->preparaDatos($request);
 
                 if ($evento->save()) {

@@ -87,7 +87,7 @@ Route::group(
             Route::get('{id?}', [
                 'as' => 'cliente.producto.show',
                 'uses' => 'ProductosCliente@show'
-            ])->where('id', '[0-9]+');
+            ])->where('id', '[0-9a-zA-Z]+');
 
             Route::post('update', [
                 'as' => 'cliente.producto.update',
@@ -98,7 +98,7 @@ Route::group(
             Route::get('json/{id?}', [
                 'as' => 'cliente.producto.procutos-json',
                 'uses' => 'ProductosCliente@getProductosJson'
-            ])->where('id', '[0-9]+');
+            ])->where('id', '[0-9a-zA-Z]+');
 
             Route::post('upload/logo', [
                 'as' => 'global-upload-logo-producto',
@@ -147,7 +147,7 @@ Route::group(
             Route::get('{id?}', [
                 'as' => 'cliente.servicios.show',
                 'uses' => 'ServiciosCliente@show'
-            ])->where('id', '[0-9]+');
+            ])->where('id', '[0-9a-zA-Z]+');
 
             Route::post('update', [
                 'as' => 'cliente.servicios.update',
@@ -158,7 +158,7 @@ Route::group(
             Route::get('json/{id?}', [
                 'as' => 'cliente.servicios.servicios-json',
                 'uses' => 'ServiciosCliente@getServiciosJson'
-            ])->where('id', '[0-9]+');
+            ])->where('id', '[0-9a-zA-Z]+');
 
             Route::post('upload/logo', [
                 'as' => 'global-upload-logo-servicios',
@@ -173,15 +173,53 @@ Route::group(
 
 
         });
+
         /*
         |--------------------------------------------------------------------------
         | PROMOCIONES
         |--------------------------------------------------------------------------
         */
         Route::get('promociones', [
-            'as' => 'promociones',
+            'as' => 'promociones-cliente',
             'uses' => 'PromocionesCliente@index'
         ]);
+
+        Route::group(['prefix' => 'promocion'], function () {
+            Route::get('nuevo', [
+                'as' => 'cliente.promociones.create',
+                'uses' => 'PromocionesCliente@create'
+            ]);
+
+            Route::post('store', [
+                'as' => 'cliente.promociones.store',
+                'uses' => 'PromocionesCliente@store'
+            ]);
+
+            Route::get('{id?}', [
+                'as' => 'cliente.promociones.show',
+                'uses' => 'PromocionesCliente@show'
+            ])->where('id', '[0-9a-zA-Z]+');
+
+            Route::post('update', [
+                'as' => 'cliente.promociones.update',
+                'uses' => 'promocionesCliente@update'
+            ]);
+
+            Route::get('json/{id?}', [
+                'as' => 'cliente.promocion.promociones-json',
+                'uses' => 'promocionesCliente@getPromocionesJson'
+            ])->where('id', '[0-9a-zA-Z]+');
+
+            Route::post('upload/logo', [
+                'as' => 'global-upload-logo-promocion',
+                'uses' => 'PromocionesCliente@uploadImage'
+            ]);
+
+            Route::post('crop/logo', [
+                'as' => 'global-crop-logo-promocion',
+                'uses' => 'PromocionesCliente@cropImage'
+            ]);
+        });
 
         /*
         |--------------------------------------------------------------------------
@@ -213,7 +251,7 @@ Route::group(
             Route::get('{id?}', [
                 'as' => 'cliente.evento.show',
                 'uses' => 'EventosCliente@show'
-            ])->where('id', '[0-9]+');
+            ])->where('id', '[0-9a-zA-Z]+');
 
             Route::post('upload/image', [
                 'as' => 'global-upload-image-evento',
@@ -249,12 +287,12 @@ Route::group(
         Route::post('categorias/json/{cliente_id?}', [
             'as' => 'cliente-table-json-categorias',
             'uses' => 'CategoriasCliente@datatable'
-        ])->where('cliente_id', '[0-9]+');
+        ])->where('cliente_id', '[0-9a-zA-Z]+');
 
         Route::get('categorias/select/{cliente_id?}', [
             'as' => 'cliente-select-categorias',
             'uses' => 'CategoriasCliente@select'
-        ])->where('cliente_id', '[0-9]+');
+        ])->where('cliente_id', '[0-9a-zA-Z]+');
 
         Route::group(['prefix' => 'categoria'], function () {
             Route::get('nuevo', [
@@ -266,57 +304,6 @@ Route::group(
                 'as' => 'cliente.categoria.store',
                 'uses' => 'CategoriasCliente@store'
             ]);
-        });
-
-        /*
-       |--------------------------------------------------------------------------
-       | PROMOCIONES
-       |--------------------------------------------------------------------------
-       */
-        Route::get('promociones', [
-            'as' => 'promociones-cliente',
-            'uses' => 'PromocionesCliente@index'
-        ]);
-
-        Route::group(['prefix' => 'promocion'], function () {
-
-            Route::get('nuevo', [
-                'as' => 'cliente.promociones.create',
-                'uses' => 'PromocionesCliente@create'
-            ]);
-
-            Route::post('store', [
-                'as' => 'cliente.promociones.store',
-                'uses' => 'PromocionesCliente@store'
-            ]);
-
-            Route::get('{id?}', [
-                'as' => 'cliente.promociones.show',
-                'uses' => 'PromocionesCliente@show'
-            ])->where('id', '[0-9]+');
-
-            Route::post('update', [
-                'as' => 'cliente.promociones.update',
-                'uses' => 'promocionesCliente@update'
-            ]);
-
-            Route::get('json/{id?}', [
-                'as' => 'cliente.promocion.promociones-json',
-                'uses' => 'promocionesCliente@getPromocionesJson'
-            ])->where('id', '[0-9]+');
-
-            Route::post('upload/logo', [
-                'as' => 'global-upload-logo-promocion',
-                'uses' => 'PromocionesCliente@uploadImage'
-            ]);
-
-            Route::post('crop/logo', [
-                'as' => 'global-crop-logo-promocion',
-                'uses' => 'PromocionesCliente@cropImage'
-            ]);
-
-
-
         });
 
 	}

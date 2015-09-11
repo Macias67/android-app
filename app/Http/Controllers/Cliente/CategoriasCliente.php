@@ -76,6 +76,7 @@ class CategoriasCliente extends BaseCliente
     {
         if($request->ajax() &&  $request->wantsJson()){
             $categoria = new Categorias;
+            $categoria->id = $categoria->getUniqueID();
             $categoria->cliente_id = $request->get('cliente_id');
             $categoria->categoria = mb_convert_case(trim(mb_strtolower($request->get('categoria'))), MB_CASE_TITLE, "UTF-8");
 

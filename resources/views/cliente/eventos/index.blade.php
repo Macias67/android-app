@@ -118,7 +118,6 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <a href="{{route('cliente.evento.show', [$evento->id])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
-                                                {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
                                             </div>
 
                                             <div class="clearfix"></div>

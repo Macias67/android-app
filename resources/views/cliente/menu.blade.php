@@ -105,7 +105,7 @@
                     </a>
                 </li>
                 <li {!! isset($activo_promociones) == TRUE ? ' class="active open" ' : '' !!}>
-                    <a href="{{route('promociones')}}">
+                    <a href="{{route('promociones-cliente')}}">
                         <i class="icon-present"></i>
                         <span class="title">Promociones</span>
                     </a>

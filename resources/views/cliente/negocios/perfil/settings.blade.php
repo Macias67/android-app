@@ -44,6 +44,8 @@
 							<!-- PERSONAL INFO TAB -->
 							<div class="tab-pane active" id="tab_principal">
 								{!! Form::model($cliente, $formprincipal) !!}
+								{!! Form::hidden('id') !!}
+								{!! Form::hidden('propietario_id') !!}
 								{{--Datos basicos--}}
 								<div class="col-md-6">
 									<div class="form-body">
@@ -73,8 +75,6 @@
 												<div class="input-icon">
 													<i class="fa fa-institution"></i>
 													{!! Form::text('nombre', NULL, ['class' => 'form-control', 'placeholder' => 'Nombre del lugar']) !!}
-													{!! Form::hidden ('propietario_id') !!}
-													{!! Form::hidden ('id') !!}
 												</div>
 											</div>
 										</div>
@@ -203,11 +203,11 @@
 										<div class="col-md-offset-2 col-md-10">
 											<div class="input-group">
 												<input type="text" class="form-control" id="calle_registrada" placeholder="Calle No. Colonia, Ciudad Estado">
-								<span class="input-group-btn">
-									<button class="btn blue faa-parent animated-icon-hover" id="gmap_geocoding_btn">
-										<i class="fa fa-map-marker faa-vertical"></i> Ubicar
-									</button>
-								</span>
+												<span class="input-group-btn">
+													<button class="btn blue faa-parent animated-icon-hover" id="gmap_geocoding_btn">
+														<i class="fa fa-map-marker faa-vertical"></i> Ubicar
+													</button>
+												</span>
 											</div>
 											<span class="help-block">Dirección formada en base a los datos del formulario. Presione ubicar para mostrarlo en el mapa.</span>
 										</div>

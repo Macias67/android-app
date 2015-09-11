@@ -22,8 +22,8 @@ class CreateProducto extends Request
     public function rules ()
     {
         return [
-            'cliente_id'        => 'required|exists:cl_clientes,id|integer',
-            'categoria_id'      => 'required|exists:cl_categorias,id|integer',
+            'cliente_id'        => 'required|exists:cl_clientes,id|alpha_num|size:16',
+            'categoria_id'      => 'required|exists:cl_categorias,id|alpha_num|size:16',
             'nombre'            => 'required|max:45',
             'slug'              => 'required|max:45|alpha_dash',
             'descripcion'       => 'required|max:255',

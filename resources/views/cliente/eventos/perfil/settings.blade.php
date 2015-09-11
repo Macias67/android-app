@@ -15,19 +15,7 @@
 								<a href="#tab_principal" data-toggle="tab">Información Principal</a>
 							</li>
 							<li>
-								<a href="#tab_adicional" data-toggle="tab">Información Adicional</a>
-							</li>
-							<li>
-								<a href="#tab_sociales" data-toggle="tab">Redes Sociales</a>
-							</li>
-							<li>
 								<a href="#tab_logotipo" data-toggle="tab">Imagen del evento</a>
-							</li>
-							<li>
-								<a href="#tab_1_3" data-toggle="tab">Change Password</a>
-							</li>
-							<li>
-								<a href="#tab_1_4" data-toggle="tab">Privacy Settings</a>
 							</li>
 						</ul>
 					</div>
@@ -36,6 +24,8 @@
 							<!-- PERSONAL INFO TAB -->
 							<div class="tab-pane active" id="tab_principal">
 								{!! Form::open($param) !!}
+									<input type="hidden" name="cliente_id" value="{{$evento->cliente_id}}">
+									<input type="hidden" name="id" value="{{$evento->id}}">
 									<div class="col-md-6">
 										<!-- Nombre del evento -->
 										<div class="form-group">
@@ -45,7 +35,6 @@
 												<div class="input-icon">
 													<i class="fa fa-institution"></i>
 													<input type="text" class="form-control" name="nombre" placeholder="Nombre del evento" value="{{$evento->nombre}}">
-                                                    <input type="hidden" name="cliente_id" value="{{$user->id}}">
 												</div>
 											</div>
 										</div>
@@ -276,105 +265,6 @@
 							</div>
 							<!-- END PERSONAL INFO TAB -->
 
-							<!-- ADICIONAL INFO TAB -->
-							<div class="tab-pane" id="tab_adicional">
-								<form role="form" action="#" class="form-horizontal form-row-sepe">
-                                    <h4 class="form-section">Dias y horarios</h4>
-                                    <hr>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Dias</label>
-                                        <div class="col-md-10">
-                                            <div class="btn-group" data-toggle="buttons">
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="1"> Lunes </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="2"> Martes </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="3"> Miércoles </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="4"> Jueves </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="5"> Viernes </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="6"> Sábado </label>
-                                                <label class="btn btn-default"><input type="checkbox" class="toggle" value="7"> Domingo </label>
-                                            </div>
-                                        </div>
-                                    </div>
-									<div class="form-group">
-                                        <label class="col-md-2 control-label">Abre</label>
-										<div class="col-md-9">
-											<div class="input-group input-small">
-												<input type="text" class="form-control timepicker abre">
-												<span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
-												</span>
-											</div>
-										</div>
-									</div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Cierra</label>
-                                        <div class="col-md-9">
-                                            <div class="input-group input-small">
-                                                <input type="text" class="form-control timepicker cierra">
-												<span class="input-group-btn">
-												<button class="btn default" type="button"><i class="fa fa-clock-o"></i></button>
-												</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <button type="button" class="btn blue btn-sm">Añadir horario</button>
-                                        </div>
-                                    </div>
-
-									<div class="margiv-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Save Changes </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
-									</div>
-								</form>
-							</div>
-							<!-- END ADICIONAL INFO TAB -->
-
-							<!-- SOCIALES INFO TAB -->
-							<div class="tab-pane" id="tab_sociales">
-								<form role="form" action="#">
-									<div class="form-group">
-										<label class="control-label">First Name</label>
-										<input type="text" placeholder="John" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Last Name</label>
-										<input type="text" placeholder="Doe" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Mobile Number</label>
-										<input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Interests</label>
-										<input type="text" placeholder="Design, Web etc." class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Occupation</label>
-										<input type="text" placeholder="Web Developer" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">About</label>
-										<textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Website Url</label>
-										<input type="text" placeholder="http://www.mywebsite.com" class="form-control"/>
-									</div>
-									<div class="margiv-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Save Changes </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
-									</div>
-								</form>
-							</div>
-							<!-- END SOCIALES INFO TAB -->
-
 							<!-- CAMBIO DE IMAGEN DE EVENTO -->
 							<div class="tab-pane" id="tab_logotipo">
 								<p>
@@ -397,87 +287,6 @@
 								</form>
 							</div>
 							<!-- END CHANGE AVATAR TAB -->
-
-							<!-- CHANGE PASSWORD TAB -->
-							<div class="tab-pane" id="tab_1_3">
-								<form action="#">
-									<div class="form-group">
-										<label class="control-label">Current Password</label>
-										<input type="password" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">New Password</label>
-										<input type="password" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Re-type New Password</label>
-										<input type="password" class="form-control"/>
-									</div>
-									<div class="margin-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Change Password </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
-									</div>
-								</form>
-							</div>
-							<!-- END CHANGE PASSWORD TAB -->
-
-							<!-- PRIVACY SETTINGS TAB -->
-							<div class="tab-pane" id="tab_1_4">
-								<form action="#">
-									<table class="table table-light table-hover">
-										<tr>
-											<td>
-												Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus..
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="radio" name="optionsRadios1" value="option1"/>
-													Yes </label>
-												<label class="uniform-inline">
-													<input type="radio" name="optionsRadios1" value="option2" checked/>
-													No </label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="checkbox" value=""/> Yes </label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="checkbox" value=""/> Yes </label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="checkbox" value=""/> Yes </label>
-											</td>
-										</tr>
-									</table>
-									<!--end profile-settings-->
-									<div class="margin-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Save Changes </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
-									</div>
-								</form>
-							</div>
-							<!-- END PRIVACY SETTINGS TAB -->
 						</div>
 					</div>
 				</div>

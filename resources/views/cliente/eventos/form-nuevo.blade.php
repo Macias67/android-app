@@ -64,7 +64,6 @@
                                 <div class="col-md-9">
                                     {!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control', 'data-url' => route('cliente-select-categorias')]) !!}
                                 </div>
-                                <input type="hidden" name="cliente_id" value="{{$user->id}}">
                             </div>
                             <!-- Nombre del evento -->
                             <div class="form-group">
