@@ -15,7 +15,7 @@ use Jenssegers\Date\Date;
 
 class ClientesAdmin extends BaseAdmin
 {
-    public function __construct ()
+    public function __construct()
     {
         parent::__construct();
         $this->data['activo_clientes'] = TRUE;
@@ -26,7 +26,7 @@ class ClientesAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function index ()
+    public function index()
     {
         return $this->view('admin.clientes.index');
     }
@@ -36,40 +36,24 @@ class ClientesAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function create ()
+    public function create()
     {
         $this->data['param'] = [
-            'route'        => 'adm.cliente.store',
-            'class'        => 'form-horizontal form-nuevo-cliente',
-            'role'         => 'form',
+            'route' => 'adm.cliente.store',
+            'class' => 'form-horizontal form-nuevo-cliente',
+            'role' => 'form',
             'autocomplete' => 'off'
         ];
 
         $ciudades = Ciudades::get()->ToArray();
-        $options_ciudades  = [];
+        $options_ciudades = [];
         foreach ($ciudades as $index => $ciudad) {
             $options_ciudades[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
         }
 
-//        $optiong    = [];
-//        $categorias = Categorias::get();
-//        foreach ($categorias as $categoria) {
-//            $subcategorias = $categoria->getSubcategorias->ToArray();
-//            foreach ($subcategorias as $index => $subcategoria) {
-//                $sub = [];
-//                if ($subcategorias) {
-//                    foreach ($subcategorias as $key => $subcategoria) {
-//                        $sub[$subcategoria['id']] = $subcategoria['subcategoria'];
-//                    }
-//                }
-//                $optiong[$categoria['categoria']] = $sub;
-//            }
-//        }
-//        $this->data['optiong'] = $optiong;
-
         $categorias = Categorias::all(['id', 'categoria'])->ToArray();
         $options_categorias = ['' => ''];
-        foreach($categorias as $categoria){
+        foreach ($categorias as $categoria) {
             $options_categorias[$categoria['id']] = $categoria['categoria'];
         }
 
@@ -84,7 +68,7 @@ class ClientesAdmin extends BaseAdmin
      *
      * @return mixed
      */
-    public function store (CreateCliente $request)
+    public function store(CreateCliente $request)
     {
         if ($request->ajax() && $request->wantsJson()) {
             $cliente = new Cliente;
@@ -94,8 +78,8 @@ class ClientesAdmin extends BaseAdmin
 
                 $subIDs = [];
                 for ($i = 0; $i < 3; $i++) {
-                    $var = $request->get("subcategoria".($i+1));
-                    if(isset($var) && !empty($var)) {
+                    $var = $request->get("subcategoria" . ($i + 1));
+                    if (isset($var) && !empty($var)) {
                         array_push($subIDs, $var);
                     }
                 }
@@ -111,18 +95,18 @@ class ClientesAdmin extends BaseAdmin
                 $cliente->redesSociales()->save($redes_sociales);
 
                 $response = [
-                    'exito'  => TRUE,
+                    'exito' => TRUE,
                     'titulo' => 'Cliente registrado',
-                    'texto'  =>'¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
-                    'url'    => route('clientes')
+                    'texto' => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
+                    'url' => route('clientes')
                 ];
             }
             else {
                 $response = [
-                    'exito'  => FALSE,
-                    'titulo' =>  'No se registró',
-                    'texto'  =>'Parece que no hubo registro en la BD',
-                    'url'    => NULL
+                    'exito' => FALSE,
+                    'titulo' => 'No se registró',
+                    'texto' => 'Parece que no hubo registro en la BD',
+                    'url' => NULL
                 ];
             }
             return $this->responseJSON($response);
@@ -136,7 +120,7 @@ class ClientesAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function show ($id)
+    public function show($id)
     {
         // TODO: Implement show() method.
     }
@@ -148,7 +132,7 @@ class ClientesAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function edit ($id)
+    public function edit($id)
     {
         // TODO: Implement edit() method.
     }
@@ -157,11 +141,11 @@ class ClientesAdmin extends BaseAdmin
      * Update the specified resource in storage.
      *
      * @param  Request $request
-     * @param  int     $id
+     * @param  int $id
      *
      * @return Response
      */
-    public function update (Request $request, $id)
+    public function update(Request $request, $id)
     {
         // TODO: Implement update() method.
     }
@@ -173,29 +157,29 @@ class ClientesAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function destroy ($id)
+    public function destroy($id)
     {
         // TODO: Implement destroy() method.
     }
 
-    public function datatable (Request $request)
+    public function datatable(Request $request)
     {
-        $draw    = $request->get('draw');
-        $start   = $request->get('start');
-        $length  = $request->get('length');
-        $order   = $request->get('order');
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
         $columns = $request->get('columns');
-        $search  = $request->get('search');
-        $total   = Cliente::count();
+        $search = $request->get('search');
+        $total = Cliente::count();
 
         if ($length == -1) {
             $length = NULL;
-            $start  = NULL;
+            $start = NULL;
         }
 
-        $tCliente     = Cliente::getTableName();
+        $tCliente = Cliente::getTableName();
         $tPropietario = Propietario::getTableName();
-        $tCiduad      = Ciudades::getTableName();
+        $tCiduad = Ciudades::getTableName();
 
         $campos = [
             $tCliente . '.id',
@@ -210,8 +194,8 @@ class ClientesAdmin extends BaseAdmin
         ];
 
         $pos_col = $order[0]['column'];
-        $order   = $order[0]['dir'];
-        $campo   = $columns[$pos_col]['data'];
+        $order = $order[0]['dir'];
+        $campo = $columns[$pos_col]['data'];
 
         switch ($campo) {
             case 'estatus':
@@ -247,22 +231,22 @@ class ClientesAdmin extends BaseAdmin
             array_push(
                 $proceso,
                 [
-                    "DT_RowId"    => $cliente->id,
-                    'estatus'     => ($cliente->estatus == 'online') ? TRUE : FALSE,
-                    'nombre'      => $cliente->nombre,
+                    "DT_RowId" => $cliente->id,
+                    'estatus' => ($cliente->estatus == 'online') ? TRUE : FALSE,
+                    'nombre' => $cliente->nombre,
                     'propietario' => $cliente->propietario_nombre . ' ' . $cliente->propietario_apellido,
-                    'ciudad'      => $cliente->ciudad . ', ' . $cliente->estado,
-                    'registro'    => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format(
+                    'ciudad' => $cliente->ciudad . ', ' . $cliente->estado,
+                    'registro' => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format(
                         'l, d \\d\\e F \\d\\e\\l Y'
                     )
                 ]
             );
         }
         $data = [
-            'draw'            => $draw,
-            'recordsTotal'    => count($clientes),
+            'draw' => $draw,
+            'recordsTotal' => count($clientes),
             'recordsFiltered' => $total,
-            'data'            => $proceso
+            'data' => $proceso
         ];
 
         return new JsonResponse($data, 200);

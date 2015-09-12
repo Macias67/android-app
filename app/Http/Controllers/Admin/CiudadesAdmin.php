@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Interfaces\CRUDInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class CiudadesAdmin extends BaseAdmin implements CRUDInterface
+class CiudadesAdmin extends BaseAdmin
 {
 
     public function __construct()

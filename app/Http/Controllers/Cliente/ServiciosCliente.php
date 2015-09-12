@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use App\Http\Models\Cliente\Cliente;
-use App\Http\Models\Cliente\Servicios;
-use App\Http\Requests\CreateServicio;
-use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Controllers\Traits\GetImagesCliente;
 use App\Http\Models\Cliente\Categorias;
-use App\Http\Models\Cliente\Producto;
+use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Propietario;
-use App\Http\Requests\CreateProducto;
+use App\Http\Models\Cliente\Servicios;
+use App\Http\Requests;
+use App\Http\Requests\CreateServicio;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use PHPImageWorkshop\ImageWorkshop;
@@ -40,23 +38,23 @@ class ServiciosCliente extends BaseCliente
 
         $servicios = DB::table($cl_servicios)
             ->select(
-                $cl_servicios.'.id',
-                $cl_clientes.'.id as cliente_id',
-                $cl_clientes.'.nombre as nombre_cliente',
-                $cl_servicios.'.nombre as nombre_servicio',
-                $cl_servicios.'.descripcion_corta',
+                $cl_servicios . '.id',
+                $cl_clientes . '.id as cliente_id',
+                $cl_clientes . '.nombre as nombre_cliente',
+                $cl_servicios . '.nombre as nombre_servicio',
+                $cl_servicios . '.descripcion_corta',
                 DB::raw('COUNT(usr_usuario_gusta_servicio.servicio_id) AS totalLikes')
             )
-            ->join($cl_clientes, $cl_servicios.'.cliente_id', '=', $cl_clientes.'.id')
-            ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
-            ->join('usr_usuario_gusta_servicio', $cl_servicios.'.id', '=', 'usr_usuario_gusta_servicio.servicio_id')
-            ->where($cl_propietario.'.id', '=', $this->infoPropietario->id)
-            ->groupBy($cl_servicios.'.nombre')
+            ->join($cl_clientes, $cl_servicios . '.cliente_id', '=', $cl_clientes . '.id')
+            ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+            ->join('usr_usuario_gusta_servicio', $cl_servicios . '.id', '=', 'usr_usuario_gusta_servicio.servicio_id')
+            ->where($cl_propietario . '.id', '=', $this->infoPropietario->id)
+            ->groupBy($cl_servicios . '.nombre')
             ->orderBy('totalLikes', 'DESC')
             ->take(10)
             ->get();
 
-        foreach($servicios as $servicio) {
+        foreach ($servicios as $servicio) {
             $servicio->imagen = $this->_getImage($servicio->cliente_id, 'servicios', $servicio->id);
         }
         $this->data['serviciosMasGustados'] = $servicios;
@@ -72,12 +70,12 @@ class ServiciosCliente extends BaseCliente
     public function create()
     {
         $this->data['param'] = [
-            'route'        => 'cliente.servicios.store',
-            'class'        => 'form-horizontal form-nuevo-servicio',
-            'role'         => 'form',
+            'route' => 'cliente.servicios.store',
+            'class' => 'form-horizontal form-nuevo-servicio',
+            'role' => 'form',
             'autocomplete' => 'off'
         ];
-        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre'])->ToArray();
         $options = [];
         foreach ($clientes as $index => $cliente) {
             $options[$cliente['id']] = $cliente['nombre'];
@@ -93,26 +91,26 @@ class ServiciosCliente extends BaseCliente
      * @param  \App\Http\Requests\CreateServicio $request
      * @return \App\Http\Controllers\Cliente\Response
      */
-    public function store(CreateServicio  $request)
+    public function store(CreateServicio $request)
     {
-       if($request->ajax() && $request->wantsJson()){
+        if ($request->ajax() && $request->wantsJson()) {
             $servicio = new Servicios;;
             $servicio->preparaDatos($request);
 
             if ($servicio->save()) {
                 $response = [
-                    'exito'  => TRUE,
+                    'exito' => TRUE,
                     'titulo' => 'Servicio registrado',
-                    'texto'  =>'¡Felicidades! <b>' . $servicio->nombre . '</b> se ha registrado.',
-                    'url'    => route('servicios-cliente')
+                    'texto' => '¡Felicidades! <b>' . $servicio->nombre . '</b> se ha registrado.',
+                    'url' => route('servicios-cliente')
                 ];
             }
             else {
                 $response = [
-                    'exito'  => FALSE,
-                    'titulo' =>  'No se registró',
-                    'texto'  =>'Parece que no hubo registro en la BD',
-                    'url'    => NULL
+                    'exito' => FALSE,
+                    'titulo' => 'No se registró',
+                    'texto' => 'Parece que no hubo registro en la BD',
+                    'url' => NULL
                 ];
             }
             return $this->responseJSON($response);
@@ -122,26 +120,28 @@ class ServiciosCliente extends BaseCliente
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function show($id)
     {
-        if(!is_null($servicio = Servicios::find($id))) {
+        if (!is_null($servicio = Servicios::find($id))) {
 
             $idPropietario = $servicio->idPropietario($this->infoPropietario->id, $id);
 
-            if($this->infoPropietario->id == $idPropietario[0]['id']) {
+            if ($this->infoPropietario->id == $idPropietario[0]['id']) {
 
                 $this->data['param'] = [
-                    'route'        => 'cliente.servicios.update',
-                    'class'        => 'form-horizontal form-edita-servicios',
-                    'role'         => 'form',
+                    'route' => 'cliente.servicios.update',
+                    'class' => 'form-horizontal form-edita-servicios',
+                    'role' => 'form',
                     'autocomplete' => 'off'
                 ];
 
-                $categorias = Categorias::where('cliente_id', $servicio->cliente_id)->get(['id', 'categoria'])->ToArray();
-                $options  = [];
+                $categorias = Categorias::where('cliente_id', $servicio->cliente_id)
+                    ->get(['id', 'categoria'])
+                    ->ToArray();
+                $options = [];
                 foreach ($categorias as $index => $categoria) {
                     $options[$categoria['id']] = $categoria['categoria'];
                 }
@@ -149,7 +149,7 @@ class ServiciosCliente extends BaseCliente
 
                 $this->data['servicio'] = $servicio;
                 $this->data['categorias'] = $options;
-                $this->data['img_servicio'] = $this->_getImage($servicio->cliente_id, 'servicios',$id);
+                $this->data['img_servicio'] = $this->_getImage($servicio->cliente_id, 'servicios', $id);
                 $this->data['current_servicio_id'] = $id;
 
                 return $this->view('cliente.servicios.perfil.settings');
@@ -166,7 +166,7 @@ class ServiciosCliente extends BaseCliente
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function edit($id)
@@ -177,31 +177,30 @@ class ServiciosCliente extends BaseCliente
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param CreateServicio $request
      * @return Response
      */
     public function update(CreateServicio $request)
     {
-        if($request->ajax() && $request->wantsJson()){
+        if ($request->ajax() && $request->wantsJson()) {
 
-            if(!is_null($servicio = Servicios::find($request->get('id')))) {
+            if (!is_null($servicio = Servicios::find($request->get('id')))) {
                 $servicio->preparaDatos($request);
 
                 if ($servicio->save()) {
                     $response = [
-                        'exito'  => TRUE,
+                        'exito' => TRUE,
                         'titulo' => 'servicio actualizado',
-                        'texto'  =>'<b>' . $servicio->nombre . '</b> se ha actualizado.',
+                        'texto' => '<b>' . $servicio->nombre . '</b> se ha actualizado.',
                         'url' => route('servicios-cliente')
                     ];
                 }
                 else {
                     $response = [
-                        'exito'  => FALSE,
-                        'titulo' =>  'No se actualizó',
-                        'texto'  =>'Parece que no hubo cambios en la BD',
-                        'url'    => NULL
+                        'exito' => FALSE,
+                        'titulo' => 'No se actualizó',
+                        'texto' => 'Parece que no hubo cambios en la BD',
+                        'url' => NULL
                     ];
                 }
                 return $this->responseJSON($response);
@@ -213,7 +212,7 @@ class ServiciosCliente extends BaseCliente
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
@@ -221,15 +220,15 @@ class ServiciosCliente extends BaseCliente
         //
     }
 
-    public function uploadImage (Request $request)
+    public function uploadImage(Request $request)
     {
         if ($request->ajax() && $request->file('img')) {
-            $servicio_id  = $request->get('servicio_id');
-            $cliente_id  = $request->get('cliente_id');
-            $imagePath   = "img/cliente/" . $cliente_id . "/servicios/".$servicio_id.'/';
+            $servicio_id = $request->get('servicio_id');
+            $cliente_id = $request->get('cliente_id');
+            $imagePath = "img/cliente/" . $cliente_id . "/servicios/" . $servicio_id . '/';
             $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
-            $temp        = explode(".", $_FILES["img"]["name"]);
-            $extension   = end($temp);
+            $temp = explode(".", $_FILES["img"]["name"]);
+            $extension = end($temp);
 
             if (!File::isDirectory($imagePath)) {
                 File::makeDirectory($imagePath, 0777, TRUE);
@@ -240,7 +239,7 @@ class ServiciosCliente extends BaseCliente
 
             if (!File::isWritable($imagePath)) {
                 $response = Array(
-                    "status"  => 'error',
+                    "status" => 'error',
                     "message" => 'Can`t upload File; no write Access'
                 );
 
@@ -250,7 +249,7 @@ class ServiciosCliente extends BaseCliente
             if (in_array($extension, $allowedExts)) {
                 if ($_FILES["img"]["error"] > 0) {
                     $response = array(
-                        "status"  => 'error',
+                        "status" => 'error',
                         "message" => 'ERROR Return Code: ' . $_FILES["img"]["error"],
                     );
                 }
@@ -260,15 +259,15 @@ class ServiciosCliente extends BaseCliente
                     $request->file('img')->move($imagePath, $_FILES["img"]["name"]);
                     $response = array(
                         "status" => 'success',
-                        "url"    => asset($imagePath . $_FILES["img"]["name"]),
-                        "width"  => $width,
+                        "url" => asset($imagePath . $_FILES["img"]["name"]),
+                        "width" => $width,
                         "height" => $height
                     );
                 }
             }
             else {
                 $response = array(
-                    "status"  => 'error',
+                    "status" => 'error',
                     "message" => 'something went wrong, most likely file is to large for upload. check upload_max_filesize, post_max_size and memory_limit in you php.ini',
                 );
             }
@@ -277,12 +276,12 @@ class ServiciosCliente extends BaseCliente
         }
     }
 
-    public function cropImage (Request $request)
+    public function cropImage(Request $request)
     {
         if ($request->ajax()) {
             $servicio_id = $request->get('servicio_id');
             $cliente_id = $request->get('cliente_id');
-            $imgUrl     = $request->get('imgUrl');
+            $imgUrl = $request->get('imgUrl');
             // original sizes
             $imgInitW = $request->get('imgInitW');
             $imgInitH = $request->get('imgInitH');
@@ -303,32 +302,32 @@ class ServiciosCliente extends BaseCliente
             $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
             $layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
-            unlink("img/cliente/" . $cliente_id . "/servicios/".$servicio_id."/" . pathinfo($imgUrl, PATHINFO_BASENAME));
+            unlink("img/cliente/" . $cliente_id . "/servicios/" . $servicio_id . "/" . pathinfo($imgUrl, PATHINFO_BASENAME));
 
-            $dirPath         = "img/cliente/" . $cliente_id . "/servicios/".$servicio_id.'/';
+            $dirPath = "img/cliente/" . $cliente_id . "/servicios/" . $servicio_id . '/';
             $filename = strtolower(str_random(15)) . '-' . $servicio_id . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
-            $createFolders   = TRUE;
+            $createFolders = TRUE;
             $backgroundColor = NULL; // transparent, only for PNG (otherwise it will be white if set null)
-            $imageQuality    = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
+            $imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
 
             $layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
 
             $response = [
                 "status" => 'success',
-                "url"    => asset($dirPath . $filename)
+                "url" => asset($dirPath . $filename)
             ];
 
             return new JsonResponse($response);
         }
     }
 
-    public function getServiciosJson ($id)
+    public function getServiciosJson($id)
     {
         $categoria = new Categorias;
         $categorias = $categoria->where('cliente_id', $id)->get();
 
         $final = [];
-        foreach($categorias as $categoria) {
+        foreach ($categorias as $categoria) {
             $servicios = $categoria->servicios->toArray();
 
             $arrayservicios = [];

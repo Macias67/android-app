@@ -16,7 +16,7 @@ class BaseCliente extends Controller
     public function __construct()
     {
         $this->infoPropietario = Auth::propietario()->user();
-        $this->clientesRegistrados = Cliente::where('propietario_id', '=', $this->infoPropietario->id)->get();
+        $this->clientesRegistrados = Cliente::where('propietario_id', $this->infoPropietario->id)->get();
 
         $this->data['user'] = $this->infoPropietario;
         $this->data['clientesRegistrados'] = $this->clientesRegistrados;

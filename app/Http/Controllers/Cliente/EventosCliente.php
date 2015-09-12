@@ -6,13 +6,13 @@ use App\Http\Controllers\Traits\GetImagesCliente;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Evento;
 use App\Http\Models\Cliente\Propietario;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
+use App\Http\Requests\CreateEvento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use PHPImageWorkshop\ImageWorkshop;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Illuminate\Support\Facades\File;
-use App\Http\Requests\CreateEvento;
 
 class EventosCliente extends BaseCliente
 {
@@ -29,25 +29,23 @@ class EventosCliente extends BaseCliente
         $cl_propietario = Propietario::getTableName();
 
         $eventos = DB::table($cl_eventos)
-               ->select(
-                   $cl_eventos.'.id',
-                   $cl_clientes.'.id as cliente_id',
-                   $cl_clientes.'.nombre as nombre_cliente',
-                   $cl_eventos.'.nombre as nombre_evento',
-                   $cl_eventos.'.descripcion'
-               )
-               ->join($cl_clientes, $cl_eventos.'.cliente_id', '=', $cl_clientes.'.id')
-               ->join($cl_propietario, $cl_clientes.'.propietario_id', '=', $cl_propietario.'.id')
-               ->where($cl_propietario.'.id', '=', $this->infoPropietario->id)
-               ->groupBy($cl_eventos.'.nombre')
-               ->take(10)
-               ->get();
+                     ->select(
+                         $cl_eventos . '.id',
+                         $cl_clientes . '.id as cliente_id',
+                         $cl_clientes . '.nombre as nombre_cliente',
+                         $cl_eventos . '.nombre as nombre_evento',
+                         $cl_eventos . '.descripcion'
+                     )
+                     ->join($cl_clientes, $cl_eventos . '.cliente_id', '=', $cl_clientes . '.id')
+                     ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+                     ->where($cl_propietario . '.id', '=', $this->infoPropietario->id)
+                     ->groupBy($cl_eventos . '.nombre')
+                     ->take(10)
+                     ->get();
 
-        foreach($eventos as $evento) {
+        foreach ($eventos as $evento) {
             $evento->imagen = $this->_getImage($evento->cliente_id, 'eventos', $evento->id);
         }
-
-
         $this->data['eventosMasGustados'] = $eventos;
 
         return $this->view('cliente.eventos.index');
@@ -65,15 +63,12 @@ class EventosCliente extends BaseCliente
             'role' => 'form',
             'autocomplete' => 'off'
         ];
-
-        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre'])->ToArray();
         $options = [];
         foreach ($clientes as $index => $cliente) {
             $options[$cliente['id']] = $cliente['nombre'];
         }
-
         $this->data['negocios'] = $options;
-
         return $this->view('cliente.eventos.form-nuevo');
     }
 
@@ -86,24 +81,24 @@ class EventosCliente extends BaseCliente
      */
     public function store(CreateEvento $request)
     {
-        if($request->ajax() && $request->wantsJson()){
+        if ($request->ajax() && $request->wantsJson()) {
             $evento = new Evento;
             $evento->preparaDatos($request);
 
             if ($evento->save()) {
                 $response = [
-                    'exito'  => TRUE,
+                    'exito' => TRUE,
                     'titulo' => 'Evento registrado',
-                    'texto'  => '¡Felicidades! <b>' . $evento->nombre . '</b> se ha registrado.',
-                    'url'    => route('eventos-cliente')
+                    'texto' => '¡Felicidades! <b>' . $evento->nombre . '</b> se ha registrado.',
+                    'url' => route('eventos-cliente')
                 ];
             }
             else {
                 $response = [
-                    'exito'  => FALSE,
+                    'exito' => FALSE,
                     'titulo' => 'No se registró el evento',
-                    'texto'  =>'Parece que no hubo registro en la base de datos.',
-                    'url'    => NULL
+                    'texto' => 'Parece que no hubo registro en la base de datos.',
+                    'url' => NULL
                 ];
             }
             return $this->responseJSON($response);
@@ -113,22 +108,22 @@ class EventosCliente extends BaseCliente
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function show($id)
     {
-        if(!is_null($evento = Evento::find($id))) {
+        if (!is_null($evento = Evento::find($id))) {
             $idPropietario = $evento->idPropietario($this->infoPropietario->id, $id);
 
-            if($this->infoPropietario->id == $idPropietario[0]['id']) {
-                $fechaInicio = $evento->fecha_inicio .' '.$evento->hora_inicio;
-                $fechaFin = $evento->fecha_termina .' '.$evento->hora_termina;
+            if ($this->infoPropietario->id == $idPropietario[0]['id']) {
+                $fechaInicio = $evento->fecha_inicio . ' ' . $evento->hora_inicio;
+                $fechaFin = $evento->fecha_termina . ' ' . $evento->hora_termina;
 
                 $this->data['param'] = [
-                    'route'        => 'cliente.evento.update',
-                    'class'        => 'form-horizontal form-edita-evento',
-                    'role'         => 'form',
+                    'route' => 'cliente.evento.update',
+                    'class' => 'form-horizontal form-edita-evento',
+                    'role' => 'form',
                     'autocomplete' => 'off'
                 ];
 
@@ -152,7 +147,7 @@ class EventosCliente extends BaseCliente
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function edit($id)
@@ -163,30 +158,29 @@ class EventosCliente extends BaseCliente
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param CreateEvento $request
      * @return Response
      */
     public function update(CreateEvento $request)
     {
-        if($request->ajax() && $request->wantsJson()){
-
-            if(!is_null($evento = Evento::find($request->get('id')))) {
+        if ($request->ajax() && $request->wantsJson()) {
+            if (!is_null($evento = Evento::find($request->get('id')))) {
                 $evento->preparaDatos($request);
 
                 if ($evento->save()) {
                     $response = [
-                        'exito'  => TRUE,
+                        'exito' => TRUE,
                         'titulo' => 'Evento actualizado',
-                        'texto'  =>'<b>' . $evento->nombre . '</b> se ha actualizado.',
+                        'texto' => '<b>' . $evento->nombre . '</b> se ha actualizado.',
                         'url' => route('eventos-cliente')
                     ];
                 }
                 else {
                     $response = [
-                        'exito'  => FALSE,
-                        'titulo' =>  'No se actualizó',
-                        'texto'  =>'Parece que no hubo cambios en la BD',
-                        'url'    => NULL
+                        'exito' => FALSE,
+                        'titulo' => 'No se actualizó',
+                        'texto' => 'Parece que no hubo cambios en la BD',
+                        'url' => NULL
                     ];
                 }
                 return $this->responseJSON($response);
@@ -197,7 +191,7 @@ class EventosCliente extends BaseCliente
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
@@ -205,15 +199,15 @@ class EventosCliente extends BaseCliente
         //
     }
 
-    public function uploadImage (Request $request)
+    public function uploadImage(Request $request)
     {
         if ($request->ajax() && $request->file('img')) {
-            $evento_id  = $request->get('evento_id');
-            $cliente_id  = $request->get('cliente_id');
-            $imagePath   = "img/cliente/" . $cliente_id . "/eventos/". $evento_id .'/';
+            $evento_id = $request->get('evento_id');
+            $cliente_id = $request->get('cliente_id');
+            $imagePath = "img/cliente/" . $cliente_id . "/eventos/" . $evento_id . '/';
             $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
-            $temp        = explode(".", $_FILES["img"]["name"]);
-            $extension   = end($temp);
+            $temp = explode(".", $_FILES["img"]["name"]);
+            $extension = end($temp);
 
             if (!File::isDirectory($imagePath)) {
                 File::makeDirectory($imagePath, 0777, TRUE);
@@ -224,7 +218,7 @@ class EventosCliente extends BaseCliente
 
             if (!File::isWritable($imagePath)) {
                 $response = Array(
-                    "status"  => 'error',
+                    "status" => 'error',
                     "message" => 'Can`t upload File; no write Access'
                 );
 
@@ -234,7 +228,7 @@ class EventosCliente extends BaseCliente
             if (in_array($extension, $allowedExts)) {
                 if ($_FILES["img"]["error"] > 0) {
                     $response = array(
-                        "status"  => 'error',
+                        "status" => 'error',
                         "message" => 'ERROR Return Code: ' . $_FILES["img"]["error"],
                     );
                 }
@@ -244,15 +238,15 @@ class EventosCliente extends BaseCliente
                     $request->file('img')->move($imagePath, $_FILES["img"]["name"]);
                     $response = array(
                         "status" => 'success',
-                        "url"    => asset($imagePath . $_FILES["img"]["name"]),
-                        "width"  => $width,
+                        "url" => asset($imagePath . $_FILES["img"]["name"]),
+                        "width" => $width,
                         "height" => $height
                     );
                 }
             }
             else {
                 $response = array(
-                    "status"  => 'error',
+                    "status" => 'error',
                     "message" => 'something went wrong, most likely file is to large for upload. check upload_max_filesize, post_max_size and memory_limit in you php.ini',
                 );
             }
@@ -261,7 +255,7 @@ class EventosCliente extends BaseCliente
         }
     }
 
-    public function cropImage (Request $request)
+    public function cropImage(Request $request)
     {
         if ($request->ajax()) {
             $evento_id = $request->get('evento_id');

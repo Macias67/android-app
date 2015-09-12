@@ -9,8 +9,8 @@ use App\Http\Models\Cliente\ClienteDetalles;
 use App\Http\Models\Cliente\ClienteHorarios;
 use App\Http\Models\Cliente\ClienteRedesSociales;
 use App\Http\Requests;
+use App\Http\Requests\Cliente\CreateCliente;
 use App\Http\Requests\Cliente\EditCliente;
-use App\Http\Requests\CreateCliente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -20,7 +20,7 @@ class NegociosCliente extends BaseCliente
 {
     var $logoDefault = 'assets/admin/pages/media/profile/profile_user.jpg';
 
-    public function __construct ()
+    public function __construct()
     {
         parent::__construct();
         $this->data['activo_negocio'] = TRUE;
@@ -31,7 +31,7 @@ class NegociosCliente extends BaseCliente
      *
      * @return Response
      */
-    public function index ()
+    public function index()
     {
         $this->data['activo_negocio_index'] = TRUE;
 
@@ -43,22 +43,22 @@ class NegociosCliente extends BaseCliente
      *
      * @return Response
      */
-    public function create ()
+    public function create()
     {
         $this->data['param'] = [
-            'route'        => 'cliente.negocio.store',
-            'class'        => 'form-horizontal form-nuevo-cliente',
-            'role'         => 'form',
+            'route' => 'cliente.negocio.store',
+            'class' => 'form-horizontal form-nuevo-cliente',
+            'role' => 'form',
             'autocomplete' => 'off'
         ];
 
         $ciudades = Ciudades::get()->ToArray();
-        $options  = [];
+        $options = [];
         foreach ($ciudades as $index => $ciudad) {
             $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
         }
 
-        $categorias         = Categorias::all(['id', 'categoria'])->ToArray();
+        $categorias = Categorias::all(['id', 'categoria'])->ToArray();
         $options_categorias = ['' => ''];
         foreach ($categorias as $categoria) {
             $options_categorias[$categoria['id']] = $categoria['categoria'];
@@ -66,7 +66,7 @@ class NegociosCliente extends BaseCliente
 
         $this->data['options_categorias'] = $options_categorias;
 
-        $this->data['options_ciudades']     = $options;
+        $this->data['options_ciudades'] = $options;
         $this->data['activo_negocio_nuevo'] = TRUE;
 
         return $this->view('cliente.negocios.form-nuevo');
@@ -76,10 +76,9 @@ class NegociosCliente extends BaseCliente
      * Store a newly created resource in storage.
      *
      * @param CreateCliente $request
-     *
      * @return Response
      */
-    public function store (CreateCliente $request)
+    public function store(CreateCliente $request)
     {
         if ($request->ajax() && $request->wantsJson()) {
             $cliente = new Cliente;
@@ -109,18 +108,18 @@ class NegociosCliente extends BaseCliente
                 $cliente->redesSociales()->save($redes_sociales);
 
                 $response = [
-                    'exito'  => TRUE,
+                    'exito' => TRUE,
                     'titulo' => 'Cliente registrado',
-                    'texto'  => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
-                    'url'    => route('negocios-cliente')
+                    'texto' => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
+                    'url' => route('negocios-cliente')
                 ];
             }
             else {
                 $response = [
-                    'exito'  => FALSE,
+                    'exito' => FALSE,
                     'titulo' => 'No se registró',
-                    'texto'  => 'Parece que no hubo registro en la BD',
-                    'url'    => NULL
+                    'texto' => 'Parece que no hubo registro en la BD',
+                    'url' => NULL
                 ];
             }
 
@@ -132,20 +131,20 @@ class NegociosCliente extends BaseCliente
      * Display the specified resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @param  int                     $id
+     * @param  int $id
      * @param                          $accion
      *
      * @return \App\Http\Controllers\Cliente\Response
      */
-    public function show (Request $request, $id, $accion = NULL)
+    public function show(Request $request, $id, $accion = NULL)
     {
         if (!is_null($cliente = Cliente::find($id))) {
 
             if ($this->infoPropietario->id == $cliente->propietario->id) {
 
-                $this->data['logo']               = $this->_getLogo($id);
-                $this->data['categoria']          = $cliente->subcategorias->first()->subcategoria;
-                $this->data['cliente']            = $cliente;
+                $this->data['logo'] = $this->_getLogo($id);
+                $this->data['categoria'] = $cliente->subcategorias->first()->subcategoria;
+                $this->data['cliente'] = $cliente;
                 $this->data['current_cliente_id'] = $id;
 
                 switch ($accion) {
@@ -155,40 +154,40 @@ class NegociosCliente extends BaseCliente
                     case 'settings':
 
                         $this->data['formprincipal'] = [
-                            'route'        => ['cliente.negocio.update', 'principal'],
-                            'class'        => 'form-horizontal form-edita-cliente',
-                            'role'         => 'form',
+                            'route' => ['cliente.negocio.update', 'principal'],
+                            'class' => 'form-horizontal form-edita-cliente',
+                            'role' => 'form',
                             'autocomplete' => 'off'
                         ];
 
                         $this->data['formadicional'] = [
-                            'route'        => ['cliente.negocio.update', 'adicional'],
-                            'class'        => 'form-horizontal form-edita-cliente-detalles',
-                            'role'         => 'form',
+                            'route' => ['cliente.negocio.update', 'adicional'],
+                            'class' => 'form-horizontal form-edita-cliente-detalles',
+                            'role' => 'form',
                             'autocomplete' => 'off'
                         ];
 
                         $this->data['formredessociales'] = [
-                            'route'        => ['cliente.negocio.update', 'redessociales'],
-                            'class'        => 'form-horizontal form-edita-cliente-redes-sociales',
-                            'role'         => 'form',
+                            'route' => ['cliente.negocio.update', 'redessociales'],
+                            'class' => 'form-horizontal form-edita-cliente-redes-sociales',
+                            'role' => 'form',
                             'autocomplete' => 'off'
                         ];
 
                         $this->data['formhorarios'] = [
-                            'route'        => ['cliente.negocio.update', 'horarios'],
-                            'class'        => 'form-horizontal form-edita-cliente-horarios',
-                            'role'         => 'form',
+                            'route' => ['cliente.negocio.update', 'horarios'],
+                            'class' => 'form-horizontal form-edita-cliente-horarios',
+                            'role' => 'form',
                             'autocomplete' => 'off'
                         ];
 
                         $ciudades = Ciudades::get()->ToArray();
-                        $options  = [];
+                        $options = [];
                         foreach ($ciudades as $index => $ciudad) {
                             $options[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
                         }
 
-                        $categorias         = Categorias::all(['id', 'categoria'])->ToArray();
+                        $categorias = Categorias::all(['id', 'categoria'])->ToArray();
                         $options_categorias = ['' => ''];
                         foreach ($categorias as $categoria) {
                             $options_categorias[$categoria['id']] = $categoria['categoria'];
@@ -196,43 +195,43 @@ class NegociosCliente extends BaseCliente
 
                         for ($i = 0; $i < 3; $i++) {
                             if (array_key_exists($i, $cliente->subcategorias->toArray())) {
-                                $cl_categorias[$i]['categoria']    = $cliente->subcategorias[$i]->categoria->id;
+                                $cl_categorias[$i]['categoria'] = $cliente->subcategorias[$i]->categoria->id;
                                 $cl_categorias[$i]['subcategoria'] = $cliente->subcategorias[$i]->id;
                             }
                             else {
-                                $cl_categorias[$i]['categoria']    = NULL;
+                                $cl_categorias[$i]['categoria'] = NULL;
                                 $cl_categorias[$i]['subcategoria'] = NULL;
                             }
                         }
 
                         $grupos = ClienteHorarios::grupoId()
-                            ->where('cliente_id' , $id)
-                            ->orderBy('id')
-                            ->get();
+                                                 ->where('cliente_id', $id)
+                                                 ->orderBy('id')
+                                                 ->get();
                         $horarios = [];
-                        if(count($grupos) > 0) {
-                            foreach($grupos as $grupo) {
+                        if (count($grupos) > 0) {
+                            foreach ($grupos as $grupo) {
                                 $dias = ClienteHorarios::where('grupo_id', $grupo->grupo_id)->get();
 
                                 $str_dias = '';
-                                foreach($dias as $dia) {
-                                    $str_dias .= mb_substr($dia->dia_semana, 0, 3).', ';
+                                foreach ($dias as $dia) {
+                                    $str_dias .= mb_substr($dia->dia_semana, 0, 3) . ', ';
                                 }
-                                $str_dias =  trim($str_dias, ", ");
+                                $str_dias = trim($str_dias, ", ");
 
                                 array_push($horarios, [
                                     'grupo_id' => $grupo->grupo_id,
-                                    'dias'     =>  $str_dias,
-                                    'horario'  => date('h:i a', strtotime($dias[0]->hora_abre)) . ' a ' . date('h:i a', strtotime($dias[0]->hora_cierra))
+                                    'dias' => $str_dias,
+                                    'horario' => date('h:i a', strtotime($dias[0]->hora_abre)) . ' a ' . date('h:i a', strtotime($dias[0]->hora_cierra))
                                 ]);
                             }
                         }
 
 
                         $this->data['options_categorias'] = $options_categorias;
-                        $this->data['options_ciudades']   = $options;
-                        $this->data['cl_categorias']      = $cl_categorias;
-                        $this->data['horarios']      = $horarios;
+                        $this->data['options_ciudades'] = $options;
+                        $this->data['cl_categorias'] = $cl_categorias;
+                        $this->data['horarios'] = $horarios;
 
                         return $this->view('cliente.negocios.perfil.settings');
                         break;
@@ -255,7 +254,7 @@ class NegociosCliente extends BaseCliente
      *
      * @return Response
      */
-    public function edit ($id)
+    public function edit($id)
     {
         //
     }
@@ -269,70 +268,70 @@ class NegociosCliente extends BaseCliente
      *
      * @return \App\Http\Controllers\Cliente\Response
      */
-    public function update (EditCliente $request, $accion)
+    public function update(EditCliente $request, $accion)
     {
         if ($request->ajax() && $request->wantsJson()) {
             if (!is_null($cliente = Cliente::find($request->get('id')))) {
                 if ($this->infoPropietario->id == $cliente->propietario->id) {
 
                     $save = FALSE;
-                    switch($accion) {
+                    switch ($accion) {
                         case 'principal':
                             $cliente->preparaDatos($request);
                             $save = $cliente->save();
 
                             $response = [
-                                'exito'  => TRUE,
+                                'exito' => TRUE,
                                 'titulo' => 'Cliente actualizado',
-                                'texto'  => '<b>' . $cliente->nombre . '</b> se ha actualizado.',
-                                'url'    => route('negocios-cliente')
+                                'texto' => '<b>' . $cliente->nombre . '</b> se ha actualizado.',
+                                'url' => route('negocios-cliente')
                             ];
                             break;
                         case 'adicional':
                             $cliente->detalles->preparaDatos($request);
-                            $save =  $cliente->detalles->save();
+                            $save = $cliente->detalles->save();
 
                             $response = [
-                                'exito'  => TRUE,
+                                'exito' => TRUE,
                                 'titulo' => 'Información adicional actualizada',
-                                'texto'  => 'Se ha actualizado la información adicional del negocio',
-                                'url'    => route('negocios-cliente')
+                                'texto' => 'Se ha actualizado la información adicional del negocio',
+                                'url' => route('negocios-cliente')
                             ];
                             break;
                         case 'redessociales':
                             $cliente->redesSociales->preparaDatos($request);
-                            $save =  $cliente->redesSociales->save();
+                            $save = $cliente->redesSociales->save();
 
                             $response = [
-                                'exito'  => TRUE,
+                                'exito' => TRUE,
                                 'titulo' => 'Redes Sociales actualizadas',
-                                'texto'  => 'Se ha actualizado las redes sociales del negocio',
-                                'url'    => route('negocios-cliente')
+                                'texto' => 'Se ha actualizado las redes sociales del negocio',
+                                'url' => route('negocios-cliente')
                             ];
                             break;
                         case 'horarios':
                             $horarios = new ClienteHorarios();
-                            $data     = $horarios->preparaDatos($request);
-                            $save     = $horarios->insert($data);
+                            $data = $horarios->preparaDatos($request);
+                            $save = $horarios->insert($data);
 
-                            if($save) {
+                            if ($save) {
                                 $dias = $data;
                                 $str_dias = '';
-                                foreach($dias as $dia) {
-                                    $str_dias .= mb_substr($dia['dia_semana'], 0, 3).', ';
+                                foreach ($dias as $dia) {
+                                    $str_dias .= mb_substr($dia['dia_semana'], 0, 3) . ', ';
                                 }
-                                $str_dias =  trim($str_dias, ", ");
+                                $str_dias = trim($str_dias, ", ");
                                 $horas = date('h:i a', strtotime($dias[0]['hora_abre'])) . ' a ' . date('h:i a', strtotime($dias[0]['hora_cierra']));
                             }
 
                             $response = [
-                                'exito'  => $save,
+                                'exito' => $save,
                                 'titulo' => 'Nuevo horario añadido',
-                                'texto'  => 'Se añadio nuevo grupo de horario al negocio',
-                                'url'    => route('negocios-cliente'),
+                                'texto' => 'Se añadio nuevo grupo de horario al negocio',
+                                'url' => route('negocios-cliente'),
                                 'extras' => [
-                                    'cliente_id' =>$cliente->id,
-                                    'grupo_id' =>$dias[0]['grupo_id'],
+                                    'cliente_id' => $cliente->id,
+                                    'grupo_id' => $dias[0]['grupo_id'],
                                     'dias' => $str_dias,
                                     'horas' => $horas,
                                     'delete_url' => route('cliente.negocio.destroy.horario')
@@ -341,16 +340,14 @@ class NegociosCliente extends BaseCliente
                             break;
                     }
 
-
                     if (!$save) {
                         $response = [
-                            'exito'  => FALSE,
+                            'exito' => FALSE,
                             'titulo' => 'No se actualizó',
-                            'texto'  => 'Parece que no hubo cambios en la BD',
-                            'url'    => NULL
+                            'texto' => 'Parece que no hubo cambios en la BD',
+                            'url' => NULL
                         ];
                     }
-
                     return $this->responseJSON($response);
                 }
                 else {
@@ -370,17 +367,22 @@ class NegociosCliente extends BaseCliente
      *
      * @return Response
      */
-    public function destroy ($id)
+    public function destroy($id)
     {
         //
     }
 
-    public function destroyGrupoHorario(Request $request) {
+    public function destroyGrupoHorario(Request $request)
+    {
         $id = $request->get('id');
         $grupoid = $request->get('grupoid');
-        if(!is_null($horarios = ClienteHorarios::where('grupo_id', $grupoid)->where('cliente_id', $id)->get(['id'])->toArray())) {
+        if (!is_null($horarios = ClienteHorarios::where('grupo_id', $grupoid)
+            ->where('cliente_id', $id)
+            ->get(['id'])
+            ->toArray())
+        ) {
             $ids = [];
-            foreach($horarios as $horario) {
+            foreach ($horarios as $horario) {
                 array_push($ids, $horario['id']);
             }
             $exito = ClienteHorarios::destroy($ids);
@@ -394,14 +396,14 @@ class NegociosCliente extends BaseCliente
         ]);
     }
 
-    public function uploadImage (Request $request)
+    public function uploadImage(Request $request)
     {
         if ($request->ajax() && $request->file('img')) {
-            $cliente_id  = $request->get('cliente_id');
-            $imagePath   = "img/cliente/" . $cliente_id . "/logo/";
+            $cliente_id = $request->get('cliente_id');
+            $imagePath = "img/cliente/" . $cliente_id . "/logo/";
             $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
-            $temp        = explode(".", $_FILES["img"]["name"]);
-            $extension   = end($temp);
+            $temp = explode(".", $_FILES["img"]["name"]);
+            $extension = end($temp);
 
             if (!File::isDirectory($imagePath)) {
                 File::makeDirectory($imagePath, 0777, TRUE);
@@ -412,7 +414,7 @@ class NegociosCliente extends BaseCliente
 
             if (!File::isWritable($imagePath)) {
                 $response = Array(
-                    "status"  => 'error',
+                    "status" => 'error',
                     "message" => 'Can`t upload File; no write Access'
                 );
 
@@ -422,7 +424,7 @@ class NegociosCliente extends BaseCliente
             if (in_array($extension, $allowedExts)) {
                 if ($_FILES["img"]["error"] > 0) {
                     $response = array(
-                        "status"  => 'error',
+                        "status" => 'error',
                         "message" => 'ERROR Return Code: ' . $_FILES["img"]["error"],
                     );
                 }
@@ -432,15 +434,15 @@ class NegociosCliente extends BaseCliente
                     $request->file('img')->move($imagePath, $_FILES["img"]["name"]);
                     $response = array(
                         "status" => 'success',
-                        "url"    => asset($imagePath . $_FILES["img"]["name"]),
-                        "width"  => $width,
+                        "url" => asset($imagePath . $_FILES["img"]["name"]),
+                        "width" => $width,
                         "height" => $height
                     );
                 }
             }
             else {
                 $response = array(
-                    "status"  => 'error',
+                    "status" => 'error',
                     "message" => 'something went wrong, most likely file is to large for upload. check upload_max_filesize, post_max_size and memory_limit in you php.ini',
                 );
             }
@@ -449,11 +451,11 @@ class NegociosCliente extends BaseCliente
         }
     }
 
-    public function cropImage (Request $request)
+    public function cropImage(Request $request)
     {
         if ($request->ajax()) {
             $cliente_id = $request->get('cliente_id');
-            $imgUrl     = $request->get('imgUrl');
+            $imgUrl = $request->get('imgUrl');
             // original sizes
             $imgInitW = $request->get('imgInitW');
             $imgInitH = $request->get('imgInitH');
@@ -476,24 +478,24 @@ class NegociosCliente extends BaseCliente
 
             unlink("img/cliente/" . $cliente_id . "/logo/" . pathinfo($imgUrl, PATHINFO_BASENAME));
 
-            $dirPath         = "img/cliente/" . $cliente_id . "/logo/";
-            $filename        = strtolower(str_random(15)) . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
-            $createFolders   = TRUE;
+            $dirPath = "img/cliente/" . $cliente_id . "/logo/";
+            $filename = strtolower(str_random(15)) . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
+            $createFolders = TRUE;
             $backgroundColor = NULL; // transparent, only for PNG (otherwise it will be white if set null)
-            $imageQuality    = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
+            $imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
 
             $layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
 
             $response = [
                 "status" => 'success',
-                "url"    => asset($dirPath . $filename)
+                "url" => asset($dirPath . $filename)
             ];
 
             return new JsonResponse($response);
         }
     }
 
-    private function  _getLogo ($id)
+    private function  _getLogo($id)
     {
         $files = File::files('img/cliente/' . $id . '/logo');
         $count = count($files);

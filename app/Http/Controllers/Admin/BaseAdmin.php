@@ -10,9 +10,9 @@ class BaseAdmin extends Controller
 {
     protected $infoAdmin;
 
-    public function __construct ()
+    public function __construct()
     {
-        $this->infoAdmin         = Auth::admin()->user();
+        $this->infoAdmin = Auth::admin()->user();
         $this->data['user'] = $this->infoAdmin;
     }
 }

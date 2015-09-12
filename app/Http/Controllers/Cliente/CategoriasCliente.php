@@ -35,16 +35,16 @@ class CategoriasCliente extends BaseCliente
      */
     public function create()
     {
-        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id',  'nombre'])->ToArray();
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre'])->ToArray();
         $optionsClientes = [];
         foreach ($clientes as $index => $cliente) {
             $optionsClientes[$cliente['id']] = $cliente['nombre'];
         }
 
         $categorias = Categorias::where('cliente_id', $this->infoPropietario->id)
-            ->orderBy('categoria', 'ASC')
-            ->get(['id', 'categoria'])
-            ->toArray();
+                                ->orderBy('categoria', 'ASC')
+                                ->get(['id', 'categoria'])
+                                ->toArray();
         $optionsCategorias = array();
         foreach ($categorias as $key => $categoria) {
             $optionsCategorias[$categoria['id']] = $categoria['categoria'];
@@ -56,12 +56,12 @@ class CategoriasCliente extends BaseCliente
         $this->data['negocios'] = $optionsClientes;
         $this->data['categorias'] = $optionsCategorias;
         $this->data['llaves'] = $llaves;
-        $this->data['array_form'] = array(
-            'url'          => route('cliente.categoria.store'),
-            'role'         => 'form',
-            'id'           => 'form_categoria',
+        $this->data['array_form'] = [
+            'url' => route('cliente.categoria.store'),
+            'role' => 'form',
+            'id' => 'form_categoria',
             'autocomplete' => 'off'
-        );
+        ];
 
         return $this->view('cliente.categorias.form-nuevo');
     }
@@ -69,12 +69,12 @@ class CategoriasCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return Response
      */
     public function store(Request $request)
     {
-        if($request->ajax() &&  $request->wantsJson()){
+        if ($request->ajax() && $request->wantsJson()) {
             $categoria = new Categorias;
             $categoria->id = $categoria->getUniqueID();
             $categoria->cliente_id = $request->get('cliente_id');
@@ -82,17 +82,18 @@ class CategoriasCliente extends BaseCliente
 
             if ($categoria->save()) {
                 $response = [
-                    'exito'  => TRUE,
+                    'exito' => TRUE,
                     'titulo' => 'Subcategoria añadida',
-                    'texto'  => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
-                    'url'    => ''
+                    'texto' => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
+                    'url' => ''
                 ];
-            } else {
+            }
+            else {
                 $response = [
-                    'exito'  => FALSE,
+                    'exito' => FALSE,
                     'titulo' => 'Ups...',
-                    'texto'  => 'No se guardo el registro en la base de datos',
-                    'url'    => NULL,
+                    'texto' => 'No se guardo el registro en la base de datos',
+                    'url' => NULL,
                     'status' => 422
                 ];
             }
@@ -104,7 +105,7 @@ class CategoriasCliente extends BaseCliente
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function show($id)
@@ -115,7 +116,7 @@ class CategoriasCliente extends BaseCliente
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function edit($id)
@@ -126,8 +127,8 @@ class CategoriasCliente extends BaseCliente
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -138,7 +139,7 @@ class CategoriasCliente extends BaseCliente
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
@@ -201,16 +202,14 @@ class CategoriasCliente extends BaseCliente
         return new JsonResponse($data, 200);
     }
 
-    public function select (Request $request, $id)
+    public function select(Request $request, $id)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             $categorias = Categorias::where('cliente_id', $id)->get(['id', 'categoria'])->ToArray();
             $options = '<option value=""></option>';
-
-            foreach($categorias as $categoria){
-                $options .= '<option value="'.$categoria['id'].'">'.$categoria['categoria'].'</option>';
+            foreach ($categorias as $categoria) {
+                $options .= '<option value="' . $categoria['id'] . '">' . $categoria['categoria'] . '</option>';
             }
-
             return $options;
         }
     }

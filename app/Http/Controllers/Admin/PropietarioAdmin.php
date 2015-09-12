@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class PropietarioAdmin extends BaseAdmin
 {
-    public function __construct ()
+    public function __construct()
     {
         parent::__construct();
         $this->data['activo_propietarios'] = TRUE;
@@ -20,7 +20,7 @@ class PropietarioAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function index ()
+    public function index()
     {
         return $this->view('admin.propietarios.index');
     }
@@ -30,12 +30,12 @@ class PropietarioAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function create ()
+    public function create()
     {
         $this->data['param'] = [
-            'route'        => 'adm.propietario.store',
-            'class'        => 'form-horizontal form-nuevo-propietario',
-            'role'         => 'form',
+            'route' => 'adm.propietario.store',
+            'class' => 'form-horizontal form-nuevo-propietario',
+            'role' => 'form',
             'autocomplete' => 'off'
         ];
 
@@ -47,7 +47,7 @@ class PropietarioAdmin extends BaseAdmin
      *
      * @return mixed
      */
-    public function store (CreatePropietario $request)
+    public function store(CreatePropietario $request)
     {
         if ($request->ajax() && $request->wantsJson()) {
             $propietario = new Propietario;
@@ -55,20 +55,20 @@ class PropietarioAdmin extends BaseAdmin
 
             if ($propietario->save()) {
                 $response = [
-                    'exito'  => TRUE,
+                    'exito' => TRUE,
                     'titulo' => 'Propietario registrado',
-                    'texto'  => $propietario->NombreCompleto() . ' se registro como propietario',
-                    'url'    => route('propietarios'),
-                    'extras' =>['addCliente' => route('adm.nuevo.cliente')]
+                    'texto' => $propietario->NombreCompleto() . ' se registro como propietario',
+                    'url' => route('propietarios'),
+                    'extras' => ['addCliente' => route('adm.nuevo.cliente')]
                 ];
 
             }
             else {
                 $response = [
-                    'exito'  => FALSE,
+                    'exito' => FALSE,
                     'titulo' => 'No se registró',
-                    'texto'  => 'Parece que no hubo registro en la BD',
-                    'url'    => NULL
+                    'texto' => 'Parece que no hubo registro en la BD',
+                    'url' => NULL
                 ];
             }
             return $this->responseJSON($response);
@@ -82,7 +82,7 @@ class PropietarioAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function show ($id)
+    public function show($id)
     {
         //
     }
@@ -94,7 +94,7 @@ class PropietarioAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function edit ($id)
+    public function edit($id)
     {
         //
     }
@@ -103,11 +103,11 @@ class PropietarioAdmin extends BaseAdmin
      * Update the specified resource in storage.
      *
      * @param  Request $request
-     * @param  int     $id
+     * @param  int $id
      *
      * @return Response
      */
-    public function update (Request $request, $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -119,7 +119,7 @@ class PropietarioAdmin extends BaseAdmin
      *
      * @return Response
      */
-    public function destroy ($id)
+    public function destroy($id)
     {
         //
     }
@@ -129,28 +129,28 @@ class PropietarioAdmin extends BaseAdmin
      *
      * @return \App\Http\Controllers\Admin\JsonResponse
      */
-    public function jsonSelect (Request $request)
+    public function jsonSelect(Request $request)
     {
         if ($request->ajax() && $request->wantsJson()) {
             $propietarios = Propietario::get()->ToArray();
-            $res          = [];
+            $res = [];
             if (!empty($propietarios)) {
                 foreach ($propietarios as $propietario) {
                     $text =
                         $propietario['nombre'] . ' ' . $propietario['apellido'] . ' (' . $propietario['email'] . ')';
-                    array_push($res, ['id' => (int) $propietario['id'], 'text' => $text]);
+                    array_push($res, ['id' => (int)$propietario['id'], 'text' => $text]);
                 }
             }
             return new JsonResponse($res, 200);
         }
     }
 
-    public function genPassword ()
+    public function genPassword()
     {
-        $cadena         = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        $cadena = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         $longitudCadena = strlen($cadena);
-        $pass          = "";
-        $longitudPass   = rand(7, 10);
+        $pass = "";
+        $longitudPass = rand(7, 10);
         for ($i = 1; $i <= $longitudPass; $i++) {
             $pos = rand(0, $longitudCadena - 1);
             $pass .= substr($cadena, $pos, 1);

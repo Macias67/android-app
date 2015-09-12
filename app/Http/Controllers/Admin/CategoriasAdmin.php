@@ -46,9 +46,9 @@ class CategoriasAdmin extends BaseAdmin
         $this->data['options'] = $options;
         $this->data['llaves'] = $llaves;
         $this->data['array_form'] = array(
-            'url'          => route('adm.categoria.store'),
-            'role'         => 'form',
-            'id'           => 'form_categoria',
+            'url' => route('adm.categoria.store'),
+            'role' => 'form',
+            'id' => 'form_categoria',
             'autocomplete' => 'off'
         );
         return $this->view('admin.categorias.form-nuevo');
@@ -62,24 +62,24 @@ class CategoriasAdmin extends BaseAdmin
      */
     public function store(Request $request)
     {
-        if($request->ajax() && $request->wantsJson()){
+        if ($request->ajax() && $request->wantsJson()) {
             $categoria = new Categorias();
             $categoria->categoria = mb_convert_case(trim(mb_strtolower($request->get('categoria'))), MB_CASE_TITLE, "UTF-8");
 
             if ($categoria->save()) {
                 $response = [
-                    'exito'  => TRUE,
+                    'exito' => TRUE,
                     'titulo' => 'Categoria añadida',
-                    'texto'  => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
-                    'url'    => ''
+                    'texto' => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
+                    'url' => ''
                 ];
             }
             else {
                 $response = [
-                    'exito'  => FALSE,
+                    'exito' => FALSE,
                     'titulo' => 'Ups...',
-                    'texto'  => 'No se guardo el registro en la base de datos',
-                    'url'    => NULL,
+                    'texto' => 'No se guardo el registro en la base de datos',
+                    'url' => NULL,
                     'status' => 422
                 ];
             }

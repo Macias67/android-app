@@ -32,7 +32,7 @@ abstract class Controller extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    protected function view ($vista)
+    protected function view($vista)
     {
         $contents = View::make($vista, $this->data);
         $response = Response::make($contents, 200);
@@ -48,13 +48,13 @@ abstract class Controller extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function responseJSON ($data)
+    protected function responseJSON($data)
     {
         $response = [
-            'exito'  => $data['exito'],
+            'exito' => $data['exito'],
             'titulo' => $data['titulo'],
-            'texto'  => $data['texto'],
-            'url'    => $data['url']
+            'texto' => $data['texto'],
+            'url' => $data['url']
         ];
 
         if (isset($data['errores'])) {

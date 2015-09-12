@@ -4,6 +4,7 @@ namespace App\Http\Requests\Cliente;
 
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class EditCliente
@@ -18,12 +19,13 @@ class EditCliente extends Request
      *
      * @return bool
      */
-    public function authorize ()
+    public function authorize()
     {
-        if (!is_null($cliente = Cliente::find($this->get('id')))) {
+        $id_cliente = $this->get('id');
+        if (!is_null($cliente = Cliente::find($id_cliente))) {
             $propietario_id = $this->get('propietario_id');
-
-            return ($cliente->propietario->id == $propietario_id);
+            $auth_id = Auth::propietario()->user()->id;
+            return ($auth_id == $propietario_id) && ($cliente->propietario->id == $propietario_id);
         }
         else {
             return FALSE;
@@ -35,7 +37,7 @@ class EditCliente extends Request
      *
      * @return array
      */
-    public function rules ()
+    public function rules()
     {
         $tipo = $this->segment(4);
 
@@ -56,58 +58,58 @@ class EditCliente extends Request
 
     }
 
-    public function getRulesCliente ()
+    public function getRulesCliente()
     {
         return [
-            'id'             => 'required|exists:cl_clientes,id|alpha_num|size:16',
-            'nombre'         => 'required|max:45|unique:cl_clientes,nombre,' . $this->get('id'),
-            'calle'          => 'required|max:45',
-            'numero'         => 'required|max:5',
-            'colonia'        => 'required|max:45',
-            'codigo_postal'  => 'required|size:5',
-            'referencia'     => 'max:140',
-            'latitud'        => 'max:45',
-            'longitud'       => 'max:45',
-            'ciudad_id'      => 'exists:adm_ciudades,id|alpha_num|size:16',
+            'id' => 'required|exists:cl_clientes,id|alpha_num|size:16',
+            'nombre' => 'required|max:45|unique:cl_clientes,nombre,' . $this->get('id'),
+            'calle' => 'required|max:45',
+            'numero' => 'required|max:5',
+            'colonia' => 'required|max:45',
+            'codigo_postal' => 'required|size:5',
+            'referencia' => 'max:140',
+            'latitud' => 'max:45',
+            'longitud' => 'max:45',
+            'ciudad_id' => 'exists:adm_ciudades,id|alpha_num|size:16',
             'propietario_id' => 'required|exists:cl_clientes,propietario_id|alpha_num|size:16'
         ];
     }
 
-    public function getRulesClienteDetalles ()
+    public function getRulesClienteDetalles()
     {
         return [
-            'id'             => 'required|exists:cl_clientes,id|alpha_num|size:16',
-            'telefono1'      => 'max:14',
-            'telefono2'      => 'max:14',
-            'telefono3'      => 'max:14',
-            'descripcion'    => 'max:200',
-            'slogan'         => 'max:140',
-            'website'        => 'max:45|url',
-            'email_negocio'  => 'max:45|email',
+            'id' => 'required|exists:cl_clientes,id|alpha_num|size:16',
+            'telefono1' => 'max:14',
+            'telefono2' => 'max:14',
+            'telefono3' => 'max:14',
+            'descripcion' => 'max:200',
+            'slogan' => 'max:140',
+            'website' => 'max:45|url',
+            'email_negocio' => 'max:45|email',
             'propietario_id' => 'required|exists:cl_clientes,propietario_id|alpha_num|size:16'
         ];
     }
 
-    public function getRulesClienteRedesSociales ()
+    public function getRulesClienteRedesSociales()
     {
         return [
-            'id'             => 'required|exists:cl_clientes,id|alpha_num|size:16',
-            'facebook'        => 'max:100|url',
-            'twitter'        => 'max:100|url',
-            'instagram'        => 'max:100|url',
-            'youtube'        => 'max:100|url',
-            'googleplus'        => 'max:100|url',
+            'id' => 'required|exists:cl_clientes,id|alpha_num|size:16',
+            'facebook' => 'max:100|url',
+            'twitter' => 'max:100|url',
+            'instagram' => 'max:100|url',
+            'youtube' => 'max:100|url',
+            'googleplus' => 'max:100|url',
             'propietario_id' => 'required|exists:cl_clientes,propietario_id|alpha_num|size:16'
         ];
     }
 
-    public function getRulesClienteHorarios ()
+    public function getRulesClienteHorarios()
     {
         return [
-            'id'             => 'required|exists:cl_clientes,id|alpha_num|size:16',
-            'dias'        => 'required|array',
-            'abre'        => 'required|date_format:H:i',
-            'cierra'        => 'required|date_format:H:i',
+            'id' => 'required|exists:cl_clientes,id|alpha_num|size:16',
+            'dias' => 'required|array',
+            'abre' => 'required|date_format:H:i',
+            'cierra' => 'required|date_format:H:i',
             'propietario_id' => 'required|exists:cl_clientes,propietario_id|alpha_num|size:16'
         ];
     }
