@@ -1,3 +1,4 @@
+
 @extends('cliente.menu')
 
 {{-- Adjuntar los links css de los plugins requeridos

@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controlador para gestionar las categorias
+ * que el cliente registre.
+ *
+ * @package App\Http\Controllers\Cliente
+ * @author Luis Macias
+ */
 class CategoriasCliente extends BaseCliente
 {
     public function __construct()
@@ -147,6 +154,14 @@ class CategoriasCliente extends BaseCliente
         //
     }
 
+    /**
+     * Uso de datable en la sección de
+     * nueva categoría
+     *
+     * @param Request $request
+     * @param $cliente_id
+     * @return JsonResponse
+     */
     public function datatable(Request $request, $cliente_id)
     {
         $draw = $request->get('draw');
@@ -202,6 +217,14 @@ class CategoriasCliente extends BaseCliente
         return new JsonResponse($data, 200);
     }
 
+    /**
+     * Metodo para armar las opciones del select
+     * segun el cliente seleccionado
+     *
+     * @param Request $request
+     * @param $id
+     * @return string
+     */
     public function select(Request $request, $id)
     {
         if ($request->ajax()) {

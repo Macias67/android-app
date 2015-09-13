@@ -7,10 +7,23 @@ use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Clase abstracta para todos los controladores del Cliente
+ *
+ * @package App\Http\Controllers\Cliente
+ * @author Luis Macias
+ */
 class BaseCliente extends Controller
 {
+    /**
+     * @var Object Modelo con la infromación del propietario logueado
+     */
     protected $infoPropietario;
 
+    /**
+     * @var array Array de modelos con los clientes registrados por el
+     * propietario logueado.
+     */
     protected $clientesRegistrados = [];
 
     public function __construct()

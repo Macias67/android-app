@@ -8,7 +8,6 @@
 
 namespace App\Http\Models\Traits;
 
-
 use Hashids\Hashids;
 
 trait UniqueID
