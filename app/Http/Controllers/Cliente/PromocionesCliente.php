@@ -8,7 +8,7 @@ use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Promociones;
 use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests;
-use App\Http\Requests\CreatePromociones;
+use App\Http\Requests\Promociones\CreatePromociones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -85,7 +85,11 @@ class PromocionesCliente extends BaseCliente
         return $this->view('cliente.promociones.form-nuevo');
     }
 
-
+    /**
+     * @param \App\Http\Requests\Promociones\CreatePromociones $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(CreatePromociones $request)
     {
         if ($request->ajax() && $request->wantsJson()) {

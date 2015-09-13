@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Models\Cliente\Cliente;
+use Illuminate\Support\Facades\Auth;
+
 class CreateProducto extends Request
 {
     /**
@@ -11,7 +14,13 @@ class CreateProducto extends Request
      */
     public function authorize ()
     {
-        return TRUE;
+        $cliente_id = $this->get('cliente_id');
+        if (!is_null($cliente = Cliente::find($cliente_id))) {
+            return ($cliente->propietario->id == Auth::propietario()->user()->id);
+        }
+        else {
+            return FALSE;
+        }
     }
 
     /**

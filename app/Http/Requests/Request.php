@@ -24,8 +24,8 @@ abstract class Request extends FormRequest
             }
             $data = [
                 'exito'   => FALSE,
-                'titulo' => 'Ups...',
-                'texto' => 'Hay problemas con los datos',
+                'titulo'  => 'Ups...',
+                'texto'   => 'Hay problemas con los datos',
                 'url'     => '',
                 'errores' => $errors
             ];
@@ -64,5 +64,26 @@ abstract class Request extends FormRequest
                 $this->formatErrors($validator)
             )
         );
+    }
+
+    /**
+     * Get the response for a forbidden operation.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function forbiddenResponse ()
+    {
+        if ($this->ajax() && $this->wantsJson()) {
+            $data = [
+                'exito'  => FALSE,
+                'titulo' => 'No autorizado',
+                'texto'  => 'No tienes permiso de hacer esta acción.'
+            ];
+
+            return new JsonResponse($data, 403);
+        }
+        else {
+            return new Response('No tienes permiso de hacer esta acción.', 403);
+        }
     }
 }

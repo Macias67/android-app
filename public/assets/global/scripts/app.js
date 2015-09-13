@@ -34,6 +34,17 @@ var App = function () {
                     App.removeLoader(500);
                 },
                 statusCode: {
+                    403: function (jqXHR, textStatus, errorst) {
+                        var data = jqXHR.responseJSON;
+                        var msg = '<h5><b>' + data.texto + '</b></h5>';
+                        swal({
+                            title: data.titulo,
+                            text: msg,
+                            type: "error",
+                            animation: 'slide-from-top',
+                            html: true
+                        });
+                    },
                     422: function (jqXHR, textStatus, errorst) {
                         var data = jqXHR.responseJSON;
                         var msg = '<h5><b>' + data.texto + '</b></h5>';

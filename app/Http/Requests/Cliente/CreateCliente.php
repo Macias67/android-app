@@ -16,7 +16,6 @@ class CreateCliente extends Request
     public function authorize()
     {
         $propietario_id = $this->get('propietario_id');
-
         if (!is_null($propietario = Propietario::find($propietario_id))) {
             return ($propietario->id == Auth::propietario()->user()->id);
         }

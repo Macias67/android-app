@@ -252,7 +252,6 @@ var NuevoServicio = function(){
             submitHandler: function (form) {
                 var url  = $(form).attr('action');
                 var data = $(form).serialize();
-                console.log(data);
                 var success = function (data) {
                     App.removeLoader(500, function () {
                         swal({

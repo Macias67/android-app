@@ -8,7 +8,7 @@ use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Propietario;
 use App\Http\Models\Cliente\Servicios;
 use App\Http\Requests;
-use App\Http\Requests\CreateServicio;
+use App\Http\Requests\Servicios\CreateServicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -88,7 +88,8 @@ class ServiciosCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\CreateServicio $request
+     * @param \App\Http\Requests\Servicios\CreateServicio $request
+     *
      * @return \App\Http\Controllers\Cliente\Response
      */
     public function store(CreateServicio $request)

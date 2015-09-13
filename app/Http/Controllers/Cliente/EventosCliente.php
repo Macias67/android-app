@@ -7,7 +7,7 @@ use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Evento;
 use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests;
-use App\Http\Requests\CreateEvento;
+use App\Http\Requests\Eventos\CreateEvento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -75,8 +75,7 @@ class EventosCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\CreateEvento $request
-     *
+     * @param \App\Http\Requests\Eventos\CreateEvento $request
      * @return \App\Http\Controllers\Cliente\Response $response
      */
     public function store(CreateEvento $request)

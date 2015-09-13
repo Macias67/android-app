@@ -1,6 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Eventos;
+
+use App\Http\Models\Cliente\Cliente;
+use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CreateEvento extends Request
 {
@@ -11,7 +15,13 @@ class CreateEvento extends Request
      */
     public function authorize()
     {
-        return TRUE;
+        $cliente_id = $this->get('cliente_id');
+        if (!is_null($cliente = Cliente::find($cliente_id))) {
+            return ($cliente->propietario->id == Auth::propietario()->user()->id);
+        }
+        else {
+            return FALSE;
+        }
     }
 
     /**
