@@ -4,8 +4,10 @@
 
 var EditaEvento = function () {
 
+    var latitud, longitud;
+
     var touchSpin = function () {
-        $("#precio").TouchSpin({
+        $("#costo").TouchSpin({
             buttondown_class: 'btn blue',
             buttonup_class: 'btn blue',
             min: 0,
@@ -16,7 +18,7 @@ var EditaEvento = function () {
             prefix: '$'
         });
 
-        $("#cantidad").TouchSpin({
+        $("#cupo").TouchSpin({
             buttondown_class: 'btn blue',
             buttonup_class:   'btn blue',
             min:              0,
@@ -48,7 +50,6 @@ var EditaEvento = function () {
         });
     }
 
-    //Nueva función para el cambio de latitud
     var mapGeocoding = function () {
 
         $('#calle_registrada').focus(function() {
@@ -152,8 +153,65 @@ var EditaEvento = function () {
                 handleAction();
             }
         });
-        handleAction();
 
+    }
+
+    var initMap = function () {
+        latitud  = $('input[name="latitud"]').val();
+        longitud = $('input[name="longitud"]').val();
+
+        map = new GMaps({
+            div:  '#gmap_geocoding',
+            lat:  latitud,
+            lng:  longitud,
+            zoom: 16
+        });
+    }
+
+    var setMarker = function () {
+
+        var inputLatitud  = $('input[name="latitud"]');
+        var inputLongitud = $('input[name="longitud"]');
+
+        GMaps.geocode({
+            location: {
+                lat: parseFloat(latitud),
+                lng: parseFloat(longitud)
+            },
+            callback: function (results, status) {
+                if (status == 'OK') {
+                    updateGeocodingAddress(results);
+                }
+            }
+        });
+
+        marker = map.addMarker({
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            lat:       latitud,
+            lng:       longitud,
+            //icon: 'http://wcdn1.dataknet.com/static/resources/icons/set94/be39f3b7.png',
+            drag:      function (e) {
+                inputLatitud.val(e.latLng.lat());
+                inputLongitud.val(e.latLng.lng());
+            },
+            dragend:   function (e) {
+                map.setCenter(e.latLng.lat(), e.latLng.lng());
+                GMaps.geocode({
+                    location: {
+                        lat: e.latLng.lat(),
+                        lng: e.latLng.lng()
+                    },
+                    callback: function (results, status) {
+                        if (status == 'OK') {
+                            updateGeocodingAddress(results);
+                            inputLatitud.val(e.latLng.lat());
+                            inputLongitud.val(e.latLng.lng());
+                        }
+                    }
+                });
+            }
+        });
     }
 
     var updateGeocodingAddress = function (results) {
@@ -175,78 +233,6 @@ var EditaEvento = function () {
         }
     }
 
-    /*var dateRange = function () {
-        moment.locale('es');
-        var formato = 'LLLL';
-        $('#reportrange').daterangepicker({
-                opens: 'left',
-                drops: 'down',
-                startDate:           moment(),
-                endDate:             moment().add(1, 'year'),
-                showDropdowns:       true,
-                showWeekNumbers:     true,
-                timePicker:          true,
-                timePickerIncrement: 1,
-                timePicker12Hour:    true,
-                ranges:              {
-                    'Hoy':        [moment(), moment()],
-                    'Mañana':    [moment(), moment().add(1, 'days')],
-                    '7 Días':  [moment(), moment().add(7, 'days')],
-                    'Un Mes': [moment(), moment().add(30, 'days')],
-                    '6 Meses':   [moment(), moment().add(6, 'month')],
-                    '1 Año':   [
-                        moment(),
-                        moment().add(1, 'year')
-                    ]
-                },
-                buttonClasses:       ['btn'],
-                applyClass:          'green',
-                cancelClass:         'default',
-                format:              'DD/MM/YYYY',
-                separator:           ' al ',
-                locale:              {
-                    applyLabel:       'Aplicar',
-                    cancelLabel:    'Cancelar',
-                    fromLabel:        'Desde',
-                    toLabel:          'a',
-                    customRangeLabel: 'Otro Rango',
-                    daysOfWeek:       ['D', 'L', 'M', 'I', 'J', 'V', 'S'],
-                    monthNames:       [
-                        'Enero',
-                        'Febrero',
-                        'Marzo',
-                        'Abril',
-                        'Mayo',
-                        'Junio',
-                        'Julio',
-                        'Agosto',
-                        'Septiembre',
-                        'Octubre',
-                        'Noviembre',
-                        'Diciembre'
-                    ],
-                    firstDay:         1
-                }
-            },
-            function (start, end) {
-                $('input[name="finicio"]').val(start.format(formato));
-                $('input[name="ffin"]').val(end.format(formato));
-
-                $('input[name="fecha_inicio"]').val(start.format("YYYY-MM-DD"));
-                $('input[name="hora_inicio"]').val(start.format("HH:mm:ss"));
-                $('input[name="fecha_termina"]').val(end.format("YYYY-MM-DD"));
-                $('input[name="hora_termina"]').val(end.format("HH:mm:ss"));
-            }
-        );
-        //Set the initial state of the picker label
-
-
-        $('input[name="fecha_inicio"]').val(moment().format("YYYY-MM-DD"));
-        $('input[name="hora_inicio"]').val(moment().format("HH:mm:ss"));
-        $('input[name="fecha_termina"]').val(moment().add(1, 'days').format("YYYY-MM-DD"));
-        $('input[name="hora_termina"]').val(moment().format("HH:mm:ss"));
-    }*/
-
     var dateRange = function () {
 
         var startDate = $('input[name="disp_inicio"]').val();
@@ -256,7 +242,7 @@ var EditaEvento = function () {
         var formato = 'LLLL';
         $('#reportrange').daterangepicker({
                 opens: 'left',
-                drops: 'up',
+                drop: 'down',
                 startDate:           moment(startDate),
                 endDate:             moment(endDate),
                 showDropdowns:       true,
@@ -442,6 +428,8 @@ var EditaEvento = function () {
             maxLenght();
             dateRange();
             handleForm();
+            initMap();
+            setMarker();
         }
     }
 }();

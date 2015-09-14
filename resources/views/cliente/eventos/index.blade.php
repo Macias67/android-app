@@ -83,7 +83,7 @@
                         <span class="caption-helper">Top 10 mas gustados.</span>
                     </div>
                     <div class="actions">
-                        <a href="javascript:;" class="btn btn-circle bg-green-jungle"><i class="fa fa-plus"></i></a>
+                        <a href="{{route('cliente.evento.create')}}" class="btn btn-circle bg-green-jungle hvr-grow"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -112,12 +112,13 @@
 
                                             <div class="col-md-6">
                                             <span class="label bg-red-thunderbird">
-                                                <i class="fa fa-heart"></i>
+                                                <i class="fa fa-heart faa-pulse animated-icon faa-fast"></i>
                                                 <b>457 les gusta</b>
                                             </span>
                                             </div>
                                             <div class="col-md-6">
-                                                <a href="{{route('cliente.evento.show', [$evento->id])}}" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</a>
+                                                <a href="{{route('cliente.evento.show', [$evento->id])}}" class="btn bg-green-jungle btn-xs pull-right faa-parent animated-icon-hover hvr-grow">
+                                                    <i class="icon-pencil faa-ring"></i> Editar</a>
                                             </div>
 
                                             <div class="clearfix"></div>

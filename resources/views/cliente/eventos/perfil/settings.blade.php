@@ -24,111 +24,104 @@
 							<!-- PERSONAL INFO TAB -->
 							<div class="tab-pane active" id="tab_principal">
 								{!! Form::open($param) !!}
-									<input type="hidden" name="cliente_id" value="{{$evento->cliente_id}}">
-									<input type="hidden" name="id" value="{{$evento->id}}">
+                                {!! Form::model($evento) !!}
+                                {!! Form::hidden('id') !!}
+                                {!! Form::hidden('cliente_id') !!}
 									<div class="col-md-6">
 										<!-- Nombre del evento -->
 										<div class="form-group">
-											<label class="col-md-3 control-label">Nombre<span class="required">*</span></label>
+											<label class="col-md-4 control-label">Nombre<span class="required">*</span></label>
 
-											<div class="col-md-9">
+											<div class="col-md-8">
 												<div class="input-icon">
 													<i class="fa fa-institution"></i>
-													<input type="text" class="form-control" name="nombre" placeholder="Nombre del evento" value="{{$evento->nombre}}">
+                                                    {!! Form::text('nombre', NULL, ['class' => 'form-control', 'placeholder' => 'Nombre del evento']) !!}
 												</div>
 											</div>
 										</div>
+
 										<!-- Slug -->
 										<div class="form-group">
-											<label class="col-md-3 control-label">Slug <span class="required">*</span></label>
+											<label class="col-md-4 control-label">Slug <span class="required">*</span></label>
 
-											<div class="col-md-9">
+											<div class="col-md-8">
 												<div class="input-icon">
 													<i class="fa fa-desktop"></i>
-													<input type="text" class="form-control" name="slug" placeholder="Slug" value="{{$evento->slug}}" readonly>
+                                                    {!! Form::text('slug', NULL, ['class' => 'form-control', 'placeholder' => 'Slug', 'readonly']) !!}
 												</div>
 											</div>
 										</div>
+
 										<!-- Descripción -->
 										<div class="form-group">
-											<label class="control-label col-md-3">Descripción <span class="required">*</span></label>
-											<div class="col-md-9">
-												<textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;">{{$evento->descripcion}}</textarea>
+											<label class="control-label col-md-4">Descripción <span class="required">*</span></label>
+											<div class="col-md-8">
+                                                {!! Form::textarea('descripcion', NULL, ['class' => 'form-control', 'style' => 'resize: none;','maxlength'=>'255','rows'=>'3']) !!}
 												<span class="help-block">Descripción del evento. </span>
 											</div>
 										</div>
+
 										<!-- Cupo -->
 										<div class="form-group">
-											<label class="control-label col-md-3">Cupo</label>
-											<div class="col-md-9">
+											<label class="control-label col-md-4">Cupo</label>
+											<div class="col-md-8">
 												<div class="input-inline input-medium">
-													<input id="cantidad" type="text" name="cupo" class="form-control" value="{{$evento->cupo}}">
+                                                    {!! Form::text('cupo', NULL, ['class' => 'form-control', 'id'=>'cupo']) !!}
 												</div>
 											</div>
 										</div>
+
 										<!-- Precio -->
 										<div class="form-group">
-											<label class="control-label col-md-3">Precio</label>
-											<div class="col-md-9">
+											<label class="control-label col-md-4">Precio</label>
+											<div class="col-md-8">
 												<div class="input-inline input-medium">
-													<input id="precio" type="text" name="costo" class="form-control" value="{{$evento->costo}}">
+                                                    {!! Form::text('costo', NULL, ['class' => 'form-control', 'id'=>'costo']) !!}
 												</div>
 											</div>
 										</div>
+
 										<!-- Dirección -->
 										<div class="form-group">
-											<label class="col-md-3 control-label">Dirección</label>
-											<div class="col-md-9">
+											<label class="col-md-4 control-label">Dirección</label>
+											<div class="col-md-8">
 												<div class="input-icon">
 													<i class="fa fa-map-marker"></i>
-													<input type="text" class="form-control" name="direccion" placeholder="Dirección" value="{{$evento->direccion}}">
+                                                    {!! Form::text('direccion', NULL, ['class' => 'form-control', 'placeholder' => 'Dirección']) !!}
 												</div>
 												<span class="help-block">Ejemplo: Cuarzo No. 9A, Ocotlán</span>
 											</div>
 										</div>
 									</div>
+
 									<div class="col-md-6">
                                         <div class="form-body">
                                             <!-- Estatus -->
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Estatus<span class="required">*</span></label>
-                                                <div class="col-md-9">
+                                                <label class="control-label col-md-4">Estatus<span class="required">*</span></label>
+                                                <div class="col-md-8">
                                                     <div class="clearfix">
                                                         <div class="btn-group" data-toggle="buttons">
-
-                                                            @if ($evento->estatus == 'proximo')
-
-                                                            <label class="btn btn-default active">
-                                                                <input id="option1" type="radio" name="estatus" class="toggle" value="proximo" checked> Próximo </label>
-
-                                                                <label class="btn btn-default">
-                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
-
-                                                                <label class="btn btn-default">
-                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
-
-                                                            @elseif ($evento->estatus == 'ahora')
-
-                                                                <label class="btn btn-default">
-                                                                    <input id="option1" type="radio" name="estatus" class="toggle" value="proximo"> Próximo </label>
-
+                                                            @if($evento->estatus == 'proximo')
                                                                 <label class="btn btn-default active">
-                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora" checked> Ahora </label>
-
+                                                            @else
                                                                 <label class="btn btn-default">
-                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
-
-                                                            @elseif($evento->estatus == 'caduco')
-
-                                                                <label class="btn btn-default">
-                                                                    <input id="option1" type="radio" name="estatus" class="toggle" value="proximo"> Próximo </label>
-
-                                                                <label class="btn btn-default">
-                                                                    <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
-
-                                                                <label class="btn btn-default active">
-                                                                    <input id="option3" type="radio" name="estatus" class="toggle" value="caduco" checked> Caduco </label>
                                                             @endif
+                                                                <input id="option1" type="radio" name="estatus" class="toggle" value="proximo" @if($evento->estatus == 'proximo') checked @endif> Próximo </label>
+
+                                                            @if($evento->estatus == 'ahora')
+                                                                <label class="btn btn-default active">
+                                                            @else
+                                                                <label class="btn btn-default">
+                                                            @endif
+                                                                <input id="option2" type="radio" name="estatus" class="toggle" value="ahora" @if($evento->estatus == 'ahora') checked @endif> Ahora </label>
+
+                                                            @if($evento->estatus == 'caduco')
+                                                                <label class="btn btn-default active">
+                                                            @else
+                                                                <label class="btn btn-default">
+                                                            @endif
+                                                                <input id="option3" type="radio" name="estatus" class="toggle" value="caduco" @if($evento->estatus == 'caduco') checked @endif> Caduco </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,49 +129,43 @@
 
                                             <!-- Disponible -->
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Disponible<span class="required">*</span></label>
-
-                                                @if($evento->disponible == 'online')
-                                                    <div class="col-md-9">
+                                                <label class="control-label col-md-4">Disponible<span class="required">*</span></label>
+                                                    <div class="col-md-8">
                                                         <input type="checkbox" class="make-switch" name="disponible"
                                                                data-size="small"
                                                                data-on-text="Online" data-off-text="Offline"
                                                                data-on-color="success"
-                                                               data-off-color="default" checked>
+                                                               data-off-color="default"
+                                                                @if($evento->disponible == 'online')
+                                                                    checked
+                                                                @endif>
                                                     </div>
-                                                @else
-                                                    <div class="col-md-9">
-                                                        <input type="checkbox" class="make-switch" name="disponible"
-                                                               data-size="small"
-                                                               data-on-text="Online" data-off-text="Offline"
-                                                               data-on-color="success"
-                                                               data-off-color="default">
-                                                    </div>
-                                                @endif
                                             </div>
+
                                             <!-- URL externa extra -->
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">Url externa</label>
-                                                <div class="col-md-9">
+                                                <label class="col-md-4 control-label">Url externa</label>
+                                                <div class="col-md-8">
                                                     <div class="input-icon">
                                                         <i class="fa fa-institution"></i>
-                                                        <input type="text" class="form-control" name="url_exterior" placeholder="Url externa" value="{{$evento->url_exterior}}">
+                                                        {!! Form::text('url_exterior', NULL, ['class' => 'form-control', 'placeholder' => 'Url externa']) !!}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Horario -->
+
+                                            <!-- Hora -->
                                             <div class="form-group">
-                                                <div class="col-md-offset-3 col-md-9">
-                                                    <button type="button" class="btn default" id="reportrange">
-                                                        <i class="fa fa-calendar">
-                                                        </i> Horario<i class="fa fa-angle-down">
+                                                <div class="col-md-offset-4 col-md-9">
+                                                    <button type="button" class="btn default faa-parent animated-icon-hover" id="reportrange">
+                                                        <i class="fa fa-calendar faa-ring">
+                                                        </i> Hora <i class="fa fa-angle-down">
                                                         </i>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">Inicio <span class="required">*</span></label>
-                                                <div class="col-md-9">
+                                                <label class="col-md-4 control-label">Inicio <span class="required">*</span></label>
+                                                <div class="col-md-8">
                                                     <div class="input-icon">
                                                         <i class="fa fa-calendar"></i>
                                                         <input type="text" class="form-control" name="finicio" readonly>
@@ -189,8 +176,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">Final <span class="required">*</span></label>
-                                                <div class="col-md-9">
+                                                <label class="col-md-4 control-label">Final <span class="required">*</span></label>
+                                                <div class="col-md-8">
                                                     <div class="input-icon">
                                                         <i class="fa fa-calendar"></i>
                                                         <input type="text" class="form-control" name="ffin" readonly>
@@ -203,13 +190,12 @@
                                         </div>
 									</div>
 
-									{{--Mapas--}}
 									<div class="col-md-12">
 										<h4 class="form-section">Google Maps</h4>
 										<div class="form-group">
-											<div class="col-md-offset-2 col-md-9">
+											<div class="col-md-offset-2 col-md-10">
 												<div class="input-group">
-													<input type="text" class="form-control" id="calle_registrada" placeholder="Calle No. Colonia, Ciudad Estado" value="{{$evento->direccion}}">
+                                                    {!! Form::text('direccion', NULL, ['class' => 'form-control', 'id'=>'calle_registrada', 'placeholder'=>'Calle No. Colonia, Ciudad Estado']) !!}
 										<span class="input-group-btn">
 											<button class="btn blue faa-parent animated-icon-hover" id="gmap_geocoding_btn">
 												<i class="fa fa-map-marker faa-vertical"></i> Ubicar
@@ -221,7 +207,7 @@
 										</div>
 
 										<div class="form-group">
-											<div class="col-md-offset-2 col-md-9">
+											<div class="col-md-offset-2 col-md-10">
 												<div class="input-group">
 													<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección de Google Maps" readonly>
 										<span class="input-group-btn">
@@ -235,14 +221,14 @@
 										</div>
 
 										<div class="form-group">
-											<div class="col-md-offset-2 col-md-9">
+											<div class="col-md-offset-2 col-md-10">
 												<div class="col-md-6">
 													<label class="control-label">Latitud</label>
-													<input type="text" class="form-control input-large" placeholder="Latitud" name="latitud" readonly>
+                                                    {!! Form::text('latitud', NULL, ['class' => 'form-control input-medium', 'placeholder' => 'Latitud', 'readonly']) !!}
 												</div>
 												<div class="col-md-6">
 													<label class="control-label">Longitud</label>
-													<input type="text" class="form-control input-large" placeholder="Longitud" name="longitud" readonly>
+                                                    {!! Form::text('longitud', NULL, ['class' => 'form-control input-medium', 'placeholder' => 'Longitud', 'readonly']) !!}
 												</div>
 											</div>
 										</div>
@@ -255,11 +241,10 @@
 										</div>
 									</div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-offset-2 col-md-10">
                                         {{-- Botón Enviar --}}
                                         <div class="margin-top-20">
-                                            <button type="submit" class="btn green-haze">Guardar cambios</button>
-                                            {{--<a href="javascript:;" class="btn default">Cancelar </a>--}}
+                                            <button type="submit" class="btn green-haze hvr-grow">Guardar cambios</button>
                                         </div>
                                     </div>
 								</form>

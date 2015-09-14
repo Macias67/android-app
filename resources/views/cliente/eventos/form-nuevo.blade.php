@@ -51,7 +51,7 @@
                         <span class="caption-helper"> Registro de evento</span>
                     </div>
                     <div class="actions">
-                        <a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>
+                        {{--<a href="javascript:;" class="btn btn-circle btn-default btn-icon-only fullscreen"></a>--}}
                     </div>
                 </div>
                 <div class="portlet-body form">
@@ -67,7 +67,7 @@
                             </div>
                             <!-- Nombre del evento -->
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Nombre del evento <span class="required">*</span></label>
+                                <label class="col-md-3 control-label">Nombre<span class="required">*</span></label>
                                 <div class="col-md-9">
                                     <div class="input-icon">
                                         <i class="fa fa-institution"></i>
@@ -135,7 +135,7 @@
                                             <input id="option1" type="radio" name="estatus" class="toggle" value="proximo" checked> Próximo </label>
                                         <label class="btn btn-default">
                                             <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
-                                        <label class="btn btn-default">
+                                        <label class="btn btn-default">2
                                             <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
                                     </div>
                                 </div>
@@ -165,9 +165,9 @@
                         <!-- Horario -->
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="button" class="btn default" id="reportrange">
-                                    <i class="fa fa-calendar">
-                                        </i> Horario<i class="fa fa-angle-down">
+                                <button type="button" class="btn default faa-parent animated-icon-hover" id="reportrange">
+                                    <i class="fa fa-calendar faa-ring">
+                                        </i> Hora<i class="fa fa-angle-down">
                                     </i>
                                 </button>
                             </div>
@@ -200,7 +200,7 @@
                     <div class="col-md-12">
                         <h4 class="form-section">Google Maps</h4>
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-9">
+                            <div class="col-md-offset-1 col-md-10">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="calle_registrada" placeholder="Calle No. Colonia, Ciudad Estado">
 									<span class="input-group-btn">
@@ -214,7 +214,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-9">
+                            <div class="col-md-offset-1 col-md-10">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Dirección de Google Maps" readonly>
 									<span class="input-group-btn">
@@ -228,7 +228,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-9">
+                            <div class="col-md-offset-1 col-md-10">
                                 <div class="col-md-6">
                                     <label class="control-label">Latitud</label>
                                     <input type="text" class="form-control input-large" placeholder="Latitud" name="latitud" readonly>
@@ -241,7 +241,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-offset-1 col-md-10">
                                 <div id="gmap_geocoding" class="gmaps" style="height: 500px"></div>
                                 <span class="help-block">El indicador es solo una referencia muy cercana al lugar. </span>
                             </div>
@@ -252,8 +252,8 @@
                     <div class="col-md-12">
                             <div class="form-actions">
                                 <div class="row">
-                                    <div class="col-md-offset-1 col-md-11">
-                                        <button type="submit" class="btn bg-green-meadow btn-lg">Registrar</button>
+                                    <div class="col-md-offset-1 col-md-10">
+                                        <button type="submit" class="btn green btn-md">Registrar</button>
                                     </div>
                                 </div>
                             </div>
