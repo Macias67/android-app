@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Producto;
 
 use App\Http\Models\Cliente\Cliente;
+use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CreateProducto extends Request

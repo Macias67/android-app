@@ -82,7 +82,7 @@ class Cliente extends Model
      */
     public function horarios ()
     {
-        return $this->hasOne(ClienteHorarios::class, 'id');
+        return $this->hasMany(ClienteHorarios::class, 'cliente_id');
     }
 
     public static function getTableName()

@@ -7,9 +7,7 @@ use App\Http\Models\Cliente\Categorias;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Producto;
 use App\Http\Models\Cliente\Propietario;
-use App\Http\Requests;
-use App\Http\Requests\CreateProducto;
-use Illuminate\Http\Request;
+use App\Http\Requests\Producto\CreateProducto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Jenssegers\Date\Date;
@@ -98,9 +96,8 @@ class ProductosCliente extends BaseCliente
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\CreateProducto $request
-     *
-     * @return \App\Http\Controllers\Cliente\Response
+     * @param CreateProducto $request
+     * @return Response
      */
     public function store(CreateProducto $request)
     {

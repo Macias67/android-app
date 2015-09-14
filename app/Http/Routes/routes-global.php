@@ -42,4 +42,9 @@ Route::group(
         Route::get('negocios/json', [
             'uses' => 'Android@index'
         ]);
+
+        Route::get('negocio/{id?}', [
+            'uses' => 'Android@show'
+        ])->where('id', '[0-9a-zA-Z]+');
+        
     });
