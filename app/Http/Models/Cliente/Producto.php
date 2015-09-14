@@ -59,6 +59,25 @@ class Producto extends Model
         return$query;
     }
 
+    public function scopeByIdPropietario($query, $id_propietario)
+    {
+        $cl_productos = Producto::getTableName();
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+
+        return $query
+            ->select(
+                $cl_productos . '.*',
+                $cl_clientes . '.nombre as nombre_cliente'
+            )
+            ->join($cl_clientes, $cl_productos . '.cliente_id', '=', $cl_clientes . '.id')
+            ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+            ->where($cl_propietario . '.id', $id_propietario)
+            ->orderBy($cl_productos . '.created_at', 'DESC')
+            ->take(10)
+            ->get();
+    }
+
     public function cliente()
     {
         return $this->hasOne(Cliente::class, 'id', 'cliente_id');

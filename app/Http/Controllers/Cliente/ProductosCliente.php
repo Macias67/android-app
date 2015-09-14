@@ -12,6 +12,7 @@ use App\Http\Requests\CreateProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Jenssegers\Date\Date;
 use PHPImageWorkshop\ImageWorkshop;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -36,7 +37,7 @@ class ProductosCliente extends BaseCliente
         $cl_clientes = Cliente::getTableName();
         $cl_propietario = Propietario::getTableName();
 
-        $productos = DB::table($cl_productos)
+        $productosMasGustados = DB::table($cl_productos)
             ->select(
                 $cl_productos . '.id',
                 $cl_clientes . '.id as cliente_id',
@@ -48,16 +49,24 @@ class ProductosCliente extends BaseCliente
             ->join($cl_clientes, $cl_productos . '.cliente_id', '=', $cl_clientes . '.id')
             ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
             ->join('usr_usuario_gusta_producto', $cl_productos . '.id', '=', 'usr_usuario_gusta_producto.producto_id')
-            ->where($cl_propietario . '.id', '=', $this->infoPropietario->id)
+            ->where($cl_propietario . '.id', $this->infoPropietario->id)
             ->groupBy($cl_productos . '.nombre')
             ->orderBy('totalLikes', 'DESC')
             ->take(10)
             ->get();
 
-        foreach ($productos as $producto) {
+        foreach ($productosMasGustados as $producto) {
             $producto->imagen = $this->_getImage($producto->cliente_id, 'productos', $producto->id);
         }
-        $this->data['productosMasGustados'] = $productos;
+
+        $ultimosRegistrados = Producto::byIdPropietario($this->infoPropietario->id);
+        foreach ($ultimosRegistrados as $producto) {
+            $producto->imagen = $this->_getImage($producto->cliente_id, 'productos', $producto->id);
+            $producto->fecha =  Date::createFromFormat('Y-m-d H:i:s', $producto->created_at)->format('d \\d\\e F \\d\\e\\l Y');
+        }
+
+        $this->data['productosMasGustados'] = $productosMasGustados;
+        $this->data['ultimosRegistrados'] = $ultimosRegistrados;
 
         return $this->view('cliente.productos.index');
     }
