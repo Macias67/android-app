@@ -77,8 +77,7 @@ trait AuthController
             if ($validator->passes()) {
                 $credenciales = ['email' => $request->get('email'), 'password' => $request->get('password'), 'estatus' => 'online'];
                 if ($this->auth->attempt($credenciales)) {
-                    $tipo = $request->segment(1);
-                    $model                = ($tipo == 'admin') ? new Admin : new Propietario;
+                    $model                = ($this->auth->getName() == 'admin') ? new Admin : new Propietario;
                     $admin                = $model::find($this->auth->user()->id);
                     $admin->ultima_sesion = date('Y-m-d H:i:s');
                     $admin->save();
