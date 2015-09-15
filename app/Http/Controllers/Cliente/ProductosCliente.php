@@ -8,6 +8,7 @@ use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\Producto;
 use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests\Producto\CreateProducto;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Jenssegers\Date\Date;
