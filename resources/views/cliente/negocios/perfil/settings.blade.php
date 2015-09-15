@@ -714,7 +714,7 @@
 	<script src="{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type="text/javascript"></script>
-	<script src="https://maps.google.com/maps/api/js?key=AIzaSyARXL3JkbiYGEd5OK-82-ybYj2t9W9qldo&sensor=false" type="text/javascript"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 	<script src="{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type="text/javascript"></script>
 @stop
 
