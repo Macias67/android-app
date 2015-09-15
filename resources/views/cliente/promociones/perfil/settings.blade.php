@@ -8,20 +8,14 @@
 					<div class="portlet-title tabbable-line">
 						<div class="caption caption-md">
 							<i class="icon-globe theme-font hide"></i>
-							<span class="caption-subject font-blue-madison bold uppercase">Información de la Promocion</span>
+							<span class="caption-subject font-blue-madison bold uppercase">Información de la Promoción</span>
 						</div>
 						<ul class="nav nav-tabs">
 							<li class="active">
 								<a href="#tab_principal" data-toggle="tab">Información Principal</a>
 							</li>
 							<li>
-								<a href="#tab_logotipo" data-toggle="tab">Imagen de la Promocion</a>
-							</li>
-							<li>
-								<a href="#tab_1_3" data-toggle="tab">Change Password</a>
-							</li>
-							<li>
-								<a href="#tab_1_4" data-toggle="tab">Privacy Settings</a>
+								<a href="#tab_logotipo" data-toggle="tab">Imagen de la Promoción</a>
 							</li>
 						</ul>
 					</div>
@@ -30,6 +24,9 @@
 							<!-- PERSONAL INFO TAB -->
 							<div class="tab-pane active" id="tab_principal">
 								{!! Form::open($param) !!}
+								{!! Form::model($promocion) !!}
+								{!! Form::hidden('id') !!}
+								{!! Form::hidden('cliente_id') !!}
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="col-md-3 control-label">Nombre<span class="required">*</span></label>
@@ -37,9 +34,7 @@
 											<div class="col-md-9">
 												<div class="input-icon">
 													<i class="fa fa-star"></i>
-													<input type="text" class="form-control" name="nombre" placeholder="Nombre de la promocion" value="{{$promocion->nombre}}">
-                                                    <input type="hidden" name="id" value="{{$promocion->id}}">
-                                                    <input type="hidden" name="cliente_id" value="{{$promocion->cliente_id}}">
+													{!! Form::text('nombre', NULL, ['class' => 'form-control', 'placeholder' => 'Nombre del evento']) !!}
 												</div>
 											</div>
 										</div>
@@ -49,7 +44,7 @@
 											<div class="col-md-9">
 												<div class="input-icon">
 													<i class="fa fa-desktop"></i>
-													<input type="text" class="form-control" name="slug" placeholder="Url de la promocion" value="{{$promocion->slug}}" readonly>
+													{!! Form::text('slug', NULL, ['class' => 'form-control', 'placeholder' => 'Slug', 'readonly']) !!}
 												</div>
 											</div>
 										</div>
@@ -57,8 +52,8 @@
 											<label class="control-label col-md-3">Descripción<span class="required">*</span></label>
 
 											<div class="col-md-9">
-												<textarea class="form-control" name="descripcion" maxlength="255" rows="3" style="resize: none;">{{$promocion->descripcion}}</textarea>
-												<span class="help-block">Descripción detallada de la promocion. </span>
+												{!! Form::textarea('descripcion', NULL, ['class' => 'form-control', 'style' => 'resize: none;','maxlength'=>'255','rows'=>'3']) !!}
+												<span class="help-block">Descripción detallada de la promoción. </span>
 											</div>
 										</div>
 									</div>
@@ -96,7 +91,7 @@
 												<div class="col-md-9">
 													<div class="input-icon">
 														<i class="fa fa-calendar"></i>
-														<input type="text" class="form-control" name="ffin" placeholder="Url del promocion" readonly>
+														<input type="text" class="form-control" name="ffin" placeholder="Url del promoción" readonly>
 														<input type="hidden" class="form-control" name="disp_fin" value="{{$promocion->disp_fin}}">
 													</div>
 												</div>
@@ -143,87 +138,6 @@
 								</form>
 							</div>
 							<!-- END CHANGE AVATAR TAB -->
-
-							<!-- CHANGE PASSWORD TAB -->
-							<div class="tab-pane" id="tab_1_3">
-								<form action="#">
-									<div class="form-group">
-										<label class="control-label">Current Password</label>
-										<input type="password" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">New Password</label>
-										<input type="password" class="form-control"/>
-									</div>
-									<div class="form-group">
-										<label class="control-label">Re-type New Password</label>
-										<input type="password" class="form-control"/>
-									</div>
-									<div class="margin-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Change Password </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
-									</div>
-								</form>
-							</div>
-							<!-- END CHANGE PASSWORD TAB -->
-
-							<!-- PRIVACY SETTINGS TAB -->
-							<div class="tab-pane" id="tab_1_4">
-								<form action="#">
-									<table class="table table-light table-hover">
-										<tr>
-											<td>
-												Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus..
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="radio" name="optionsRadios1" value="option1"/>
-													Yes </label>
-												<label class="uniform-inline">
-													<input type="radio" name="optionsRadios1" value="option2" checked/>
-													No </label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="checkbox" value=""/> Yes </label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="checkbox" value=""/> Yes </label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-											</td>
-											<td>
-												<label class="uniform-inline">
-													<input type="checkbox" value=""/> Yes </label>
-											</td>
-										</tr>
-									</table>
-									<!--end profile-settings-->
-									<div class="margin-top-10">
-										<a href="javascript:;" class="btn green-haze">
-											Save Changes </a>
-										<a href="javascript:;" class="btn default">
-											Cancel </a>
-									</div>
-								</form>
-							</div>
-							<!-- END PRIVACY SETTINGS TAB -->
 						</div>
 					</div>
 				</div>
