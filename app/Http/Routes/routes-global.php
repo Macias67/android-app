@@ -46,5 +46,5 @@ Route::group(
         Route::get('negocio/{id?}', [
             'uses' => 'Android@show'
         ])->where('id', '[0-9a-zA-Z]+');
-        
+
     });

@@ -18,7 +18,6 @@ use PHPImageWorkshop\ImageWorkshop;
 
 class NegociosCliente extends BaseCliente
 {
-    var $logoDefault = 'assets/admin/pages/media/profile/profile_user.jpg';
 
     public function __construct()
     {
@@ -142,7 +141,6 @@ class NegociosCliente extends BaseCliente
 
             if ($this->infoPropietario->id == $cliente->propietario->id) {
 
-                $this->data['logo'] = $this->_getLogo($id);
                 $this->data['categoria'] = $cliente->subcategorias->first()->subcategoria;
                 $this->data['cliente'] = $cliente;
                 $this->data['current_cliente_id'] = $id;
@@ -492,32 +490,6 @@ class NegociosCliente extends BaseCliente
             ];
 
             return new JsonResponse($response);
-        }
-    }
-
-    private function  _getLogo($id)
-    {
-        $files = File::files('img/cliente/' . $id . '/logo');
-        $count = count($files);
-        if ($count > 1 || $count == 0) {
-            if ($count > 1) {
-                foreach ($files as $file) {
-                    unlink($file);
-                }
-            }
-
-            return asset($this->logoDefault);
-        }
-        else if ($count == 1) {
-            list($width, $height) = getimagesize($files[0]);
-            if ($width != 500 || $height != 500) {
-                unlink($files[0]);
-
-                return asset($this->logoDefault);
-            }
-            else if ($width == 500 && $height == 500) {
-                return asset($files[0]);
-            }
         }
     }
 }

@@ -48,8 +48,8 @@
 
 {{-- Sobreescribir el título de pagina--}}
 @section('page-title')
-	<h1>Página en blanco
-		<small>Página en blanco</small>
+	<h1>Productos
+		<small>Resumen general de productos</small>
 	</h1>
 @stop
 
@@ -60,15 +60,11 @@
 @section('page-breadcrumb')
 	<ul class="page-breadcrumb breadcrumb">
 		<li>
-			<a href="">Inicio</a>
+			<a href="{{route('clientes')}}">Inicio</a>
 			<i class="fa fa-circle"></i>
 		</li>
 		<li>
-			<a href="#">Page Layouts</a>
-			<i class="fa fa-circle"></i>
-		</li>
-		<li>
-			<a href="#">Blank Page</a>
+			<a href="{{URL::current()}}">Productos</a>
 		</li>
 	</ul>
 @stop
@@ -144,11 +140,33 @@
 			<!-- END Portlet PORTLET-->
 		</div>
 		<div class="col-md-6">
-			<!-- BEGIN Portlet PORTLET-->
+			<!-- BEGIN Por Negocio PORTLET-->
 			<div class="portlet light">
 				<div class="portlet-title">
 					<div class="caption font-green-sharp">
-						<i class="icon-like font-green-sharp"></i>
+						<i class="fa fa-home font-green-sharp"></i>
+						<span class="caption-subject bold uppercase"> Por negocio</span>
+					</div>
+				</div>
+				<div class="portlet-body">
+                    <div class="row">
+                        @foreach($negocios as $negocio)
+                        <div class="col-sm-6 col-md-4">
+                            <a href="{{route('productos.id.cliente', [$negocio->id])}}" class="thumbnail">
+                                <img src="{{$negocio->logo()}}" alt="100%x180" style="height: 100%; width: 100%; display: block;">
+                            </a>
+                        </div>
+                        @endforeach
+				</div>
+			    </div>
+            </div>
+			<!-- END Por Negocio PORTLET-->
+
+			<!-- BEGIN Ultimos Registrados PORTLET-->
+			<div class="portlet light">
+				<div class="portlet-title">
+					<div class="caption font-green-sharp">
+						<i class="fa fa-bars font-green-sharp"></i>
 						<span class="caption-subject bold uppercase"> Últimos registrados</span>
 					</div>
 					<div class="actions">
@@ -202,7 +220,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- END Portlet PORTLET-->
+			<!-- END Ultimos Registrados PORTLET-->
 		</div>
 	</div>
 @stop
