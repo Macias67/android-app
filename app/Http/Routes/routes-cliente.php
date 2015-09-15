@@ -72,6 +72,11 @@ Route::group(
             'uses' => 'ProductosCliente@index'
         ]);
 
+        Route::get('productos/{id_cliente?}', [
+            'as' => 'productos.id.cliente',
+            'uses' => 'ProductosCliente@showProductosCliente'
+        ])->where('id_cliente', '[0-9a-zA-Z]+');
+
         Route::group(['prefix' => 'producto'], function () {
 
             Route::get('nuevo', [

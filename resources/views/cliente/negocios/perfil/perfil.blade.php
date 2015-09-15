@@ -43,7 +43,7 @@
                         <div class="portlet light profile-sidebar-portlet">
                               <!-- SIDEBAR USERPIC -->
                               <div class="profile-userpic">
-                                    <img id="logo" src="{{$logo}}" class="img-responsive" alt="">
+                                    <img id="logo" src="{{$cliente->logo()}}" class="img-responsive" alt="">
                               </div>
                               <!-- END SIDEBAR USERPIC -->
                               <!-- SIDEBAR USER TITLE -->

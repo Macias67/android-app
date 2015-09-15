@@ -53,10 +53,11 @@ class ProductosCliente extends BaseCliente
             ->orderBy('totalLikes', 'DESC')
             ->take(10)
             ->get();
-
         foreach ($productosMasGustados as $producto) {
             $producto->imagen = $this->_getImage($producto->cliente_id, 'productos', $producto->id);
         }
+
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
 
         $ultimosRegistrados = Producto::byIdPropietario($this->infoPropietario->id);
         foreach ($ultimosRegistrados as $producto) {
@@ -65,6 +66,7 @@ class ProductosCliente extends BaseCliente
         }
 
         $this->data['productosMasGustados'] = $productosMasGustados;
+        $this->data['negocios'] = $clientes;
         $this->data['ultimosRegistrados'] = $ultimosRegistrados;
 
         return $this->view('cliente.productos.index');
@@ -167,6 +169,16 @@ class ProductosCliente extends BaseCliente
         }
     }
 
+    public function showProductosCliente($id)
+    {
+        if (!is_null($cliente = Cliente::find($id))) {
+            return $this->view('cliente.productos.productos-cliente');
+        }
+        else {
+            return response('No existe Negocio.', 412);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -224,6 +236,10 @@ class ProductosCliente extends BaseCliente
         //
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function uploadImage(Request $request)
     {
         if ($request->ajax() && $request->file('img')) {
@@ -280,6 +296,12 @@ class ProductosCliente extends BaseCliente
         }
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \PHPImageWorkshop\Core\Exception\ImageWorkshopLayerException
+     * @throws \PHPImageWorkshop\Exception\ImageWorkshopException
+     */
     public function cropImage(Request $request)
     {
         if ($request->ajax()) {
@@ -325,6 +347,10 @@ class ProductosCliente extends BaseCliente
         }
     }
 
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
     public function getProductosJson($id)
     {
         $categoria = new Categorias;
