@@ -64,6 +64,7 @@
 								</div>
 								<span class="input-group-btn btn-right">
 									<button class="btn green-haze" id="addCategoria" type="button">Guardar</button>
+									{!! Form::hidden('base_url', URL::to('/').'/') !!}
 								</span>
 							</div>
 						</div>

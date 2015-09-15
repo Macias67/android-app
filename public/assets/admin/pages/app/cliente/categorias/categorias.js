@@ -132,6 +132,7 @@ var Categorias = function() {
 
                 var id_categoria = $('input[name="id_categoria"]').val();
                 var cliente_id = $('select[name="cliente_id"]').val();
+                var base_url = $('input[name="base_url"]').val();
                 var accion = 'store';
                 var data = {cliente_id:cliente_id,categoria:categoria};
 
@@ -159,7 +160,7 @@ var Categorias = function() {
                         });
                     });
                 }
-                App.initAjax(Metronic.getDomain() + 'cliente/categoria/' + accion, data, success);
+                App.initAjax(base_url + 'cliente/categoria/' + accion, data, success);
 
 //                $.post(Metronic.getDomain()+'cliente/categoria/'+accion, data, function(data, textStatus, xhr) {
 //                    if (data.exito) {
