@@ -53,7 +53,7 @@
                         <div class="portlet light profile-sidebar-portlet">
                               <!-- SIDEBAR USERPIC -->
                               <div class="profile-userpic">
-                                    <img id="logo" src="{{$img_evento}}" class="img-responsive" alt="">
+                                    <img id="img-evento" src="{{$img_evento}}" class="img-responsive" alt="">
                               </div>
                               <!-- END SIDEBAR USERPIC -->
                               <!-- SIDEBAR USER TITLE -->

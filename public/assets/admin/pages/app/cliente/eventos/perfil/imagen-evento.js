@@ -29,7 +29,6 @@ var ImagenEvento = function() {
                 $('#img-evento').css('background-image', 'url(' + src + ')');
             }
         }
-        console.log(cropperOptions);
         var cropperHeader = new Croppic('newImage', cropperOptions);
     }
 

@@ -40,6 +40,7 @@ class EventosCliente extends BaseCliente
                      ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
                      ->where($cl_propietario . '.id', '=', $this->infoPropietario->id)
                      ->groupBy($cl_eventos . '.nombre')
+                     ->orderBy($cl_eventos.'.created_at','DESC')
                      ->take(10)
                      ->get();
 
