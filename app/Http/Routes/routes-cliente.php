@@ -77,6 +77,16 @@ Route::group(
             'uses' => 'ProductosCliente@showProductosCliente'
         ])->where('id_cliente', '[0-9a-zA-Z]+');
 
+        Route::post('productos/datatable/{categoria_id?}', [
+            'as' => 'cliente-table-datatable-productos-categoria',
+            'uses' => 'ProductosCliente@datatable'
+        ])->where('categoria_id', '[0-9a-zA-Z]+');
+
+        Route::post('productos/datatable/', [
+            'as' => 'cliente-table-datatable-productos-categoria',
+            'uses' => 'ProductosCliente@datatable'
+        ]);
+
         Route::group(['prefix' => 'producto'], function () {
 
             Route::get('nuevo', [
