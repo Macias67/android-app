@@ -628,7 +628,7 @@
 
 								<form action="#" role="form">
 									<div class="form-group">
-										<div id="newlogo" style="height: 502px; width: 502px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$logo}}'); background-size: cover; " data-id="{{$current_cliente_id}}" data-upload="{{route('global-upload-logo-negocio')}}" data-crop="{{route('global-crop-logo-negocio')}}">
+										<div id="newlogo" style="height: 502px; width: 502px; display: block; position:relative; border: 1px dotted black; background-image: url('{{$cliente->logo()}}'); background-size: cover; " data-id="{{$current_cliente_id}}" data-upload="{{route('global-upload-logo-negocio')}}" data-crop="{{route('global-crop-logo-negocio')}}">
 										</div>
 										<div class="clearfix margin-top-10">
 											<span class="label label-danger">NOTE! </span>

@@ -11,6 +11,7 @@ use App\Http\Requests\Producto\CreateProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 use Jenssegers\Date\Date;
 use PHPImageWorkshop\ImageWorkshop;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -53,10 +54,11 @@ class ProductosCliente extends BaseCliente
             ->orderBy('totalLikes', 'DESC')
             ->take(10)
             ->get();
-
         foreach ($productosMasGustados as $producto) {
             $producto->imagen = $this->_getImage($producto->cliente_id, 'productos', $producto->id);
         }
+
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
 
         $ultimosRegistrados = Producto::byIdPropietario($this->infoPropietario->id);
         foreach ($ultimosRegistrados as $producto) {
@@ -65,6 +67,7 @@ class ProductosCliente extends BaseCliente
         }
 
         $this->data['productosMasGustados'] = $productosMasGustados;
+        $this->data['negocios'] = $clientes;
         $this->data['ultimosRegistrados'] = $ultimosRegistrados;
 
         return $this->view('cliente.productos.index');
@@ -167,6 +170,35 @@ class ProductosCliente extends BaseCliente
         }
     }
 
+    public function showProductosCliente($id)
+    {
+        if (!is_null($cliente = Cliente::find($id))) {
+            if($cliente->propietario->id == $this->infoPropietario->id) {
+                $categorias = Categorias::where('cliente_id', $cliente->id)->get(['id', 'categoria'])->ToArray();
+                $optionsCategorias = [];
+                foreach ($categorias as $index => $categoria) {
+                    $optionsCategorias[$categoria['id']] = $categoria['categoria'];
+                }
+                $llaves = array_keys($optionsCategorias);
+                $llaves = (empty($llaves)) ? NULL : $llaves;
+
+                $this->data['array_form'] = [
+                    'url' => '',
+                    'role' => 'form',
+                    'id' => 'categoria_id',
+                    'autocomplete' => 'off'
+                ];
+                $this->data['cliente'] = $cliente;
+                $this->data['categorias'] = $optionsCategorias;
+                $this->data['llaves'] = $llaves;
+                return $this->view('cliente.productos.productos-cliente');
+            }
+        }
+        else {
+            return response('No existe Negocio.', 412);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -224,6 +256,10 @@ class ProductosCliente extends BaseCliente
         //
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function uploadImage(Request $request)
     {
         if ($request->ajax() && $request->file('img')) {
@@ -280,6 +316,12 @@ class ProductosCliente extends BaseCliente
         }
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \PHPImageWorkshop\Core\Exception\ImageWorkshopLayerException
+     * @throws \PHPImageWorkshop\Exception\ImageWorkshopException
+     */
     public function cropImage(Request $request)
     {
         if ($request->ajax()) {
@@ -325,6 +367,10 @@ class ProductosCliente extends BaseCliente
         }
     }
 
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
     public function getProductosJson($id)
     {
         $categoria = new Categorias;
@@ -346,5 +392,82 @@ class ProductosCliente extends BaseCliente
         }
 
         return new JsonResponse($final);
+    }
+
+    /**
+     * Uso de datable en la sección de
+     * nueva categoría
+     *
+     * @param Request $request
+     * @param         $categoria_id
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function datatable(Request $request, $categoria_id = NULL)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $columns = $request->get('columns');
+        $search = $request->get('search');
+
+        $byCategoria = is_null($categoria_id);
+
+        $total = ($byCategoria) ? Producto::count() : Producto::where('categoria_id', $categoria_id)->count();
+
+        if ($length == -1) {
+            $length = NULL;
+            $start = NULL;
+        }
+
+        $tProducto = Producto::getTableName();
+
+        $campos = [
+            $tProducto . '.id',
+            $tProducto . '.nombre'
+        ];
+
+        $pos_col = $order[0]['column'];
+        $order = $order[0]['dir'];
+        $campo = $columns[$pos_col]['data'];
+
+        $id_cliente = $request->get('id_cliente');
+
+        $productos = ($byCategoria) ?
+            DB::table($tProducto)
+              ->select($campos)
+              ->where($tProducto . '.cliente_id', $id_cliente)
+              ->where($tProducto . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+              ->take($length)
+              ->skip($start)
+              ->orderBy($campo, $order)->get() :
+            DB::table($tProducto)
+              ->select($campos)
+              ->where($tProducto . '.categoria_id', $categoria_id)
+              ->where($tProducto . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+              ->take($length)
+              ->skip($start)
+              ->orderBy($campo, $order)->get();
+
+        $proceso = array();
+        foreach ($productos as $index => $producto) {
+            array_push(
+                $proceso,
+                [
+                    'DT_RowId' => $producto->id,
+                    'nombre' => $producto->nombre,
+                    'url' => route('cliente.producto.show', [$producto->id])
+                ]
+            );
+        }
+        $data = [
+            'draw' => $draw,
+            'recordsTotal' => count($productos),
+            'recordsFiltered' => $total,
+            'data' => $proceso
+        ];
+
+        return new JsonResponse($data, 200);
     }
 }

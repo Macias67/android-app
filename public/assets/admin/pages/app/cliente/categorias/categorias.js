@@ -161,19 +161,6 @@ var Categorias = function() {
                     });
                 }
                 App.initAjax(base_url + 'cliente/categoria/' + accion, data, success);
-
-//                $.post(Metronic.getDomain()+'cliente/categoria/'+accion, data, function(data, textStatus, xhr) {
-//                    if (data.exito) {
-//                        bootbox.alert(data.mensaje, function() {
-//                            location.reload(true);
-//                        });
-//                    } else {
-//                        bootbox.alert(data.mensaje);
-//                        $('input[name="categoria"]').val('');
-//                        $('input[name="id_categoria"]').val('');
-//                        $("#add").html('Guardar');
-//                    }
-//                }, 'json');
             } else {
                 bootbox.alert('Debes escribir una categoría.');
             }
