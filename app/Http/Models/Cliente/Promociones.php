@@ -85,4 +85,23 @@ class Promociones extends Model
         return$query;
     }
 
+    public function scopeByIdPropietario($query, $id_propietario)
+    {
+        $cl_promociones = Promociones::getTableName();
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+
+        return $query
+            ->select(
+                $cl_promociones . '.*',
+                $cl_clientes . '.nombre as nombre_cliente'
+            )
+            ->join($cl_clientes, $cl_promociones . '.cliente_id', '=', $cl_clientes . '.id')
+            ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+            ->where($cl_propietario . '.id', $id_propietario)
+            ->orderBy($cl_promociones . '.created_at', 'DESC')
+            ->take(10)
+            ->get();
+    }
+
 }

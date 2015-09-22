@@ -12,6 +12,7 @@ use App\Http\Requests\Promociones\CreatePromociones;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Jenssegers\Date\Date;
 use PHPImageWorkshop\ImageWorkshop;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -35,8 +36,10 @@ class PromocionesCliente extends BaseCliente
         $cl_promociones = Promociones::getTableName();
         $cl_clientes = Cliente::getTableName();
         $cl_propietario = Propietario::getTableName();
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
+        $ultimosRegistrados = Promociones::byIdPropietario($this->infoPropietario->id);
 
-        $promociones = DB::table($cl_promociones)
+        $promocionesMasGustadas = DB::table($cl_promociones)
                          ->select(
                              $cl_promociones . '.id',
                              $cl_clientes . '.id as cliente_id',
@@ -53,10 +56,22 @@ class PromocionesCliente extends BaseCliente
                          ->take(10)
                          ->get();
 
-        foreach ($promociones as $promocion) {
+
+        foreach ($promocionesMasGustadas as $promocion) {
             $promocion->imagen = $this->_getImage($promocion->cliente_id, 'promociones', $promocion->id);
         }
-        $this->data['promocionesMasGustadas'] = $promociones;
+
+        $ultimosRegistrados = Promociones::byIdPropietario($this->infoPropietario->id);
+        foreach ($ultimosRegistrados as $promocion) {
+            $promocion->imagen = $this->_getImage($promocion->cliente_id, 'promociones', $promocion->id);
+            $promocion->fecha =  Date::createFromFormat('Y-m-d H:i:s', $promocion->created_at)->format('d \\d\\e F \\d\\e\\l Y');
+            $promocion->fecha =  Date::createFromFormat('Y-m-d H:i:s', $promocion->created_at)->format('d \\d\\e F \\d\\e\\l Y');
+        }
+
+        $this->data['promocionesMasGustadas'] = $promocionesMasGustadas;
+        $this->data['negocios'] = $clientes;
+        $this->data['ultimosRegistrados'] = $ultimosRegistrados;
+
 
         return $this->view('cliente.promociones.index');
     }
@@ -157,6 +172,35 @@ class PromocionesCliente extends BaseCliente
         }
         else {
             return response('No existe esta promocion.', 412);
+        }
+    }
+
+    public function showPromocionesCliente($id)
+    {
+        if (!is_null($cliente = Cliente::find($id))) {
+            if($cliente->propietario->id == $this->infoPropietario->id) {
+                $categorias = Categorias::where('cliente_id', $cliente->id)->get(['id', 'categoria'])->ToArray();
+                $optionsCategorias = [];
+                foreach ($categorias as $index => $categoria) {
+                    $optionsCategorias[$categoria['id']] = $categoria['categoria'];
+                }
+                $llaves = array_keys($optionsCategorias);
+                $llaves = (empty($llaves)) ? NULL : $llaves;
+
+                $this->data['array_form'] = [
+                    'url' => '',
+                    'role' => 'form',
+                    'id' => 'categoria_id',
+                    'autocomplete' => 'off'
+                ];
+                $this->data['cliente'] = $cliente;
+                $this->data['categorias'] = $optionsCategorias;
+                $this->data['llaves'] = $llaves;
+                return $this->view('cliente.promociones.promociones-cliente');
+            }
+        }
+        else {
+            return response('No existe Negocio.', 412);
         }
     }
 

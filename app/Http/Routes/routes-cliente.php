@@ -234,6 +234,12 @@ Route::group(
                 'as' => 'global-crop-logo-promocion',
                 'uses' => 'PromocionesCliente@cropImage'
             ]);
+
+            Route::get('promociones/{id_cliente?}', [
+                'as' => 'promociones.id.cliente',
+                'uses' => 'PromocionesCliente@showPromocionesCliente'
+            ])->where('id_cliente', '[0-9a-zA-Z]+');
+
         });
 
         /*
