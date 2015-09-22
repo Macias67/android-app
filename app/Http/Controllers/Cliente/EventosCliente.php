@@ -28,26 +28,31 @@ class EventosCliente extends BaseCliente
         $cl_clientes = Cliente::getTableName();
         $cl_propietario = Propietario::getTableName();
 
-        $eventos = DB::table($cl_eventos)
+        $ultimosEventos = DB::table($cl_eventos)
                      ->select(
                          $cl_eventos . '.id',
                          $cl_clientes . '.id as cliente_id',
                          $cl_clientes . '.nombre as nombre_cliente',
                          $cl_eventos . '.nombre as nombre_evento',
-                         $cl_eventos . '.descripcion'
+                         $cl_eventos . '.descripcion',
+                         DB::raw('COUNT(usr_usuario_gusta_evento.evento_id) AS totalLikes')
                      )
                      ->join($cl_clientes, $cl_eventos . '.cliente_id', '=', $cl_clientes . '.id')
                      ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+                     ->join('usr_usuario_gusta_evento', $cl_eventos . '.id', '=', 'usr_usuario_gusta_evento.evento_id')
                      ->where($cl_propietario . '.id', '=', $this->infoPropietario->id)
                      ->groupBy($cl_eventos . '.nombre')
                      ->orderBy($cl_eventos.'.created_at','DESC')
                      ->take(10)
                      ->get();
 
-        foreach ($eventos as $evento) {
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
+
+        foreach ($ultimosEventos as $evento) {
             $evento->imagen = $this->_getImage($evento->cliente_id, 'eventos', $evento->id);
         }
-        $this->data['eventosMasGustados'] = $eventos;
+        $this->data['eventosMasGustados'] = $ultimosEventos;
+        $this->data['negocios'] = $clientes;
 
         return $this->view('cliente.eventos.index');
     }
