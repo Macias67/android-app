@@ -135,7 +135,7 @@
                                             <input id="option1" type="radio" name="estatus" class="toggle" value="proximo" checked> Próximo </label>
                                         <label class="btn btn-default">
                                             <input id="option2" type="radio" name="estatus" class="toggle" value="ahora"> Ahora </label>
-                                        <label class="btn btn-default">2
+                                        <label class="btn btn-default">
                                             <input id="option3" type="radio" name="estatus" class="toggle" value="caduco"> Caduco </label>
                                     </div>
                                 </div>

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use PHPImageWorkshop\ImageWorkshop;
+use Jenssegers\Date\Date;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EventosCliente extends BaseCliente
@@ -28,25 +29,37 @@ class EventosCliente extends BaseCliente
         $cl_clientes = Cliente::getTableName();
         $cl_propietario = Propietario::getTableName();
 
-        $eventos = DB::table($cl_eventos)
-                     ->select(
-                         $cl_eventos . '.id',
-                         $cl_clientes . '.id as cliente_id',
-                         $cl_clientes . '.nombre as nombre_cliente',
-                         $cl_eventos . '.nombre as nombre_evento',
-                         $cl_eventos . '.descripcion'
-                     )
-                     ->join($cl_clientes, $cl_eventos . '.cliente_id', '=', $cl_clientes . '.id')
-                     ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
-                     ->where($cl_propietario . '.id', '=', $this->infoPropietario->id)
-                     ->groupBy($cl_eventos . '.nombre')
-                     ->take(10)
-                     ->get();
+        $eventosMasGustados = DB::table($cl_eventos)
+             ->select(
+                 $cl_eventos . '.id',
+                 $cl_clientes . '.id as cliente_id',
+                 $cl_clientes . '.nombre as nombre_cliente',
+                 $cl_eventos . '.nombre as nombre_evento',
+                 $cl_eventos . '.descripcion',
+                 DB::raw('COUNT(usr_usuario_gusta_evento.evento_id) AS totalLikes')
+             )
+             ->join($cl_clientes, $cl_eventos . '.cliente_id', '=', $cl_clientes . '.id')
+             ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+             ->join('usr_usuario_gusta_evento', $cl_eventos . '.id', '=', 'usr_usuario_gusta_evento.evento_id')
+             ->where($cl_propietario . '.id', '=', $this->infoPropietario->id)
+             ->groupBy($cl_eventos . '.nombre')
+             ->orderBy('totalLikes','DESC')
+             ->take(10)
+             ->get();
 
-        foreach ($eventos as $evento) {
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
+
+        $ultimosRegistrados = Evento::byIdPropietario($this->infoPropietario->id);
+        foreach ($ultimosRegistrados as $evento) {
+            $evento->imagen = $this->_getImage($evento->cliente_id, 'productos', $evento->id);
+            $evento->fecha =  Date::createFromFormat('Y-m-d H:i:s', $evento->created_at)->format('d \\d\\e F \\d\\e\\l Y');
+        }
+        foreach ($eventosMasGustados as $evento) {
             $evento->imagen = $this->_getImage($evento->cliente_id, 'eventos', $evento->id);
         }
-        $this->data['eventosMasGustados'] = $eventos;
+        $this->data['ultimosEventos'] = $ultimosRegistrados;
+        $this->data['eventosMasGustados'] = $eventosMasGustados;
+        $this->data['negocios'] = $clientes;
 
         return $this->view('cliente.eventos.index');
     }
@@ -143,6 +156,36 @@ class EventosCliente extends BaseCliente
         }
     }
 
+    public function showEventosCliente($id){
+        if (!is_null($cliente = Cliente::find($id))) {
+            if($cliente->propietario->id == $this->infoPropietario->id) {
+                $eventos = Evento::where('cliente_id', $cliente->id)->get(['id', 'nombre'])->ToArray();
+
+                $optionsEventos = [];
+                foreach ($eventos as $index => $evento) {
+                    $optionsEventos[$evento['id']] = $evento['nombre'];
+                }
+
+                $llaves = array_keys($optionsEventos);
+                $llaves = (empty($llaves)) ? NULL : $llaves;
+
+                $this->data['array_form'] = [
+                    'url' => '',
+                    'role' => 'form',
+                    'id' => 'evento_id',
+                    'autocomplete' => 'off'
+                ];
+
+                $this->data['llaves']  = $llaves;
+                $this->data['cliente'] = $cliente;
+                $this->data['eventos'] = $optionsEventos;
+                return $this->view('cliente.eventos.eventos-cliente');
+            }
+        }else {
+            return response('No existe Negocio.', 412);
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -196,6 +239,51 @@ class EventosCliente extends BaseCliente
     public function destroy($id)
     {
         //
+    }
+
+    public function cropImage(Request $request)
+    {
+        if ($request->ajax()) {
+            $evento_id = $request->get('evento_id');
+            $cliente_id = $request->get('cliente_id');
+            $imgUrl = $request->get('imgUrl');
+            // original sizes
+            $imgInitW = $request->get('imgInitW');
+            $imgInitH = $request->get('imgInitH');
+            // resized sizes
+            $imgW = $request->get('imgW');
+            $imgH = $request->get('imgH');
+            // offsets
+            $imgX1 = $request->get('imgX1');
+            $imgY1 = $request->get('imgY1');
+            // crop box
+            $cropW = $request->get('cropW');
+            $cropH = $request->get('cropH');
+            // rotation angle
+            $angle = $request->get('rotation');
+
+            $layer = ImageWorkshop::initFromPath($imgUrl);
+
+            $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
+            $layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
+
+            unlink("img/cliente/" . $cliente_id . "/eventos/" . $evento_id . "/" . pathinfo($imgUrl, PATHINFO_BASENAME));
+
+            $dirPath = "img/cliente/" . $cliente_id . "/eventos/" . $evento_id . '/';
+            $filename = strtolower(str_random(15)) . '-' . $evento_id . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
+            $createFolders = TRUE;
+            $backgroundColor = NULL; // transparent, only for PNG (otherwise it will be white if set null)
+            $imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
+
+            $layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
+
+            $response = [
+                "status" => 'success',
+                "url" => asset($dirPath . $filename)
+            ];
+
+            return new JsonResponse($response);
+        }
     }
 
     public function uploadImage(Request $request)
@@ -254,48 +342,62 @@ class EventosCliente extends BaseCliente
         }
     }
 
-    public function cropImage(Request $request)
+    public function datatable(Request $request)
     {
-        if ($request->ajax()) {
-            $evento_id = $request->get('evento_id');
-            $cliente_id = $request->get('cliente_id');
-            $imgUrl = $request->get('imgUrl');
-            // original sizes
-            $imgInitW = $request->get('imgInitW');
-            $imgInitH = $request->get('imgInitH');
-            // resized sizes
-            $imgW = $request->get('imgW');
-            $imgH = $request->get('imgH');
-            // offsets
-            $imgX1 = $request->get('imgX1');
-            $imgY1 = $request->get('imgY1');
-            // crop box
-            $cropW = $request->get('cropW');
-            $cropH = $request->get('cropH');
-            // rotation angle
-            $angle = $request->get('rotation');
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $columns = $request->get('columns');
+        $search = $request->get('search');
 
-            $layer = ImageWorkshop::initFromPath($imgUrl);
 
-            $layer->resizeInPixel($imgW, $imgH, TRUE, 0, 0, 'LT');
-            $layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
+        $total = Evento::count();
 
-            unlink("img/cliente/" . $cliente_id . "/eventos/" . $evento_id . "/" . pathinfo($imgUrl, PATHINFO_BASENAME));
-
-            $dirPath = "img/cliente/" . $cliente_id . "/eventos/" . $evento_id . '/';
-            $filename = strtolower(str_random(15)) . '-' . $evento_id . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
-            $createFolders = TRUE;
-            $backgroundColor = NULL; // transparent, only for PNG (otherwise it will be white if set null)
-            $imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
-
-            $layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
-
-            $response = [
-                "status" => 'success',
-                "url" => asset($dirPath . $filename)
-            ];
-
-            return new JsonResponse($response);
+        if ($length == -1) {
+            $length = NULL;
+            $start = NULL;
         }
+
+        $tEvento = Evento::getTableName();
+
+        $campos = [
+            $tEvento . '.id',
+            $tEvento . '.nombre'
+        ];
+
+        $pos_col = $order[0]['column'];
+        $order = $order[0]['dir'];
+        $campo = $columns[$pos_col]['data'];
+
+        $id_cliente = $request->get('id_cliente');
+
+        $eventos = DB::table($tEvento)
+                ->select($campos)
+                ->where($tEvento . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+                ->take($length)
+                ->skip($start)
+                ->orderBy($campo, $order)->get();
+
+        $proceso = array();
+        foreach ($eventos as $index => $evento) {
+            array_push(
+                $proceso,
+                [
+                    'DT_RowId' => $evento->id,
+                    'nombre' => $evento->nombre,
+                    'url' => route('cliente.evento.show', [$evento->id])
+                ]
+            );
+        }
+        $data = [
+            'draw' => $draw,
+            'recordsTotal' => count($eventos),
+            'recordsFiltered' => $total,
+            'data' => $proceso,
+            'length' => $length
+        ];
+
+        return new JsonResponse($data, 200);
     }
 }

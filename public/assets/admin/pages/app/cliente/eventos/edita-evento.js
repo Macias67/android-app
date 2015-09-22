@@ -52,13 +52,8 @@ var EditaEvento = function () {
 
     var mapGeocoding = function () {
 
-        $('#calle_registrada').focus(function() {
-            var calle = $('input[name="direccion"]').val();
-            $('#calle_registrada').val($.trim(calle));
-        });
-
         var marker;
-        var calle, numero, colonia, codigo_postal;
+        var calle;
 
         var map = new GMaps({
             div: '#gmap_geocoding',
@@ -66,14 +61,16 @@ var EditaEvento = function () {
             lng: -102.76523259999999
         });
 
+        $('#calle_registrada').focus(function() {
+            var calle = $('input[name="direccion"]').val();
+            $('#calle_registrada').val($.trim(calle));
+        });
+
         var handleAction = function () {
-            console.log('Entró al handleAction');
-            console.log($('#calle_registrada').val());
             GMaps.geocode({
                 address:  $('#calle_registrada').val(),
                 callback: function (results, status) {
                     if (status == 'OK') {
-                        console.log(results);
                         var latlng = results[0].geometry.location;
                         map.setCenter(latlng.lat(), latlng.lng());
                         if(marker) {
@@ -216,10 +213,7 @@ var EditaEvento = function () {
 
     var updateGeocodingAddress = function (results) {
         if(results[0].address_components.length == 7) {
-            numero        = results[0].address_components[0].long_name;
-            calle         = results[0].address_components[1].long_name;
-            colonia       = results[0].address_components[2].long_name;
-            codigo_postal = results[0].address_components[6].long_name;
+            calle         = results[0].address_components[0].long_name;
             $('#gmap_geocoding_address').val(results[0].formatted_address);
         }
         else {
@@ -331,7 +325,6 @@ var EditaEvento = function () {
                     maxlength: 45
                 },
                 slug:          {
-//                    required:  true,
                     maxlength: 45
                 },
                 direccion:{
@@ -378,13 +371,7 @@ var EditaEvento = function () {
                 var url  = $(form).attr('action');
                 var data = $(form).serialize();
 
-                console.log("URL:");
-                console.log(url);
-                console.log("DATA:");
-                console.log(data);
-
                 var success = function (data) {
-                    console.log(data);
                     App.removeLoader(500, function () {
                         swal({
                             title:              '<h3>' + data.titulo + '</h3>',

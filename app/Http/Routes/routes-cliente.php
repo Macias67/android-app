@@ -252,6 +252,16 @@ Route::group(
             'uses' => 'EventosCliente@index'
         ]);
 
+        Route::get('eventos/{id_cliente?}', [
+            'as' => 'eventos.id.cliente',
+            'uses' => 'EventosCliente@showEventosCliente'
+        ])->where('id_cliente', '[0-9a-zA-Z]+');
+
+        Route::post('eventos/datatable/', [
+            'as' => 'cliente-table-datatable-eventos',
+            'uses' => 'EventosCliente@datatable'
+        ]);
+
         Route::group(['prefix' => 'eventos'], function () {
 
             Route::get('nuevo', [

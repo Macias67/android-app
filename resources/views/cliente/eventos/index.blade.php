@@ -24,15 +24,12 @@
 @section('page-breadcrumb')
     <ul class="page-breadcrumb breadcrumb">
         <li>
-            <a href="">Inicio</a>
+            <a href="{{route('clientes')}}">Inicio</a>
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <a href="#">Page Layouts</a>
+            <a href="{{URL::current()}}">Eventos</a>
             <i class="fa fa-circle"></i>
-        </li>
-        <li>
-            <a href="#">Blank Page</a>
         </li>
     </ul>
 @stop
@@ -79,8 +76,8 @@
                 <div class="portlet-title">
                     <div class="caption font-green-sharp">
                         <i class="icon-like font-green-sharp"></i>
-                        <span class="caption-subject bold uppercase"> Los más gustados</span>
-                        <span class="caption-helper">Top 10 mas gustados.</span>
+                        <span class="caption-subject bold uppercase"> Los eventos más gustados</span>
+                        <span class="caption-helper">Top 10 eventos más gustados.</span>
                     </div>
                     <div class="actions">
                         <a href="{{route('cliente.evento.create')}}" class="btn btn-circle bg-green-jungle hvr-grow"><i class="fa fa-plus"></i></a>
@@ -98,11 +95,12 @@
                                             <div class="caption font-yellow-crusta">
                                                 <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$evento->nombre_evento}} </span>
                                                 <br>
-                                            <span class="caption-helper">
-                                                <b>Código</b>
-                                            </span>
-
-
+                                                <span class="caption-helper">
+                                                    <a href="{{route('cliente.negocio.perfil', [$evento->cliente_id])}}" class="faa-parent animated-icon-hover">
+                                                        <i class="fa fa-angle-double-right faa-horizontal"></i>
+                                                        <b>{{$evento->nombre_cliente}}</b>
+                                                    </a>
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="portlet-body">
@@ -113,7 +111,7 @@
                                             <div class="col-md-6">
                                             <span class="label bg-red-thunderbird">
                                                 <i class="fa fa-heart faa-pulse animated-icon faa-fast"></i>
-                                                <b>457 les gusta</b>
+                                                <b>{{$evento->totalLikes}} les gusta</b>
                                             </span>
                                             </div>
                                             <div class="col-md-6">
@@ -136,6 +134,89 @@
             </div>
             <!-- END Portlet PORTLET-->
         </div>
+
+        <div class="col-md-6">
+            <!-- BEGIN Por Negocio PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-home font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Por negocio</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        @foreach($negocios as $negocio)
+                            <div class="col-sm-6 col-md-4">
+                                <a href="{{route('eventos.id.cliente', [$negocio->id])}}" class="thumbnail">
+                                    <img src="{{$negocio->logo()}}" alt="100%x180" style="height: 100%; width: 100%; display: block;">
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <!-- END Por Negocio PORTLET-->
+
+            <!-- BEGIN Ultimos Registrados PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-bars font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Últimos registrados</span>
+                    </div>
+                    <div class="actions">
+                        <a href="{{route('cliente.evento.create')}}" class="btn btn-circle bg-green-jungle hvr-grow"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="scroller" style="height:500px" data-rail-visible="1" data-rail-color="gray" data-handle-color="#a1b2bd">
+                        <!-- BEGIN PAGE CONTENT-->
+                        <div class="tiles">
+                            <div class="col-md-12">
+                                @foreach($ultimosEventos as $index => $evento)
+                                    <div class="layer animated flipInX" style="background-image: url('{{$evento->imagen}}')">
+                                        <div class="portlet light">
+                                            <div class="portlet-title">
+                                                <div class="caption font-yellow-crusta">
+                                                    <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$evento->nombre}} </span>
+                                                    <br>
+													<span class="caption-helper">
+														<a href="{{route('cliente.negocio.perfil', [$evento->cliente_id])}}" class="faa-parent animated-icon-hover">
+                                                            <i class="fa fa-angle-double-right faa-horizontal"></i>
+                                                            <b>{{$evento->nombre_cliente}}</b>
+                                                        </a>
+													</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="col-md-12">
+                                                    <h4 style="margin-top: 5px">{{$evento->descripcion}}</h4>
+                                                </div>
+                                                    <div class="col-md-6">
+                                                            <span class="label bg-yellow-saffron">
+                                                            <i class="fa fa-calendar"></i>
+                                                            <b>{{$evento->fecha}}</b>
+													    </span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <a href="{{route('cliente.producto.show', [$evento->id])}}" class="btn bg-green-jungle btn-xs pull-right faa-parent animated-icon-hover  hvr-grow">
+                                                            <i class="icon-pencil faa-ring"></i> Editar
+                                                        </a>
+                                                    {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <!-- END PAGE CONTENT-->
+                    </div>
+                </div>
+            </div>
+            <!-- END Ultimos Registrados PORTLET-->
     </div>
 @stop
 
