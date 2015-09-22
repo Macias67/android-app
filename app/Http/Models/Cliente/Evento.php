@@ -80,6 +80,26 @@ class Evento extends Model
         return $this->hasOne(Cliente::class, 'id', 'cliente_id');
     }
 
+    public function scopeByIdPropietario($query, $id_propietario)
+    {
+        $cl_eventos = Evento::getTableName();
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
+
+        return $query
+            ->select(
+                $cl_eventos . '.*',
+                $cl_clientes . '.nombre as nombre_cliente'
+            )
+            ->join($cl_clientes, $cl_eventos . '.cliente_id', '=', $cl_clientes . '.id')
+            ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+            ->where($cl_propietario . '.id', $id_propietario)
+            ->orderBy($cl_eventos . '.created_at', 'DESC')
+            ->take(10)
+            ->get();
+    }
+
+
     private function _cleanData ()
     {
         $this->nombre           = mb_convert_case(trim(mb_strtolower($this->nombre)), MB_CASE_TITLE, "UTF-8");
