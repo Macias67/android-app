@@ -139,6 +139,89 @@
             </div>
             <!-- END Portlet PORTLET-->
         </div>
+        <div class="col-md-6">
+            <!-- BEGIN Por Negocio PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-home font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Por negocio</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        @foreach($negocios as $negocio)
+                            <div class="col-sm-6 col-md-4">
+                                <a href="{{route('promociones.id.cliente', [$negocio->id])}}" class="thumbnail">
+                                    <img src="{{$negocio->logo()}}" alt="100%x180" style="height: 100%; width: 100%; display: block;">
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <!-- END Por Negocio PORTLET-->
+
+            <!-- BEGIN Ultimos Registrados PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="fa fa-bars font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Últimos registrados</span>
+                    </div>
+                    <div class="actions">
+                        <a href="{{route('cliente.promociones.create')}}" class="btn btn-circle bg-green-jungle hvr-grow"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="scroller" style="height:500px" data-rail-visible="1" data-rail-color="gray" data-handle-color="#a1b2bd">
+                        <!-- BEGIN PAGE CONTENT-->
+                        <div class="tiles">
+                            <div class="col-md-12">
+                                @foreach($ultimosRegistrados as $index => $promocion)
+                                    <div class="layer animated flipInX" style="background-image: url('{{$promocion->imagen}}')">
+                                        <div class="portlet light">
+                                            <div class="portlet-title">
+                                                <div class="caption font-yellow-crusta">
+                                                    <span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$promocion->nombre}} </span>
+                                                    <br>
+													<span class="caption-helper">
+														<a href="{{route('cliente.negocio.perfil', [$promocion->cliente_id])}}" class="faa-parent animated-icon-hover">
+                                                            <i class="fa fa-angle-double-right faa-horizontal"></i>
+                                                            <b>{{$promocion->nombre_cliente}}</b>
+                                                        </a>
+													</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="col-md-12">
+                                                    <h4 style="margin-top: 5px">{{$promocion->descripcion_corta}}</h4>
+                                                </div>
+                                                <div class="col-md-6">
+													<span class="label bg-yellow-saffron">
+														<i class="fa fa-calendar"></i>
+														<b>{{$promocion->fecha}}</b>
+													</span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="{{route('cliente.promociones.show', [$promocion->id])}}" class="btn bg-green-jungle btn-xs pull-right faa-parent animated-icon-hover  hvr-grow">
+                                                        <i class="icon-pencil faa-ring"></i> Editar
+                                                    </a>
+                                                    {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <!-- END PAGE CONTENT-->
+                    </div>
+                </div>
+            </div>
+            <!-- END Ultimos Registrados PORTLET-->
+        </div>
     </div>
 @stop
 
