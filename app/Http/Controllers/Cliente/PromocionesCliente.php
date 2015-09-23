@@ -360,4 +360,66 @@ class PromocionesCliente extends BaseCliente
         }
     }
 
+    public function datatable(Request $request, $categoria_id = NULL)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $columns = $request->get('columns');
+        $search = $request->get('search');
+
+        $byCategoria = is_null($categoria_id);
+
+        $total = ($byCategoria) ? Promociones::count() : Promociones::where('categoria_id', $categoria_id)->count();
+
+        if ($length == -1) {
+            $length = NULL;
+            $start = NULL;
+        }
+
+        $tPromociones = Promociones::getTableName();
+
+        $campos = [
+            $tPromociones . '.id',
+            $tPromociones . '.nombre',
+            $tPromociones . '.siempre',
+            $tPromociones . '.disp_inicio',
+            $tPromociones . '.disp_fin'
+        ];
+
+        $pos_col = $order[0]['column'];
+        $order = $order[0]['dir'];
+        $campo = $columns[$pos_col]['data'];
+
+        $id_cliente = $request->get('id_cliente');
+
+        $promociones = DB::table($tPromociones)
+                ->select($campos)
+                ->take($length)
+                ->skip($start)
+                ->orderBy($campo, $order)->get();
+        dd($promociones);
+
+        $proceso = array();
+        foreach ($promociones as $index => $promocion) {
+            array_push(
+                $proceso,
+                [
+                    'DT_RowId' => $promocion->id,
+                    'nombre' => $promocion->nombre,
+                    'url' => route('cliente.promociones.show', [$promocion->id])
+                ]
+            );
+        }
+        $data = [
+            'draw' => $draw,
+            'recordsTotal' => count($promociones),
+            'recordsFiltered' => $total,
+            'data' => $proceso
+        ];
+
+        return new JsonResponse($data, 200);
+    }
+
 }

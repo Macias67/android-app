@@ -40,60 +40,7 @@
 {{-- Conteindo de la vista. --}}
 @section('content')
       <div class="row">
-		  <div class="col-md-4">
-	            <!-- BEGIN Productos por Categoria PORTLET-->
-	            <div class="portlet light animated bounceInUp">
-		            <div class="portlet-title">
-			            <div class="caption">
-				            <i class="icon-speech"></i>
-				            <span class="caption-subject bold uppercase"> Por Nombre</span>
-			            </div>
-		            </div>
-		            <div class="portlet-body form">
-			            <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-			            <table class="table table-striped table-hover table-bordered" id="productos_nombre" data-url="{{route('cliente-table-datatable-productos-categoria')}}">
-				            <thead>
-				            <tr>
-					            <th>Nombre</th>
-					            <th></th>
-				            </tr>
-				            </thead>
-			            </table>
-		            </div>
-	            </div>
-	            <!-- END Productos por Categoria PORTLET-->
-            </div>
 
-	      <div class="col-md-4">
-		      <!-- BEGIN Productos por Nombre PORTLET-->
-		      <div class="portlet light animated bounceInUp">
-			      <div class="portlet-title">
-				      <div class="caption">
-					      <i class="icon-speech"></i>
-					      <span class="caption-subject bold uppercase"> Por Categoría</span>
-				      </div>
-			      </div>
-			      <div class="portlet-body form">
-				      {!! Form::open($array_form) !!}
-				      <div class="form-body">
-					      <div class="form-group">
-						      {!! Form::select('categoria_id', $categorias, $llaves[0], array('class' => 'form-control')) !!}
-					      </div>
-				      </div>
-				      {!! Form::close() !!}
-				      <br>
-				      <table class="table table-striped table-hover table-bordered" id="productos_categorias" data-url="{{route('cliente-table-datatable-productos-categoria')}}">
-					      <thead>
-					      <tr>
-						      <th>Nombre</th>
-						      <th></th>
-					      </tr>
-					      </thead>
-				      </table>
-			      </div>
-		      </div>
-		      <!-- END Productos por Nombre PORTLET-->
-	      </div>
 
 		  <div class="col-md-4">
 			  <!-- BEGIN Productos por Categoria PORTLET-->
@@ -101,12 +48,60 @@
 				  <div class="portlet-title">
 					  <div class="caption">
 						  <i class="icon-speech"></i>
-						  <span class="caption-subject bold uppercase"> Por Nombre</span>
+						  <span class="caption-subject bold uppercase"> Promociones Vigentes</span>
 					  </div>
 				  </div>
 				  <div class="portlet-body form">
 					  <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-					  <table class="table table-striped table-hover table-bordered" id="productos_nombre" data-url="{{route('cliente-table-datatable-productos-categoria')}}">
+					  <table class="table table-striped table-hover table-bordered" id="promociones_vigentes" data-url="{{route('cliente-table-datatable-promociones-categoria')}}">
+						  <thead>
+						  <tr>
+							  <th>Nombre</th>
+							  <th></th>
+						  </tr>
+						  </thead>
+					  </table>
+				  </div>
+			  </div>
+			  <!-- END Productos por Categoria PORTLET-->
+		  </div>
+
+		  <div class="col-md-4">
+			  <!-- BEGIN Productos por Categoria PORTLET-->
+			  <div class="portlet light animated bounceInUp">
+				  <div class="portlet-title">
+					  <div class="caption">
+						  <i class="icon-speech"></i>
+						  <span class="caption-subject bold uppercase"> Promociones fijas</span>
+					  </div>
+				  </div>
+				  <div class="portlet-body form">
+					  <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
+					  <table class="table table-striped table-hover table-bordered" id="promociones_fijas" data-url="{{route('cliente-table-datatable-promociones-categoria')}}">
+						  <thead>
+						  <tr>
+							  <th>Nombre</th>
+							  <th></th>
+						  </tr>
+						  </thead>
+					  </table>
+				  </div>
+			  </div>
+			  <!-- END Productos por Categoria PORTLET-->
+		  </div>
+
+		  <div class="col-md-4">
+			  <!-- BEGIN Productos por Categoria PORTLET-->
+			  <div class="portlet light animated bounceInUp">
+				  <div class="portlet-title">
+					  <div class="caption">
+						  <i class="icon-speech"></i>
+						  <span class="caption-subject bold uppercase"> Promociones Caducas</span>
+					  </div>
+				  </div>
+				  <div class="portlet-body form">
+					  <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
+					  <table class="table table-striped table-hover table-bordered" id="promociones_caducas" data-url="{{route('cliente-table-datatable-promociones-categoria')}}">
 						  <thead>
 						  <tr>
 							  <th>Nombre</th>
@@ -134,10 +129,10 @@
 	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
 	<script type="text/javascript" src="{{asset('assets/global/plugins/select2/select2.min.js')}}"></script>
-	<script src="{{asset('assets/admin/pages/app/cliente/productos/producto-cliente.js')}}" type="text/javascript"></script>
+	<script src="{{asset('assets/admin/pages/app/cliente/promociones/promociones-cliente.js')}}" type="text/javascript"></script>
 @stop
 
 {{-- Inicializo los js --}}
 @section('init-js')
-	ProductosCliente.init();
+	PromocionesCliente.init();
 @stop
