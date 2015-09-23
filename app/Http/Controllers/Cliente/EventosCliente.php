@@ -51,7 +51,7 @@ class EventosCliente extends BaseCliente
 
         $ultimosRegistrados = Evento::byIdPropietario($this->infoPropietario->id);
         foreach ($ultimosRegistrados as $evento) {
-            $evento->imagen = $this->_getImage($evento->cliente_id, 'productos', $evento->id);
+            $evento->imagen = $this->_getImage($evento->cliente_id, 'eventos', $evento->id);
             $evento->fecha =  Date::createFromFormat('Y-m-d H:i:s', $evento->created_at)->format('d \\d\\e F \\d\\e\\l Y');
         }
         foreach ($eventosMasGustados as $evento) {
@@ -127,7 +127,6 @@ class EventosCliente extends BaseCliente
     {
         if (!is_null($evento = Evento::find($id))) {
             $idPropietario = $evento->idPropietario($this->infoPropietario->id, $id);
-
             if ($this->infoPropietario->id == $idPropietario[0]['id']) {
                 $fechaInicio = $evento->fecha_inicio . ' ' . $evento->hora_inicio;
                 $fechaFin = $evento->fecha_termina . ' ' . $evento->hora_termina;
@@ -160,29 +159,16 @@ class EventosCliente extends BaseCliente
         if (!is_null($cliente = Cliente::find($id))) {
             if($cliente->propietario->id == $this->infoPropietario->id) {
                 $eventos = Evento::where('cliente_id', $cliente->id)->get(['id', 'nombre'])->ToArray();
-
                 $optionsEventos = [];
                 foreach ($eventos as $index => $evento) {
                     $optionsEventos[$evento['id']] = $evento['nombre'];
                 }
 
-                $llaves = array_keys($optionsEventos);
-                $llaves = (empty($llaves)) ? NULL : $llaves;
-
-                $this->data['array_form'] = [
-                    'url' => '',
-                    'role' => 'form',
-                    'id' => 'evento_id',
-                    'autocomplete' => 'off'
-                ];
-
-                $this->data['llaves']  = $llaves;
                 $this->data['cliente'] = $cliente;
-                $this->data['eventos'] = $optionsEventos;
                 return $this->view('cliente.eventos.eventos-cliente');
             }
         }else {
-            return response('No existe Negocio.', 412);
+            return response('No existe evento.', 412);
         }
     }
 
@@ -351,8 +337,11 @@ class EventosCliente extends BaseCliente
         $columns = $request->get('columns');
         $search = $request->get('search');
 
+        $id_cliente = $request->get('id_cliente');
+        $hoy = date('Y-m-d');
 
-        $total = Evento::count();
+        $total = Evento::where('fecha_inicio', '>=', $hoy)
+            ->where('cliente_id', $id_cliente)->count();
 
         if ($length == -1) {
             $length = NULL;
@@ -374,6 +363,70 @@ class EventosCliente extends BaseCliente
 
         $eventos = DB::table($tEvento)
                 ->select($campos)
+                ->where($tEvento . '.cliente_id', $id_cliente)
+                ->where($tEvento . '.fecha_inicio', '>=', $hoy)
+                ->where($tEvento . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+                ->take($length)
+                ->skip($start)
+                ->orderBy($campo, $order)->get();
+
+        $proceso = array();
+        foreach ($eventos as $index => $evento) {
+            array_push(
+                $proceso,
+                [
+                    'DT_RowId' => $evento->id,
+                    'nombre' => $evento->nombre,
+                    'url' => route('cliente.evento.update', [$evento->id])
+                ]
+            );
+        }
+        $data = [
+            'draw' => $draw,
+            'recordsTotal' => count($eventos),
+            'recordsFiltered' => $total,
+            'data' => $proceso,
+        ];
+
+        return new JsonResponse($data, 200);
+    }
+    public function datatable2(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $columns = $request->get('columns');
+        $search = $request->get('search');
+
+        $id_cliente = $request->get('id_cliente');
+        $hoy = date('Y-m-d');
+
+        $total = Evento::where('fecha_inicio', '<', $hoy)
+                        ->where('cliente_id', $id_cliente)->count();
+
+        if ($length == -1) {
+            $length = NULL;
+            $start = NULL;
+        }
+
+        $tEvento = Evento::getTableName();
+
+        $campos = [
+            $tEvento . '.id',
+            $tEvento . '.nombre'
+        ];
+
+        $pos_col = $order[0]['column'];
+        $order = $order[0]['dir'];
+        $campo = $columns[$pos_col]['data'];
+
+
+
+        $eventos = DB::table($tEvento)
+                ->select($campos)
+                ->where($tEvento . '.cliente_id', $id_cliente)
+                ->where($tEvento . '.fecha_inicio', '<', $hoy)
                 ->where($tEvento . '.nombre', 'LIKE', '%' . $search['value'] . '%')
                 ->take($length)
                 ->skip($start)
@@ -395,7 +448,6 @@ class EventosCliente extends BaseCliente
             'recordsTotal' => count($eventos),
             'recordsFiltered' => $total,
             'data' => $proceso,
-            'length' => $length
         ];
 
         return new JsonResponse($data, 200);

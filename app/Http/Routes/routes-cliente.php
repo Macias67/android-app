@@ -109,7 +109,6 @@ Route::group(
                 'uses' => 'ProductosCliente@update'
             ]);
 
-
             Route::get('json/{id?}', [
                 'as' => 'cliente.producto.procutos-json',
                 'uses' => 'ProductosCliente@getProductosJson'
@@ -255,8 +254,12 @@ Route::group(
             'as' => 'cliente-table-datatable-eventos',
             'uses' => 'EventosCliente@datatable'
         ]);
+        Route::post('eventos/datatable2/', [
+            'as' => 'cliente-table-datatable2-eventos',
+            'uses' => 'EventosCliente@datatable2'
+        ]);
 
-        Route::group(['prefix' => 'eventos'], function () {
+        Route::group(['prefix' => 'evento'], function () {
 
             Route::get('nuevo', [
                 'as' => 'cliente.evento.create',

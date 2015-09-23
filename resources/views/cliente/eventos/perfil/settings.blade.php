@@ -19,7 +19,7 @@
 							</li>
 						</ul>
 					</div>
-					<div class="portlet-body form">
+					<div class="portlet-body">
 						<div class="tab-content">
 							<!-- PERSONAL INFO TAB -->
 							<div class="tab-pane active" id="tab_principal">
@@ -30,7 +30,8 @@
 									<div class="col-md-6">
 										<!-- Nombre del evento -->
 										<div class="form-group">
-											<label class="col-md-4 control-label">Nombre<span class="required">*</span></label>
+											<label class="col-md-4 control-label">Evento
+												<span class="required">*</span></label>
 
 											<div class="col-md-8">
 												<div class="input-icon">
@@ -42,7 +43,8 @@
 
 										<!-- Slug -->
 										<div class="form-group">
-											<label class="col-md-4 control-label">Slug <span class="required">*</span></label>
+											<label class="col-md-4 control-label">Slug
+                                                <span class="required">*</span></label>
 
 											<div class="col-md-8">
 												<div class="input-icon">

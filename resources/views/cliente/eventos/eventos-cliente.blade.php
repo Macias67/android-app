@@ -41,7 +41,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-4">
-            <!-- BEGIN Productos por Categoria PORTLET-->
+            <!-- BEGIN Productos por Eventos Activos PORTLET-->
             <div class="portlet light animated bounceInUp">
                 <div class="portlet-title">
                     <div class="caption">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="portlet-body form">
                     <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-                    <table class="table table-striped table-hover table-bordered" id="productos_nombre" data-url="{{route('cliente-table-datatable-eventos')}}">
+                    <table class="table table-striped table-hover table-bordered" id="eventos_activos" data-url="{{route('cliente-table-datatable-eventos')}}">
                         <thead>
                         <tr>
                             <th>Nombre</th>
@@ -61,11 +61,11 @@
                     </table>
                 </div>
             </div>
-            <!-- END Productos por Categoria PORTLET-->
+            <!-- END Productos por Eventos Activos PORTLET-->
         </div>
 
         <div class="col-md-4">
-            <!-- BEGIN Productos por Nombre PORTLET-->
+            <!-- BEGIN Productos por Eventos Pasados PORTLET-->
             <div class="portlet light animated bounceInUp">
                 <div class="portlet-title">
                     <div class="caption">
@@ -74,15 +74,8 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    {!! Form::open($array_form) !!}
-                    <div class="form-body">
-                        <div class="form-group">
-                            {!! Form::select('categoria_id', $eventos, $llaves[0], array('class' => 'form-control')) !!}
-                        </div>
-                    </div>
-                    {!! Form::close() !!}
-                    <br>
-                    <table class="table table-striped table-hover table-bordered" id="productos_categorias" data-url="{{route('cliente-table-datatable-eventos')}}">
+                    <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
+                    <table class="table table-striped table-hover table-bordered" id="eventos_pasados" data-url="{{route('cliente-table-datatable2-eventos')}}">
                         <thead>
                         <tr>
                             <th>Nombre</th>
@@ -92,8 +85,9 @@
                     </table>
                 </div>
             </div>
-            <!-- END Productos por Nombre PORTLET-->
+            <!-- END Productos por Eventos Pasados PORTLET-->
         </div>
+
     </div>
 @stop
 

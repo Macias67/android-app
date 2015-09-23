@@ -12,8 +12,8 @@
 
 {{-- Sobreescribir el título de pagina--}}
 @section('page-title')
-    <h1>Página en blanco
-        <small>Página en blanco</small>
+    <h1>Página principal Eventos
+        <small>Administrador de eventos</small>
     </h1>
 @stop
 
@@ -141,7 +141,7 @@
                 <div class="portlet-title">
                     <div class="caption font-green-sharp">
                         <i class="fa fa-home font-green-sharp"></i>
-                        <span class="caption-subject bold uppercase"> Por negocio</span>
+                        <span class="caption-subject bold uppercase"> Filtrar eventos Por negocio</span>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -163,7 +163,7 @@
                 <div class="portlet-title">
                     <div class="caption font-green-sharp">
                         <i class="fa fa-bars font-green-sharp"></i>
-                        <span class="caption-subject bold uppercase"> Últimos registrados</span>
+                        <span class="caption-subject bold uppercase"> Últimos eventos registrados</span>
                     </div>
                     <div class="actions">
                         <a href="{{route('cliente.evento.create')}}" class="btn btn-circle bg-green-jungle hvr-grow"><i class="fa fa-plus"></i></a>
@@ -200,7 +200,7 @@
 													    </span>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <a href="{{route('cliente.producto.show', [$evento->id])}}" class="btn bg-green-jungle btn-xs pull-right faa-parent animated-icon-hover  hvr-grow">
+                                                        <a href="{{route('cliente.evento.show', [$evento->id])}}" class="btn bg-green-jungle btn-xs pull-right faa-parent animated-icon-hover  hvr-grow">
                                                             <i class="icon-pencil faa-ring"></i> Editar
                                                         </a>
                                                     {{--<button type="button" class="btn bg-green-jungle btn-xs pull-right"><i class="icon-pencil"></i> Editar</button>--}}
