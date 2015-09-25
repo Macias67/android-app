@@ -189,10 +189,10 @@ Route::group(
         });
 
         /*
-        |--------------------------------------------------------------------------
-        | PROMOCIONES
-        |--------------------------------------------------------------------------
-        */
+         |--------------------------------------------------------------------------
+         | PROMOCIONES
+         |--------------------------------------------------------------------------
+         */
         Route::get('promociones', [
             'as' => 'promociones-cliente',
             'uses' => 'PromocionesCliente@index'
@@ -238,6 +238,16 @@ Route::group(
                 'as' => 'promociones.id.cliente',
                 'uses' => 'PromocionesCliente@showPromocionesCliente'
             ])->where('id_cliente', '[0-9a-zA-Z]+');
+
+            Route::post('promociones/datatable/{categoria_id?}', [
+                'as' => 'cliente-table-datatable-promociones-categoria',
+                'uses' => 'PromocionesCliente@datatable'
+            ])->where('categoria_id', '[0-9a-zA-Z]+');
+
+            Route::post('promociones/datatable/', [
+                'as' => 'cliente-table-datatable-promociones-categoria',
+                'uses' => 'PromocionesCliente@datatable'
+            ]);
 
         });
 
