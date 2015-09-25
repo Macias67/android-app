@@ -87,16 +87,16 @@ var EventosCliente = function() {
             "drawCallback": function(settings) {},
             "language": {
                 "emptyTable": 		"No hay eventos registrados",
-                "info": 				"Mostrando _START_ a _END_ de _MAX_ eventos",
-                "infoEmpty": 		"No se ha registrado ningúna producto",
-                "infoFiltered": 		"(de un total de _TOTAL_ eventos registrados)",
+                "info": 			"Mostrando _START_ a _END_ de _MAX_ eventos",
+                "infoEmpty": 		"No se ha registrado ningún evento",
+                "infoFiltered": 	"(de un total de _TOTAL_ eventos registrados)",
                 "infoPostFix": 		"",
                 "thousands": 		",",
                 "lengthMenu": 		"_MENU_ entradas",
                 "loadingRecords": 	"Cargando...",
                 "processing": 		"Procesando...",
                 "search": 			"Buscar: ",
-                "zeroRecords": 	"No se encontraron coincidencias",
+                "zeroRecords": 	    "No se encontraron coincidencias",
                 "lengthMenu": 		"_MENU_ registros"
             },
             "order": [0, 'asc' ] // Ordenados por Nombre
