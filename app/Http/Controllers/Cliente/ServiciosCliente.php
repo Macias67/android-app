@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use App\Http\Controllers\Traits\GetImagesCliente;
-use App\Http\Models\Cliente\Categorias;
-use App\Http\Models\Cliente\Cliente;
-use App\Http\Models\Cliente\Propietario;
-use App\Http\Models\Cliente\Servicios;
 use App\Http\Requests;
-use App\Http\Requests\Servicios\CreateServicio;
+use Jenssegers\Date\Date;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use PHPImageWorkshop\ImageWorkshop;
+use App\Http\Models\Cliente\Cliente;
+use Illuminate\Support\Facades\File;
+use App\Http\Models\Cliente\Servicios;
+use App\Http\Models\Cliente\Categorias;
+use App\Http\Models\Cliente\Propietario;
+use App\Http\Requests\Servicios\CreateServicio;
+use App\Http\Controllers\Traits\GetImagesCliente;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ServiciosCliente extends BaseCliente
@@ -54,10 +55,21 @@ class ServiciosCliente extends BaseCliente
             ->take(10)
             ->get();
 
+        $clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
+
+        $ultimosRegistrados = Servicios::byIdPropietario($this->infoPropietario->id);
+        foreach ($ultimosRegistrados as $servicio) {
+            $servicio->imagen = $this->_getImage($servicio->cliente_id, 'servicios', $servicio->id);
+            $servicio->fecha =  Date::createFromFormat('Y-m-d H:i:s', $servicio->created_at)->format('d \\d\\e F \\d\\e\\l Y');
+        }
+
         foreach ($servicios as $servicio) {
             $servicio->imagen = $this->_getImage($servicio->cliente_id, 'servicios', $servicio->id);
         }
+
+        $this->data['negocios'] = $clientes;
         $this->data['serviciosMasGustados'] = $servicios;
+        $this->data['ultimosServicios'] = $ultimosRegistrados;
 
         return $this->view('cliente.servicios.index');
     }
@@ -161,6 +173,17 @@ class ServiciosCliente extends BaseCliente
         }
         else {
             return response('No existe servicio.', 412);
+        }
+    }
+
+    public function showServiciosCliente($id){
+        if (!is_null($cliente = Cliente::find($id))) {
+            if($cliente->propietario->id == $this->infoPropietario->id) {
+                $this->data['cliente'] = $cliente;
+                return /*$this->view('cliente.servicios.servicios-cliente')*/ 'En proceso';
+            }
+        }else {
+            return response('No existe evento.', 412);
         }
     }
 

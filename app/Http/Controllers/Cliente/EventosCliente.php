@@ -19,6 +19,12 @@ class EventosCliente extends BaseCliente
 {
     use GetImagesCliente;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->data['activo_eventos'] = TRUE;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -57,9 +63,10 @@ class EventosCliente extends BaseCliente
         foreach ($eventosMasGustados as $evento) {
             $evento->imagen = $this->_getImage($evento->cliente_id, 'eventos', $evento->id);
         }
+
+        $this->data['negocios'] = $clientes;
         $this->data['ultimosEventos'] = $ultimosRegistrados;
         $this->data['eventosMasGustados'] = $eventosMasGustados;
-        $this->data['negocios'] = $clientes;
 
         return $this->view('cliente.eventos.index');
     }
@@ -158,12 +165,6 @@ class EventosCliente extends BaseCliente
     public function showEventosCliente($id){
         if (!is_null($cliente = Cliente::find($id))) {
             if($cliente->propietario->id == $this->infoPropietario->id) {
-                $eventos = Evento::where('cliente_id', $cliente->id)->get(['id', 'nombre'])->ToArray();
-                $optionsEventos = [];
-                foreach ($eventos as $index => $evento) {
-                    $optionsEventos[$evento['id']] = $evento['nombre'];
-                }
-
                 $this->data['cliente'] = $cliente;
                 return $this->view('cliente.eventos.eventos-cliente');
             }

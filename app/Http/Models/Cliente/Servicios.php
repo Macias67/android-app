@@ -37,6 +37,22 @@ class Servicios extends Model
         'precio'
     ];
 
+    public function preparaDatos (Request $request)
+    {
+        foreach ($this->fillable as $field) {
+            $this->{$field} = $request->get($field);
+        }
+
+        $this->id = (isset($this->id))? $this->id : $this->getUniqueID();
+        $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
+        $this->_cleanData();
+    }
+
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
+    }
+
     public function categoria ()
     {
         return $this->hasOne(Categorias::class, 'categoria_id');
@@ -63,20 +79,23 @@ class Servicios extends Model
         return $this->hasOne(Cliente::class, 'id', 'cliente_id');
     }
 
-    public static function getTableName()
+    public function scopeByIdPropietario($query, $id_propietario)
     {
-        return with(new static)->getTable();
-    }
+        $cl_servicios = Servicios::getTableName();
+        $cl_clientes = Cliente::getTableName();
+        $cl_propietario = Propietario::getTableName();
 
-    public function preparaDatos (Request $request)
-    {
-        foreach ($this->fillable as $field) {
-            $this->{$field} = $request->get($field);
-        }
-
-        $this->id = (isset($this->id))? $this->id : $this->getUniqueID();
-        $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
-        $this->_cleanData();
+        return $query
+            ->select(
+                $cl_servicios . '.*',
+                $cl_clientes . '.nombre as nombre_cliente'
+            )
+            ->join($cl_clientes, $cl_servicios . '.cliente_id', '=', $cl_clientes . '.id')
+            ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+            ->where($cl_propietario . '.id', $id_propietario)
+            ->orderBy($cl_servicios . '.created_at', 'DESC')
+            ->take(10)
+            ->get();
     }
 
     private function _cleanData ()
