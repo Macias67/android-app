@@ -37,13 +37,11 @@
       </ul>
 @stop
 
-{{-- Conteindo de la vista. --}}
+{{-- Contenido de la vista. --}}
 @section('content')
       <div class="row">
-
-
+		  <!-- BEGIN Promociones Vigentes PORTLET-->
 		  <div class="col-md-4">
-			  <!-- BEGIN Productos por Categoria PORTLET-->
 			  <div class="portlet light animated bounceInUp">
 				  <div class="portlet-title">
 					  <div class="caption">
@@ -53,7 +51,7 @@
 				  </div>
 				  <div class="portlet-body form">
 					  <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-					  <table class="table table-striped table-hover table-bordered" id="promociones_vigentes" data-url="{{route('cliente-table-datatable-promociones-categoria')}}">
+					  <table class="table table-striped table-hover table-bordered" id="promociones_vigentes" data-url="{{route('cliente-table-datatableVigentes-promociones')}}">
 						  <thead>
 						  <tr>
 							  <th>Nombre</th>
@@ -63,11 +61,11 @@
 					  </table>
 				  </div>
 			  </div>
-			  <!-- END Productos por Categoria PORTLET-->
 		  </div>
+          <!-- END Promociones Vigentes PORTLET-->
 
+          <!-- BEGIN Promociones Fijas PORTLET-->
 		  <div class="col-md-4">
-			  <!-- BEGIN Productos por Categoria PORTLET-->
 			  <div class="portlet light animated bounceInUp">
 				  <div class="portlet-title">
 					  <div class="caption">
@@ -77,7 +75,7 @@
 				  </div>
 				  <div class="portlet-body form">
 					  <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-					  <table class="table table-striped table-hover table-bordered" id="promociones_fijas" data-url="{{route('cliente-table-datatable-promociones-categoria')}}">
+					  <table class="table table-striped table-hover table-bordered" id="promociones_fijas" data-url="{{route('cliente-table-datatableFijas-promociones')}}">
 						  <thead>
 						  <tr>
 							  <th>Nombre</th>
@@ -87,11 +85,11 @@
 					  </table>
 				  </div>
 			  </div>
-			  <!-- END Productos por Categoria PORTLET-->
 		  </div>
+          <!-- END Promociones Fijas PORTLET-->
 
+          <!-- BEGIN Promociones Caducas PORTLET-->
 		  <div class="col-md-4">
-			  <!-- BEGIN Productos por Categoria PORTLET-->
 			  <div class="portlet light animated bounceInUp">
 				  <div class="portlet-title">
 					  <div class="caption">
@@ -101,7 +99,7 @@
 				  </div>
 				  <div class="portlet-body form">
 					  <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-					  <table class="table table-striped table-hover table-bordered" id="promociones_caducas" data-url="{{route('cliente-table-datatable-promociones-categoria')}}">
+					  <table class="table table-striped table-hover table-bordered" id="promociones_caducas" data-url="{{route('cliente-table-datatableCaducas-promociones')}}">
 						  <thead>
 						  <tr>
 							  <th>Nombre</th>
@@ -111,9 +109,8 @@
 					  </table>
 				  </div>
 			  </div>
-			  <!-- END Productos por Categoria PORTLET-->
 		  </div>
-
+          <!-- END Promociones Caducas PORTLET-->
       </div>
 @stop
 
@@ -129,7 +126,7 @@
 	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
 	<script type="text/javascript" src="{{asset('assets/global/plugins/select2/select2.min.js')}}"></script>
-	<script src="{{asset('assets/admin/pages/app/cliente/promociones/promociones-cliente.js')}}" type="text/javascript"></script>
+	<script type="text/javascript" src="{{asset('assets/admin/pages/app/cliente/promociones/promociones-cliente.js')}}"></script>
 @stop
 
 {{-- Inicializo los js --}}

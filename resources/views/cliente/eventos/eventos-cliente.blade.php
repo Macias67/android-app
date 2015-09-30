@@ -37,11 +37,11 @@
     </ul>
 @stop
 
-{{-- Conteindo de la vista. --}}
+{{-- Contenido de la vista. --}}
 @section('content')
     <div class="row">
+        <!-- BEGIN Productos por Eventos Activos PORTLET-->
         <div class="col-md-4">
-            <!-- BEGIN Productos por Eventos Activos PORTLET-->
             <div class="portlet light animated bounceInUp">
                 <div class="portlet-title">
                     <div class="caption">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="portlet-body form">
                     <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-                    <table class="table table-striped table-hover table-bordered" id="eventos_activos" data-url="{{route('cliente-table-datatable-eventos')}}">
+                    <table class="table table-striped table-hover table-bordered" id="eventos_activos" data-url="{{route('cliente-table-datatableActivos-eventos')}}">
                         <thead>
                         <tr>
                             <th>Nombre</th>
@@ -61,11 +61,11 @@
                     </table>
                 </div>
             </div>
-            <!-- END Productos por Eventos Activos PORTLET-->
         </div>
+        <!-- END Productos por Eventos Activos PORTLET-->
 
+        <!-- BEGIN Productos por Eventos Pasados PORTLET-->
         <div class="col-md-4">
-            <!-- BEGIN Productos por Eventos Pasados PORTLET-->
             <div class="portlet light animated bounceInUp">
                 <div class="portlet-title">
                     <div class="caption">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="portlet-body form">
                     <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-                    <table class="table table-striped table-hover table-bordered" id="eventos_pasados" data-url="{{route('cliente-table-datatable2-eventos')}}">
+                    <table class="table table-striped table-hover table-bordered" id="eventos_pasados" data-url="{{route('cliente-table-datatablePasados-eventos')}}">
                         <thead>
                         <tr>
                             <th>Nombre</th>
@@ -85,9 +85,8 @@
                     </table>
                 </div>
             </div>
-            <!-- END Productos por Eventos Pasados PORTLET-->
         </div>
-
+        <!-- END Productos por Eventos Pasados PORTLET-->
     </div>
 @stop
 
@@ -103,7 +102,7 @@
     <script type="text/javascript" src="{{asset('assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/global/plugins/select2/select2.min.js')}}"></script>
-    <script src="{{asset('assets/admin/pages/app/cliente/eventos/evento-cliente.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('assets/admin/pages/app/cliente/eventos/evento-cliente.js')}}"></script>
 @stop
 
 {{-- Inicializo los js --}}

@@ -198,6 +198,26 @@ Route::group(
             'uses' => 'PromocionesCliente@index'
         ]);
 
+        Route::get('promociones/{id_cliente?}', [
+            'as' => 'promociones.id.cliente',
+            'uses' => 'PromocionesCliente@showPromocionesCliente'
+        ])->where('id_cliente', '[0-9a-zA-Z]+');
+
+        Route::post('promociones/datatableVigentes/', [
+            'as' => 'cliente-table-datatableVigentes-promociones',
+            'uses' => 'PromocionesCliente@datatableVigentes'
+        ]);
+
+        Route::post('promociones/datatableFijas/', [
+            'as' => 'cliente-table-datatableFijas-promociones',
+            'uses' => 'PromocionesCliente@datatableFijas'
+        ]);
+
+        Route::post('promociones/datatableCaducas/', [
+            'as' => 'cliente-table-datatableCaducas-promociones',
+            'uses' => 'PromocionesCliente@datatableCaducas'
+        ]);
+
         Route::group(['prefix' => 'promocion'], function () {
             Route::get('nuevo', [
                 'as' => 'cliente.promociones.create',
@@ -219,11 +239,6 @@ Route::group(
                 'uses' => 'promocionesCliente@update'
             ]);
 
-            Route::get('json/{id?}', [
-                'as' => 'cliente.promocion.promociones-json',
-                'uses' => 'promocionesCliente@getPromocionesJson'
-            ])->where('id', '[0-9a-zA-Z]+');
-
             Route::post('upload/logo', [
                 'as' => 'global-upload-logo-promocion',
                 'uses' => 'PromocionesCliente@uploadImage'
@@ -233,22 +248,6 @@ Route::group(
                 'as' => 'global-crop-logo-promocion',
                 'uses' => 'PromocionesCliente@cropImage'
             ]);
-
-            Route::get('promociones/{id_cliente?}', [
-                'as' => 'promociones.id.cliente',
-                'uses' => 'PromocionesCliente@showPromocionesCliente'
-            ])->where('id_cliente', '[0-9a-zA-Z]+');
-
-            Route::post('promociones/datatable/{categoria_id?}', [
-                'as' => 'cliente-table-datatable-promociones-categoria',
-                'uses' => 'PromocionesCliente@datatable'
-            ])->where('categoria_id', '[0-9a-zA-Z]+');
-
-            Route::post('promociones/datatable/', [
-                'as' => 'cliente-table-datatable-promociones-categoria',
-                'uses' => 'PromocionesCliente@datatable'
-            ]);
-
         });
 
         /*
@@ -266,13 +265,14 @@ Route::group(
             'uses' => 'EventosCliente@showEventosCliente'
         ])->where('id_cliente', '[0-9a-zA-Z]+');
 
-        Route::post('eventos/datatable/', [
-            'as' => 'cliente-table-datatable-eventos',
-            'uses' => 'EventosCliente@datatable'
+        Route::post('eventos/datatableActivos/', [
+            'as' => 'cliente-table-datatableActivos-eventos',
+            'uses' => 'EventosCliente@datatableActivos'
         ]);
-        Route::post('eventos/datatable2/', [
-            'as' => 'cliente-table-datatable2-eventos',
-            'uses' => 'EventosCliente@datatable2'
+
+        Route::post('eventos/datatablePasados/', [
+            'as' => 'cliente-table-datatablePasados-eventos',
+            'uses' => 'EventosCliente@datatablePasados'
         ]);
 
         Route::group(['prefix' => 'evento'], function () {

@@ -360,7 +360,7 @@ class PromocionesCliente extends BaseCliente
         }
     }
 
-    public function datatable(Request $request, $categoria_id = NULL)
+    public function datatableVigentes(Request $request)
     {
         $draw = $request->get('draw');
         $start = $request->get('start');
@@ -369,9 +369,11 @@ class PromocionesCliente extends BaseCliente
         $columns = $request->get('columns');
         $search = $request->get('search');
 
-        $byCategoria = is_null($categoria_id);
+        $id_cliente = $request->get('id_cliente');
+        $hoy = date('Y-m-d');
 
-        $total = ($byCategoria) ? Promociones::count() : Promociones::where('categoria_id', $categoria_id)->count();
+        $total = Promociones::where('disp_fin', '>=', $hoy)
+            ->where('cliente_id', $id_cliente)->count();
 
         if ($length == -1) {
             $length = NULL;
@@ -382,24 +384,21 @@ class PromocionesCliente extends BaseCliente
 
         $campos = [
             $tPromociones . '.id',
-            $tPromociones . '.nombre',
-            $tPromociones . '.siempre',
-            $tPromociones . '.disp_inicio',
-            $tPromociones . '.disp_fin'
+            $tPromociones . '.nombre'
         ];
 
         $pos_col = $order[0]['column'];
         $order = $order[0]['dir'];
         $campo = $columns[$pos_col]['data'];
 
-        $id_cliente = $request->get('id_cliente');
-
         $promociones = DB::table($tPromociones)
                 ->select($campos)
+                ->where($tPromociones . '.cliente_id', $id_cliente)
+                ->where($tPromociones . '.disp_fin', '>=', $hoy)
+                ->where($tPromociones . '.nombre', 'LIKE', '%' . $search['value'] . '%')
                 ->take($length)
                 ->skip($start)
                 ->orderBy($campo, $order)->get();
-        dd($promociones);
 
         $proceso = array();
         foreach ($promociones as $index => $promocion) {
@@ -422,4 +421,125 @@ class PromocionesCliente extends BaseCliente
         return new JsonResponse($data, 200);
     }
 
+    public function datatableFijas(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $columns = $request->get('columns');
+        $search = $request->get('search');
+
+        $id_cliente = $request->get('id_cliente');
+
+        $total = Promociones::where('siempre', '=', 1)
+            ->where('cliente_id', $id_cliente)->count();
+
+        if ($length == -1) {
+            $length = NULL;
+            $start = NULL;
+        }
+
+        $tPromociones = Promociones::getTableName();
+
+        $campos = [
+            $tPromociones . '.id',
+            $tPromociones . '.nombre'
+        ];
+
+        $pos_col = $order[0]['column'];
+        $order = $order[0]['dir'];
+        $campo = $columns[$pos_col]['data'];
+
+        $promociones = DB::table($tPromociones)
+            ->select($campos)
+            ->where($tPromociones . '.cliente_id', $id_cliente)
+            ->where($tPromociones . '.siempre', '=', 1)
+            ->where($tPromociones . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+            ->take($length)
+            ->skip($start)
+            ->orderBy($campo, $order)->get();
+
+        $proceso = array();
+        foreach ($promociones as $index => $promocion) {
+            array_push(
+                $proceso,
+                [
+                    'DT_RowId' => $promocion->id,
+                    'nombre' => $promocion->nombre,
+                    'url' => route('cliente.promociones.show', [$promocion->id])
+                ]
+            );
+        }
+        $data = [
+            'draw' => $draw,
+            'recordsTotal' => count($promociones),
+            'recordsFiltered' => $total,
+            'data' => $proceso
+        ];
+
+        return new JsonResponse($data, 200);
+    }
+
+    public function datatableCaducas(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get('start');
+        $length = $request->get('length');
+        $order = $request->get('order');
+        $columns = $request->get('columns');
+        $search = $request->get('search');
+
+        $id_cliente = $request->get('id_cliente');
+        $hoy = date('Y-m-d');
+
+        $total = Promociones::where('disp_fin', '<=', $hoy)
+            ->where('cliente_id', $id_cliente)->count();
+
+        if ($length == -1) {
+            $length = NULL;
+            $start = NULL;
+        }
+
+        $tPromociones = Promociones::getTableName();
+
+        $campos = [
+            $tPromociones . '.id',
+            $tPromociones . '.nombre'
+        ];
+
+        $pos_col = $order[0]['column'];
+        $order = $order[0]['dir'];
+        $campo = $columns[$pos_col]['data'];
+
+        $promociones = DB::table($tPromociones)
+            ->select($campos)
+            ->where($tPromociones . '.cliente_id', $id_cliente)
+            ->where($tPromociones . '.disp_fin', '<=', $hoy)
+            ->where($tPromociones . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+            ->take($length)
+            ->skip($start)
+            ->orderBy($campo, $order)->get();
+
+        $proceso = array();
+        foreach ($promociones as $index => $promocion) {
+            array_push(
+                $proceso,
+                [
+                    'DT_RowId' => $promocion->id,
+                    'nombre' => $promocion->nombre,
+                    'url' => route('cliente.promociones.show', [$promocion->id])
+                ]
+            );
+        }
+
+        $data = [
+            'draw' => $draw,
+            'recordsTotal' => count($promociones),
+            'recordsFiltered' => $total,
+            'data' => $proceso
+        ];
+
+        return new JsonResponse($data, 200);
+    }
 }

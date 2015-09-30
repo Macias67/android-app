@@ -32,7 +32,6 @@ var EventosCliente = function() {
                 }
             ],
             "rowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                console.log(aData);
                 $('td:eq(1)', nRow).attr('width', '10px');
                 // acciones
                 $('td:eq(1)', nRow).html('<a href="'+aData.url+'" class="btn blue btn-xs edita" evento="'+aData.id+'">&nbsp;<i class="fa fa-edit"></i></a>');

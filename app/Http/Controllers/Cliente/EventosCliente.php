@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use App\Http\Controllers\Traits\GetImagesCliente;
-use App\Http\Models\Cliente\Cliente;
-use App\Http\Models\Cliente\Evento;
-use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests;
-use App\Http\Requests\Eventos\CreateEvento;
+use Jenssegers\Date\Date;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use PHPImageWorkshop\ImageWorkshop;
-use Jenssegers\Date\Date;
+use App\Http\Models\Cliente\Evento;
+use App\Http\Models\Cliente\Cliente;
+use Illuminate\Support\Facades\File;
+use App\Http\Models\Cliente\Propietario;
+use App\Http\Requests\Eventos\CreateEvento;
+use App\Http\Controllers\Traits\GetImagesCliente;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EventosCliente extends BaseCliente
@@ -328,7 +328,7 @@ class EventosCliente extends BaseCliente
         }
     }
 
-    public function datatable(Request $request)
+    public function datatableActivos(Request $request)
     {
         $draw = $request->get('draw');
         $start = $request->get('start');
@@ -359,8 +359,6 @@ class EventosCliente extends BaseCliente
         $order = $order[0]['dir'];
         $campo = $columns[$pos_col]['data'];
 
-        $id_cliente = $request->get('id_cliente');
-
         $eventos = DB::table($tEvento)
                 ->select($campos)
                 ->where($tEvento . '.cliente_id', $id_cliente)
@@ -390,7 +388,8 @@ class EventosCliente extends BaseCliente
 
         return new JsonResponse($data, 200);
     }
-    public function datatable2(Request $request)
+
+    public function datatablePasados(Request $request)
     {
         $draw = $request->get('draw');
         $start = $request->get('start');
