@@ -14,6 +14,7 @@ class CLPropietario extends Seeder
     {
         $hashid = new Hashids(md5('android.app'), 16);
         $unique_id = $hashid->encode(time());
+        $unique_id2 = $hashid->encode(date('m'));
         \DB::table('cl_propietario')->insert(
             [
                 'id' => $unique_id,
@@ -25,6 +26,19 @@ class CLPropietario extends Seeder
                 'password' => bcrypt('qwerty'),
                 'estatus' => 'online'
             ]
+        );
+
+        \DB::table('cl_propietario')->insert(
+        [
+            'id' => $unique_id2,
+            'nombre' => 'Jesús',
+            'apellido' => 'de Nazaret',
+            'genero' => 'H',
+            'movil' => '(777) 777 7777',
+            'email' => 'jesucristo@gmail.com',
+                'password' => bcrypt('qwerty'),
+            'estatus' => 'online'
+        ]
         );
     }
 }
