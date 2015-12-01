@@ -77,7 +77,7 @@
 				      {!! Form::open($array_form) !!}
 				      <div class="form-body">
 					      <div class="form-group">
-						      {!! Form::select('categoria_id', $categorias, $llaves[0], array('class' => 'form-control')) !!}
+						      {!! Form::select('categoria_id', $categorias, $llaves[0], ['class' => 'form-control']) !!}
 					      </div>
 				      </div>
 				      {!! Form::close() !!}

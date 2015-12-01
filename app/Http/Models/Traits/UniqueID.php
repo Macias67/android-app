@@ -12,9 +12,10 @@ use Hashids\Hashids;
 
 trait UniqueID
 {
-    public function getUniqueID($length = 16)
-    {
-        $hashid = new Hashids(time(), $length);
-        return $hashid->encode(rand(0,1000));
-    }
+	public function getUniqueID($length = 16)
+	{
+		$hashid = new Hashids(time(), $length);
+
+		return $hashid->encode(rand(0, 1000));
+	}
 }

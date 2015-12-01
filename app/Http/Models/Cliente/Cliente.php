@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\Cliente;
 
+use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Admin\SubCategorias;
 use App\Http\Models\Traits\UniqueID;
 use Illuminate\Database\Eloquent\Model;
@@ -10,141 +11,214 @@ use Illuminate\Support\Facades\File;
 
 class Cliente extends Model
 {
-    use UniqueID;
-    /**
-     * Nombre de la tabla usada por el modelo
-     *
-     * @var string
-     */
-    protected $table = 'cl_clientes';
+	use UniqueID;
 
-    protected $primaryKey = 'id';
+	/**
+	 * Nombre de la tabla usada por el modelo
+	 *
+	 * @var string
+	 */
+	protected $table = 'cl_clientes';
 
-    public $incrementing  = FALSE;
+	protected $primaryKey = 'id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'nombre',
-        'slug',
-        'calle',
-        'numero',
-        'colonia',
-        'codigo_postal',
-        'referencia',
-        'latitud',
-        'longitud',
-        'ciudad_id',
-        'propietario_id',
-        'estatus'
-    ];
+	public $incrementing = false;
 
-    protected $guarded = ['id'];
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		'nombre',
+		'slug',
+		'calle',
+		'numero',
+		'colonia',
+		'codigo_postal',
+		'referencia',
+		'latitud',
+		'longitud',
+		'ciudad_id',
+		'propietario_id',
+		'estatus'
+	];
 
-    /**
-     * Cliente pertenece a un propietario
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function propietario ()
-    {
-        return $this->belongsTo(Propietario::class, 'propietario_id');
-    }
+	protected $guarded = ['id'];
 
-    public function subcategorias()
-    {
-        return $this->belongsToMany(SubCategorias::class, 'cl_categoria_negocio', 'cliente_id', 'subcategoria_id');
-    }
+	/**
+	 * Nombre de la tabla
+	 *
+	 * @return mixed string Nombre de la tabla
+	 */
+	public static function getTableName()
+	{
+		return with(new static)->getTable();
+	}
 
-    /**
-     * Cliente tiene una tabla Detalles
-     *
-     */
-    public function detalles ()
-    {
-        return $this->hasOne(ClienteDetalles::class, 'id');
-    }
+	/**
+	 * Cliente pertenece a un propietario
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function propietario()
+	{
+		return $this->belongsTo(Propietario::class, 'propietario_id');
+	}
 
-    /**
-     * Cliente tiene una tabla Redes Sociales
-     *
-     */
-    public function redesSociales ()
-    {
-        return $this->hasOne(ClienteRedesSociales::class, 'id');
-    }
+	/**
+	 * Cliente tiene muchas subcategorias
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	 */
+	public function subcategorias()
+	{
+		return $this->belongsToMany(SubCategorias::class, 'cl_categoria_negocio', 'cliente_id', 'subcategoria_id');
+	}
 
-    /**
-     * Cliente tiene una tabla Horarios
-     *
-     */
-    public function horarios ()
-    {
-        return $this->hasMany(ClienteHorarios::class, 'cliente_id');
-    }
+	/**
+	 * Cliente tiene una columna detalles
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 */
+	public function detalles()
+	{
+		return $this->hasOne(ClienteDetalles::class, 'id');
+	}
 
-    public function  scopeLogo()
-    {
-        $logoDefault = 'assets/admin/pages/media/default/logo.jpg';
-        $files = File::files('img/cliente/' . $this->id . '/logo');
-        $count = count($files);
-        if ($count > 1 || $count == 0) {
-            if ($count > 1) {
-                foreach ($files as $file) {
-                    unlink($file);
-                }
-            }
+	/**
+	 * Cliente tiene una columna de redes sociales
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 */
+	public function redesSociales()
+	{
+		return $this->hasOne(ClienteRedesSociales::class, 'id');
+	}
 
-            return asset($logoDefault);
-        }
-        else if ($count == 1) {
-            list($width, $height) = getimagesize($files[0]);
-            if ($width != 500 || $height != 500) {
-                unlink($files[0]);
+	/**
+	 * Cliente tiene una columna horarios
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function horarios()
+	{
+		return $this->hasMany(ClienteHorarios::class, 'cliente_id');
+	}
 
-                return asset($logoDefault);
-            }
-            else if ($width == 500 && $height == 500) {
-                return asset($files[0]);
-            }
-        }
-    }
+	public function ciudad()
+	{
+		return $this->belongsTo(Ciudades::class, 'ciudad_id');
+	}
 
-    public static function getTableName()
-    {
-        return with(new static)->getTable();
-    }
+	/**
+	 * Funcion para optener el logotipo del cliente
+	 *
+	 * @return string Ruta de la imagen del logotipo
+	 */
+	public function  scopeLogo()
+	{
+		$logoDefault = 'assets/admin/pages/media/default/logo.jpg';
+		$files = File::files('img/cliente/' . $this->id . '/logo');
+		$count = count($files);
+		if ($count > 1 || $count == 0)
+		{
+			if ($count > 1)
+			{
+				foreach ($files as $file)
+				{
+					unlink($file);
+				}
+			}
 
-    /**
-     * @param Request $request
-     */
-    public function preparaDatos (Request $request)
-    {
-        foreach ($this->fillable as $field) {
-            $this->{$field} = $request->get($field);
-        }
+			return asset($logoDefault);
+		}
+		else if ($count == 1)
+		{
+			list($width, $height) = getimagesize($files[0]);
+			if ($width != 500 || $height != 500)
+			{
+				unlink($files[0]);
 
-        $this->id = (isset($this->id)) ? $this->id : $this->getUniqueID();
-        $this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
-        $this->_cleanData();
-    }
+				return asset($logoDefault);
+			}
+			else if ($width == 500 && $height == 500)
+			{
+				return asset($files[0]);
+			}
+		}
+	}
 
-    private function _cleanData ()
-    {
-        $this->nombre         = mb_convert_case(trim(mb_strtolower($this->nombre)), MB_CASE_TITLE, "UTF-8");
-        $this->slug         = str_slug($this->nombre);
-        $this->calle          = mb_convert_case(trim(mb_strtolower($this->calle)), MB_CASE_TITLE, "UTF-8");
-        $this->numero         = trim(strtoupper($this->numero));
-        $this->colonia        = mb_convert_case(trim(mb_strtolower($this->colonia)), MB_CASE_TITLE, "UTF-8");
-        $this->codigo_postal  = trim($this->codigo_postal);
-        $this->referencia     = trim(ucfirst($this->referencia));
-        $this->latitud   = trim($this->latitud);
-        $this->longitud   = trim($this->longitud);
-        $this->ciudad_id      = trim($this->ciudad_id);
-        $this->propietario_id = trim($this->propietario_id);
-        $this->estatus        = trim($this->estatus);
-    }
+	/**
+	 * Obtienes todos los negocios del cliente por ID
+	 *
+	 * @param $query
+	 * @param $propietario_id ID del propietario
+	 *
+	 * @return mixed null|array
+	 */
+	public function scopeNegociosPropietarioArray($query, $propietario_id)
+	{
+		return $query->where('propietario_id', $propietario_id)->get(['id', 'nombre'])->ToArray();
+	}
+
+	/**
+	 * @param Request $request
+	 */
+	public function preparaDatos(Request $request)
+	{
+		foreach ($this->fillable as $field)
+		{
+			$this->{$field} = $request->get($field);
+		}
+
+		$this->id = (isset($this->id)) ? $this->id : $this->getUniqueID();
+		$this->estatus = (isset($this->estatus) && $this->estatus == 'on') ? 'online' : 'offline';
+		$this->_cleanData();
+	}
+
+	private function _cleanData()
+	{
+		$this->nombre = mb_convert_case(trim(mb_strtolower($this->nombre)), MB_CASE_TITLE, "UTF-8");
+		$this->slug = str_slug($this->nombre);
+		$this->calle = mb_convert_case(trim(mb_strtolower($this->calle)), MB_CASE_TITLE, "UTF-8");
+		$this->numero = trim(strtoupper($this->numero));
+		$this->colonia = mb_convert_case(trim(mb_strtolower($this->colonia)), MB_CASE_TITLE, "UTF-8");
+		$this->codigo_postal = trim($this->codigo_postal);
+		$this->referencia = trim(ucfirst($this->referencia));
+		$this->latitud = trim($this->latitud);
+		$this->longitud = trim($this->longitud);
+		$this->ciudad_id = trim($this->ciudad_id);
+		$this->propietario_id = trim($this->propietario_id);
+		$this->estatus = trim($this->estatus);
+	}
+
+	/**
+	 * Convert the model instance to an array.
+	 *
+	 * @return array
+	 */
+	public function toArrayFull()
+	{
+		$array = parent::toArray();
+		$array['logo'] = $this->logo();
+		$ciudad = ['ciudad' => $this->ciudad->toArray()];
+		$propietario = ['propietario' => $this->propietario->toArray()];
+		$detalles = ['detalles' => $this->detalles->toArray()];
+		$horarios = ['horarios' => $this->horarios->toArray()];
+		$subcategorias = ['subcategorias' => $this->subcategorias->toArray()];
+
+		$arraycategorias = [];
+		foreach ($this->subcategorias as $subcategoria)
+		{
+			array_push($arraycategorias, $subcategoria->categoria->toArray());
+		}
+
+		$categorias = ['categorias' => $arraycategorias];
+		$redes_sociales = ['redes_sociales' => $this->redesSociales->toArray()];
+
+		return array_merge($array, $ciudad, $propietario, $detalles, $horarios, $categorias, $subcategorias, $redes_sociales);
+	}
+
+
 }

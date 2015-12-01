@@ -15,240 +15,251 @@ use Jenssegers\Date\Date;
 
 class ClientesAdmin extends BaseAdmin
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->data['activo_clientes'] = TRUE;
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->data['activo_clientes'] = true;
+	}
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        return $this->view('admin.clientes.index');
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		return $this->view('admin.clientes.index');
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        $this->data['param'] = [
-            'route' => 'adm.cliente.store',
-            'class' => 'form-horizontal form-nuevo-cliente',
-            'role' => 'form',
-            'autocomplete' => 'off'
-        ];
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		$this->data['param'] = [
+			'route'        => 'adm.cliente.store',
+			'class'        => 'form-horizontal form-nuevo-cliente',
+			'role'         => 'form',
+			'autocomplete' => 'off'
+		];
 
-        $ciudades = Ciudades::get()->ToArray();
-        $options_ciudades = [];
-        foreach ($ciudades as $index => $ciudad) {
-            $options_ciudades[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
-        }
+		$ciudades = Ciudades::get()->ToArray();
+		$options_ciudades = [];
+		foreach ($ciudades as $index => $ciudad)
+		{
+			$options_ciudades[$ciudad['id']] = $ciudad['ciudad'] . ', ' . $ciudad['estado'];
+		}
 
-        $categorias = Categorias::all(['id', 'categoria'])->ToArray();
-        $options_categorias = ['' => ''];
-        foreach ($categorias as $categoria) {
-            $options_categorias[$categoria['id']] = $categoria['categoria'];
-        }
+		$categorias = Categorias::all(['id', 'categoria'])->ToArray();
+		$options_categorias = ['' => ''];
+		foreach ($categorias as $categoria)
+		{
+			$options_categorias[$categoria['id']] = $categoria['categoria'];
+		}
 
-        $this->data['options_categorias'] = $options_categorias;
-        $this->data['options_ciudades'] = $options_ciudades;
+		$this->data['options_categorias'] = $options_categorias;
+		$this->data['options_ciudades'] = $options_ciudades;
 
-        return $this->view('admin.clientes.form-nuevo');
-    }
+		return $this->view('admin.clientes.form-nuevo');
+	}
 
-    /**
-     * @param \App\Http\Requests\CreateCliente $request
-     *
-     * @return mixed
-     */
-    public function store(CreateCliente $request)
-    {
-        if ($request->ajax() && $request->wantsJson()) {
-            $cliente = new Cliente;
-            $cliente->preparaDatos($request);
+	/**
+	 * @param \App\Http\Requests\CreateCliente $request
+	 *
+	 * @return mixed
+	 */
+	public function store(CreateCliente $request)
+	{
+		if ($request->ajax() && $request->wantsJson())
+		{
+			$cliente = new Cliente;
+			$cliente->preparaDatos($request);
 
-            if ($cliente->save()) {
+			if ($cliente->save())
+			{
 
-                $subIDs = [];
-                for ($i = 0; $i < 3; $i++) {
-                    $var = $request->get("subcategoria" . ($i + 1));
-                    if (isset($var) && !empty($var)) {
-                        array_push($subIDs, $var);
-                    }
-                }
+				$subIDs = [];
+				for ($i = 0; $i < 3; $i++)
+				{
+					$var = $request->get("subcategoria" . ($i + 1));
+					if (isset($var) && !empty($var))
+					{
+						array_push($subIDs, $var);
+					}
+				}
 
-                $cliente->subcategorias()->sync($subIDs);
+				$cliente->subcategorias()->sync($subIDs);
 
-                $detalles = new ClienteDetalles();
-                $detalles->id = $cliente->id;
-                $cliente->detalles()->save($detalles);
+				$detalles = new ClienteDetalles();
+				$detalles->id = $cliente->id;
+				$cliente->detalles()->save($detalles);
 
-                $redes_sociales = new ClienteRedesSociales();
-                $redes_sociales->id = $cliente->id;
-                $cliente->redesSociales()->save($redes_sociales);
+				$redes_sociales = new ClienteRedesSociales();
+				$redes_sociales->id = $cliente->id;
+				$cliente->redesSociales()->save($redes_sociales);
 
-                $response = [
-                    'exito' => TRUE,
-                    'titulo' => 'Cliente registrado',
-                    'texto' => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
-                    'url' => route('clientes')
-                ];
-            }
-            else {
-                $response = [
-                    'exito' => FALSE,
-                    'titulo' => 'No se registró',
-                    'texto' => 'Parece que no hubo registro en la BD',
-                    'url' => NULL
-                ];
-            }
-            return $this->responseJSON($response);
-        }
-    }
+				$response = [
+					'exito'  => true,
+					'titulo' => 'Cliente registrado',
+					'texto'  => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
+					'url'    => route('clientes')
+				];
+			}
+			else
+			{
+				$response = [
+					'exito'  => false,
+					'titulo' => 'No se registró',
+					'texto'  => 'Parece que no hubo registro en la BD',
+					'url'    => null
+				];
+			}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        // TODO: Implement show() method.
-    }
+			return $this->responseJSON($response);
+		}
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function edit($id)
-    {
-        // TODO: Implement edit() method.
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		// TODO: Implement show() method.
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request $request
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        // TODO: Implement update() method.
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		// TODO: Implement edit() method.
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        // TODO: Implement destroy() method.
-    }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  Request $request
+	 * @param  int     $id
+	 *
+	 * @return Response
+	 */
+	public function update(Request $request, $id)
+	{
+		// TODO: Implement update() method.
+	}
 
-    public function datatable(Request $request)
-    {
-        $draw = $request->get('draw');
-        $start = $request->get('start');
-        $length = $request->get('length');
-        $order = $request->get('order');
-        $columns = $request->get('columns');
-        $search = $request->get('search');
-        $total = Cliente::count();
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		// TODO: Implement destroy() method.
+	}
 
-        if ($length == -1) {
-            $length = NULL;
-            $start = NULL;
-        }
+	public function datatable(Request $request)
+	{
+		$draw = $request->get('draw');
+		$start = $request->get('start');
+		$length = $request->get('length');
+		$order = $request->get('order');
+		$columns = $request->get('columns');
+		$search = $request->get('search');
+		$total = Cliente::count();
 
-        $tCliente = Cliente::getTableName();
-        $tPropietario = Propietario::getTableName();
-        $tCiduad = Ciudades::getTableName();
+		if ($length == -1)
+		{
+			$length = null;
+			$start = null;
+		}
 
-        $campos = [
-            $tCliente . '.id',
-            $tCliente . '.nombre',
-            $tCliente . '.estatus',
-            $tCliente . '.created_at',
-            $tPropietario . '.id as `propietario_id`',
-            $tPropietario . '.nombre as propietario_nombre',
-            $tPropietario . '.apellido as propietario_apellido',
-            $tCiduad . '.ciudad',
-            $tCiduad . '.estado'
-        ];
+		$tCliente = Cliente::getTableName();
+		$tPropietario = Propietario::getTableName();
+		$tCiduad = Ciudades::getTableName();
 
-        $pos_col = $order[0]['column'];
-        $order = $order[0]['dir'];
-        $campo = $columns[$pos_col]['data'];
+		$campos = [
+			$tCliente . '.id',
+			$tCliente . '.nombre',
+			$tCliente . '.estatus',
+			$tCliente . '.created_at',
+			$tPropietario . '.id as `propietario_id`',
+			$tPropietario . '.nombre as propietario_nombre',
+			$tPropietario . '.apellido as propietario_apellido',
+			$tCiduad . '.ciudad',
+			$tCiduad . '.estado'
+		];
 
-        switch ($campo) {
-            case 'estatus':
-                $campo = $tCliente . '.estatus';
-                break;
-            case 'propietario':
-                $campo = $tPropietario . '.nombre';
-                break;
-            case 'ciudad':
-                $campo = $tCiduad . '.ciudad';
-                break;
-            case 'registro':
-                $campo = $tCliente . '.created_at';
-                break;
-        }
+		$pos_col = $order[0]['column'];
+		$order = $order[0]['dir'];
+		$campo = $columns[$pos_col]['data'];
 
-        $clientes =
-            DB::table($tCliente)
-              ->select($campos)
-              ->join($tCiduad, $tCiduad . '.id', '=', $tCliente . '.ciudad_id')
-              ->join($tPropietario, $tPropietario . '.id', '=', $tCliente . '.propietario_id')
-              ->where($tCliente . '.nombre', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tPropietario . '.nombre', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tPropietario . '.apellido', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tCiduad . '.ciudad', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tCiduad . '.estado', 'LIKE', '%' . $search['value'] . '%')
-              ->orwhere($tCliente . '.estatus', 'LIKE', '%' . $search['value'] . '%')
-              ->orderBy($campo, $order)
-              ->get();
+		switch ($campo)
+		{
+			case 'estatus':
+				$campo = $tCliente . '.estatus';
+				break;
+			case 'propietario':
+				$campo = $tPropietario . '.nombre';
+				break;
+			case 'ciudad':
+				$campo = $tCiduad . '.ciudad';
+				break;
+			case 'registro':
+				$campo = $tCliente . '.created_at';
+				break;
+		}
 
-        $proceso = array();
-        foreach ($clientes as $index => $cliente) {
-            array_push(
-                $proceso,
-                [
-                    "DT_RowId" => $cliente->id,
-                    'estatus' => ($cliente->estatus == 'online') ? TRUE : FALSE,
-                    'nombre' => $cliente->nombre,
-                    'propietario' => $cliente->propietario_nombre . ' ' . $cliente->propietario_apellido,
-                    'ciudad' => $cliente->ciudad . ', ' . $cliente->estado,
-                    'registro' => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format(
-                        'l, d \\d\\e F \\d\\e\\l Y'
-                    )
-                ]
-            );
-        }
-        $data = [
-            'draw' => $draw,
-            'recordsTotal' => count($clientes),
-            'recordsFiltered' => $total,
-            'data' => $proceso
-        ];
+		$clientes =
+			DB::table($tCliente)
+			  ->select($campos)
+			  ->join($tCiduad, $tCiduad . '.id', '=', $tCliente . '.ciudad_id')
+			  ->join($tPropietario, $tPropietario . '.id', '=', $tCliente . '.propietario_id')
+			  ->where($tCliente . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+			  ->orwhere($tPropietario . '.nombre', 'LIKE', '%' . $search['value'] . '%')
+			  ->orwhere($tPropietario . '.apellido', 'LIKE', '%' . $search['value'] . '%')
+			  ->orwhere($tCiduad . '.ciudad', 'LIKE', '%' . $search['value'] . '%')
+			  ->orwhere($tCiduad . '.estado', 'LIKE', '%' . $search['value'] . '%')
+			  ->orwhere($tCliente . '.estatus', 'LIKE', '%' . $search['value'] . '%')
+			  ->orderBy($campo, $order)
+			  ->get();
 
-        return new JsonResponse($data, 200);
-    }
+		$proceso = [];
+		foreach ($clientes as $index => $cliente)
+		{
+			array_push(
+				$proceso,
+				[
+					"DT_RowId"    => $cliente->id,
+					'estatus'     => ($cliente->estatus == 'online') ? true : false,
+					'nombre'      => $cliente->nombre,
+					'propietario' => $cliente->propietario_nombre . ' ' . $cliente->propietario_apellido,
+					'ciudad'      => $cliente->ciudad . ', ' . $cliente->estado,
+					'registro'    => Date::createFromFormat('Y-m-d H:i:s', $cliente->created_at)->format(
+						'l, d \\d\\e F \\d\\e\\l Y'
+					)
+				]
+			);
+		}
+		$data = [
+			'draw'            => $draw,
+			'recordsTotal'    => count($clientes),
+			'recordsFiltered' => $total,
+			'data'            => $proceso
+		];
+
+		return new JsonResponse($data, 200);
+	}
 }

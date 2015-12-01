@@ -13,21 +13,23 @@
 
 // Routes Map
 $partials = [
-    'global',
-    'admin',
-    'cliente',
-    'usuario',
-    'api'
+	'global',
+	'admin',
+	'cliente',
+	'usuario',
+	'api'
 ];
 
 // Routes loop
-foreach ($partials as $partial) {
-    $file = __DIR__ . '/Routes/routes-' . $partial . '.php';
+foreach ($partials as $partial)
+{
+	$file = __DIR__ . '/Routes/routes-' . $partial . '.php';
 
-    if (!file_exists($file)) {
-        $msg = "Route partial [{$partial}] not found.";
-        throw new \Illuminate\Contracts\Filesystem\FileNotFoundException($msg);
-    }
+	if (!file_exists($file))
+	{
+		$msg = "Route partial [{$partial}] not found.";
+		throw new \Illuminate\Contracts\Filesystem\FileNotFoundException($msg);
+	}
 
-    require_once $file;
+	require_once $file;
 }

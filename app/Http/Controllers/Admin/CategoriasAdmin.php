@@ -11,184 +11,196 @@ use Illuminate\Support\Facades\DB;
 class CategoriasAdmin extends BaseAdmin
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->data['activo_categorias'] = TRUE;
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->data['activo_categorias'] = true;
+	}
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        return $this->view('admin.categorias.index');
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		return $this->view('admin.categorias.index');
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        $categorias = Categorias::orderBy('categoria', 'ASC')->get()->toArray();
-        $options = array();
-        foreach ($categorias as $key => $categoria) {
-            $options[$categoria['id']] = $categoria['categoria'];
-        }
-        $llaves = array_keys($options);
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		$categorias = Categorias::orderBy('categoria', 'ASC')->get()->toArray();
+		$options = [];
+		foreach ($categorias as $key => $categoria)
+		{
+			$options[$categoria['id']] = $categoria['categoria'];
+		}
+		$llaves = array_keys($options);
 
-        $llaves = (empty($llaves)) ? NULL : $llaves;
+		$llaves = (empty($llaves)) ? null : $llaves;
 
-        $this->data['options'] = $options;
-        $this->data['llaves'] = $llaves;
-        $this->data['array_form'] = array(
-            'url' => route('adm.categoria.store'),
-            'role' => 'form',
-            'id' => 'form_categoria',
-            'autocomplete' => 'off'
-        );
-        return $this->view('admin.categorias.form-nuevo');
-    }
+		$this->data['options'] = $options;
+		$this->data['llaves'] = $llaves;
+		$this->data['array_form'] = [
+			'url'          => route('adm.categoria.store'),
+			'role'         => 'form',
+			'id'           => 'form_categoria',
+			'autocomplete' => 'off'
+		];
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        if ($request->ajax() && $request->wantsJson()) {
-            $categoria = new Categorias();
-            $categoria->categoria = mb_convert_case(trim(mb_strtolower($request->get('categoria'))), MB_CASE_TITLE, "UTF-8");
+		return $this->view('admin.categorias.form-nuevo');
+	}
 
-            if ($categoria->save()) {
-                $response = [
-                    'exito' => TRUE,
-                    'titulo' => 'Categoria añadida',
-                    'texto' => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
-                    'url' => ''
-                ];
-            }
-            else {
-                $response = [
-                    'exito' => FALSE,
-                    'titulo' => 'Ups...',
-                    'texto' => 'No se guardo el registro en la base de datos',
-                    'url' => NULL,
-                    'status' => 422
-                ];
-            }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  Request $request
+	 *
+	 * @return Response
+	 */
+	public function store(Request $request)
+	{
+		if ($request->ajax() && $request->wantsJson())
+		{
+			$categoria = new Categorias();
+			$categoria->categoria = mb_convert_case(trim(mb_strtolower($request->get('categoria'))), MB_CASE_TITLE, "UTF-8");
 
-            return $this->responseJSON($response);
-        }
-    }
+			if ($categoria->save())
+			{
+				$response = [
+					'exito'  => true,
+					'titulo' => 'Categoria añadida',
+					'texto'  => 'Se ha registrado "' . $categoria->categoria . '" correctamente.',
+					'url'    => ''
+				];
+			}
+			else
+			{
+				$response = [
+					'exito'  => false,
+					'titulo' => 'Ups...',
+					'texto'  => 'No se guardo el registro en la base de datos',
+					'url'    => null,
+					'status' => 422
+				];
+			}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        // TODO: Implement show() method.
-    }
+			return $this->responseJSON($response);
+		}
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        // TODO: Implement edit() method.
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		// TODO: Implement show() method.
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request $request
-     * @param  int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        // TODO: Implement update() method.
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		// TODO: Implement edit() method.
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        // TODO: Implement destroy() method.
-    }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  Request $request
+	 * @param  int     $id
+	 *
+	 * @return Response
+	 */
+	public function update(Request $request, $id)
+	{
+		// TODO: Implement update() method.
+	}
 
-    public function datatable(Request $request)
-    {
-        $draw = $request->get('draw');
-        $start = $request->get('start');
-        $length = $request->get('length');
-        $order = $request->get('order');
-        $columns = $request->get('columns');
-        $search = $request->get('search');
-        $total = Categorias::count();
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		// TODO: Implement destroy() method.
+	}
 
-        if ($length == -1) {
-            $length = NULL;
-            $start = NULL;
-        }
+	public function datatable(Request $request)
+	{
+		$draw = $request->get('draw');
+		$start = $request->get('start');
+		$length = $request->get('length');
+		$order = $request->get('order');
+		$columns = $request->get('columns');
+		$search = $request->get('search');
+		$total = Categorias::count();
 
-        $tCategoria = Categorias::getTableName();
+		if ($length == -1)
+		{
+			$length = null;
+			$start = null;
+		}
 
-        $campos = [
-            $tCategoria . '.id',
-            $tCategoria . '.categoria'
-        ];
+		$tCategoria = Categorias::getTableName();
 
-        $pos_col = $order[0]['column'];
-        $order = $order[0]['dir'];
-        $campo = $columns[$pos_col]['data'];
+		$campos = [
+			$tCategoria . '.id',
+			$tCategoria . '.categoria'
+		];
 
-        $categorias =
-            DB::table($tCategoria)
-              ->select($campos)
-              ->where($tCategoria . '.categoria', 'LIKE', '%' . $search['value'] . '%')
-              ->take($length)
-              ->skip($start)
-              ->orderBy($campo, $order)->get();
+		$pos_col = $order[0]['column'];
+		$order = $order[0]['dir'];
+		$campo = $columns[$pos_col]['data'];
 
-        $proceso = array();
-        foreach ($categorias as $index => $categoria) {
-            array_push(
-                $proceso,
-                [
-                    "DT_RowId" => $categoria->id,
-                    'categoria' => $categoria->categoria
-                ]
-            );
-        }
-        $data = [
-            'draw' => $draw,
-            'recordsTotal' => count($categorias),
-            'recordsFiltered' => $total,
-            'data' => $proceso
-        ];
+		$categorias =
+			DB::table($tCategoria)
+			  ->select($campos)
+			  ->where($tCategoria . '.categoria', 'LIKE', '%' . $search['value'] . '%')
+			  ->take($length)
+			  ->skip($start)
+			  ->orderBy($campo, $order)->get();
 
-        return new JsonResponse($data, 200);
-    }
+		$proceso = [];
+		foreach ($categorias as $index => $categoria)
+		{
+			array_push(
+				$proceso,
+				[
+					"DT_RowId"  => $categoria->id,
+					'categoria' => $categoria->categoria
+				]
+			);
+		}
+		$data = [
+			'draw'            => $draw,
+			'recordsTotal'    => count($categorias),
+			'recordsFiltered' => $total,
+			'data'            => $proceso
+		];
 
-    public function select2()
-    {
+		return new JsonResponse($data, 200);
+	}
 
-    }
+	public function select2()
+	{
+
+	}
 }

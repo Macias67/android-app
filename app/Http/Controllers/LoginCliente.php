@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\Auth;
  */
 class LoginCliente extends Controller
 {
-    use AuthController;
+	use AuthController;
 
-    /**
-     * Nombre de la vistas y modelos a usar
-     *
-     * @var string
-     */
-    private $auth;
+	/**
+	 * Nombre de la vistas y modelos a usar
+	 *
+	 * @var string
+	 */
+	private $auth;
 
-    public function __construct(Auth $auth)
-    {
-        $this->auth = $auth::propietario();
-    }
+	public function __construct(Auth $auth)
+	{
+		$this->auth = $auth::propietario();
+	}
 }

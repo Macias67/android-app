@@ -32,7 +32,7 @@
             <a href="#">Eventos</a>
             <i class="fa fa-circle"></i>
         </li>
-        <li>
+	    <li>
             <a href="#">Nuevo</a>
         </li>
     </ul>
@@ -62,7 +62,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Negocio <span class="required">*</span></label>
                                 <div class="col-md-9">
-                                    {!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control', 'data-url' => route('cliente-select-categorias')]) !!}
+                                    {!! Form::select('cliente_id', $negocios, NULL, ['class' => 'form-control', 'data-url' => route('get-cliente', []), 'id' => 'cliente_id']) !!}
                                 </div>
                             </div>
                             <!-- Nombre del evento -->

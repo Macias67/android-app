@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\Auth;
  */
 class LoginAdmin extends Controller
 {
-    use AuthController;
+	use AuthController;
 
-    /**
-     * Nombre de la vistas y modelos a usar
-     *
-     * @var string
-     */
-    private $auth;
+	/**
+	 * Nombre de la vistas y modelos a usar
+	 *
+	 * @var string
+	 */
+	private $auth;
 
-    public function __construct(Auth $auth)
-    {
-        $this->auth = $auth::admin();
-    }
+	public function __construct(Auth $auth)
+	{
+		$this->auth = $auth::admin();
+	}
 }

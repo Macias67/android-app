@@ -7,8 +7,9 @@
  */
 
 Route::get(
-    '/',
-    function () {
-        return 'Vista usuario en desarrollo';
-    }
+	'/',
+	function ()
+	{
+		return 'Vista usuario en desarrollo';
+	}
 );
