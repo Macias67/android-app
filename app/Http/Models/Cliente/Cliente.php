@@ -2,6 +2,8 @@
 
 namespace App\Http\Models\Cliente;
 
+use App\Http\Collections\AppCollection;
+use App\Http\Collections\ClienteCollection;
 use App\Http\Models\Admin\Ciudades;
 use App\Http\Models\Admin\SubCategorias;
 use App\Http\Models\Traits\UniqueID;
@@ -45,6 +47,18 @@ class Cliente extends Model
 	];
 
 	protected $guarded = ['id'];
+
+	/**
+	 * Sobrescribo la collection
+	 *
+	 * @param array $models
+	 *
+	 * @return \App\Http\Collections\ClienteCollection
+	 */
+	public function newCollection(array $models = [])
+	{
+		return new ClienteCollection($models);
+	}
 
 	/**
 	 * Nombre de la tabla
@@ -106,6 +120,11 @@ class Cliente extends Model
 		return $this->hasMany(ClienteHorarios::class, 'cliente_id');
 	}
 
+	/**
+	 * Cliente pertence a una ciudad
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
 	public function ciudad()
 	{
 		return $this->belongsTo(Ciudades::class, 'ciudad_id');
@@ -219,6 +238,4 @@ class Cliente extends Model
 
 		return array_merge($array, $ciudad, $propietario, $detalles, $horarios, $categorias, $subcategorias, $redes_sociales);
 	}
-
-
 }
