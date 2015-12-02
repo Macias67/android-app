@@ -16,7 +16,7 @@ class ClienteApi extends Controller
 	 */
 	public function index()
 	{
-		return response()->json(['status' => 'ok', 'data' => Cliente::all()->toArrayFull()], 200);
+		return response()->json(['status' => 'ok', 'data' => Cliente::online()->get()->toArrayFull()], 200);
 	}
 
 	/**
@@ -59,6 +59,10 @@ class ClienteApi extends Controller
 			// Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
 			// En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
 			return response()->json(['errors' => [['code' => 404, 'message' => 'No se encuentra el cliente con ese código.']]], 404);
+		}
+		elseif ($cliente->estatus == 'offline')
+		{
+			return response()->json(['status' => [['code' => 404, 'message' => 'El cliente no se encuentra disponible.']]], 404);
 		}
 
 		return response()->json(['status' => 'ok', 'data' => $cliente->toArrayFull()], 200);

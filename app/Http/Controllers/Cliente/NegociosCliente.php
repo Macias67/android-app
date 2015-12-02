@@ -13,7 +13,6 @@ use App\Http\Requests\Cliente\CreateCliente;
 use App\Http\Requests\Cliente\EditCliente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\AdapterInterface;
@@ -569,7 +568,7 @@ class NegociosCliente extends BaseCliente
 			unlink($localFile);
 			rmdir($localPath);
 
-			$base_url = Config::get('filesystems.disks.gcs.base_url');
+			$base_url = env('URI_STORAGE');
 
 			$response = [
 				"status" => 'success',

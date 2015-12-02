@@ -45,21 +45,15 @@ return [
 
 		'local' => [
 			'driver' => 'local',
-			'root'   => storage_path('app'),
+			'root'   => public_path(),
 		],
 
 		'gcs' => [
-			// Select the Google Cloud Storage Disk
 			'driver'                               => 'gcs',
-			// The id of your new service account
 			'service_account'                      => 'account-1@android-test-v1.iam.gserviceaccount.com',
-			// The location of the p12 service account certificate
 			'service_account_certificate'          => storage_path() . '/Android Test v1-51d401a0ca07.p12',
-			// The password you will be given when creating the service account
 			'service_account_certificate_password' => 'notasecret',
-			// The bucket you want this disk to point at
 			'bucket'                               => 'test-storage-app',
-		        'base_url' => 'http://test-storage-app.storage.googleapis.com/'
 		],
 
 		'ftp' => [

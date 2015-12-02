@@ -9,9 +9,6 @@ use App\Http\Models\Admin\SubCategorias;
 use App\Http\Models\Traits\UniqueID;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class Cliente extends Model
 {
@@ -140,14 +137,28 @@ class Cliente extends Model
 	public function  scopeLogo()
 	{
 		$logoDefault = 'assets/admin/pages/media/default/logo.jpg';
-		$GCS_URL = Config::get('filesystems.disks.gcs.base_url');
+		$GCS_URL = env('URI_STORAGE');
 
 		if ($this->logo)
 		{
-			return $GCS_URL.'cliente/' . $this->id . '/logo/'.$this->logo;
-		} else {
+			return $GCS_URL . 'cliente/' . $this->id . '/logo/' . $this->logo;
+		}
+		else
+		{
 			return asset($logoDefault);
 		}
+	}
+
+	/**
+	 * Scope para encontrar negocios que esten ONLINE
+	 *
+	 * @param $query
+	 *
+	 * @return mixed
+	 */
+	public function scopeOnline($query)
+	{
+		return $query->where('estatus', 'online');
 	}
 
 	/**
