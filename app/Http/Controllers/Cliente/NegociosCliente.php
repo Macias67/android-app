@@ -324,6 +324,7 @@ class NegociosCliente extends BaseCliente
 								}
 							}
 
+							$cliente->subcategorias()->detach();
 							$cliente->subcategorias()->sync($subIDs);
 
 							$response = [
