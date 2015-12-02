@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "42abbf6343ef451fa6634d8d9adc5e94",
-    "content-hash": "2adcec2340c7f0a1c92ee042c9cd5af4",
+    "hash": "b5666d8ee4fbff351cdcfc49f984af36",
+    "content-hash": "543f8dec059e32ddbeb395a6ffdd7c48",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -216,6 +216,49 @@
                 "string"
             ],
             "time": "2015-11-06 14:35:42"
+        },
+        {
+            "name": "google/apiclient",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google/google-api-php-client.git",
+                "reference": "a25dc9d5c109ebb02945ba1ff6336cc937c27628"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/a25dc9d5c109ebb02945ba1ff6336cc937c27628",
+                "reference": "a25dc9d5c109ebb02945ba1ff6336cc937c27628",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Client library for Google APIs",
+            "homepage": "http://developers.google.com/api-client-library/php",
+            "keywords": [
+                "google"
+            ],
+            "time": "2015-10-16 22:11:08"
         },
         {
             "name": "hashids/hashids",
@@ -953,16 +996,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "19f765b66c6fbb56ee3b11bc16d52e38eebdc295"
+                "reference": "a208865a5aeffc2dbbef2a5b3409887272d93f32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/19f765b66c6fbb56ee3b11bc16d52e38eebdc295",
-                "reference": "19f765b66c6fbb56ee3b11bc16d52e38eebdc295",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/a208865a5aeffc2dbbef2a5b3409887272d93f32",
+                "reference": "a208865a5aeffc2dbbef2a5b3409887272d93f32",
                 "shasum": ""
             },
             "require": {
@@ -997,7 +1040,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2015-11-10 00:45:41"
+            "time": "2015-12-01 02:52:15"
         },
         {
             "name": "psr/log",
@@ -1159,6 +1202,53 @@
                 "multi"
             ],
             "time": "2015-06-16 14:13:03"
+        },
+        {
+            "name": "superbalist/flysystem-google-storage",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Superbalist/flysystem-google-storage.git",
+                "reference": "1041de651606ac643f3cdfaa6757b7b1acedd023"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Superbalist/flysystem-google-storage/zipball/1041de651606ac643f3cdfaa6757b7b1acedd023",
+                "reference": "1041de651606ac643f3cdfaa6757b7b1acedd023",
+                "shasum": ""
+            },
+            "require": {
+                "google/apiclient": "~1.1",
+                "league/flysystem": "~1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Superbalist\\Flysystem\\GoogleStorage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Superbalist.com a division of Takealot Online (Pty) Ltd",
+                    "email": "info@superbalist.com"
+                }
+            ],
+            "description": "Flysystem adapter for Google Cloud Storage",
+            "time": "2015-10-16 14:17:56"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2030,6 +2120,49 @@
                 "environment"
             ],
             "time": "2015-05-30 15:59:26"
+        },
+        {
+            "name": "websight/l5-google-cloud-storage",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/websightgmbh/l5-google-cloud-storage.git",
+                "reference": "c9f8e30ae791ef8fbcb9b22b41a1675c0455602c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/websightgmbh/l5-google-cloud-storage/zipball/c9f8e30ae791ef8fbcb9b22b41a1675c0455602c",
+                "reference": "c9f8e30ae791ef8fbcb9b22b41a1675c0455602c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0.17|5.1.*",
+                "superbalist/flysystem-google-storage": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Websight\\GcsProvider\\": "src/Websight/GcsProvider/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cedric Ziel",
+                    "email": "ziel@websight.de"
+                }
+            ],
+            "description": "Laravel 5 Flysystem Google Cloud Storage  Service Provider",
+            "homepage": "https://github.com/websightgmbh/l5-google-cloud-storage",
+            "keywords": [
+                "Flysystem",
+                "laravel",
+                "laravel5"
+            ],
+            "time": "2015-11-27 13:56:24"
         }
     ],
     "packages-dev": [

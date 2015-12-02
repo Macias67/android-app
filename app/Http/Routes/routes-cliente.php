@@ -117,12 +117,12 @@ Route::group(
 				'uses' => 'ProductosCliente@getProductosJson'
 			])->where('id', '[0-9a-zA-Z]+');
 
-			Route::post('upload/logo', [
+			Route::post('upload/image', [
 				'as'   => 'global-upload-logo-producto',
 				'uses' => 'ProductosCliente@uploadImage'
 			]);
 
-			Route::post('crop/logo', [
+			Route::post('crop/image', [
 				'as'   => 'global-crop-logo-producto',
 				'uses' => 'ProductosCliente@cropImage'
 			]);

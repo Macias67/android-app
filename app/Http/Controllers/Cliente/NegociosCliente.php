@@ -13,7 +13,10 @@ use App\Http\Requests\Cliente\CreateCliente;
 use App\Http\Requests\Cliente\EditCliente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\AdapterInterface;
 use PHPImageWorkshop\ImageWorkshop;
 
 class NegociosCliente extends BaseCliente
@@ -452,21 +455,23 @@ class NegociosCliente extends BaseCliente
 		if ($request->ajax() && $request->file('img'))
 		{
 			$cliente_id = $request->get('cliente_id');
-			$imagePath = "img/cliente/" . $cliente_id . "/logo/";
-			$allowedExts = ["gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG"];
-			$temp = explode(".", $_FILES["img"]["name"]);
-			$extension = end($temp);
+			$img = $request->file('img');
 
-			if (!File::isDirectory($imagePath))
+			$imagePath = "cliente/" . $cliente_id . "/logo/";
+			$localPath =  'local/' . $imagePath;
+			$allowedExts = ["gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG"];
+
+
+			if (!File::isDirectory($localPath))
 			{
-				File::makeDirectory($imagePath, 0777, true);
+				File::makeDirectory($localPath, 0777, true);
 			}
 			else
 			{
-				File::cleanDirectory($imagePath);
+				File::cleanDirectory($localPath);
 			}
 
-			if (!File::isWritable($imagePath))
+			if (!File::isWritable($localPath))
 			{
 				$response = [
 					"status"  => 'error',
@@ -476,23 +481,23 @@ class NegociosCliente extends BaseCliente
 				return new JsonResponse($response);
 			}
 
-			if (in_array($extension, $allowedExts))
+			if (in_array($img->getClientOriginalExtension(), $allowedExts))
 			{
-				if ($_FILES["img"]["error"] > 0)
+				if ($img->getError() === false)
 				{
 					$response = [
 						"status"  => 'error',
-						"message" => 'ERROR Return Code: ' . $_FILES["img"]["error"],
+						"message" => 'ERROR Return Code: ' . $img->getErrorMessage(),
 					];
 				}
 				else
 				{
-					$filename = $_FILES["img"]["tmp_name"];
-					list($width, $height) = getimagesize($filename);
-					$request->file('img')->move($imagePath, $_FILES["img"]["name"]);
+					$name = str_random() . '.' . $img->getClientOriginalExtension();
+					list($width, $height) = getimagesize($img->getRealPath());
+					$request->file('img')->move($localPath, $name);
 					$response = [
 						"status" => 'success',
-						"url"    => asset($imagePath . $_FILES["img"]["name"]),
+						"url"    => asset($localPath . $name),
 						"width"  => $width,
 						"height" => $height
 					];
@@ -536,19 +541,38 @@ class NegociosCliente extends BaseCliente
 			$layer->resizeInPixel($imgW, $imgH, true, 0, 0, 'LT');
 			$layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
-			unlink("img/cliente/" . $cliente_id . "/logo/" . pathinfo($imgUrl, PATHINFO_BASENAME));
+			$dirPath = 'cliente/' . $cliente_id . '/logo/';
+			$localPath =  'local/'.$dirPath;
+			$filename = str_random() . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
 
-			$dirPath = "img/cliente/" . $cliente_id . "/logo/";
-			$filename = strtolower(str_random(15)) . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
+			unlink($localPath . pathinfo($imgUrl, PATHINFO_BASENAME));
+
 			$createFolders = true;
 			$backgroundColor = null; // transparent, only for PNG (otherwise it will be white if set null)
 			$imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
 
-			$layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
+			$layer->save($localPath, $filename, $createFolders, $backgroundColor, $imageQuality);
+
+			$cliente = Cliente::find($cliente_id);
+			$cliente->logo = $filename;
+			$cliente->save();
+
+			$localFile = $localPath . $filename;
+			$toGCS = $dirPath . $filename;
+			// Google Cloud
+			$files = Storage::files($dirPath);
+			Storage::delete($files);
+			Storage::put($toGCS, File::get($localFile));
+			Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
+
+			unlink($localFile);
+			rmdir($localPath);
+
+			$base_url = Config::get('filesystems.disks.gcs.base_url');
 
 			$response = [
 				"status" => 'success',
-				"url"    => asset($dirPath . $filename)
+				"url"    => $base_url . $toGCS
 			];
 
 			return new JsonResponse($response);

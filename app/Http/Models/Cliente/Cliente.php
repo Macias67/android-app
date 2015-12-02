@@ -9,7 +9,9 @@ use App\Http\Models\Admin\SubCategorias;
 use App\Http\Models\Traits\UniqueID;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class Cliente extends Model
 {
@@ -138,33 +140,13 @@ class Cliente extends Model
 	public function  scopeLogo()
 	{
 		$logoDefault = 'assets/admin/pages/media/default/logo.jpg';
-		$files = File::files('img/cliente/' . $this->id . '/logo');
-		$count = count($files);
-		if ($count > 1 || $count == 0)
-		{
-			if ($count > 1)
-			{
-				foreach ($files as $file)
-				{
-					unlink($file);
-				}
-			}
+		$GCS_URL = Config::get('filesystems.disks.gcs.base_url');
 
+		if ($this->logo)
+		{
+			return $GCS_URL.'cliente/' . $this->id . '/logo/'.$this->logo;
+		} else {
 			return asset($logoDefault);
-		}
-		else if ($count == 1)
-		{
-			list($width, $height) = getimagesize($files[0]);
-			if ($width != 500 || $height != 500)
-			{
-				unlink($files[0]);
-
-				return asset($logoDefault);
-			}
-			else if ($width == 500 && $height == 500)
-			{
-				return asset($files[0]);
-			}
 		}
 	}
 

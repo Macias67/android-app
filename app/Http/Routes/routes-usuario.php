@@ -10,6 +10,7 @@ Route::get(
 	'/',
 	function ()
 	{
-		return 'Vista usuario en desarrollo';
+		$files = Storage::files('cliente/qwerty/logo');
+		dd(storage_path());
 	}
 );

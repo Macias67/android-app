@@ -9,9 +9,12 @@ use App\Http\Models\Cliente\Producto;
 use App\Http\Models\Cliente\Propietario;
 use App\Http\Requests\Producto\CreateProducto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Jenssegers\Date\Date;
+use League\Flysystem\AdapterInterface;
 use PHPImageWorkshop\ImageWorkshop;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -293,10 +296,10 @@ class ProductosCliente extends BaseCliente
 		{
 			$producto_id = $request->get('producto_id');
 			$cliente_id = $request->get('cliente_id');
-			$imagePath = "img/cliente/" . $cliente_id . "/productos/" . $producto_id . '/';
+			$img = $request->file('img');
+
+			$imagePath = 'cliente/' . $cliente_id . "/productos/" . $producto_id . '/';
 			$allowedExts = ["gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG"];
-			$temp = explode(".", $_FILES["img"]["name"]);
-			$extension = end($temp);
 
 			if (!File::isDirectory($imagePath))
 			{
@@ -317,23 +320,23 @@ class ProductosCliente extends BaseCliente
 				return new JsonResponse($response);
 			}
 
-			if (in_array($extension, $allowedExts))
+			if (in_array($img->getClientOriginalExtension(), $allowedExts))
 			{
-				if ($_FILES["img"]["error"] > 0)
+				if ($img->getError() === false)
 				{
 					$response = [
 						"status"  => 'error',
-						"message" => 'ERROR Return Code: ' . $_FILES["img"]["error"],
+						"message" => 'ERROR Return Code: ' . $img->getErrorMessage(),
 					];
 				}
 				else
 				{
-					$filename = $_FILES["img"]["tmp_name"];
-					list($width, $height) = getimagesize($filename);
-					$request->file('img')->move($imagePath, $_FILES["img"]["name"]);
+					$name = str_random() . '.' . $img->getClientOriginalExtension();
+					list($width, $height) = getimagesize($img->getRealPath());
+					$request->file('img')->move($imagePath, $name);
 					$response = [
 						"status" => 'success',
-						"url"    => asset($imagePath . $_FILES["img"]["name"]),
+						"url"    => asset($imagePath . $name),
 						"width"  => $width,
 						"height" => $height
 					];
@@ -385,19 +388,28 @@ class ProductosCliente extends BaseCliente
 			$layer->resizeInPixel($imgW, $imgH, true, 0, 0, 'LT');
 			$layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
-			unlink("img/cliente/" . $cliente_id . "/productos/" . $producto_id . "/" . pathinfo($imgUrl, PATHINFO_BASENAME));
+			unlink("cliente/" . $cliente_id . "/productos/" . $producto_id . "/" . pathinfo($imgUrl, PATHINFO_BASENAME));
 
-			$dirPath = "img/cliente/" . $cliente_id . "/productos/" . $producto_id . '/';
-			$filename = strtolower(str_random(15)) . '-' . $producto_id . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
+			$dirPath = 'cliente/' . $cliente_id . "/productos/" . $producto_id . '/';
+			$filename = str_random() . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
 			$createFolders = true;
 			$backgroundColor = null; // transparent, only for PNG (otherwise it will be white if set null)
 			$imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
 
 			$layer->save($dirPath, $filename, $createFolders, $backgroundColor, $imageQuality);
 
+			$name = $dirPath . $filename;
+			// Google Cloud
+			Storage::put($name, File::get($name));
+			Storage::setVisibility($name, AdapterInterface::VISIBILITY_PUBLIC);
+
+			unlink($name);
+
+			$base_url = Config::get('filesystems.disks.gcs.base_url');
+
 			$response = [
 				"status" => 'success',
-				"url"    => asset($dirPath . $filename)
+				"url"    => $base_url . $name
 			];
 
 			return new JsonResponse($response);
