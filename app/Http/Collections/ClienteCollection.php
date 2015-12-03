@@ -24,25 +24,29 @@ class ClienteCollection extends Collection
 	{
 		foreach ($this->items as $cliente)
 		{
-			$array = parent::toArray();
-			$array['logo'] = $cliente->logo();
-			$ciudad = ['ciudad' => $cliente->ciudad->toArray()];
-			$propietario = ['propietario' => $cliente->propietario->toArray()];
-			$detalles = ['detalles' => $cliente->detalles->toArray()];
-			$horarios = ['horarios' => $cliente->horarios->toArray()];
-			$subcategorias = ['subcategorias' => $cliente->subcategorias->toArray()];
-
-			$arraycategorias = [];
-			foreach ($cliente->subcategorias as $subcategoria)
+			$arrayClientes = parent::toArray();
+			foreach ($arrayClientes as $singleCliente)
 			{
-				array_push($arraycategorias, $subcategoria->categoria->toArray());
+				$singleCliente['logo'] = $cliente->logo();
+				$ciudad = ['ciudad' => $cliente->ciudad->toArray()];
+				$propietario = ['propietario' => $cliente->propietario->toArray()];
+				$detalles = ['detalles' => $cliente->detalles->toArray()];
+				$horarios = ['horarios' => $cliente->horarios->toArray()];
+				$subcategorias = ['subcategorias' => $cliente->subcategorias->toArray()];
+
+				$arraycategorias = [];
+				foreach ($cliente->subcategorias as $subcategoria)
+				{
+					array_push($arraycategorias, $subcategoria->categoria->toArray());
+				}
+
+				$categorias = ['categorias' => $arraycategorias];
+				$redes_sociales = ['redes_sociales' => $cliente->redesSociales->toArray()];
 			}
-
-			$categorias = ['categorias' => $arraycategorias];
-			$redes_sociales = ['redes_sociales' => $cliente->redesSociales->toArray()];
-
-			return array_merge($array, $ciudad, $propietario, $detalles, $horarios, $categorias, $subcategorias, $redes_sociales);
+			array_push($singleCliente, $ciudad, $propietario, $detalles, $horarios, $categorias, $subcategorias, $redes_sociales);
 		}
+
+		return $arrayClientes = parent::toArray();
 
 	}
 
