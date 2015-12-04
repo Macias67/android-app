@@ -161,9 +161,19 @@ return [
 		Jenssegers\Date\DateServiceProvider::class,
 
 		/*
-		 *
+		 * Cloud Storage
 		 */
 		Websight\GcsProvider\CloudStorageServiceProvider::class,
+
+		/*
+		 * Parse Cloud Notification
+		 */
+		GrahamCampbell\Parse\ParseServiceProvider::class,
+
+		/*
+		 * Exception Hanlder
+		 */
+		GrahamCampbell\Exceptions\ExceptionsServiceProvider::class
 	],
 
 	/*

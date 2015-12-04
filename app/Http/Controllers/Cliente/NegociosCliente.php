@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\AdapterInterface;
+use Parse\ParseException;
+use Parse\ParseInstallation;
+use Parse\ParsePush;
 use PHPImageWorkshop\ImageWorkshop;
 
 class NegociosCliente extends BaseCliente
@@ -115,12 +118,39 @@ class NegociosCliente extends BaseCliente
 				$redes_sociales->id = $cliente->id;
 				$cliente->redesSociales()->save($redes_sociales);
 
+
 				$response = [
 					'exito'  => true,
 					'titulo' => 'Cliente registrado',
 					'texto'  => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
 					'url'    => route('negocios-cliente')
 				];
+
+				try
+				{
+					$query = ParseInstallation::query();
+					$query->equalTo("deviceType", "android");
+					// Push to Channels
+					ParsePush::send([
+						"where" => $query,
+						"data"  => [
+							"data"          => [
+								"message" => $cliente->nombre . " ahora esta en la app!",
+								"title"   => "AndroidApp"
+							],
+							"is_background" => false
+						]
+					]);
+				}
+				catch (ParseException $e)
+				{
+					$response = [
+						'exito'  => false,
+						'titulo' => 'Cliente registrado',
+						'texto'  => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado, pero no se ha enviado la notificación: ' . $e->getMessage(),
+						'url'    => route('negocios-cliente')
+					];
+				}
 			}
 			else
 			{
@@ -326,6 +356,19 @@ class NegociosCliente extends BaseCliente
 							$cliente->subcategorias()->detach();
 							$cliente->subcategorias()->sync($subIDs);
 
+							$data = [
+								"data"          => [
+									"message" => "Hello! Negocio editado",
+									"title"   => "AndroidTest"
+								],
+								"is_background" => false
+							];
+
+							// Push to Channels
+							ParsePush::send([
+								"data" => $data
+							]);
+
 							$response = [
 								'exito'  => true,
 								'titulo' => 'Cliente actualizado',
@@ -398,6 +441,20 @@ class NegociosCliente extends BaseCliente
 						];
 					}
 
+					$query = ParseInstallation::query();
+					$query->equalTo("deviceType", "android");
+					// Push to Channels
+					ParsePush::send([
+						"where" => $query,
+						"data"  => [
+							"data"          => [
+								"message" => $cliente->nombre . " ha cambiado sus datos.",
+								"title"   => "AndroidApp"
+							],
+							"is_background" => false
+						]
+					]);
+
 					return $this->responseJSON($response);
 				}
 				else
@@ -458,7 +515,7 @@ class NegociosCliente extends BaseCliente
 			$img = $request->file('img');
 
 			$imagePath = "cliente/" . $cliente_id . "/logo/";
-			$localPath =  'local/' . $imagePath;
+			$localPath = 'local/' . $imagePath;
 			$allowedExts = ["gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG"];
 
 
@@ -542,7 +599,7 @@ class NegociosCliente extends BaseCliente
 			$layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
 			$dirPath = 'cliente/' . $cliente_id . '/logo/';
-			$localPath =  'local/'.$dirPath;
+			$localPath = 'local/' . $dirPath;
 			$filename = str_random() . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
 
 			unlink($localPath . pathinfo($imgUrl, PATHINFO_BASENAME));
