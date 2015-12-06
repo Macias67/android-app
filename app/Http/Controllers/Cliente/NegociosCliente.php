@@ -364,11 +364,6 @@ class NegociosCliente extends BaseCliente
 								"is_background" => false
 							];
 
-							// Push to Channels
-							ParsePush::send([
-								"data" => $data
-							]);
-
 							$response = [
 								'exito'  => true,
 								'titulo' => 'Cliente actualizado',
