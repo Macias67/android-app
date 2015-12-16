@@ -62,6 +62,11 @@ Route::group(
 				'as'   => 'cliente.negocio.destroy.horario',
 				'uses' => 'NegociosCliente@destroyGrupoHorario'
 			]);
+
+			Route::match(['get', 'post', 'delete'], 'upload-galeria', [
+				'as'   => 'cliente.negocio.upload-galeria',
+				'uses' => 'NegociosCliente@uploadGaleria'
+			]);
 		});
 
 		/*

@@ -649,7 +649,7 @@
 							</div>
 							<!-- END CHANGE AVATAR TAB -->
 
-							<!-- Galeria TAB -->
+							<!-- GALERIA  TAB -->
 							<div class = "tab-pane" id = "tab_galeria">
 								<div class = "m-heading-1 border-green m-bordered">
 									<h3>jQuery Validation Plugin</h3>
@@ -662,7 +662,9 @@
 										<a class = "btn red btn-outline" href = "https://github.com/blueimp/jQuery-File-Upload" target = "_blank">the official documentation</a>
 									</p>
 								</div>
-								<form id = "fileupload" action = "{{asset('assets/global/plugins/jquery-file-upload/server/php/')}}" method = "POST" enctype = "multipart/form-data">
+								{!! Form::open($formgaleria) !!}
+									{!! Form::hidden ('id', $cliente->id) !!}
+									{!! Form::hidden ('propietario_id', $cliente->propietario_id) !!}
 									<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 									<div class = "row fileupload-buttonbar">
 										<div class = "col-lg-7">
@@ -723,16 +725,6 @@
 									</div>
 								</div>
 
-								<!-- The blueimp Gallery widget -->
-								<div id = "blueimp-gallery" class = "blueimp-gallery blueimp-gallery-controls" data-filter = ":even">
-									<div class = "slides"></div>
-									<h3 class = "title"></h3>
-									<a class = "prev"> ‹ </a>
-									<a class = "next"> › </a>
-									<a class = "close white"> </a>
-									<a class = "play-pause"> </a>
-									<ol class = "indicator"></ol>
-								</div>
 								<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 								<script id = "template-upload" type = "text/x-tmpl"> {% for (var i=0, file; file=o.files[i]; i++) { %}
 						                        <tr class="template-upload fade">
@@ -761,7 +753,7 @@
 						                        </tr> {% } %}
 								</script>
 								<!-- The template to display files available for download -->
-								<script id = "template-download" type = "text/x-tmpl"> {% for (var i=0, file; file=o.files[i]; i++) { %}
+								<script id="template-download" type="text/x-tmpl"> {% for (var i=0, file; file=o.files[i]; i++) { %}
 						                        <tr class="template-download fade">
 						                            <td>
 						                                <span class="preview"> {% if (file.thumbnailUrl) { %}
@@ -789,9 +781,9 @@
 						                                    <span>Cancel</span>
 						                                </button> {% } %} </td>
 						                        </tr> {% } %}
-								</script>
+						                 </script>
 							</div>
-							<!-- Galeria TAB -->
+							<!-- GALERIA  TAB -->
 
 							<!-- PRIVACY SETTINGS TAB -->
 							<div class = "tab-pane" id = "tab_1_4">

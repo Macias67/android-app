@@ -4,6 +4,17 @@ var FormFileUpload = function () {
 		//main function to initiate the module
 		init: function () {
 
+			$('body').append('' +
+				'<div id = "blueimp-gallery" class = "blueimp-gallery blueimp-gallery-controls" data-filter = ":even">' +
+				'<div class = "slides"></div>' +
+				'<h3 class = "title"></h3>' +
+				'<a class = "prev"> ‹ </a>' +
+				'<a class = "next"> › </a>' +
+				'<a class = "close white"> </a>' +
+				'<a class = "play-pause"> </a>' +
+				'<ol class = "indicator"></ol>' +
+				'</div>');
+
 			// Initialize the jQuery File Upload widget:
 			$('#fileupload').fileupload({
 				disableImageResize: false,
@@ -11,6 +22,9 @@ var FormFileUpload = function () {
 				disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
 				maxFileSize       : 5000000,
 				acceptFileTypes   : /(\.|\/)(gif|jpe?g|png)$/i,
+				formData          : function () {
+					return $('#fileupload').serializeArray();
+				}
 				// Uncomment the following to send cross-domain cookies:
 				//xhrFields: {withCredentials: true},
 			});
@@ -28,7 +42,7 @@ var FormFileUpload = function () {
 			// Upload server status check for browsers with CORS support:
 			if ($.support.cors) {
 				$.ajax({
-					type: 'HEAD'
+					type: 'HEAD',
 				}).fail(function () {
 					$('<div class="alert alert-danger"/>')
 						.text('Upload server currently unavailable - ' +
@@ -52,7 +66,6 @@ var FormFileUpload = function () {
 					.call(this, $.Event('done'), {result: result});
 			});
 		}
-
 	};
 }();
 
