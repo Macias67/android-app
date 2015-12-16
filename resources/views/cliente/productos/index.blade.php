@@ -97,14 +97,12 @@
 											<div class="caption font-yellow-crusta">
 												<span class="caption-subject bold font-yellow-crusta uppercase">{{ ($index+1).'. '.$producto->nombre_producto}} </span>
 												<br>
-                                            <span class="caption-helper">
-                                                <a href="{{route('cliente.negocio.perfil', [$producto->cliente_id])}}" class="faa-parent animated-icon-hover">
-	                                                <i class="fa fa-angle-double-right faa-horizontal"></i>
-	                                                <b>{{$producto->nombre_cliente}}</b>
-                                                </a>
-                                            </span>
-
-
+												<span class="caption-helper">
+													<a href="{{route('cliente.negocio.perfil', [$producto->cliente_id])}}" class="faa-parent animated-icon-hover">
+														<i class="fa fa-angle-double-right faa-horizontal"></i>
+														<b>{{$producto->nombre_cliente}}</b>
+													</a>
+												</span>
 											</div>
 										</div>
 										<div class="portlet-body">
@@ -113,10 +111,10 @@
 											</div>
 
 											<div class="col-md-6">
-                                            <span class="label bg-red-thunderbird">
-                                                <i class="fa fa-heart faa-pulse animated-icon faa-fast"></i>
-                                                <b>{{$producto->totalLikes}} les gusta</b>
-                                            </span>
+												<span class="label bg-red-thunderbird">
+													<i class="fa fa-heart faa-pulse animated-icon faa-fast"></i>
+													<b>{{$producto->totalLikes}} les gusta</b>
+												</span>
 											</div>
 											<div class="col-md-6">
 												<a href="{{route('cliente.producto.show', [$producto->id])}}" class="btn bg-green-jungle btn-xs pull-right faa-parent animated-icon-hover  hvr-grow">
@@ -151,7 +149,7 @@
 				<div class="portlet-body">
                     <div class="row">
                         @foreach($negocios as $negocio)
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-sm-4 col-md-2">
                             <a href="{{route('productos.id.cliente', [$negocio->id])}}" class="thumbnail">
                                 <img src="{{$negocio->logo()}}" alt="100%x180" style="height: 100%; width: 100%; display: block;">
                             </a>

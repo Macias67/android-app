@@ -40,28 +40,28 @@ class ProductosCliente extends BaseCliente
 		$cl_propietario = Propietario::getTableName();
 
 		$productosMasGustados = DB::table($cl_productos)
-		                          ->select(
-			                          $cl_productos . '.id',
-			                          $cl_clientes . '.id as cliente_id',
-			                          $cl_clientes . '.nombre as nombre_cliente',
-			                          $cl_productos . '.nombre as nombre_producto',
-			                          $cl_productos . '.descripcion_corta',
-			                          DB::raw('COUNT(usr_usuario_gusta_producto.producto_id) AS totalLikes')
-		                          )
-		                          ->join($cl_clientes, $cl_productos . '.cliente_id', '=', $cl_clientes . '.id')
-		                          ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
-		                          ->join('usr_usuario_gusta_producto', $cl_productos . '.id', '=', 'usr_usuario_gusta_producto.producto_id')
-		                          ->where($cl_propietario . '.id', $this->infoPropietario->id)
-		                          ->groupBy($cl_productos . '.nombre')
-		                          ->orderBy('totalLikes', 'DESC')
-		                          ->take(10)
-		                          ->get();
+                          ->select(
+	                          $cl_productos . '.id',
+	                          $cl_clientes . '.id as cliente_id',
+	                          $cl_clientes . '.nombre as nombre_cliente',
+	                          $cl_productos . '.nombre as nombre_producto',
+	                          $cl_productos . '.descripcion_corta',
+	                          DB::raw('COUNT(usr_usuario_gusta_producto.producto_id) AS totalLikes')
+                          )
+                          ->join($cl_clientes, $cl_productos . '.cliente_id', '=', $cl_clientes . '.id')
+                          ->join($cl_propietario, $cl_clientes . '.propietario_id', '=', $cl_propietario . '.id')
+                          ->join('usr_usuario_gusta_producto', $cl_productos . '.id', '=', 'usr_usuario_gusta_producto.producto_id')
+                          ->where($cl_propietario . '.id', $this->infoPropietario->id)
+                          ->groupBy($cl_productos . '.nombre')
+                          ->orderBy('totalLikes', 'DESC')
+                          ->take(10)
+                          ->get();
 		foreach ($productosMasGustados as $producto)
 		{
 			$producto->imagen = $this->_getImage($producto->cliente_id, 'productos', $producto->id);
 		}
 
-		$clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
+		$clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre','logo']);
 
 		$ultimosRegistrados = Producto::byIdPropietario($this->infoPropietario->id);
 		foreach ($ultimosRegistrados as $producto)

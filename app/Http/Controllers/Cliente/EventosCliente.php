@@ -53,7 +53,7 @@ class EventosCliente extends BaseCliente
 		                        ->take(10)
 		                        ->get();
 
-		$clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
+		$clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre', 'logo']);
 
 		$ultimosRegistrados = Evento::byIdPropietario($this->infoPropietario->id);
 		foreach ($ultimosRegistrados as $evento)

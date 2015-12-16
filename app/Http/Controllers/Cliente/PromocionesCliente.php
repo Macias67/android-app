@@ -36,7 +36,7 @@ class PromocionesCliente extends BaseCliente
 		$cl_promociones = Promociones::getTableName();
 		$cl_clientes = Cliente::getTableName();
 		$cl_propietario = Propietario::getTableName();
-		$clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre']);
+		$clientes = Cliente::where('propietario_id', $this->infoPropietario->id)->get(['id', 'nombre', 'logo']);
 		$ultimosRegistrados = Promociones::byIdPropietario($this->infoPropietario->id);
 
 		$promocionesMasGustadas = DB::table($cl_promociones)

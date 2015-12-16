@@ -1,4 +1,5 @@
-@extends('admin.menu')
+{{-- Extender de menú cliente o menú admin--}}
+@extends('cliente.menu')
 
 {{-- Adjuntar los links css de los plugins requeridos
 @section('plugins-css')@stop --}}
@@ -21,25 +22,25 @@
 
 {{-- Sobreescribir el breadcrumb de pagina --}}
 @section('page-breadcrumb')
-	<ul class = "page-breadcrumb breadcrumb">
+	<ul class="page-breadcrumb breadcrumb">
 		<li>
-			<a href = "">Inicio</a>
-			<i class = "fa fa-circle"></i>
+			<a href="">Inicio</a>
+			<i class="fa fa-circle"></i>
 		</li>
 		<li>
-			<a href = "">Page Layouts</a>
-			<i class = "fa fa-circle"></i>
+			<a href="#">Page Layouts</a>
+			<i class="fa fa-circle"></i>
 		</li>
 		<li>
-			<a href = "">Blank Page</a>
+			<a href="#">Blank Page</a>
 		</li>
 	</ul>
 @stop
 
 {{-- Conteindo de la vista. --}}
 @section('content')
-	<div class = "row">
-		<div class = "col-md-12">
+	<div class="row">
+		<div class="col-md-12">
 			Contenido
 		</div>
 	</div>
