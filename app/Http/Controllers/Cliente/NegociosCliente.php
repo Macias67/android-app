@@ -641,8 +641,8 @@ class NegociosCliente extends BaseCliente
 
 	public function uploadGaleria(Request $request, $id_cliente)
 	{
-		$upload_dir = ($request->getMethod() === 'GET') ? public_path(Config::get('path.clientes') . '\\' . $id_cliente . '\\galeria') . '\\' :
-			public_path(Config::get('path.temporal') . '\\' . Config::get('path.clientes') . '\\' . $id_cliente . '\\galeria') . '\\';
+		$upload_dir = ($request->getMethod() === 'GET') ? public_path(Config::get('path.clientes') . '/' . $id_cliente . '/galeria') . '/' :
+			public_path(Config::get('path.temporal') . '/' . Config::get('path.clientes') . '/' . $id_cliente . '/galeria') . '/';
 
 		$options = [
 			'id_cliente'          => $id_cliente,

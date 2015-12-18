@@ -1394,7 +1394,7 @@ class UploadHanlder
 				else
 				{
 					$toGCS = $this->dirGCS . '/' . $version . '/' . $file->name;
-					$path = $this->options['upload_dir'] . $version . '\\' . $file->name;
+					$path = $this->options['upload_dir'] . $version . '/' . $file->name;
 				}
 
 				Storage::put($toGCS, File::get($path));
