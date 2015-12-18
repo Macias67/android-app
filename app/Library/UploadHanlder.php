@@ -9,6 +9,7 @@ namespace App\Library;
 
 
 use Hashids\Hashids;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\AdapterInterface;
@@ -168,7 +169,7 @@ class UploadHanlder
 			$this->options = $options + $this->options;
 		}
 
-		$this->dirGCS = 'cliente/' . $this->options['id_cliente'] . '/galeria';
+		$this->dirGCS = Config::get('path.clientes') . '/' . $this->options['id_cliente'] . '/galeria';
 
 		if ($error_messages)
 		{
@@ -291,7 +292,11 @@ class UploadHanlder
 			$version_path = rawurlencode($version) . '/';
 		}
 
-		return $this->options['upload_url'] . $this->get_user_path()
+		//return $this->options['upload_url'] . $this->get_user_path()
+		//. $version_path . rawurlencode($file_name);
+
+		return Config::get('path.storage') . Config::get('path.clientes') . '/' .
+		$this->options['id_cliente'] . '/galeria/' . $this->get_user_path()
 		. $version_path . rawurlencode($file_name);
 	}
 
@@ -1384,15 +1389,17 @@ class UploadHanlder
 				if ((empty($version)))
 				{
 					$toGCS = $this->dirGCS . '/' . $file->name;
+					$path = $file_path;
 				}
 				else
 				{
 					$toGCS = $this->dirGCS . '/' . $version . '/' . $file->name;
-					$file_path = public_path('cliente\\'.$this->options['id_cliente'].'\galeria\\'.$version.'\\'.$file->name);
+					$path = $this->options['upload_dir'] . $version . '\\' . $file->name;
 				}
 
-				Storage::put($toGCS, File::get($file_path));
+				Storage::put($toGCS, File::get($path));
 				Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
+				unlink($path);
 			}
 		}
 

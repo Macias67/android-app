@@ -9,6 +9,7 @@ use App\Http\Models\Admin\SubCategorias;
 use App\Http\Models\Traits\UniqueID;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class Cliente extends Model
 {
@@ -134,14 +135,14 @@ class Cliente extends Model
 	 *
 	 * @return string Ruta de la imagen del logotipo
 	 */
-	public function  scopeLogo()
+	public function scopeLogo()
 	{
 		$logoDefault = 'assets/admin/pages/media/default/logo.jpg';
-		$GCS_URL = env('URI_STORAGE');
+		$GCS_URL = Config::get('path.storage');
 
 		if ($this->logo)
 		{
-			return $GCS_URL . 'cliente/' . $this->id . '/logo/' . $this->logo;
+			return $GCS_URL . Config::get('path.clientes') . '/' . $this->id . '/logo/' . $this->logo;
 		}
 		else
 		{

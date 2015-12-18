@@ -68,8 +68,8 @@ crashlytics.properties
 crashlytics-build.properties
 
 #Metronic
-/public/local
-/public/cliente
+/public/src
+/public/tmp
 
 git config core.fileMode false
 

@@ -14,6 +14,7 @@ use App\Http\Requests\Cliente\EditCliente;
 use App\Library\UploadHanlder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\AdapterInterface;
@@ -535,8 +536,8 @@ class NegociosCliente extends BaseCliente
 			$layer->resizeInPixel($imgW, $imgH, true, 0, 0, 'LT');
 			$layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
 
-			$dirPath = 'cliente/' . $cliente_id . '/logo/';
-			$localPath = 'local/' . $dirPath;
+			$dirPath = Config::get('path.clientes') . '/' . $cliente_id . '/logo/';
+			$localPath = Config::get('path.temporal') . '/' . $dirPath;
 			$filename = str_random() . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
 
 			unlink($localPath . pathinfo($imgUrl, PATHINFO_BASENAME));
@@ -563,7 +564,7 @@ class NegociosCliente extends BaseCliente
 			unlink($localFile);
 			rmdir($localPath);
 
-			$base_url = env('URI_STORAGE');
+			$base_url = Config::get('path.storage');
 
 			$response = [
 				"status" => 'success',
@@ -581,10 +582,9 @@ class NegociosCliente extends BaseCliente
 			$cliente_id = $request->get('cliente_id');
 			$img = $request->file('img');
 
-			$imagePath = "cliente/" . $cliente_id . "/logo/";
-			$localPath = 'local/' . $imagePath;
+			$imagePath = Config::get('path.clientes') . "/" . $cliente_id . "/logo/";
+			$localPath = Config::get('path.temporal') . '/' . $imagePath;
 			$allowedExts = ["gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG"];
-
 
 			if (!File::isDirectory($localPath))
 			{
@@ -641,11 +641,14 @@ class NegociosCliente extends BaseCliente
 
 	public function uploadGaleria(Request $request, $id_cliente)
 	{
+		$upload_dir = ($request->getMethod() === 'GET') ? public_path(Config::get('path.clientes') . '\\' . $id_cliente . '\\galeria') . '\\' :
+			public_path(Config::get('path.temporal') . '\\' . Config::get('path.clientes') . '\\' . $id_cliente . '\\galeria') . '\\';
+
 		$options = [
-			'id_cliente' => $id_cliente,
+			'id_cliente'          => $id_cliente,
 			'script_url'          => route('cliente.negocio.upload-galeria', $id_cliente),
-			'upload_dir'          => dirname($_SERVER['SCRIPT_FILENAME']) . '/cliente/' . $id_cliente . '/galeria/',
-			'upload_url'          => url('cliente') . '/' . $id_cliente . '/galeria/',
+			'upload_dir'          => $upload_dir,
+			'upload_url'          => url(Config::get('path.clientes') . '/' . $id_cliente . '/galeria') . '/',
 			// The php.ini settings upload_max_filesize and post_max_size
 			// take precedence over the following max_file_size setting:
 			'max_file_size'       => null,
@@ -668,23 +671,7 @@ class NegociosCliente extends BaseCliente
 					'max_height'  => 600,
 					'crop'        => true,
 				],
-				// Uncomment the following to create medium sized images:
-				/*
-				'medium' => array(
-				    'max_width' => 800,
-				    'max_height' => 600
-				),
-				*/
 				'thumbnail' => [
-					// Uncomment the following to use a defined directory for the thumbnails
-					// instead of a subdirectory based on the version identifier.
-					// Make sure that this directory doesn't allow execution of files if you
-					// don't pose any restrictions on the type of uploaded files, e.g. by
-					// copying the .htaccess file from the files directory for Apache:
-					//'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/thumb/',
-					//'upload_url' => $this->get_full_url().'/thumb/',
-					// Uncomment the following to force the max
-					// dimensions and e.g. create square thumbnails:
 					'crop'       => true,
 					'max_width'  => 80,
 					'max_height' => 80
