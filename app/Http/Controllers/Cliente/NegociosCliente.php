@@ -224,8 +224,8 @@ class NegociosCliente extends BaseCliente
 						];
 
 						$this->data['formgaleria'] = [
-							'route'        => ['cliente.negocio.upload-galeria'],
-							'id' => 'fileupload',
+							'route' => ['cliente.negocio.upload-galeria', $id],
+							'id'    => 'fileupload',
 							'files' => true
 						];
 
@@ -509,6 +509,71 @@ class NegociosCliente extends BaseCliente
 		]);
 	}
 
+	public function cropImage(Request $request)
+	{
+		if ($request->ajax())
+		{
+			$cliente_id = $request->get('cliente_id');
+			$imgUrl = $request->get('imgUrl');
+			// original sizes
+			$imgInitW = $request->get('imgInitW');
+			$imgInitH = $request->get('imgInitH');
+			// resized sizes
+			$imgW = $request->get('imgW');
+			$imgH = $request->get('imgH');
+			// offsets
+			$imgX1 = $request->get('imgX1');
+			$imgY1 = $request->get('imgY1');
+			// crop box
+			$cropW = $request->get('cropW');
+			$cropH = $request->get('cropH');
+			// rotation angle
+			$angle = $request->get('rotation');
+
+			$layer = ImageWorkshop::initFromPath($imgUrl);
+
+			$layer->resizeInPixel($imgW, $imgH, true, 0, 0, 'LT');
+			$layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
+
+			$dirPath = 'cliente/' . $cliente_id . '/logo/';
+			$localPath = 'local/' . $dirPath;
+			$filename = str_random() . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
+
+			unlink($localPath . pathinfo($imgUrl, PATHINFO_BASENAME));
+
+			$createFolders = true;
+			$backgroundColor = null; // transparent, only for PNG (otherwise it will be white if set null)
+			$imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
+
+			$layer->save($localPath, $filename, $createFolders, $backgroundColor, $imageQuality);
+
+			$cliente = Cliente::find($cliente_id);
+			$cliente->logo = $filename;
+			$cliente->save();
+
+			$localFile = $localPath . $filename;
+			$toGCS = $dirPath . $filename;
+
+			// Google Cloud
+			$files = Storage::files($dirPath);
+			Storage::delete($files);
+			Storage::put($toGCS, File::get($localFile));
+			Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
+
+			unlink($localFile);
+			rmdir($localPath);
+
+			$base_url = env('URI_STORAGE');
+
+			$response = [
+				"status" => 'success',
+				"url"    => $base_url . $toGCS
+			];
+
+			return new JsonResponse($response);
+		}
+	}
+
 	public function uploadImage(Request $request)
 	{
 		if ($request->ajax() && $request->file('img'))
@@ -574,99 +639,34 @@ class NegociosCliente extends BaseCliente
 		}
 	}
 
-	public function uploadGaleria(Request $request)
+	public function uploadGaleria(Request $request, $id_cliente)
 	{
 		$options = [
-			'script_url'                       => route('cliente.negocio.upload-galeria'),
-			'upload_dir'                       => dirname($_SERVER['SCRIPT_FILENAME']) . '/cliente/',
-			'upload_url'                       => url('cliente').'/',
-			'user_dirs'                        => false,
-			'mkdir_mode'                       => 0755,
-			// Set the following option to 'POST', if your server does not support
-			// DELETE requests. This is a parameter sent to the client:
-			'delete_type'                      => 'DELETE',
-			'access_control_allow_origin'      => '*',
-			'access_control_allow_credentials' => false,
-			'access_control_allow_methods'     => [
-				'OPTIONS',
-				'HEAD',
-				'GET',
-				'POST',
-				'PUT',
-				'PATCH',
-				'DELETE'
-			],
-			'access_control_allow_headers'     => [
-				'Content-Type',
-				'Content-Range',
-				'Content-Disposition'
-			],
-			// By default, allow redirects to the referer protocol+host:
-			'redirect_allow_target'            => '/^' . preg_quote(
-					parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_SCHEME)
-					. '://'
-					. parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_HOST)
-					. '/', // Trailing slash to not match subdomains by mistake
-					'/' // preg_quote delimiter param
-				) . '/',
-			// Enable to provide file downloads via GET requests to the PHP script:
-			//     1. Set to 1 to download files via readfile method through PHP
-			//     2. Set to 2 to send a X-Sendfile header for lighttpd/Apache
-			//     3. Set to 3 to send a X-Accel-Redirect header for nginx
-			// If set to 2 or 3, adjust the upload_url option to the base path of
-			// the redirect parameter, e.g. '/files/'.
-			'download_via_php'                 => false,
-			// Read files in chunks to avoid memory limits when download_via_php
-			// is enabled, set to 0 to disable chunked reading of files:
-			'readfile_chunk_size'              => 10 * 1024 * 1024, // 10 MiB
-			// Defines which files can be displayed inline when downloaded:
-			'inline_file_types'                => '/\.(gif|jpe?g|png)$/i',
-			// Defines which files (based on their names) are accepted for upload:
-			'accept_file_types'                => '/.+$/i',
+			'id_cliente' => $id_cliente,
+			'script_url'          => route('cliente.negocio.upload-galeria', $id_cliente),
+			'upload_dir'          => dirname($_SERVER['SCRIPT_FILENAME']) . '/cliente/' . $id_cliente . '/galeria/',
+			'upload_url'          => url('cliente') . '/' . $id_cliente . '/galeria/',
 			// The php.ini settings upload_max_filesize and post_max_size
 			// take precedence over the following max_file_size setting:
-			'max_file_size'                    => null,
-			'min_file_size'                    => 1,
+			'max_file_size'       => null,
+			'min_file_size'       => 1,
 			// The maximum number of files for the upload directory:
-			'max_number_of_files'              => null,
+			'max_number_of_files' => null,
 			// Defines which files are handled as image files:
-			'image_file_types'                 => '/\.(gif|jpe?g|png)$/i',
-			// Use exif_imagetype on all files to correct file extensions:
-			'correct_image_extensions'         => false,
+			'image_file_types'    => '/\.(gif|jpe?g|png)$/i',
 			// Image resolution restrictions:
-			'max_width'                        => null,
-			'max_height'                       => null,
-			'min_width'                        => 1,
-			'min_height'                       => 1,
-			// Set the following option to false to enable resumable uploads:
-			'discard_aborted_uploads'          => true,
-			// Set to 0 to use the GD library to scale and orient images,
-			// set to 1 to use imagick (if installed, falls back to GD),
-			// set to 2 to use the ImageMagick convert binary directly:
-			'image_library'                    => 1,
-			// Uncomment the following to define an array of resource limits
-			// for imagick:
-			/*
-			'imagick_resource_limits' => array(
-			    imagick::RESOURCETYPE_MAP => 32,
-			    imagick::RESOURCETYPE_MEMORY => 32
-			),
-			*/
-			// Command or path for to the ImageMagick convert binary:
-			'convert_bin'                      => 'convert',
-			// Uncomment the following to add parameters in front of each
-			// ImageMagick convert call (the limit constraints seem only
-			// to have an effect if put in front):
-			/*
-			'convert_params' => '-limit memory 32MiB -limit map 32MiB',
-			*/
-			// Command or path for to the ImageMagick identify binary:
-			'identify_bin'                     => 'identify',
-			'image_versions'                   => [
+			'max_width'           => null,
+			'max_height'          => null,
+			'min_width'           => 800,
+			'min_height'          => 600,
+			'image_versions'      => [
 				// The empty image version key defines options for the original image:
 				''          => [
 					// Automatically rotate images based on EXIF meta data:
-					'auto_orient' => true
+					'auto_orient' => true,
+					'max_width'   => 800,
+					'max_height'  => 600,
+					'crop'        => true,
 				],
 				// Uncomment the following to create medium sized images:
 				/*
@@ -685,77 +685,12 @@ class NegociosCliente extends BaseCliente
 					//'upload_url' => $this->get_full_url().'/thumb/',
 					// Uncomment the following to force the max
 					// dimensions and e.g. create square thumbnails:
-					//'crop' => true,
+					'crop'       => true,
 					'max_width'  => 80,
 					'max_height' => 80
 				]
-			],
-			'print_response'                   => true
+			]
 		];
-		$uploadHanlder = new UploadHanlder($options);
-	}
-
-	public function cropImage(Request $request)
-	{
-		if ($request->ajax())
-		{
-			$cliente_id = $request->get('cliente_id');
-			$imgUrl = $request->get('imgUrl');
-			// original sizes
-			$imgInitW = $request->get('imgInitW');
-			$imgInitH = $request->get('imgInitH');
-			// resized sizes
-			$imgW = $request->get('imgW');
-			$imgH = $request->get('imgH');
-			// offsets
-			$imgX1 = $request->get('imgX1');
-			$imgY1 = $request->get('imgY1');
-			// crop box
-			$cropW = $request->get('cropW');
-			$cropH = $request->get('cropH');
-			// rotation angle
-			$angle = $request->get('rotation');
-
-			$layer = ImageWorkshop::initFromPath($imgUrl);
-
-			$layer->resizeInPixel($imgW, $imgH, true, 0, 0, 'LT');
-			$layer->cropInPixel(500, 500, $imgX1, $imgY1, 'LT');
-
-			$dirPath = 'cliente/' . $cliente_id . '/logo/';
-			$localPath = 'local/' . $dirPath;
-			$filename = str_random() . '.' . pathinfo($imgUrl, PATHINFO_EXTENSION);
-
-			unlink($localPath . pathinfo($imgUrl, PATHINFO_BASENAME));
-
-			$createFolders = true;
-			$backgroundColor = null; // transparent, only for PNG (otherwise it will be white if set null)
-			$imageQuality = 100; // useless for GIF, usefull for PNG and JPEG (0 to 100%)
-
-			$layer->save($localPath, $filename, $createFolders, $backgroundColor, $imageQuality);
-
-			$cliente = Cliente::find($cliente_id);
-			$cliente->logo = $filename;
-			$cliente->save();
-
-			$localFile = $localPath . $filename;
-			$toGCS = $dirPath . $filename;
-			// Google Cloud
-			$files = Storage::files($dirPath);
-			Storage::delete($files);
-			Storage::put($toGCS, File::get($localFile));
-			Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
-
-			unlink($localFile);
-			rmdir($localPath);
-
-			$base_url = env('URI_STORAGE');
-
-			$response = [
-				"status" => 'success',
-				"url"    => $base_url . $toGCS
-			];
-
-			return new JsonResponse($response);
-		}
+		new UploadHanlder($options);
 	}
 }

@@ -41,7 +41,7 @@ Route::group(
 			Route::get('perfil/{cliente_id?}/{accion?}', [
 				'as'   => 'cliente.negocio.perfil',
 				'uses' => 'NegociosCliente@show'
-			])->where('cliente_id', '[0-9a-zA-Z]+')->where('accion', '[a-z]+');
+			])->where('accion', '[a-z]+');
 
 			Route::get('nuevo', [
 				'as'   => 'cliente.negocio.create',
@@ -63,10 +63,10 @@ Route::group(
 				'uses' => 'NegociosCliente@destroyGrupoHorario'
 			]);
 
-			Route::match(['get', 'post', 'delete'], 'upload-galeria', [
+			Route::match(['get', 'post', 'delete'], 'upload-galeria/{id_cliente?}', [
 				'as'   => 'cliente.negocio.upload-galeria',
 				'uses' => 'NegociosCliente@uploadGaleria'
-			]);
+			])->where('cliente_id', '[0-9a-zA-Z]+');
 		});
 
 		/*

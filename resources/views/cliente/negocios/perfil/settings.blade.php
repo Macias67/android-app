@@ -744,11 +744,11 @@
 						                            <td> {% if (!i && !o.options.autoUpload) { %}
 						                                <button class="btn blue start" disabled>
 						                                    <i class="fa fa-upload"></i>
-						                                    <span>Start</span>
+						                                    <span>Subir</span>
 						                                </button> {% } %} {% if (!i) { %}
 						                                <button class="btn red cancel">
 						                                    <i class="fa fa-ban"></i>
-						                                    <span>Cancel</span>
+						                                    <span>Cancelar</span>
 						                                </button> {% } %} </td>
 						                        </tr> {% } %}
 								</script>
@@ -773,12 +773,12 @@
 						                            <td> {% if (file.deleteUrl) { %}
 						                                <button class="btn red delete btn-sm" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}" {% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}' {% } %}>
 						                                    <i class="fa fa-trash-o"></i>
-						                                    <span>Delete</span>
+						                                    <span>Borrar</span>
 						                                </button>
 						                                <input type="checkbox" name="delete" value="1" class="toggle"> {% } else { %}
 						                                <button class="btn yellow cancel btn-sm">
 						                                    <i class="fa fa-ban"></i>
-						                                    <span>Cancel</span>
+						                                    <span>Cancelar</span>
 						                                </button> {% } %} </td>
 						                        </tr> {% } %}
 						                 </script>

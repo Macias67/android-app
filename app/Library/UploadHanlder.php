@@ -8,6 +8,11 @@
 namespace App\Library;
 
 
+use Hashids\Hashids;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\AdapterInterface;
+
 class UploadHanlder
 {
 	protected $options;
@@ -157,10 +162,14 @@ class UploadHanlder
 			],
 			'print_response'                   => true
 		];
+
 		if ($options)
 		{
 			$this->options = $options + $this->options;
 		}
+
+		$this->dirGCS = 'cliente/' . $this->options['id_cliente'] . '/galeria';
+
 		if ($error_messages)
 		{
 			$this->error_messages = $error_messages + $this->error_messages;
@@ -652,6 +661,25 @@ class UploadHanlder
 			$index,
 			$content_range
 		);
+	}
+
+	//custom function which generates a unique filename based on current time
+	protected function generate_unique_filename($filename = "")
+	{
+		$extension = "";
+		if ($filename != "")
+		{
+			$extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+			if ($extension != "")
+			{
+				$extension = "." . $extension;
+			}
+		}
+		$hashid = new Hashids(time(), 16);
+		$name = $hashid->encode(rand(0, 1000));
+
+		return $name . $extension;
 	}
 
 	protected function get_scaled_image_file_paths($file_name, $version)
@@ -1290,14 +1318,14 @@ class UploadHanlder
 		$index = null, $content_range = null)
 	{
 		$file = new \stdClass();
-		$file->name = $this->get_file_name($uploaded_file, $name, $size, $type, $error,
-			$index, $content_range);
+		$file->name = $this->generate_unique_filename($name);
 		$file->size = $this->fix_integer_overflow((int)$size);
 		$file->type = $type;
 		if ($this->validate($uploaded_file, $file, $error, $index))
 		{
 			$this->handle_form_data($file, $index);
 			$upload_dir = $this->get_upload_path();
+
 			if (!is_dir($upload_dir))
 			{
 				mkdir($upload_dir, $this->options['mkdir_mode'], true);
@@ -1349,6 +1377,23 @@ class UploadHanlder
 				}
 			}
 			$this->set_additional_file_properties($file);
+
+			// GCS
+			foreach ($this->options['image_versions'] as $version => $options)
+			{
+				if ((empty($version)))
+				{
+					$toGCS = $this->dirGCS . '/' . $file->name;
+				}
+				else
+				{
+					$toGCS = $this->dirGCS . '/' . $version . '/' . $file->name;
+					$file_path = public_path('cliente\\'.$this->options['id_cliente'].'\galeria\\'.$version.'\\'.$file->name);
+				}
+
+				Storage::put($toGCS, File::get($file_path));
+				Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
+			}
 		}
 
 		return $file;
