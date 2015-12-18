@@ -1648,6 +1648,7 @@ class UploadHanlder
 		}
 		else
 		{
+			dd($this->get_file_objects());
 			$response = [
 				$this->options['param_name'] => $this->get_file_objects()
 			];
