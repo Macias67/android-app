@@ -410,13 +410,11 @@ class UploadHanlder
 			{
 				if (!empty($version))
 				{
-					if (is_file($this->get_upload_path($foto->nombre, $version)))
-					{
+					//if (is_file($this->get_upload_path($foto->nombre, $version)))
 						$file->{$version . 'Url'} = $this->get_download_url(
 							$foto->nombre,
 							$version
 						);
-					}
 				}
 			}
 			$this->set_additional_file_properties($file);
