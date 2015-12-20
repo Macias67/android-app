@@ -391,11 +391,11 @@ class UploadHanlder
 
 	protected function get_file_objects($iteration_method = 'get_file_object')
 	{
-		$upload_dir = $this->get_upload_path();
+		/*$upload_dir = $this->get_upload_path();
 		if (!is_dir($upload_dir))
 		{
 			return [];
-		}
+		}*/
 
 		//Model ClienteGaleria
 		$fotos = ClienteGaleria::where('cliente_id', $this->options['id_cliente'])->get();
