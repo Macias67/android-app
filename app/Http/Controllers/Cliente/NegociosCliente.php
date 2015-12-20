@@ -562,7 +562,10 @@ class NegociosCliente extends BaseCliente
 			Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
 
 			unlink($localFile);
-			rmdir($localPath);
+			File::cleanDirectory($localPath);
+			File::deleteDirectory($localPath);
+
+			cleanPath($cliente_id);
 
 			$base_url = Config::get('path.storage');
 
@@ -641,7 +644,8 @@ class NegociosCliente extends BaseCliente
 
 	public function uploadGaleria(Request $request, $id_cliente)
 	{
-		$upload_dir = ($request->getMethod() === 'GET') ? public_path(Config::get('path.clientes') . '/' . $id_cliente . '/galeria') . '/' :
+		$upload_dir = ($request->getMethod() === 'GET') ?
+			public_path(Config::get('path.clientes') . '/' . $id_cliente . '/galeria') . '/' :
 			public_path(Config::get('path.temporal') . '/' . Config::get('path.clientes') . '/' . $id_cliente . '/galeria') . '/';
 
 		$options = [

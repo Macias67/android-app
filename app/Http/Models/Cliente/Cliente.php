@@ -46,8 +46,6 @@ class Cliente extends Model
 		'estatus'
 	];
 
-	protected $guarded = ['id'];
-
 	/**
 	 * Sobrescribo la collection
 	 *

@@ -8,6 +8,7 @@
 namespace App\Library;
 
 
+use App\Http\Models\Cliente\ClienteGaleria;
 use Hashids\Hashids;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -396,10 +397,38 @@ class UploadHanlder
 			return [];
 		}
 
-		return array_values(array_filter(array_map(
-			[$this, $iteration_method],
-			scandir($upload_dir)
-		)));
+		//Model ClienteGaleria
+		$fotos = ClienteGaleria::where('cliente_id', $this->options['id_cliente'])->get();
+		$files = [];
+		foreach ($fotos as $foto)
+		{
+			$file = new \stdClass();
+			$file->name = $foto->nombre;
+			$file->size = $this->fix_integer_overflow($foto->tamano);
+			$file->url = $this->get_download_url($foto->nombre);
+			foreach ($this->options['image_versions'] as $version => $options)
+			{
+				if (!empty($version))
+				{
+					if (is_file($this->get_upload_path($foto->nombre, $version)))
+					{
+						$file->{$version . 'Url'} = $this->get_download_url(
+							$foto->nombre,
+							$version
+						);
+					}
+				}
+			}
+			$this->set_additional_file_properties($file);
+			array_push($files, $file);
+		}
+
+		return array_values($files);
+
+		//return array_values(array_filter(array_map(
+		//	[$this, $iteration_method],
+		//	scandir($upload_dir)
+		//)));
 	}
 
 	protected function count_file_objects()
@@ -1383,24 +1412,7 @@ class UploadHanlder
 			}
 			$this->set_additional_file_properties($file);
 
-			// GCS
-			foreach ($this->options['image_versions'] as $version => $options)
-			{
-				if ((empty($version)))
-				{
-					$toGCS = $this->dirGCS . '/' . $file->name;
-					$path = $file_path;
-				}
-				else
-				{
-					$toGCS = $this->dirGCS . '/' . $version . '/' . $file->name;
-					$path = $this->options['upload_dir'] . $version . '/' . $file->name;
-				}
-
-				Storage::put($toGCS, File::get($path));
-				Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
-				unlink($path);
-			}
+			$this->googleCloudStorage($file, $file_path);
 		}
 
 		return $file;
@@ -1648,7 +1660,6 @@ class UploadHanlder
 		}
 		else
 		{
-			dd($this->get_file_objects());
 			$response = [
 				$this->options['param_name'] => $this->get_file_objects()
 			];
@@ -1751,5 +1762,43 @@ class UploadHanlder
 		}
 
 		return $this->generate_response($response, $print_response);
+	}
+
+	// GCS y base de datos
+	private function googleCloudStorage($file, $file_path)
+	{
+		// GCS
+		foreach ($this->options['image_versions'] as $version => $options)
+		{
+			if ((empty($version)))
+			{
+				$toGCS = $this->dirGCS . '/' . $file->name;
+				$path = $file_path;
+			}
+			else
+			{
+				$toGCS = $this->dirGCS . '/' . $version . '/' . $file->name;
+				$path = $this->options['upload_dir'] . $version . '/' . $file->name;
+			}
+
+			Storage::put($toGCS, File::get($path));
+			Storage::setVisibility($toGCS, AdapterInterface::VISIBILITY_PUBLIC);
+
+			if ((empty($version)))
+			{
+				// Guardo en la bd
+				$picture = new ClienteGaleria();
+				$picture->id = $picture->getUniqueID();
+				$picture->cliente_id = $this->options['id_cliente'];
+				$picture->nombre = $file->name;
+				$picture->tamano = $file->size;
+
+				$picture->save();
+			}
+		}
+		File::cleanDirectory($this->options['upload_dir']);
+		File::deleteDirectory($this->options['upload_dir']);
+
+		cleanPath($this->options['id_cliente']);
 	}
 }

@@ -17,6 +17,7 @@ var FormFileUpload = function () {
 
 			// Initialize the jQuery File Upload widget:
 			$('#fileupload').fileupload({
+				sequentialUploads : true,
 				disableImageResize: false,
 				autoUpload        : false,
 				disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
@@ -30,14 +31,14 @@ var FormFileUpload = function () {
 			});
 
 			// Enable iframe cross-domain access via redirect option:
-			$('#fileupload').fileupload(
-				'option',
-				'redirect',
-				window.location.href.replace(
-					/\/[^\/]*$/,
-					'/cors/result.html?%s'
-				)
-			);
+//			$('#fileupload').fileupload(
+//				'option',
+//				'redirect',
+//				window.location.href.replace(
+//					/\/[^\/]*$/,
+//					'/cors/result.html?%s'
+//				)
+//			);
 
 			// Upload server status check for browsers with CORS support:
 			if ($.support.cors) {
