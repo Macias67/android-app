@@ -6,11 +6,23 @@
  * Time: 10:05 AM
  */
 
-Route::get(
-	'/',
-	function ()
+Route::group(
+	['namespace' => 'Usuario'],
+	function()
 	{
-		$files = Storage::files('cliente/qwerty/logo');
-		dd(storage_path());
+		/*
+		|--------------------------------------------------------------------------
+		| PRINCIPAL
+		|--------------------------------------------------------------------------
+		*/
+		Route::get('/', [
+			'as'   => 'principal',
+			'uses' => 'PrincipalUsuario@index'
+		]);
+
+		Route::post('quick-view', [
+			'as'   => 'quick-view',
+			'uses' => 'PrincipalUsuario@quickView'
+		]);
 	}
 );
