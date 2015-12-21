@@ -410,11 +410,13 @@ class UploadHanlder
 			{
 				if (!empty($version))
 				{
-					//if (is_file($this->get_upload_path($foto->nombre, $version)))
+					if (Storage::exists($this->get_upload_path($foto->nombre, $version)))
+					{
 						$file->{$version . 'Url'} = $this->get_download_url(
 							$foto->nombre,
 							$version
 						);
+					}
 				}
 			}
 			$this->set_additional_file_properties($file);
@@ -1741,17 +1743,23 @@ class UploadHanlder
 		foreach ($file_names as $file_name)
 		{
 			$file_path = $this->get_upload_path($file_name);
-			$success = is_file($file_path) && $file_name[0] !== '.' && unlink($file_path);
-			if ($success)
+			$success = Storage::exists($file_path) && $file_name[0] !== '.' && Storage::delete($file_path);
+
+			//Borrar registro
+			$file = ClienteGaleria::where('nombre', $file_name);
+			$bd_success = $file->delete();
+
+			if ($success and $bd_success)
 			{
+
 				foreach ($this->options['image_versions'] as $version => $options)
 				{
 					if (!empty($version))
 					{
 						$file = $this->get_upload_path($file_name, $version);
-						if (is_file($file))
+						if (Storage::exists($file))
 						{
-							unlink($file);
+							Storage::delete($file);
 						}
 					}
 				}
