@@ -9,11 +9,13 @@ class ClienteCollection extends Collection
 
 	/**
 	 * ClienteCollection constructor.
+	 *
+	 * @param array $models
 	 */
 	public function __construct(array $models = [])
-	{
-		parent::__construct($models);
-	}
+{
+	parent::__construct($models);
+}
 
 	/**
 	 * Get the collection of items as a plain array.
@@ -41,6 +43,14 @@ class ClienteCollection extends Collection
 
 			$cliente_array['categorias'] = $arraycategorias;
 			$cliente_array['redes_sociales'] = $cliente->redesSociales->toArray();
+			$cliente_array['galeria'] = $cliente->galeria->toArrayFull();
+			$cliente_array['app'] = [
+				'color' => '',
+				'rating' => 2,
+				'type_icon' => $cliente->logo(),
+				'url' => "item-detail.html",
+				'url_modal' => route('quick-view'),
+			];
 			array_push($arrays, $cliente_array);
 		}
 

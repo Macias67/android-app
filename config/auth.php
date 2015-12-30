@@ -12,6 +12,11 @@ return [
 			'driver' => 'eloquent',
 			'table'  => 'cl_propietario',
 			'model'  => 'App\Http\Models\Cliente\Propietario',
+		],
+		'usuario' => [
+			'driver' => 'eloquent',
+			'table'  => 'usr_usuarios',
+			'model'  => 'App\Http\Models\Usuario\Usuario',
 		]
 	],
 

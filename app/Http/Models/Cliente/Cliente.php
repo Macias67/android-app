@@ -109,7 +109,7 @@ class Cliente extends Model
 	}
 
 	/**
-	 * Cliente tiene una columna horarios
+	 * Cliente tiene muchas columnas en horarios
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
@@ -126,6 +126,16 @@ class Cliente extends Model
 	public function ciudad()
 	{
 		return $this->belongsTo(Ciudades::class, 'ciudad_id');
+	}
+
+	/**
+	 * Cliente tiene fotos en Galeria
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function galeria()
+	{
+		return $this->hasMany(ClienteGaleria::class, 'cliente_id');
 	}
 
 	/**

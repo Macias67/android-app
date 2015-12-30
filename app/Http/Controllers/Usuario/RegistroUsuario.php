@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Usuario;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
-class PrincipalUsuario extends BaseUsuario
+class RegistroUsuario extends BaseUsuario
 {
 	/**
 	 * Display a listing of the resource.
@@ -14,11 +14,7 @@ class PrincipalUsuario extends BaseUsuario
 	 */
 	public function index()
 	{
-		return $this->view('_base.tmpl.main');
-	}
-
-	public function quickView() {
-		return $this->view('usuario.modal.quick-view');
+		return $this->view('usuario.registro');
 	}
 
 	/**

@@ -1,13 +1,13 @@
 function drawInfobox(category, infoboxContent, json, i) {
 
-	if (json.data[i].color) {
-		var color = json.data[i].color
+	if (json.data[i].app.color) {
+		var color = json.data[i].app.color
 	}
 	else {
 		color = ''
 	}
-	if (json.data[i].price) {
-		var price = '<div class="price">' + json.data[i].price + '</div>'
+	if (json.data[i].app.price) {
+		var price = '<div class="price">' + json.data[i].app.price + '</div>'
 	}
 	else {
 		price = ''
@@ -18,67 +18,68 @@ function drawInfobox(category, infoboxContent, json, i) {
 	else {
 		id = ''
 	}
-	if (json.data[i].url) {
-		var url = json.data[i].url
+	if (json.data[i].app.url) {
+		var url = json.data[i].app.url
 	}
 	else {
 		url = ''
 	}
-	if (json.data[i].url_modal) {
-		var url_modal = json.data[i].url_modal
+	if (json.data[i].app.url_modal) {
+		var url_modal = json.data[i].app.url_modal
 	}
 	else {
 		url_modal = ''
 	}
-	if (json.data[i].type) {
-		var type = json.data[i].type
+	if (json.data[i].subcategorias[0].subcategoria) {
+		var type = json.data[i].subcategorias[0].subcategoria
 	}
 	else {
 		type = ''
 	}
-	if (json.data[i].title) {
-		var title = json.data[i].title
+	if (json.data[i].nombre) {
+		var title = json.data[i].nombre
 	}
 	else {
 		title = ''
 	}
-	if (json.data[i].location) {
-		var location = json.data[i].location
+	if (json.data[i].calle && json.data[i].numero && json.data[i].colonia) {
+		var location = json.data[i].calle +' '+ json.data[i].numero +' Col. '+ json.data[i].colonia;
 	}
 	else {
 		location = ''
 	}
-	if (json.data[i].gallery[0]) {
-		var gallery = json.data[i].gallery[0]
+	if (json.data[i].galeria.length > 0  && json.data[i].galeria[0].original) {
+		var gallery = json.data[i].galeria[0].original
 	}
 	else {
-		gallery[0] = '../tmpl/img/default-item.jpg'
+		 gallery = '../assets/tmpl/img/default-item.jpg'
 	}
 
 	var ibContent = '';
 	ibContent     =
 		'<div class="infobox ' + color + '">' +
-		'<div class="inner">' +
-		'<div class="image">' +
-		'<div class="item-specific">' + drawItemSpecific(category, json, i) + '</div>' +
-		'<div class="overlay">' +
-		'<div class="wrapper">' +
-		'<a href="#" class="quick-view" data-toggle="modal" data-target="#modal" id="' + id + '" data-url = "' + url_modal + '"> Quick View </a>' +
-		'<hr>' +
-		'<a href="' + url + '" class="detail">Go to Detail</a>' +
-		'</div>' +
-		'</div>' +
-		'<a href="' + url + '" class="description">' +
-		'<div class="meta">' +
-		price +
-		'<h2>' + title + '</h2>' +
-		'<figure>' + location + '</figure>' +
-		'<i class="fa fa-angle-right"></i>' +
-		'</div>' +
-		'</a>' +
-		'<img src="' + gallery + '">' +
-		'</div>' +
-		'</div>' +
+			'<div class="inner">' +
+			'<div class="image">' +
+			'<div class="item-specific">' + drawItemSpecific(category, json, i) + '</div>' +
+			'<div class="overlay">' +
+			'<div class="wrapper">' +
+			'<a href="#" class="quick-view" data-toggle="modal" data-target="#modal" id="' + id + '" data-url = "' + url_modal + '"> Ver </a>' +
+			'<hr>' +
+			'<a href="' + url + '" class="detail">Go to Detail</a>' +
+			'</div>' +
+			'</div>' +
+			'<a href="' + url + '" class="description">' +
+			'<div class="meta">' +
+			price +
+			'<h2>' + title + '</h2>' +
+			'<h6>' + type + '</h6>' +
+			'<figure>' + location + '</figure>' +
+			'<i class="fa fa-angle-right"></i>' +
+			'</div>' +
+			'</a>' +
+			'<img src="' + gallery + '">' +
+			'</div>' +
+			'</div>' +
 		'</div>';
 
 	return ibContent;

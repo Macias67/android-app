@@ -16,14 +16,14 @@
 
 		<title>Spotter - Universal Directory Listing HTML Template</title>
 	</head>
-
+	
 	<body onunload = "" class = "map-fullscreen page-homepage navigation-off-canvas" id = "page-top" token="{{csrf_token()}}">
 
-		<!-- Outer Wrapper-->
+		{{-- Outer Wrapper --}}
 		<div id = "outer-wrapper">
-			<!-- Inner Wrapper -->
+			{{-- Inner Wrapper  --}}
 			<div id = "inner-wrapper">
-				<!-- Navigation-->
+				{{-- Navigation --}}
 				<div class = "header">
 					<div class = "wrapper">
 						<div class = "brand">
@@ -34,7 +34,7 @@
 								<ul class = "main-navigation navigation-top-header"></ul>
 								<ul class = "user-area">
 									<li><a href = "sign-in.html">Sign In</a></li>
-									<li><a href = "register.html"><strong>Register</strong></a></li>
+									<li><a href = "{{route('registro')}}"><strong>Regístrate</strong></a></li>
 								</ul>
 								<a href = "submit.html" class = "submit-item">
 									<div class = "content"><span>Submit Your Item</span></div>
@@ -53,20 +53,20 @@
 						</nav>
 					</div>
 				</div>
-				<!-- end Navigation-->
-				<!-- Page Canvas-->
+				{{-- end Navigation --}}
+				{{-- Page Canvas --}}
 				<div id = "page-canvas">
-					<!--Off Canvas Navigation-->
+					{{-- Off Canvas Navigation --}}
 					<nav class = "off-canvas-navigation">
 						<header>Navigation</header>
 						<div class = "main-navigation navigation-off-canvas"></div>
 					</nav>
-					<!--end Off Canvas Navigation-->
-					<!--Page Content-->
+					{{-- end Off Canvas Navigation --}}
+					{{-- Page Content --}}
 					<div id = "page-content">
-						<!-- Map Canvas-->
+						{{-- Map Canvas --}}
 						<div class = "map-canvas list-width-30">
-							<!-- Map -->
+							{{-- Map  --}}
 							<div class = "map">
 								<div class = "toggle-navigation">
 									<div class = "icon">
@@ -75,23 +75,23 @@
 										<div class = "line"></div>
 									</div>
 								</div>
-								<!--/.toggle-navigation-->
+								{{-- /.toggle-navigation --}}
 								<div id = "map" class = "has-parallax"></div>
-								<!--/#map-->
+								{{-- /#map --}}
 								<div class = "search-bar horizontal">
 									<form class = "main-search border-less-inputs" role = "form" method = "post">
 										<div class = "input-row">
 											<div class = "form-group">
 												<input type = "text" class = "form-control" id = "keyword" placeholder = "Enter Keyword">
 											</div>
-											<!-- /.form-group -->
+											{{-- /.form-group  --}}
 											<div class = "form-group">
 												<div class = "input-group location">
 													<input type = "text" class = "form-control" id = "location" placeholder = "Enter Location">
 													<span class = "input-group-addon"><i class = "fa fa-map-marker geolocation" data-toggle = "tooltip" data-placement = "bottom" title = "Find my position"></i></span>
 												</div>
 											</div>
-											<!-- /.form-group -->
+											{{-- /.form-group  --}}
 											<div class = "form-group">
 												<select name = "category" multiple title = "Select Category" data-live-search = "true">
 													<option value = "1">Stores</option>
@@ -109,21 +109,21 @@
 													<option value = "13" class = "sub-category">Winter Sports</option>
 												</select>
 											</div>
-											<!-- /.form-group -->
+											{{-- /.form-group  --}}
 											<div class = "form-group">
 												<button type = "submit" class = "btn btn-default"><i class = "fa fa-search"></i>
 												</button>
 											</div>
-											<!-- /.form-group -->
+											{{-- /.form-group  --}}
 										</div>
-										<!-- /.input-row -->
+										{{-- /.input-row  --}}
 									</form>
-									<!-- /.main-search -->
+									{{-- /.main-search  --}}
 								</div>
-								<!-- /.search-bar -->
+								{{-- /.search-bar  --}}
 							</div>
-							<!-- end Map -->
-							<!--Items List-->
+							{{-- end Map  --}}
+							{{-- Items List --}}
 							<div class = "items-list">
 								<div class = "inner">
 									<header>
@@ -133,12 +133,12 @@
 
 									</ul>
 								</div>
-								<!--results-->
+								{{-- results --}}
 							</div>
-							<!--end Items List-->
+							{{-- end Items List --}}
 						</div>
-						<!-- end Map Canvas-->
-						<!--Featured-->
+						{{-- end Map Canvas --}}
+						{{-- Featured --}}
 						<section id = "featured" class = "block background-color-grey-dark equal-height">
 							<div class = "container">
 								<header><h2>Featured</h2></header>
@@ -182,9 +182,9 @@
 												</div>
 											</div>
 										</div>
-										<!-- /.item-->
+										{{-- /.item --}}
 									</div>
-									<!--/.col-sm-4-->
+									{{-- /.col-sm-4 --}}
 									<div class = "col-md-3 col-sm-3">
 										<div class = "item featured">
 											<div class = "image">
@@ -214,9 +214,9 @@
 												</div>
 											</div>
 										</div>
-										<!-- /.item-->
+										{{-- /.item --}}
 									</div>
-									<!--/.col-sm-4-->
+									{{-- /.col-sm-4 --}}
 									<div class = "col-md-3 col-sm-3">
 										<div class = "item featured">
 											<div class = "image">
@@ -249,9 +249,9 @@
 												</div>
 											</div>
 										</div>
-										<!-- /.item-->
+										{{-- /.item --}}
 									</div>
-									<!--/.col-sm-4-->
+									{{-- /.col-sm-4 --}}
 									<div class = "col-md-3 col-sm-3">
 										<div class = "item featured">
 											<div class = "image">
@@ -284,17 +284,17 @@
 												</div>
 											</div>
 										</div>
-										<!-- /.item-->
+										{{-- /.item --}}
 									</div>
-									<!--/.col-sm-4-->
+									{{-- /.col-sm-4 --}}
 								</div>
-								<!--/.row-->
+								{{-- /.row --}}
 							</div>
-							<!--/.container-->
+							{{-- /.container --}}
 						</section>
-						<!--end Featured-->
+						{{-- end Featured --}}
 
-						<!--Popular-->
+						{{-- Popular --}}
 						<section id = "popular" class = "block background-color-white">
 							<div class = "container">
 								<header><h2>Popular</h2></header>
@@ -337,7 +337,7 @@
 														<span>Restaurant</span>
 													</div>
 												</div>
-												<!--/.info-->
+												{{-- /.info --}}
 												<p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa,
 													viverra interdum eros ut,
 													imperdiet pellentesque mauris. Proin sit amet scelerisque risus. Donec
@@ -346,11 +346,11 @@
 												</p>
 												<a href = "item-detail.html" class = "read-more icon">Read More</a>
 											</div>
-											<!--/.wrapper-->
+											{{-- /.wrapper --}}
 										</div>
-										<!--/.inner-->
+										{{-- /.inner --}}
 									</div>
-									<!--/.slide-->
+									{{-- /.slide --}}
 									<div class = "slide">
 										<div class = "inner">
 											<div class = "image">
@@ -389,7 +389,7 @@
 														<span>Restaurant</span>
 													</div>
 												</div>
-												<!--/.info-->
+												{{-- /.info --}}
 												<p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa,
 													viverra interdum eros ut,
 													imperdiet pellentesque mauris. Proin sit amet scelerisque risus. Donec
@@ -398,17 +398,17 @@
 												</p>
 												<a href = "item-detail.html" class = "read-more icon">Read More</a>
 											</div>
-											<!--/.wrapper-->
+											{{-- /.wrapper --}}
 										</div>
-										<!--/.inner-->
+										{{-- /.inner --}}
 									</div>
-									<!--/.slide-->
+									{{-- /.slide --}}
 								</div>
-								<!--/.owl-carousel-->
+								{{-- /.owl-carousel --}}
 							</div>
-							<!--/.container-->
+							{{-- /.container --}}
 						</section>
-						<!--end Popular-->
+						{{-- end Popular --}}
 						<section class = "block equal-height">
 							<div class = "container">
 								<div class = "row">
@@ -455,9 +455,9 @@
 														</div>
 													</div>
 												</div>
-												<!-- /.item-->
+												{{-- /.item --}}
 											</div>
-											<!--/.col-sm-4-->
+											{{-- /.col-sm-4 --}}
 											<div class = "col-md-4 col-sm-4">
 												<div class = "item">
 													<div class = "image">
@@ -489,9 +489,9 @@
 														</div>
 													</div>
 												</div>
-												<!-- /.item-->
+												{{-- /.item --}}
 											</div>
-											<!--/.col-sm-4-->
+											{{-- /.col-sm-4 --}}
 											<div class = "col-md-4 col-sm-4">
 												<div class = "item">
 													<div class = "image">
@@ -526,13 +526,13 @@
 														</div>
 													</div>
 												</div>
-												<!-- /.item-->
+												{{-- /.item --}}
 											</div>
-											<!--/.col-sm-4-->
+											{{-- /.col-sm-4 --}}
 										</div>
-										<!--/.row-->
+										{{-- /.row --}}
 
-										<!--Recent-->
+										{{-- Recent --}}
 										<section id = "recent">
 											<header><h2>Recent</h2></header>
 											<div class = "item list">
@@ -574,7 +574,7 @@
 													</div>
 												</div>
 											</div>
-											<!-- /.item-->
+											{{-- /.item --}}
 											<div class = "item list">
 												<div class = "image">
 													<div class = "quick-view"><i class = "fa fa-eye"></i><span>Quick View</span>
@@ -605,7 +605,7 @@
 													</div>
 												</div>
 											</div>
-											<!-- /.item-->
+											{{-- /.item --}}
 											<div class = "item list">
 												<div class = "image">
 													<div class = "quick-view"><i class = "fa fa-eye"></i><span>Quick View</span>
@@ -639,10 +639,10 @@
 													</div>
 												</div>
 											</div>
-											<!-- /.item-->
+											{{-- /.item --}}
 										</section>
-										<!--end Recent-->
-										<!--Categories-->
+										{{-- end Recent --}}
+										{{-- Categories --}}
 										<section id = "categories">
 											<header><h2>Categories</h2></header>
 											<ul class = "categories">
@@ -651,7 +651,7 @@
 														<li><a href = "#">Photography</a></li>
 														<li><a href = "#">History</a></li>
 														<li><a href = "#">Literature</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Business & Economy</a>
 													<ul class = "sub-category">
@@ -659,7 +659,7 @@
 														<li><a href = "#">Finance</a></li>
 														<li><a href = "#">Shopping</a></li>
 														<li><a href = "#">Jobs</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Computer & Internet</a>
 													<ul class = "sub-category">
@@ -667,14 +667,14 @@
 														<li><a href = "#">Software</a></li>
 														<li><a href = "#">Web</a></li>
 														<li><a href = "#">Games</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Education</a>
 													<ul class = "sub-category">
 														<li><a href = "#">Colleges</a></li>
 														<li><a href = "#">K-12</a></li>
 														<li><a href = "#">Distance Learning</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Entertainment</a>
 													<ul class = "sub-category">
@@ -682,7 +682,7 @@
 														<li><a href = "#">TV Shows</a></li>
 														<li><a href = "#">Music</a></li>
 														<li><a href = "#">Humor</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Government</a>
 													<ul class = "sub-category">
@@ -690,7 +690,7 @@
 														<li><a href = "#">Military</a></li>
 														<li><a href = "#">Law</a></li>
 														<li><a href = "#">Taxes</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "">Health</a>
 													<ul class = "sub-category">
@@ -698,7 +698,7 @@
 														<li><a href = "#">Drugs</a></li>
 														<li><a href = "#">Fitness</a></li>
 														<li><a href = "#">Nutrition</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">News & Media</a>
 													<ul class = "sub-category">
@@ -706,7 +706,7 @@
 														<li><a href = "#">Radio</a></li>
 														<li><a href = "#">Weather</a></li>
 														<li><a href = "#">Blogs</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Recreation & Sports</a>
 													<ul class = "sub-category">
@@ -714,21 +714,21 @@
 														<li><a href = "#">Travel</a></li>
 														<li><a href = "#">Autos</a></li>
 														<li><a href = "#">Outdoors</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Reference</a>
 													<ul class = "sub-category">
 														<li><a href = "#">Phone Numbers</a></li>
 														<li><a href = "#">Dictionaries</a></li>
 														<li><a href = "#">Quotes</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Science</a>
 													<ul class = "sub-category">
 														<li><a href = "#">Animals</a></li>
 														<li><a href = "#">Astronomy</a></li>
 														<li><a href = "#">Earth Science</a></li>
-													</ul><!--/.sub-category-->
+													</ul>{{-- /.sub-category --}}
 												</li>
 												<li><a href = "#">Social Science</a>
 													<ul class = "sub-category">
@@ -736,14 +736,14 @@
 														<li><a href = "#">Archaeology</a></li>
 														<li><a href = "#">Psychology</a></li>
 													</ul>
-													<!--/.sub-category-->
+													{{-- /.sub-category --}}
 												</li>
 											</ul>
-											<!--/.categories-->
+											{{-- /.categories --}}
 										</section>
-										<!--end Categories-->
+										{{-- end Categories --}}
 									</div>
-									<!--/.col-md-9-->
+									{{-- /.col-md-9 --}}
 									<div class = "col-md-3">
 										<aside id = "sidebar">
 											<section>
@@ -763,7 +763,7 @@
 														</div>
 													</div>
 												</a>
-												<!--/.item-horizontal small-->
+												{{-- /.item-horizontal small --}}
 												<a href = "item-detail.html" class = "item-horizontal small">
 													<h3>Blue Chilli</h3>
 													<figure>2476 Whispering Pines Circle</figure>
@@ -779,7 +779,7 @@
 														</div>
 													</div>
 												</a>
-												<!--/.item-horizontal small-->
+												{{-- /.item-horizontal small --}}
 												<a href = "item-detail.html" class = "item-horizontal small">
 													<h3>Eddie’s Fast Food</h3>
 													<figure>4365 Bruce Street</figure>
@@ -795,7 +795,7 @@
 														</div>
 													</div>
 												</a>
-												<!--/.item-horizontal small-->
+												{{-- /.item-horizontal small --}}
 											</section>
 											<section>
 												<header><h2>Categories</h2></header>
@@ -821,18 +821,18 @@
 														<option value = "5">Tokyo</option>
 													</select>
 												</div>
-												<!-- /.form-group -->
+												{{-- /.form-group  --}}
 											</section>
 										</aside>
-										<!-- /#sidebar-->
+										{{-- /#sidebar --}}
 									</div>
-									<!-- /.col-md-3-->
+									{{-- /.col-md-3 --}}
 								</div>
-								<!--/.row-->
+								{{-- /.row --}}
 							</div>
 						</section>
 
-						<!--Banner-->
+						{{-- Banner --}}
 						<section>
 							<div class = "container">
 								<div class = "block">
@@ -840,8 +840,8 @@
 								</div>
 							</div>
 						</section>
-						<!--end Banner-->
-						<!--Subscribe-->
+						{{-- end Banner --}}
+						{{-- Subscribe --}}
 						<section id = "subscribe" class = "block">
 							<div class = "container">
 								<header><h2>Subscribe</h2></header>
@@ -853,12 +853,12 @@
                                 </span>
 									</div>
 								</form>
-								<!--/.subscribe-->
+								{{-- /.subscribe --}}
 							</div>
-							<!--/.container-->
+							{{-- /.container --}}
 						</section>
-						<!--end Subscribe-->
-						<!--Partners-->
+						{{-- end Subscribe --}}
+						{{-- Partners --}}
 						<section id = "partners" class = "block">
 							<div class = "container">
 								<header><h2>Partners</h2></header>
@@ -870,21 +870,21 @@
 									<div class = "logo"><a href = "#"><img src = "{{asset('assets/tmpl/img/logo-partner-05.png')}}" alt = ""></a></div>
 								</div>
 							</div>
-							<!--/.container-->
+							{{-- /.container --}}
 						</section>
-						<!--end Partners-->
+						{{-- end Partners --}}
 					</div>
-					<!-- end Page Content-->
+					{{-- end Page Content --}}
 				</div>
-				<!-- end Page Canvas-->
-				<!--Page Footer-->
+				{{-- end Page Canvas --}}
+				{{-- Page Footer --}}
 				<footer id = "page-footer">
 					<div class = "inner">
 						<div class = "footer-top">
 							<div class = "container">
 								<div class = "row">
 									<div class = "col-md-4 col-sm-4">
-										<!--New Items-->
+										{{-- New Items --}}
 										<section>
 											<h2>New Items</h2>
 											<a href = "item-detail.html" class = "item-horizontal small">
@@ -901,7 +901,7 @@
 													</div>
 												</div>
 											</a>
-											<!--/.item-horizontal small-->
+											{{-- /.item-horizontal small --}}
 											<a href = "item-detail.html" class = "item-horizontal small">
 												<h3>Blue Chilli</h3>
 												<figure>2476 Whispering Pines Circle</figure>
@@ -916,12 +916,12 @@
 													</div>
 												</div>
 											</a>
-											<!--/.item-horizontal small-->
+											{{-- /.item-horizontal small --}}
 										</section>
-										<!--end New Items-->
+										{{-- end New Items --}}
 									</div>
 									<div class = "col-md-4 col-sm-4">
-										<!--Recent Reviews-->
+										{{-- Recent Reviews --}}
 										<section>
 											<h2>Recent Reviews</h2>
 											<a href = "item-detail.html#reviews" class = "review small">
@@ -939,7 +939,7 @@
 													felis, sed sagittis tellus. Interdum et malesuada fames ac ante ipsum primis
 													in faucibus. Cras ac placerat mauris.
 												</p>
-											</a><!--/.review-->
+											</a>{{-- /.review --}}
 											<a href = "item-detail.html#reviews" class = "review small">
 												<h3>Saguaro Tavern</h3>
 												<figure>2476 Whispering Pines Circle</figure>
@@ -955,9 +955,9 @@
 													erat ut mollis curabitur
 												</p>
 											</a>
-											<!--/.review-->
+											{{-- /.review --}}
 										</section>
-										<!--end Recent Reviews-->
+										{{-- end Recent Reviews --}}
 									</div>
 									<div class = "col-md-4 col-sm-4">
 										<section>
@@ -991,13 +991,13 @@
 												Us<i class = "fa fa-angle-right"></i></a>
 										</section>
 									</div>
-									<!--/.col-md-4-->
+									{{-- /.col-md-4 --}}
 								</div>
-								<!--/.row-->
+								{{-- /.row --}}
 							</div>
-							<!--/.container-->
+							{{-- /.container --}}
 						</div>
-						<!--/.footer-top-->
+						{{-- /.footer-top --}}
 						<div class = "footer-bottom">
 							<div class = "container">
 								<span class = "left">(C) ThemeStarz, All rights reserved</span>
@@ -1006,14 +1006,14 @@
                             </span>
 							</div>
 						</div>
-						<!--/.footer-bottom-->
+						{{-- /.footer-bottom --}}
 					</div>
 				</footer>
-				<!--end Page Footer-->
+				{{-- end Page Footer --}}
 			</div>
-			<!-- end Inner Wrapper -->
+			{{-- end Inner Wrapper  --}}
 		</div>
-		<!-- end Outer Wrapper-->
+		{{-- end Outer Wrapper --}}
 
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/jquery-2.1.0.min.js')}}"></script>
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/before.load.js')}}"></script>
@@ -1036,11 +1036,12 @@
 		<![endif]-->
 
 		<script>
-			var _latitude = 51.541216;
-			var _longitude = -0.095678;
-			var jsonPath = '{{asset('assets/tmpl/json/items.json')}}';
+			var _latitude = 20.3417485;
+			var _longitude = -102.76523259;
+			//var jsonPath = '{{asset('assets/tmpl/json/items.json')}}';
+			var jsonPath = '{{route('get-clientes')}}';
 
-			// Load JSON data and create Google Maps
+			{{-- Load JSON data and create Google Maps  --}}
 
 			$.getJSON(jsonPath)
 				.done(function (json) {
@@ -1051,12 +1052,13 @@
 				})
 			;
 
-			// Set if language is RTL and load Owl Carousel
+			{{-- Set if language is RTL and load Owl Carousel  --}}
 
 			$(window).load(function () {
-				var rtl = false; // Use RTL
+				var rtl = false;
 				initializeOwl(rtl);
 			});
+
 
 			autoComplete();
 

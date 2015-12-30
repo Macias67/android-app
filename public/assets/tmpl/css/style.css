@@ -4135,10 +4135,10 @@ body.map-fullscreen #map {
 }
 .map-marker .icon img {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
-  opacity: 0.6;
+  /*opacity: 0.6;*/
   display: block;
   position: absolute;
-  top: -2px;
+  /*top: -2px;*/
   right: 0;
   bottom: 0;
   left: 0;

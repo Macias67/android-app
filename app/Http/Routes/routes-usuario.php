@@ -24,5 +24,15 @@ Route::group(
 			'as'   => 'quick-view',
 			'uses' => 'PrincipalUsuario@quickView'
 		]);
+
+		/*
+		|--------------------------------------------------------------------------
+		| REGISRTO
+		|--------------------------------------------------------------------------
+		*/
+		Route::get('signup', [
+			'as'   => 'registro',
+			'uses' => 'RegistroUsuario@index'
+		]);
 	}
 );
