@@ -96,21 +96,26 @@
 											<h1 class = "page-title">Regístrate</h1>
 										</header>
 										<hr>
-										<form role = "form" id = "form-register" method = "post" action = "?">
+										{!! Form::open($form_registro) !!}
 											{{-- Nombres  --}}
 											<div class = "form-group">
 												<label for = "form-register-full-name">Nombre:</label>
-												<input type = "text" class = "form-control" id = "form-register-full-name" name = "form-register-name" required>
+												<input type = "text" class = "form-control" id = "form-register-full-name" name = "form-register-name">
 											</div>
 											{{-- Apellidos  --}}
 											<div class = "form-group">
-												<label for = "form-register-full-name">Apellido:</label>
-												<input type = "text" class = "form-control" id = "form-register-full-name" name = "form-register-last-name" required>
+												<label for = "form-register-last-name">Apellido:</label>
+												<input type = "text" class = "form-control" id = "form-register-last-name" name = "form-register-last-name">
+											</div>
+											{{-- Fecha de Nacimiento  --}}
+											<div class = "form-group">
+												<label for = "nacimiento">Fecha de nacimiento:</label>
+												<input type = "text" class = "form-control" id = "nacimiento" name = "nacimiento">
 											</div>
 											{{--  Email  --}}
 											<div class = "form-group">
 												<label for = "form-register-email">Email:</label>
-												<input type = "email" class = "form-control" id = "form-register-email" name = "form-register-email" required>
+												<input type = "email" class = "form-control" id = "form-register-email" name = "form-register-email">
 											</div>
 											{{--  Genero  --}}
 											<div class = "form-group">
@@ -120,22 +125,22 @@
 											</div>
 											{{--  Password  --}}
 											<div class = "form-group">
-												<label for = "form-register-password">Password:</label>
-												<input type = "password" class = "form-control" id = "form-register-password" name = "form-register-password" required>
+												<label for = "form-register-password">Contraseña:</label>
+												<input type = "password" class = "form-control" id = "form-register-password" name = "form-register-password">
 											</div>
-											{{-- Confirm Password --}}
+											{{-- Confirma Contraseña --}}
 											<div class = "form-group">
-												<label for = "form-register-confirm-password">Confirm Password:</label>
-												<input type = "password" class = "form-control" id = "form-register-confirm-password" name = "form-register-confirm-password" required>
+												<label for = "form-register-confirm-password">Confirma Contraseña:</label>
+												<input type = "password" class = "form-control" id = "form-register-confirm-password" name = "form-register-confirm-password">
 											</div>
 											<div class = "checkbox pull-left">
 												<label>
-													<input type = "checkbox" name = "newsletter">Receive Newsletter
+													<input type = "checkbox" name = "newsletter"> Receive Newsletter
 												</label>
 											</div>
 											<div class = "form-group clearfix">
 												<button type = "submit" class = "btn pull-right btn-default" id = "account-submit">
-													Create an Account
+													Crear cuenta
 												</button>
 											</div>{{--  /.form-group  --}}
 										</form>
@@ -300,6 +305,11 @@
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/jquery.hotkeys.js')}}"></script>
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/icheck.min.js')}}"></script>
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/custom.js')}}"></script>
+
+		{{-- Plugins externos --}}
+		<script type = "text/javascript" src = "{{asset('assets/tmpl/plugins/inputmask/dist/jquery.inputmask.bundle.js')}}"></script>
+		{{-- Scripts --}}
+		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/app/registro.js')}}"></script>
 
 		<!--[if lte IE 9]>
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/ie-scripts.js')}}"></script>

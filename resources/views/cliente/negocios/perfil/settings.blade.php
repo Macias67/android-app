@@ -863,7 +863,6 @@
 	<script src = "http://maps.google.com/maps/api/js?sensor=false" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type = "text/javascript"></script>
 
-
 	{{----}}
 	<script src = "{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.pack.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}" type = "text/javascript"></script>

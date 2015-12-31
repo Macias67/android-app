@@ -14,6 +14,12 @@ class RegistroUsuario extends BaseUsuario
 	 */
 	public function index()
 	{
+		$this->data['form_registro'] = [
+			'route'        => 'usuario.registro.store',
+			'id'         => 'form-register',
+			'role'         => 'form',
+			'autocomplete' => 'off'
+		];
 		return $this->view('usuario.registro');
 	}
 
@@ -36,7 +42,7 @@ class RegistroUsuario extends BaseUsuario
 	 */
 	public function store(Request $request)
 	{
-		//
+		dd($request);
 	}
 
 	/**

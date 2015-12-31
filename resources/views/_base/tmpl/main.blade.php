@@ -34,7 +34,7 @@
 								<ul class = "main-navigation navigation-top-header"></ul>
 								<ul class = "user-area">
 									<li><a href = "sign-in.html">Sign In</a></li>
-									<li><a href = "{{route('registro')}}"><strong>Regístrate</strong></a></li>
+									<li><a href = "{{route('usuario.registro')}}"><strong>Regístrate</strong></a></li>
 								</ul>
 								<a href = "submit.html" class = "submit-item">
 									<div class = "content"><span>Submit Your Item</span></div>

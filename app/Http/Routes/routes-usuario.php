@@ -27,12 +27,17 @@ Route::group(
 
 		/*
 		|--------------------------------------------------------------------------
-		| REGISRTO
+		| REGISTRO
 		|--------------------------------------------------------------------------
 		*/
 		Route::get('signup', [
-			'as'   => 'registro',
+			'as'   => 'usuario.registro',
 			'uses' => 'RegistroUsuario@index'
+		]);
+
+		Route::post('go/user', [
+			'as'   => 'usuario.registro.store',
+			'uses' => 'RegistroUsuario@store'
 		]);
 	}
 );
