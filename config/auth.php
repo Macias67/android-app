@@ -2,21 +2,21 @@
 
 return [
 
-	'multi' => [
+	'multi-auth' => [
 		'admin'       => [
 			'driver' => 'eloquent',
 			'table'  => 'adm_admin',
-			'model'  => 'App\Http\Models\Admin\Admin',
+			'model'  => App\Http\Models\Admin\Admin::class,
 		],
 		'propietario' => [
 			'driver' => 'eloquent',
 			'table'  => 'cl_propietario',
-			'model'  => 'App\Http\Models\Cliente\Propietario',
+			'model'  => App\Http\Models\Cliente\Propietario::class,
 		],
 		'usuario' => [
 			'driver' => 'eloquent',
 			'table'  => 'usr_usuarios',
-			'model'  => 'App\Http\Models\Usuario\Usuario',
+			'model'  => App\Http\Models\Usuario\Usuario::class,
 		]
 	],
 

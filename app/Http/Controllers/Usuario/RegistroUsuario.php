@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Usuario;
 
-use App\Http\Requests;
+use App\Http\Models\Usuario\Usuario;
+use App\Http\Requests\Usuario\CreateUsuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegistroUsuario extends BaseUsuario
 {
@@ -15,11 +17,12 @@ class RegistroUsuario extends BaseUsuario
 	public function index()
 	{
 		$this->data['form_registro'] = [
-			'route'        => 'usuario.registro.store',
-			'id'         => 'form-register',
+			'route'        => 'app.registro.store',
+			'id'           => 'form-register',
 			'role'         => 'form',
 			'autocomplete' => 'off'
 		];
+
 		return $this->view('usuario.registro');
 	}
 
@@ -40,9 +43,48 @@ class RegistroUsuario extends BaseUsuario
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(CreateUsuario $request)
 	{
-		dd($request);
+		if ($request->ajax() && $request->wantsJson())
+		{
+			$usuario = new Usuario;
+			$usuario->preparaDatos($request);
+			if ($usuario->save())
+			{
+
+				$credenciales = ['email' => $request->get('email'), 'password' => $request->get('password')];
+				if(Auth::usuario()->attempt($credenciales, true))
+				{
+					$usuario->ultima_sesion = date('Y-m-d H:i:s');
+					$usuario->save();
+
+					$response = [
+						'exito'  => true,
+						'titulo' => '',
+						'texto'  => '',
+						'url'    => route('app.principal')
+					];
+				} else {
+					$response = [
+						'exito'  => false,
+						'titulo' => 'Datos incorrectos',
+						'texto'  => 'datos erroneos',
+						'url'    => route('app.principal')
+					];
+				}
+			}
+			else
+			{
+				$response = [
+					'exito'  => false,
+					'titulo' => 'No se registró',
+					'texto'  => 'Parece que no hubo registro en la BD',
+					'url'    => null
+				];
+			}
+
+			return $this->responseJSON($response);
+		}
 	}
 
 	/**

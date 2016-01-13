@@ -12,6 +12,10 @@
 		<link rel = "stylesheet" href = "{{asset('assets/tmpl/css/style.css')}}" type = "text/css">
 		<link rel = "stylesheet" href = "{{asset('assets/tmpl/css/user.style.css')}}" type = "text/css">
 
+		{{-- Plugins Externos --}}
+		<link rel = "stylesheet" href = "{{asset('assets/tmpl/plugins/sweetalert/dist/sweetalert.css')}}" type = "text/css">
+		<link rel = "stylesheet" href = "{{asset('assets/tmpl/plugins/bootstrap-social/bootstrap-social.css')}}" type = "text/css">
+
 		<title>Spotter - Universal Directory Listing HTML Template</title>
 	</head>
 
@@ -31,8 +35,11 @@
 							<div class = "wrapper">
 								<ul class = "main-navigation navigation-top-header"></ul>
 								<ul class = "user-area">
-									<li><a href = "sign-in.html">Sign In</a></li>
-									<li><a href = "register.html"><strong>Register</strong></a></li>
+									@if($isGuest)
+										<li><a href = "sign-in.html">Sign In</a></li>
+									@elseif($isAuth)
+										<li>{{$user->nombreCompleto()}}</li>
+									@endif
 								</ul>
 								<a href = "submit.html" class = "submit-item">
 									<div class = "content"><span>Submit Your Item</span></div>
@@ -95,59 +102,59 @@
 										<header>
 											<h1 class = "page-title">Regístrate</h1>
 										</header>
+										<a class="btn btn-block btn-social btn-facebook">
+											<span class="fa fa-facebook"></span> Registrarme con Facebook
+										</a>
 										<hr>
+										<h5 style="text-align: center"> o crea tu cuenta </h5>
 										{!! Form::open($form_registro) !!}
 											{{-- Nombres  --}}
 											<div class = "form-group">
-												<label for = "form-register-full-name">Nombre:</label>
-												<input type = "text" class = "form-control" id = "form-register-full-name" name = "form-register-name">
+												<label for = "nombre">Nombre:</label>
+												<input type = "text" class = "form-control" id = "nombre" name = "nombre">
 											</div>
 											{{-- Apellidos  --}}
 											<div class = "form-group">
-												<label for = "form-register-last-name">Apellido:</label>
-												<input type = "text" class = "form-control" id = "form-register-last-name" name = "form-register-last-name">
+												<label for = "apellido">Apellido:</label>
+												<input type = "text" class = "form-control" id = "apellido" name = "apellido">
 											</div>
 											{{-- Fecha de Nacimiento  --}}
 											<div class = "form-group">
-												<label for = "nacimiento">Fecha de nacimiento:</label>
-												<input type = "text" class = "form-control" id = "nacimiento" name = "nacimiento">
+												<label for = "fecha_nacimiento">Fecha de nacimiento:</label>
+												<input type = "text" class = "form-control" id = "fecha_nacimiento" name = "fecha_nacimiento">
 											</div>
 											{{--  Email  --}}
 											<div class = "form-group">
-												<label for = "form-register-email">Email:</label>
-												<input type = "email" class = "form-control" id = "form-register-email" name = "form-register-email">
+												<label for = "email">Email:</label>
+												<input type = "email" class = "form-control" id = "email" name = "email">
 											</div>
 											{{--  Genero  --}}
 											<div class = "form-group">
-												<label for = "form-register-sexo">Sexo:</label>
-												<input type = "radio"  name = "form-register-sexo">Hombre
-												<input type = "radio" name = "form-register-sexo">Mujer
+												<label for = "sexo">Sexo:</label>
+												<input type = "radio"  name = "sexo" value="H" checked>Hombre
+												<input type = "radio" name = "sexo" value="M">Mujer
 											</div>
 											{{--  Password  --}}
 											<div class = "form-group">
-												<label for = "form-register-password">Contraseña:</label>
-												<input type = "password" class = "form-control" id = "form-register-password" name = "form-register-password">
+												<label for = "password">Contraseña:</label>
+												<input type = "password" class = "form-control" id = "password" name = "password">
 											</div>
 											{{-- Confirma Contraseña --}}
 											<div class = "form-group">
-												<label for = "form-register-confirm-password">Confirma Contraseña:</label>
-												<input type = "password" class = "form-control" id = "form-register-confirm-password" name = "form-register-confirm-password">
-											</div>
-											<div class = "checkbox pull-left">
-												<label>
-													<input type = "checkbox" name = "newsletter"> Receive Newsletter
-												</label>
+												<label for = "confirm_password">Confirma Contraseña:</label>
+												<input type = "password" class = "form-control" id = "confirm_password" name = "confirm_password">
 											</div>
 											<div class = "form-group clearfix">
 												<button type = "submit" class = "btn pull-right btn-default" id = "account-submit">
 													Crear cuenta
 												</button>
-											</div>{{--  /.form-group  --}}
+											</div>
 										</form>
 										<hr>
 										<div class = "center">
 											<figure class = "note">By clicking the “Create an Account” button you agree with our
-												<a href = "terms-conditions.html" class = "link">Terms and conditions</a></figure>
+												<a href = "terms-conditions.html" class = "link">Terms and conditions</a>
+											</figure>
 										</div>
 									</div>
 								</div>
@@ -307,8 +314,14 @@
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/custom.js')}}"></script>
 
 		{{-- Plugins externos --}}
+		<script type = "text/javascript" src = "{{asset('assets/global/scripts/metronic.js')}}"></script>
+		<script type = "text/javascript" src = "{{asset('assets/global/plugins/canvasloader-min.js')}}"></script>
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/plugins/inputmask/dist/jquery.inputmask.bundle.js')}}"></script>
+		<script type = "text/javascript" src = "{{asset('assets/tmpl/plugins/jquery-validation/js/jquery.validate.min.js')}}"></script>
+		<script type = "text/javascript" src = "{{asset('assets/tmpl/plugins/jquery-validation/js/localization/messages_es.min.js')}}"></script>
+		<script type = "text/javascript" src = "{{asset('assets/tmpl/plugins/sweetalert/dist/sweetalert.min.js')}}"></script>
 		{{-- Scripts --}}
+		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/app/app.js')}}"></script>
 		<script type = "text/javascript" src = "{{asset('assets/tmpl/js/app/registro.js')}}"></script>
 
 		<!--[if lte IE 9]>

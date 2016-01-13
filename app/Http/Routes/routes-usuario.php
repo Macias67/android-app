@@ -16,13 +16,30 @@ Route::group(
 		|--------------------------------------------------------------------------
 		*/
 		Route::get('/', [
-			'as'   => 'principal',
+			'as'   => 'app.principal',
 			'uses' => 'PrincipalUsuario@index'
 		]);
 
-		Route::post('quick-view', [
+		Route::match(['get', 'post'], 'quick-view/{cliente_id}', [
 			'as'   => 'quick-view',
 			'uses' => 'PrincipalUsuario@quickView'
+		])->where('cliente_id', '[0-9a-zA-Z]+');
+
+		/*
+		|--------------------------------------------------------------------------
+		| LogIn & LogOut
+		|--------------------------------------------------------------------------
+		*/
+		Route::get('signin', [
+			'as'   => 'app.signin',
+			'uses' => 'LoginUsuario@index'
+		]);
+
+		Route::post('auth', ['as' => 'app.auth', 'uses' => 'LoginUsuario@postAuth']);
+
+		Route::get('signout', [
+			'as'   => 'app.signout',
+			'uses' => 'LoginUsuario@index'
 		]);
 
 		/*
@@ -31,12 +48,12 @@ Route::group(
 		|--------------------------------------------------------------------------
 		*/
 		Route::get('signup', [
-			'as'   => 'usuario.registro',
+			'as'   => 'app.registro',
 			'uses' => 'RegistroUsuario@index'
 		]);
 
 		Route::post('go/user', [
-			'as'   => 'usuario.registro.store',
+			'as'   => 'app.registro.store',
 			'uses' => 'RegistroUsuario@store'
 		]);
 	}

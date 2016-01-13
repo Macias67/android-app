@@ -688,7 +688,7 @@ function pushItemsToArray(json, a, category, visibleItemsArray) {
 	var itemPrice;
 	visibleItemsArray.push(
 		'<li>' +
-		'<div class="item" id="' + json.data[a].id + '" pos-marker ="'+a+'">' +
+		'<div class="item" id="' + json.data[a].id + '"  data-url = "' + json.data[a].app.url_modal  + '" pos-marker ="'+a+'">' +
 		'<a href="#" class="image">' +
 		'<div class="inner">' +
 		'<div class="item-specific">' +
@@ -698,7 +698,7 @@ function pushItemsToArray(json, a, category, visibleItemsArray) {
 		'</div>' +
 		'</a>' +
 		'<div class="wrapper">' +
-		'<a href="#" id="' + json.data[a].id + '"><h3>' + json.data[a].nombre + '</h3></a>' +
+		'<a href="#"><h3>' + json.data[a].nombre + '</h3></a>' +
 		'<figure>' + json.data[a].calle +' '+ json.data[a].numero +' Col. '+ json.data[a].colonia + '</figure>' +
 		drawPrice(json.data[a].price) +
 		'<div class="info">' +

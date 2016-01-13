@@ -41,6 +41,7 @@ class ClienteGaleriaCollection extends Collection
 			$cliente_array = $foto->toArray();
 			array_push($arrays, $cliente_array);
 		}
+		shuffle($arrays);
 		return $arrays;
 	}
 }

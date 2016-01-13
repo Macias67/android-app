@@ -158,6 +158,11 @@ class Cliente extends Model
 		}
 	}
 
+	public function scopeDireccionCompleta()
+	{
+		return $this->calle . ' ' . $this->numero . ' Col. ' . $this->colonia . ', ' . $this->ciudad->ciudadCompleto().'. ';
+	}
+
 	/**
 	 * Scope para encontrar negocios que esten ONLINE
 	 *

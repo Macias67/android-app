@@ -41,7 +41,8 @@ Route::group(
 			Route::get('perfil/{cliente_id?}/{accion?}', [
 				'as'   => 'cliente.negocio.perfil',
 				'uses' => 'NegociosCliente@show'
-			])->where('accion', '[a-z]+');
+			])->where('cliente_id', '[0-9a-zA-Z]+')
+			     ->where('accion', '[a-z]+');
 
 			Route::get('nuevo', [
 				'as'   => 'cliente.negocio.create',

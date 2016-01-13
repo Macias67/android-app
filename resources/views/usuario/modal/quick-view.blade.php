@@ -6,8 +6,8 @@
 	<body>
 
 		<div class = "modal-window fade_in">
-			<div class = "modal-wrapper"><h2>Steak House Restaurant</h2>
-				<figure>63 Birch Street</figure>
+			<div class = "modal-wrapper"><h2>{{$cliente->nombre}}</h2>
+				<figure>{{$cliente->direccionCompleta()}}</figure>
 				<div class = "rating" data-rating = "4"></div>
 				<div class = "modal-body">
 					<div class = "gallery">
@@ -16,9 +16,9 @@
 							<div class = "type"><i><img src = "{{asset('assets/tmpl/icons/restaurants-bars/restaurants/restaurant.png')}}" alt = ""></i><span>Apartment</span>
 							</div>
 							<div class = "owl-carousel gallery">
-								<img src = "{{asset('assets/tmpl/img/items/1.jpg')}}">
-								<img src = "{{asset('assets/tmpl/img/items/5.jpg')}}">
-								<img src = "{{asset('assets/tmpl/img/items/4.jpg')}}">
+								@foreach($cliente->galeria->toArrayFull() as $item)
+									<img src = "{{$item['original']}}">
+								@endforeach
 							</div>
 						</div>
 						<div class = "features"><h3>Features</h3>
@@ -34,14 +34,8 @@
 						</div>
 					</div>
 					<div class = "modal-content">
-						<section><h3>Description</h3>
-							<p>
-								Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque
-								massa, viverra interdum eros ut, imperdiet pellentesque mauris. Proin sit amet scelerisque
-								risus. Donec semper semper erat ut mollis. Curabitur suscipit, justo eu dignissim lacinia, ante
-								sapien pharetra duin consectetur eros augue sed ex. Donec a odio rutrum, hendrerit sapien vitae,
-								euismod arcu.
-							</p>
+						<section><h3>Descripción</h3>
+							<p style="text-align: justify">{{$cliente->detalles->descripcion}}</p>
 						</section>
 						<section><h3>Overview</h3>
 							<dl>
@@ -59,7 +53,7 @@
 							<div class = "rating" data-rating = "5"></div>
 							<p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa, viverra interdum eros ut, imperdiet</p>
 						</section>
-						<a href = "item-detail.html" class = "btn btn-default btn-large">Show Detail</a></div>
+						<a href = "item-detail.html" class = "btn btn-default btn-large">Ver Más</a></div>
 				</div>
 				<div class = "modal-close"><img src = "{{asset('assets/tmpl/img/close.png')}}"></div>
 			</div>

@@ -49,7 +49,7 @@ class ClienteCollection extends Collection
 				'rating' => 2,
 				'type_icon' => $cliente->logo(),
 				'url' => "item-detail.html",
-				'url_modal' => route('quick-view'),
+				'url_modal' => route('quick-view', $cliente->id),
 			];
 			array_push($arrays, $cliente_array);
 		}

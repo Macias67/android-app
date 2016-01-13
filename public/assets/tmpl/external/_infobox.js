@@ -65,7 +65,7 @@ function drawInfobox(category, infoboxContent, json, i) {
 			'<div class="wrapper">' +
 			'<a href="#" class="quick-view" data-toggle="modal" data-target="#modal" id="' + id + '" data-url = "' + url_modal + '"> Ver </a>' +
 			'<hr>' +
-			'<a href="' + url + '" class="detail">Go to Detail</a>' +
+			'<a href="' + url + '" class="detail">Detalles</a>' +
 			'</div>' +
 			'</div>' +
 			'<a href="' + url + '" class="description">' +

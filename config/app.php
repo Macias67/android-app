@@ -147,8 +147,10 @@ return [
 		/*
 		 * Multi Auth
 		 */
-		Ollieread\Multiauth\MultiauthServiceProvider::class,
-		Ollieread\Multiauth\Passwords\PasswordResetServiceProvider::class,
+		Kbwebs\MultiAuth\AuthServiceProvider::class,
+		Kbwebs\MultiAuth\PasswordResets\PasswordResetServiceProvider::class,
+		//Ollieread\Multiauth\MultiauthServiceProvider::class,
+		//Ollieread\Multiauth\Passwords\PasswordResetServiceProvider::class,
 
 		/*
 		 * Laravel Collective

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Usuario;
 
+use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,17 @@ class PrincipalUsuario extends BaseUsuario
 		return $this->view('_base.tmpl.main');
 	}
 
-	public function quickView() {
-		return $this->view('usuario.modal.quick-view');
+	/**
+	 * @return \Illuminate\Http\Response
+	 */
+	public function quickView(Request $request, $cliente_id) {
+
+		if ($cliente = Cliente::find($cliente_id))
+		{
+			$this->data['cliente'] = $cliente;
+			//dd($cliente->galeria->toArrayFull());
+			return $this->view('usuario.modal.quick-view');
+		}
 	}
 
 	/**

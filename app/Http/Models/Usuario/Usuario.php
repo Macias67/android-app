@@ -2,16 +2,18 @@
 
 namespace App\Http\Models\Usuario;
 
+use App\Http\Models\Mutators\Usuario\MUsuario;
 use App\Http\Models\Traits\UniqueID;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Usuario extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
-	use UniqueID, Authenticatable, CanResetPassword;
+	use UniqueID, Authenticatable, CanResetPassword, MUsuario;
 
 	/**
 	 * Nombre de la tabla usada por el modelo
@@ -19,8 +21,6 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 	 * @var string
 	 */
 	protected $table = 'usr_usuarios';
-
-	protected $primaryKey = 'id';
 
 	public $incrementing = false;
 
@@ -32,8 +32,11 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 	protected $fillable = [
 		'nombre',
 		'apellido',
+		'fecha_nacimiento',
 		'email',
-		'password'
+		'sexo',
+		'password',
+	        'ultima_sesion'
 	];
 
 	/**
@@ -41,7 +44,7 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['password', 'remember_token'];
+	protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
 
 	/**
 	 * Nombre de la tabla
@@ -51,5 +54,23 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 	public static function getTableName()
 	{
 		return with(new static)->getTable();
+	}
+
+	/**
+	 * @param Request $request
+	 */
+	public function preparaDatos(Request $request)
+	{
+		foreach ($this->fillable as $field)
+		{
+			$this->{$field} = $request->get($field);
+		}
+
+		$this->id = $this->getUniqueID();
+	}
+
+	public function scopeNombreCompleto()
+	{
+		return $this->nombre . ' ' . $this->apellido;
 	}
 }

@@ -8,11 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseUsuario extends Controller
 {
-	protected $infoUsuario;
+	protected $usuario;
 
 	public function __construct()
 	{
-		$this->infoAdmin = Auth::usuario()->user();
-		$this->data['user'] = $this->infoAdmin;
+		$this->usuario = Auth::usuario();
+
+		$this->data['isGuest'] = $this->usuario->guest();
+		$this->data['isAuth'] = $this->usuario->check();
+		$this->data['user'] = $this->usuario->user();
+
+		//dd( $this->infoUsuario->user()->nombreCompleto());
 	}
 }

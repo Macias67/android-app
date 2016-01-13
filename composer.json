@@ -10,7 +10,7 @@
 	"require" : {
 		"php" : ">=5.5.9",
 		"laravel/framework" : "5.1.*",
-		"sboo/multiauth" : "4.0.*",
+		"kbwebs/multiauth": "~1.0",
 		"laravelcollective/html" : "5.1.*",
 		"jenssegers/date" : "^3.0",
 		"sybio/image-workshop" : "~2.0.0",

@@ -27,14 +27,18 @@
 				<div class = "header">
 					<div class = "wrapper">
 						<div class = "brand">
-							<a href = "{{route('principal')}}"><img src = "{{asset('assets/tmpl/img/logo.png')}}" alt = "logo"></a>
+							<a href = "{{route('app.principal')}}"><img src = "{{asset('assets/tmpl/img/logo.png')}}" alt = "logo"></a>
 						</div>
 						<nav class = "navigation-items">
 							<div class = "wrapper">
 								<ul class = "main-navigation navigation-top-header"></ul>
 								<ul class = "user-area">
-									<li><a href = "sign-in.html">Sign In</a></li>
-									<li><a href = "{{route('usuario.registro')}}"><strong>Regístrate</strong></a></li>
+									@if($isGuest)
+										<li><a href = "{{route('app.signin')}}">Entrar</a></li>
+										<li><a href = "{{route('app.registro')}}"><strong>Regístrate</strong></a></li>
+									@elseif($isAuth)
+										<li>{{$user->nombreCompleto()}}</li>
+									@endif
 								</ul>
 								<a href = "submit.html" class = "submit-item">
 									<div class = "content"><span>Submit Your Item</span></div>
@@ -848,9 +852,9 @@
 								<form class = "subscribe form-inline border-less-inputs" action = "?" method = "post" role = "form">
 									<div class = "input-group">
 										<input type = "email" class = "form-control" id = "subscribe_email" placeholder = "Enter your email and get the newest updates">
-                                <span class = "input-group-btn">
-                                    <button type = "submit" class = "btn btn-default btn-large">Subscribe<i class = "fa fa-angle-right"></i></button>
-                                </span>
+						                                <span class = "input-group-btn">
+						                                    <button type = "submit" class = "btn btn-default btn-large">Subscribe<i class = "fa fa-angle-right"></i></button>
+						                                </span>
 									</div>
 								</form>
 								{{-- /.subscribe --}}

@@ -268,7 +268,7 @@ $(document).ready(function ($) {
 			$('body').addClass('page-fade-out');
 			setTimeout(function () {
 				window.location = goTo;
-			}, 5000);
+			}, 500);
 		}
 		else if ($(this).attr('href') == '#') {
 			e.preventDefault();
