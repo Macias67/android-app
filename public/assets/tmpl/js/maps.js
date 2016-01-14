@@ -595,7 +595,7 @@ function createHomepageOSM(_latitude, _longitude, json, mapProvider) {
 function itemDetailMap(json) {
 	var mapCenter  = new google.maps.LatLng(json.latitud, json.longitud);
 	var mapOptions = {
-		zoom            : 14,
+		zoom            : 16,
 		center          : mapCenter,
 		disableDefaultUI: true,
 		scrollwheel     : false,

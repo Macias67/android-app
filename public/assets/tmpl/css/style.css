@@ -6132,7 +6132,7 @@ body.navigation-top-header .header .wrapper .toggle-navigation {
 
 /* 8. Specific styling for pages */
 .page-item-detail #map-detail {
-  height: 150px;
+  height: 300px;
 }
 .page-item-detail #main-content h1 {
   text-transform: none;

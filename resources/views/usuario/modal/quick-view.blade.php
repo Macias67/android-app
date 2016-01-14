@@ -53,7 +53,7 @@
 							<div class = "rating" data-rating = "5"></div>
 							<p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam. Donec neque massa, viverra interdum eros ut, imperdiet</p>
 						</section>
-						<a href = "item-detail.html" class = "btn btn-default btn-large">Ver Más</a></div>
+						<a href = "{{route('app.perfil.negocio', $cliente->slug)}}" class = "btn btn-default btn-large">Ver Más</a></div>
 				</div>
 				<div class = "modal-close"><img src = "{{asset('assets/tmpl/img/close.png')}}"></div>
 			</div>

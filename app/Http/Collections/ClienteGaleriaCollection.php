@@ -42,6 +42,7 @@ class ClienteGaleriaCollection extends Collection
 			array_push($arrays, $cliente_array);
 		}
 		shuffle($arrays);
+
 		return $arrays;
 	}
 }

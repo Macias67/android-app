@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'default' => ($app->environment('local')) ? 'local' : 'gcs',
+	'default' => ($app->environment('local')) ? 'local' : 's3',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
 	|
 	*/
 
-	'cloud' => 'gcs',
+	'cloud' => 's3',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -72,10 +72,10 @@ return [
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'your-key',
-			'secret' => 'your-secret',
-			'region' => 'your-region',
-			'bucket' => 'your-bucket',
+			'key'    => 'AKIAIRGKJMK6ALXPRGFQ',
+			'secret' => '+ct6wVyF2+8mDF4TvZQ0uv25mcdfkfe7vKt7tF9/',
+			'region' => 'Northern California',
+			'bucket' => 'my-androidapp',
 		],
 
 		'rackspace' => [
