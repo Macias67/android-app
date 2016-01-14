@@ -74,7 +74,7 @@ return [
 			'driver' => 's3',
 			'key'    => 'AKIAJFRLJGRO4IWX5AJA',
 			'secret' => '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',
-			'region' => 'us-west-1',
+			'region' => 'us-east-1',
 			'bucket' => 'aws-androidapp',
 		],
 
