@@ -72,10 +72,10 @@ return [
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'AKIAIRGKJMK6ALXPRGFQ',
-			'secret' => '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',
-			'region' => 'Northern California',
-			'bucket' => 'my-androidapp',
+			'key'    => 'AKIAJFRLJGRO4IWX5AJA',
+			'secret' => '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',
+			'region' => 'us-west-1',
+			'bucket' => 'aws-androidapp',
 		],
 
 		'rackspace' => [

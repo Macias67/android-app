@@ -6,6 +6,15 @@
  * Time: 10:05 AM
  */
 
+use Illuminate\Support\Facades\Storage;
+
+get('test', function ()
+{
+	$s3 = Storage::disk();
+	$s3->put('file.txt', 'este es mi archivo desde laravel', 'public');
+	dd($s3);
+});
+
 Route::group(
 	['namespace' => 'Usuario'],
 	function()
