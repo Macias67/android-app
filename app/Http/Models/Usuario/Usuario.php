@@ -30,13 +30,15 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 	 * @var array
 	 */
 	protected $fillable = [
+		'id',
 		'nombre',
 		'apellido',
 		'fecha_nacimiento',
 		'email',
 		'sexo',
 		'password',
-	        'ultima_sesion'
+		'ultima_sesion',
+		'remember_token'
 	];
 
 	/**
@@ -44,7 +46,7 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
+	protected $hidden = ['created_at', 'updated_at'];
 
 	/**
 	 * Nombre de la tabla
@@ -66,7 +68,11 @@ class Usuario extends Model implements AuthenticatableContract, CanResetPassword
 			$this->{$field} = $request->get($field);
 		}
 
-		$this->id = $this->getUniqueID();
+		$id = $request->get('id');
+		if (!isset($id))
+		{
+			$this->id = $this->getUniqueID();
+		}
 	}
 
 	public function scopeNombreCompleto()

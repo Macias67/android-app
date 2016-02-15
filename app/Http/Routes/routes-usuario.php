@@ -36,16 +36,6 @@ Route::group(
 
 		/*
 		|--------------------------------------------------------------------------
-		| PERFIL NEGOCIO
-		|--------------------------------------------------------------------------
-		*/
-		Route::get('{slug}', [
-			'as'   => 'app.perfil.negocio',
-			'uses' => 'PerfilNegocioUsuario@show'
-		])->where('slug', '[a-z\-]+');
-
-		/*
-		|--------------------------------------------------------------------------
 		| LOGIN & LOGOUT
 		|--------------------------------------------------------------------------
 		*/
@@ -56,7 +46,7 @@ Route::group(
 
 		Route::post('auth', ['as' => 'app.auth', 'uses' => 'LoginUsuario@postAuth']);
 
-		Route::get('signout', [
+		Route::get('/signout', [
 			'as'   => 'app.signout',
 			'uses' => 'LoginUsuario@index'
 		]);
@@ -75,5 +65,15 @@ Route::group(
 			'as'   => 'app.registro.store',
 			'uses' => 'RegistroUsuario@store'
 		]);
+
+		/*
+		|--------------------------------------------------------------------------
+		| PERFIL NEGOCIO
+		|--------------------------------------------------------------------------
+		*/
+		Route::get('{slug}', [
+			'as'   => 'app.perfil.negocio',
+			'uses' => 'PerfilNegocioUsuario@show'
+		])->where('slug', '[a-z\-]+');
 	}
 );

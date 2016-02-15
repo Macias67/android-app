@@ -21,6 +21,15 @@ trait MUsuario
 		$this->attributes['email'] = trim($value);
 	}
 
+	public function setSexoAttribute($value)
+	{
+		if($value === 'Hombre' OR $value === 'Mujer') {
+			$this->attributes['sexo'] = trim((string)$value[0]);
+		} else {
+			$this->attributes['sexo'] = trim($value);
+		}
+	}
+
 	public function setFechaNacimientoAttribute($value)
 	{
 		$this->attributes['fecha_nacimiento'] =  Date::createFromFormat('d/m/Y', $value)->format('Y-m-d');

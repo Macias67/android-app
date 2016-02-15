@@ -39,7 +39,7 @@ class RegistroUsuario extends BaseUsuario
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param \App\Http\Requests\Usuario\CreateUsuario $request
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
