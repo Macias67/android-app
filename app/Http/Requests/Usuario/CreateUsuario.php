@@ -28,7 +28,7 @@ class CreateUsuario extends Request
 			'apellido'         => 'required|max:45',
 			'fecha_nacimiento' => 'required|date_format:d/m/Y',
 			'email'            => 'required|email|max:45|unique:usr_usuarios,email',
-			'sexo'             => 'required|in:H,M',
+			'sexo'             => 'required|in:Hombre,Mujer',
 			'password'         => 'required'
 		];
 	}

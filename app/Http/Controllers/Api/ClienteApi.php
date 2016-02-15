@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Cliente\Cliente;
 use App\Http\Requests;
+use App\Http\Requests\Usuario\CreateUsuario;
 use Illuminate\Http\Request;
 
 class ClienteApi extends Controller
@@ -32,11 +33,11 @@ class ClienteApi extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param \App\Http\Requests\Usuario\CreateUsuario $request
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(CreateUsuario $request)
 	{
 		return response()->json(['status' => true, 'data' => $request->all()], 200);
 	}
