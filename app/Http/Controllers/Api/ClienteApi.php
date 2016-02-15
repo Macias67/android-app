@@ -38,7 +38,7 @@ class ClienteApi extends Controller
 	 */
 	public function store(Request $request)
 	{
-		//
+		return response()->json(['status' => true, 'data' => $request->all()], 200);
 	}
 
 	/**

@@ -22,10 +22,16 @@ Route::group(
 			'uses' => 'ClienteApi@index'
 		]);
 
+		Route::post('cliente/store', [
+			'as' => 'store-cliente',
+			'uses' => 'ClienteApi@store'
+		]);
+
 		Route::get('cliente/{id_cliente?}', [
 		        'as' => 'get-cliente',
 			'uses' => 'ClienteApi@show'
 		])->where('id_cliente', '[0-9a-zA-Z]+');
+
 
 		/*
 		|--------------------------------------------------------------------------
