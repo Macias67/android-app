@@ -180,7 +180,7 @@ return [
 		/*
 		 * Throttle
 		 */
-		//GrahamCampbell\Throttle\ThrottleServiceProvider::class
+		GrahamCampbell\Throttle\ThrottleServiceProvider::class
 	],
 
 	/*
@@ -236,7 +236,7 @@ return [
 		/*
 		 * Throttle
 		 */
-		//'Throttle'  => GrahamCampbell\Throttle\Facades\Throttle::class
+		'Throttle'  => GrahamCampbell\Throttle\Facades\Throttle::class
 	],
 
 ];
