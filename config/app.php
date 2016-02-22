@@ -175,7 +175,12 @@ return [
 		/*
 		 * Exception Hanlder
 		 */
-		GrahamCampbell\Exceptions\ExceptionsServiceProvider::class
+		GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
+
+		/*
+		 * Throttle
+		 */
+		GrahamCampbell\Throttle\ThrottleServiceProvider::class
 	],
 
 	/*
@@ -228,6 +233,10 @@ return [
 		 */
 		'Form'      => Collective\Html\FormFacade::class,
 		'Html'      => Collective\Html\HtmlFacade::class,
+		/*
+		 * Throttle
+		 */
+		'Throttle'  => GrahamCampbell\Throttle\Facades\Throttle::class
 	],
 
 ];

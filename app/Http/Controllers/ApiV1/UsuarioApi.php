@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\ApiV1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Models\Cliente\Evento;
+use App\Http\Models\Usuario\Usuario;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class EventosApi extends Controller
+class UsuarioApi extends Controller
 {
 	/**
 	 * Display a listing of the resource.
@@ -16,9 +17,7 @@ class EventosApi extends Controller
 	 */
 	public function index()
 	{
-		$negocios = Evento::all();
-
-		return $negocios;
+		//
 	}
 
 	/**
@@ -34,13 +33,25 @@ class EventosApi extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request $request
+	 * @param \App\Http\Requests\Usuario\CreateUsuario $request
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Requests\Usuario\CreateUsuario $request)
 	{
-		//
+		$usuario = new Usuario;
+		$usuario->preparaDatos($request);
+		if ($usuario->save())
+		{
+			$credenciales = ['email' => $request->get('email'), 'password' => $request->get('password')];
+			if (Auth::usuario()->attempt($credenciales, true))
+			{
+				$usuario->ultima_sesion = date('Y-m-d H:i:s');
+				$usuario->save();
+			}
+
+			return response()->json(['status' => true, 'data' => $request->all()], 200, [], JSON_PRETTY_PRINT);
+		}
 	}
 
 	/**

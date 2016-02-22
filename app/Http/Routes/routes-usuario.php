@@ -71,7 +71,7 @@ Route::group(
 		| PERFIL NEGOCIO
 		|--------------------------------------------------------------------------
 		*/
-		Route::get('{slug}', [
+		Route::get('v/{slug}', [
 			'as'   => 'app.perfil.negocio',
 			'uses' => 'PerfilNegocioUsuario@show'
 		])->where('slug', '[a-z\-]+');

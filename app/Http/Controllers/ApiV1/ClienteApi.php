@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\ApiV1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\Cliente\Cliente;
@@ -19,7 +19,7 @@ class ClienteApi extends Controller
 	 */
 	public function index()
 	{
-		return response()->json(['status' => 'ok', 'data' => Cliente::online()->get()->toArrayFull()], 200);
+		return response()->json(['status' => 'ok', 'data' => Cliente::online()->get()->toArrayFull()], 200, [], JSON_PRETTY_PRINT);
 	}
 
 	/**
@@ -42,19 +42,6 @@ class ClienteApi extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$usuario = new Usuario;
-		$usuario->preparaDatos($request);
-		if ($usuario->save())
-		{
-			$credenciales = ['email' => $request->get('email'), 'password' => $request->get('password')];
-			if (Auth::usuario()->attempt($credenciales, true))
-			{
-				$usuario->ultima_sesion = date('Y-m-d H:i:s');
-				$usuario->save();
-			}
-		}
-
-		return response()->json( ['status' => true, 'data' => $usuario->all()], 200);
 	}
 
 	/**

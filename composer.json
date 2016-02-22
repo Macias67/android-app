@@ -14,10 +14,11 @@
 		"laravelcollective/html" : "5.1.*",
 		"jenssegers/date" : "^3.0",
 		"sybio/image-workshop" : "~2.0.0",
-		"hashids/hashids" : "1.0.5",
+		"hashids/hashids": "^1.0",
 		"websight/l5-google-cloud-storage" : "~1.0",
 		"graham-campbell/parse" : "2.4.*",
-		"league/flysystem-aws-s3-v3" : "^1.0"
+		"league/flysystem-aws-s3-v3" : "^1.0",
+		"graham-campbell/throttle": "^5.0"
 	},
 	"require-dev" : {
 		"fzaninotto/faker" : "~1.4",

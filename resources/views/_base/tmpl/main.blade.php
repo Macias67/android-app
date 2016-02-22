@@ -1043,7 +1043,7 @@
 			var _latitude = 20.3417485;
 			var _longitude = -102.76523259;
 			//var jsonPath = '{{asset('assets/tmpl/json/items.json')}}';
-			var jsonPath = '{{route('get-clientes')}}';
+			var jsonPath = '{{route('apiV1-get-clientes')}}';
 
 			{{-- Load JSON data and create Google Maps  --}}
 

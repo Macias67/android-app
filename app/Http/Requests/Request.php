@@ -18,7 +18,7 @@ abstract class Request extends FormRequest
 	 */
 	public function response(array $errors)
 	{
-		if ($this->ajax() || $this->wantsJson())
+		if ($this->ajax() && $this->wantsJson())
 		{
 			foreach ($errors as $index => $error)
 			{
@@ -35,10 +35,30 @@ abstract class Request extends FormRequest
 			return new JsonResponse($data, 422);
 		}
 
-		return $this->redirector->to($this->getRedirectUrl())->withInput($this->except($this->dontFlash))->withErrors(
-			$errors,
-			$this->errorBag
-		);
+		// API
+		else if($this->wantsJson())
+		{
+			foreach ($errors as $index => $error)
+			{
+				$errors[$index] = ucfirst($error);
+			}
+			$data = [
+				'exito'   => false,
+				'titulo'  => 'Ups...',
+				'texto'   => 'Hay problemas con los datos',
+				'url'     => '',
+				'errores' => $errors
+			];
+
+			return new JsonResponse($data, 422, [], JSON_PRETTY_PRINT);
+		}
+		else {
+			return $this->redirector->to($this->getRedirectUrl())->withInput($this->except($this->dontFlash))->withErrors(
+				$errors,
+				$this->errorBag
+			);
+		}
+
 	}
 
 	/**
@@ -83,7 +103,7 @@ abstract class Request extends FormRequest
 				'texto'  => 'No tienes permiso de hacer esta acción.'
 			];
 
-			return new JsonResponse($data, 403);
+			return new JsonResponse($data, 403, [], JSON_PRETTY_PRINT);
 		}
 		else
 		{
