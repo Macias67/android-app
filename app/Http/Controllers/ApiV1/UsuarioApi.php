@@ -34,7 +34,6 @@ class UsuarioApi extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \App\Http\Requests\Usuario\CreateUsuario $request
-	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Requests\Usuario\CreateUsuario $request)

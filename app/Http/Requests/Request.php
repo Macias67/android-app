@@ -9,6 +9,14 @@ use Illuminate\Http\JsonResponse;
 
 abstract class Request extends FormRequest
 {
+
+	/**
+	 * 422 Unprocessable Entity
+	 *
+	 * @var int
+	 */
+	private $STATUS_CODE = 422;
+
 	/**
 	 * Get the proper failed validation response for the request.
 	 *
@@ -18,6 +26,7 @@ abstract class Request extends FormRequest
 	 */
 	public function response(array $errors)
 	{
+		// Web APP
 		if ($this->ajax() && $this->wantsJson())
 		{
 			foreach ($errors as $index => $error)
@@ -32,7 +41,7 @@ abstract class Request extends FormRequest
 				'errores' => $errors
 			];
 
-			return new JsonResponse($data, 422);
+			return new JsonResponse($data, $this->STATUS_CODE);
 		}
 
 		// API
@@ -40,17 +49,17 @@ abstract class Request extends FormRequest
 		{
 			foreach ($errors as $index => $error)
 			{
-				$errors[$index] = ucfirst($error);
+				$errors[$index] = [
+					'detalles' => ucfirst($error)
+				];
 			}
+
 			$data = [
-				'exito'   => false,
-				'titulo'  => 'Ups...',
-				'texto'   => 'Hay problemas con los datos',
-				'url'     => '',
+				'mensaje'   => 'Datos inválidos',
 				'errores' => $errors
 			];
 
-			return new JsonResponse($data, 422, [], JSON_PRETTY_PRINT);
+			return new JsonResponse($data, $this->STATUS_CODE, [], JSON_PRETTY_PRINT);
 		}
 		else {
 			return $this->redirector->to($this->getRedirectUrl())->withInput($this->except($this->dontFlash))->withErrors(
