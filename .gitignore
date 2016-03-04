@@ -5,6 +5,8 @@ Homestead.yaml
 .env
 .env.example
 
+composer.lock
+
 # cache files for sublime text
 *.tmlanguage.cache
 *.tmPreferences.cache
