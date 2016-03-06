@@ -175,12 +175,7 @@ return [
 		/*
 		 * Exception Hanlder
 		 */
-		GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
-
-		/*
-		 * Throttle
-		 */
-		GrahamCampbell\Throttle\ThrottleServiceProvider::class
+		GrahamCampbell\Exceptions\ExceptionsServiceProvider::class
 	],
 
 	/*
@@ -232,11 +227,7 @@ return [
 		 * Laravel Collective
 		 */
 		'Form'      => Collective\Html\FormFacade::class,
-		'Html'      => Collective\Html\HtmlFacade::class,
-		/*
-		 * Throttle
-		 */
-		'Throttle'  => GrahamCampbell\Throttle\Facades\Throttle::class
+		'Html'      => Collective\Html\HtmlFacade::class
 	],
 
 ];
