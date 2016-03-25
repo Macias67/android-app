@@ -108,7 +108,7 @@ var EditaCliente = function () {
 				title             : "Dirección no encontrada",
 				text              : "Parece ser que la dirección no existe en Google Maps, intente cambiando la dirección.",
 				type              : "error",
-				confirmButtonColor: Metronic.getBrandColor('red')
+				confirmButtonColor: App.getBrandColor('red')
 			});
 		}
 	}
@@ -176,7 +176,7 @@ var EditaCliente = function () {
 						$('input[name="latitud"]').val(latlng.lat());
 						$('input[name="longitud"]').val(latlng.lng());
 
-						Metronic.scrollTo($('#gmap_geocoding'));
+						App.scrollTo($('#gmap_geocoding'));
 					}
 				}
 			});
@@ -195,7 +195,7 @@ var EditaCliente = function () {
 					text              : "La dirección de Google Maps reemplazará la dirección que escribiste.",
 					type              : "warning",
 					showCancelButton  : true,
-					confirmButtonColor: Metronic.getBrandColor('red'),
+					confirmButtonColor: App.getBrandColor('red'),
 					confirmButtonText : "Remplazar",
 					cancelButtonText  : "Cancelar"
 				}, function (isConfirm) {
@@ -279,7 +279,7 @@ var EditaCliente = function () {
 			},
 
 			invalidHandler: function (event, validator) { //display error alert on form submit
-				Metronic.scrollTo(form, -100);
+				App.scrollTo(form, -100);
 			},
 
 			highlight: function (element) { // hightlight error inputs
@@ -306,7 +306,7 @@ var EditaCliente = function () {
 				var data = $(form).serialize();
 
 				var success = function (data) {
-					App.removeLoader(500, function () {
+					MyApp.removeLoader(500, function () {
 						swal({
 							title             : '<h3>' + data.titulo + '</h3>',
 							text              : '<p>' + data.texto + '</p>',
@@ -315,7 +315,7 @@ var EditaCliente = function () {
 							animation         : 'slide-from-top',
 							showCancelButton  : true,
 							cancelButtonText  : "Ok",
-							confirmButtonColor: Metronic.getBrandColor('green'),
+							confirmButtonColor: App.getBrandColor('green'),
 							confirmButtonText : "Listado de clientes"
 						}, function (isConfirm) {
 							if (isConfirm) {
@@ -325,7 +325,7 @@ var EditaCliente = function () {
 					});
 				}
 
-				App.initAjax(url, data, success);
+				MyApp.initAjax(url, data, success);
 			}
 		});
 

@@ -27,14 +27,14 @@ var Horarios = function () {
 			var url     = $('form.form-edita-cliente-horarios').attr('action');
 			var data    = $('form.form-edita-cliente-horarios').serialize();
 			var success = function (data) {
-				App.removeLoader(500, function () {
+				MyApp.removeLoader(500, function () {
 					swal({
 							title             : '<h3>' + data.titulo + '</h3>',
 							text : '<p>' + data.texto + '</p>',
 							html : true,
 							type : "success",
 							animation: 'slide-from-top',
-							confirmButtonColor: Metronic.getBrandColor('green'),
+							confirmButtonColor: App.getBrandColor('green'),
 							confirmButtonText : "OK"
 						},
 						function () {
@@ -51,7 +51,7 @@ var Horarios = function () {
 					$("#horarios").append(alert);
 				});
 			}
-			App.initAjax(url, data, success);
+			MyApp.initAjax(url, data, success);
 		});
 	}
 
@@ -73,13 +73,13 @@ var Horarios = function () {
 				animation         : 'slide-from-top',
 				showCancelButton  : true,
 				cancelButtonText  : "No",
-				confirmButtonColor: Metronic.getBrandColor('red'),
+				confirmButtonColor: App.getBrandColor('red'),
 				confirmButtonText : "Eliminar"
 			}, function (isConfirm) {
 				if (isConfirm) {
 
 					var success = function (data) {
-						App.removeLoader(500, function () {
+						MyApp.removeLoader(500, function () {
 							if (data.exito) {
 								alert.fadeOut(300, function () {
 									$(this).remove();
@@ -88,7 +88,7 @@ var Horarios = function () {
 						});
 					}
 
-					App.initAjax(url, {grupoid: grupoid, id: id}, success);
+					MyApp.initAjax(url, {grupoid: grupoid, id: id}, success);
 				}
 			});
 

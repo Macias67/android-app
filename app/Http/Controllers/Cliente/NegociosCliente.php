@@ -457,7 +457,6 @@ class NegociosCliente extends BaseCliente
 							"is_background" => false
 						]
 					]);
-
 					return $this->responseJSON($response);
 				}
 				else
