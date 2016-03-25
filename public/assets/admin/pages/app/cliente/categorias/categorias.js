@@ -30,7 +30,7 @@ var Categorias = function () {
 					'<button type="button" class="btn red btn-xs eliminar" categoria="' + aData.id + '">&nbsp;<i class="fa fa-trash-o"></i>&nbsp;</button>');
 			},
 			"drawCallback": function (settings) {
-				Metronic.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
+				App.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
 			},
 			"language"    : {
 				"emptyTable"    : "No hay categorías registrados",
@@ -61,7 +61,7 @@ var Categorias = function () {
 
 		table.on('click', '.edita', function () {
 			var id = $(this).attr('categoria');
-			$.get(Metronic.getDomain() + 'cliente/categoria/read/' + id, function (data) {
+			$.get(App.getDomain() + 'cliente/categoria/read/' + id, function (data) {
 				$('input[name="categoria"]').val(data.categoria);
 				$('input[name="id_categoria"]').val(data.id);
 				$("#add").html('Editar');
@@ -70,7 +70,7 @@ var Categorias = function () {
 
 		table.on('click', '.eliminar', function () {
 			var id = $(this).attr('categoria');
-			$.post(Metronic.getDomain() + 'cliente/categoria/delete', {id: id}, function (data, textStatus, xhr) {
+			$.post(App.getDomain() + 'cliente/categoria/delete', {id: id}, function (data, textStatus, xhr) {
 				if (data.exito) {
 					bootbox.alert(data.mensaje, function () {
 						location.reload(true);
@@ -104,7 +104,7 @@ var Categorias = function () {
 	var gestionaCategoria = function () {
 		table.on('click', '.edita', function () {
 			var id = $(this).attr('subcategoria');
-			$.post(Metronic.getDomain() + 'admin/subcategoria/read', {id: id}, function (data, textStatus, xhr) {
+			$.post(App.getDomain() + 'admin/subcategoria/read', {id: id}, function (data, textStatus, xhr) {
 				$('input[name="subcategoria"]').val(data.subcategoria);
 				$('input[name="subcategoria_id"]').val(data.id);
 				$("#add_sub").html('Editar');
@@ -113,7 +113,7 @@ var Categorias = function () {
 
 		table.on('click', '.eliminar', function () {
 			var id = $(this).attr('subcategoria');
-			$.post(Metronic.getDomain() + 'admin/subcategoria/delete', {id: id}, function (data, textStatus, xhr) {
+			$.post(App.getDomain() + 'admin/subcategoria/delete', {id: id}, function (data, textStatus, xhr) {
 				if (data.exito) {
 					bootbox.alert(data.mensaje, function () {
 						// location.reload(true);
@@ -144,7 +144,7 @@ var Categorias = function () {
 				}
 
 				var success = function (data) {
-					App.removeLoader(500, function () {
+					MyApp.removeLoader(500, function () {
 						swal({
 							title            : '<h3>' + data.titulo + '</h3>',
 							text             : '<p>' + data.texto + '</p>',
@@ -162,7 +162,7 @@ var Categorias = function () {
 						});
 					});
 				}
-				App.initAjax(base_url + 'cliente/categoria/' + accion, data, success);
+				MyApp.initAjax(base_url + 'cliente/categoria/' + accion, data, success);
 			}
 			else {
 				bootbox.alert('Debes escribir una categoría.');

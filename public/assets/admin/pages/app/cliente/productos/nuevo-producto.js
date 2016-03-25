@@ -225,7 +225,7 @@ var NuevoProducto = function () {
 			},
 
 			invalidHandler: function (event, validator) { //display error alert on form submit
-				Metronic.scrollTo(form, -100);
+				App.scrollTo(form, -100);
 			},
 
 			highlight: function (element) { // hightlight error inputs
@@ -252,7 +252,7 @@ var NuevoProducto = function () {
 				var data = $(form).serialize();
 
 				var success = function (data) {
-					App.removeLoader(500, function () {
+					MyApp.removeLoader(500, function () {
 						swal({
 							title             : '<h3>' + data.titulo + '</h3>',
 							text              : '<p>' + data.texto + '</p>',
@@ -261,7 +261,7 @@ var NuevoProducto = function () {
 							animation         : 'slide-from-top',
 							showCancelButton  : true,
 							cancelButtonText  : "Añadir nuevo producto",
-							confirmButtonColor: Metronic.getBrandColor('green'),
+							confirmButtonColor: App.getBrandColor('green'),
 							confirmButtonText : "Listado de productos"
 						}, function (isConfirm) {
 							if (isConfirm) {
@@ -274,7 +274,7 @@ var NuevoProducto = function () {
 					});
 				}
 
-				App.initAjax(url, data, success);
+				MyApp.initAjax(url, data, success);
 			}
 		});
 

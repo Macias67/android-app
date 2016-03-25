@@ -45,7 +45,7 @@ var Clientes = function () {
 				);
 			},
 			"drawCallback": function (settings) {
-				Metronic.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
+				App.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
 			},
 			// Internationalisation. For more info refer to http://datatables.net/manual/i18n
 			"language"    : {

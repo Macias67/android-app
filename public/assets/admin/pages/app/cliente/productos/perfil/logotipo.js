@@ -5,7 +5,7 @@
 var Logotipo = function () {
 
 	var croppic = function () {
-		var token          = Metronic.getToken();
+		var token          = App.getToken();
 		var id             = $('#newlogo').attr('data-id');
 		var cliente_id     = $('#newlogo').attr('data-cliente-id');
 		var cropperOptions = {

@@ -5,7 +5,7 @@
 var ImagenEvento = function () {
 
 	var croppic = function () {
-		var token          = Metronic.getToken();
+		var token          = App.getToken();
 		var id             = $('#newImage').attr('data-evento-id');
 		var cliente_id     = $('#newImage').attr('data-cliente-id');
 		var cropperOptions = {

@@ -31,7 +31,7 @@ var Subcategorias = function () {
 					'<button type="button" class="btn red btn-xs eliminar" subcategoria="' + aData.id + '">&nbsp;<i class="fa fa-trash-o"></i>&nbsp;</button>');
 			},
 			"drawCallback": function (settings) {
-				Metronic.initUniform($('input[type="checkbox"]', tableSubcategoria)); // reinitialize uniform checkboxes on each table reload
+				App.initUniform($('input[type="checkbox"]', tableSubcategoria)); // reinitialize uniform checkboxes on each table reload
 			},
 			"language"    : {
 				"emptyTable"    : "No hay subcategorías registrados",
@@ -82,7 +82,7 @@ var Subcategorias = function () {
 	var gestionaSubcategoria = function () {
 		tableSubcategoria.on('click', '.edita', function () {
 			var id = $(this).attr('subcategoria');
-			$.post(Metronic.getDomain() + 'admin/subcategoria/read', {id: id}, function (data, textStatus, xhr) {
+			$.post(App.getDomain() + 'admin/subcategoria/read', {id: id}, function (data, textStatus, xhr) {
 				$('input[name="subcategoria"]').val(data.subcategoria);
 				$('input[name="subcategoria_id"]').val(data.id);
 				$("#add_sub").html('Editar');
@@ -91,7 +91,7 @@ var Subcategorias = function () {
 
 		tableSubcategoria.on('click', '.eliminar', function () {
 			var id = $(this).attr('subcategoria');
-			$.post(Metronic.getDomain() + 'admin/subcategoria/delete', {id: id}, function (data, textStatus, xhr) {
+			$.post(App.getDomain() + 'admin/subcategoria/delete', {id: id}, function (data, textStatus, xhr) {
 				if (data.exito) {
 					bootbox.alert(data.mensaje, function () {
 						// location.reload(true);
@@ -119,7 +119,7 @@ var Subcategorias = function () {
 					data   = {id: id, categoria_id: categoria, sub: sub};
 				}
 				var success = function (data) {
-					App.removeLoader(500, function () {
+					MyApp.removeLoader(500, function () {
 						swal({
 							title            : '<h3>' + data.titulo + '</h3>',
 							text             : '<p>' + data.texto + '</p>',
@@ -137,7 +137,7 @@ var Subcategorias = function () {
 						});
 					});
 				}
-				App.initAjax(Metronic.getDomain() + 'admin/subcategoria/' + accion, data, success);
+				MyApp.initAjax(App.getDomain() + 'admin/subcategoria/' + accion, data, success);
 			}
 			else {
 				bootbox.alert('Debes escribir una subcategoría.');

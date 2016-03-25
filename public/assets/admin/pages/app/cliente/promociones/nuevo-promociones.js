@@ -146,7 +146,7 @@ var NuevoPromociones = function () {
 			},
 
 			invalidHandler: function (event, validator) { //display error alert on form submit
-				Metronic.scrollTo(form, -100);
+				App.scrollTo(form, -100);
 			},
 
 			highlight: function (element) { // hightlight error inputs
@@ -173,7 +173,7 @@ var NuevoPromociones = function () {
 				var data = $(form).serialize();
 
 				var success = function (data) {
-					App.removeLoader(500, function () {
+					MyApp.removeLoader(500, function () {
 						swal({
 							title             : '<h3>' + data.titulo + '</h3>',
 							text              : '<p>' + data.texto + '</p>',
@@ -182,7 +182,7 @@ var NuevoPromociones = function () {
 							animation         : 'slide-from-top',
 							showCancelButton  : true,
 							cancelButtonText  : "Añadir nueva promocion",
-							confirmButtonColor: Metronic.getBrandColor('green'),
+							confirmButtonColor: App.getBrandColor('green'),
 							confirmButtonText : "Listado de promociones"
 						}, function (isConfirm) {
 							if (isConfirm) {
@@ -195,7 +195,7 @@ var NuevoPromociones = function () {
 					});
 				}
 
-				App.initAjax(url, data, success);
+				MyApp.initAjax(url, data, success);
 			}
 		});
 

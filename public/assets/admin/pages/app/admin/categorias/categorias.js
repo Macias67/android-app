@@ -17,7 +17,7 @@ var Categorias = function () {
 				}
 
 				var success = function (data) {
-					App.removeLoader(500, function () {
+					MyApp.removeLoader(500, function () {
 						swal({
 							title            : '<h3>' + data.titulo + '</h3>',
 							text             : '<p>' + data.texto + '</p>',
@@ -34,7 +34,7 @@ var Categorias = function () {
 						});
 					});
 				}
-				App.initAjax(Metronic.getDomain() + 'admin/categoria/' + accion, data, success);
+				MyApp.initAjax(App.getDomain() + 'admin/categoria/' + accion, data, success);
 
 			}
 			else {
@@ -53,7 +53,7 @@ var Categorias = function () {
 			"processing"  : true,
 			"serverSide"  : true,
 			"ajax"        : {
-				"url" : Metronic.getDomain() + "admin/categorias/json",
+				"url" : App.getDomain() + "admin/categorias/json",
 				"type": "POST"
 			},
 			"columns"     : [
@@ -70,7 +70,7 @@ var Categorias = function () {
 					'<button type="button" class="btn red btn-xs eliminar" categoria="' + aData.id + '">&nbsp;<i class="fa fa-trash-o"></i>&nbsp;</button>');
 			},
 			"drawCallback": function (settings) {
-				Metronic.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
+				App.initUniform($('input[type="checkbox"]', table)); // reinitialize uniform checkboxes on each table reload
 			},
 			"language"    : {
 				"emptyTable"    : "No hay categorías registrados",
@@ -101,7 +101,7 @@ var Categorias = function () {
 
 		table.on('click', '.edita', function () {
 			var id = $(this).attr('categoria');
-			$.get(Metronic.getDomain() + 'admin/categoria/read/' + id, function (data) {
+			$.get(App.getDomain() + 'admin/categoria/read/' + id, function (data) {
 				$('input[name="categoria"]').val(data.categoria);
 				$('input[name="id_categoria"]').val(data.id);
 				$("#add").html('Editar');
@@ -110,7 +110,7 @@ var Categorias = function () {
 
 		table.on('click', '.eliminar', function () {
 			var id = $(this).attr('categoria');
-			$.post(Metronic.getDomain() + 'admin/categoria/delete', {id: id}, function (data, textStatus, xhr) {
+			$.post(App.getDomain() + 'admin/categoria/delete', {id: id}, function (data, textStatus, xhr) {
 				if (data.exito) {
 					bootbox.alert(data.mensaje, function () {
 						location.reload(true);
