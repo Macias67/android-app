@@ -38,3 +38,7 @@ var UINotific8 = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UINotific8.init();
+});

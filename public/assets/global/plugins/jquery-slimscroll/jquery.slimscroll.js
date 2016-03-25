@@ -6,10 +6,10 @@
  * Version: 1.3.2
  *
  */
-(function ($) {
+(function($) {
 
     jQuery.fn.extend({
-        slimScroll: function (options) {
+        slimScroll: function(options) {
 
             var defaults = {
 
@@ -86,12 +86,12 @@
             var o = $.extend(defaults, options);
 
             // do it for every element that matches selector
-            this.each(function () {
+            this.each(function() {
 
                 var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
                     barHeight, percentScroll, lastScroll,
-                    divS          = '<div></div>',
-                    minBarHeight  = 30,
+                    divS = '<div></div>',
+                    minBarHeight = 30,
                     releaseScroll = false;
 
                 // used in event handlers and for better minification
@@ -99,8 +99,8 @@
 
                 //begin: windows phone fix added by keenthemes
                 if ('ontouchstart' in window && window.navigator.msPointerEnabled) {
-                    me.css("-ms-touch-action", "none");
-                }
+                  me.css("-ms-touch-action", "none");
+              }
                 //end: windows phone fix added by keenthemes
 
                 // ensure we are not binding it again
@@ -109,7 +109,7 @@
                     var offset = me.scrollTop();
 
                     // find bar and rail
-                    bar  = me.parent().find('.' + o.barClass);
+                    bar = me.parent().find('.' + o.barClass);
                     rail = me.parent().find('.' + o.railClass);
 
                     getBarHeight();
@@ -155,47 +155,47 @@
                     .css({
                         position: 'relative',
                         overflow: 'hidden',
-                        width:    o.width,
-                        height:   o.height
+                        width: o.width,
+                        height: o.height
                     });
 
                 // update style for the div
                 me.css({
                     overflow: 'hidden',
-                    width:    o.width,
-                    height:   o.height
+                    width: o.width,
+                    height: o.height
                 });
 
                 // create scrollbar rail
                 var rail = $(divS)
                     .addClass(o.railClass)
                     .css({
-                        width:           o.size,
-                        height:          '100%',
-                        position:        'absolute',
-                        top:             0,
-                        display:         (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
+                        width: o.size,
+                        height: '100%',
+                        position: 'absolute',
+                        top: 0,
+                        display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
                         'border-radius': o.railBorderRadius,
-                        background:      o.railColor,
-                        opacity:         o.railOpacity,
-                        zIndex:          90
+                        background: o.railColor,
+                        opacity: o.railOpacity,
+                        zIndex: 90
                     });
 
                 // create scrollbar
                 var bar = $(divS)
                     .addClass(o.barClass)
                     .css({
-                        background:         o.color,
-                        width:              o.size,
-                        position:           'absolute',
-                        top:                0,
-                        opacity:            o.opacity,
-                        display:            o.alwaysVisible ? 'block' : 'none',
-                        'border-radius':    o.borderRadius,
-                        BorderRadius:       o.borderRadius,
-                        MozBorderRadius:    o.borderRadius,
+                        background: o.color,
+                        width: o.size,
+                        position: 'absolute',
+                        top: 0,
+                        opacity: o.opacity,
+                        display: o.alwaysVisible ? 'block' : 'none',
+                        'border-radius': o.borderRadius,
+                        BorderRadius: o.borderRadius,
+                        MozBorderRadius: o.borderRadius,
                         WebkitBorderRadius: o.borderRadius,
-                        zIndex:             99
+                        zIndex: 99
                     });
 
                 // set position
@@ -216,25 +216,25 @@
 
                 // make it draggable and no longer dependent on the jqueryUI
                 if (o.railDraggable) {
-                    bar.bind("mousedown", function (e) {
+                    bar.bind("mousedown", function(e) {
                         var $doc = $(document);
-                        isDragg  = true;
-                        t        = parseFloat(bar.css('top'));
-                        pageY    = e.pageY;
+                        isDragg = true;
+                        t = parseFloat(bar.css('top'));
+                        pageY = e.pageY;
 
-                        $doc.bind("mousemove.slimscroll", function (e) {
+                        $doc.bind("mousemove.slimscroll", function(e) {
                             currTop = t + e.pageY - pageY;
                             bar.css('top', currTop);
                             scrollContent(0, bar.position().top, false); // scroll content
                         });
 
-                        $doc.bind("mouseup.slimscroll", function (e) {
+                        $doc.bind("mouseup.slimscroll", function(e) {
                             isDragg = false;
                             hideBar();
                             $doc.unbind('.slimscroll');
                         });
                         return false;
-                    }).bind("selectstart.slimscroll", function (e) {
+                    }).bind("selectstart.slimscroll", function(e) {
                         e.stopPropagation();
                         e.preventDefault();
                         return false;
@@ -243,12 +243,12 @@
 
                 //begin: windows phone fix added by keenthemes
                 if ('ontouchstart' in window && window.navigator.msPointerEnabled) {
-                    me.bind('MSPointerDown', function (e, b) {
+                    me.bind('MSPointerDown', function(e, b) {
                         // record where touch started
                         touchDif = e.originalEvent.pageY;
                     });
 
-                    me.bind('MSPointerMove', function (e) {
+                    me.bind('MSPointerMove', function(e) {
                         // prevent scrolling the page if necessary
                         e.originalEvent.preventDefault();
                         // see how far user swiped
@@ -261,38 +261,38 @@
                 //end: windows phone fix added by keenthemes
 
                 // on rail over
-                rail.hover(function () {
+                rail.hover(function() {
                     showBar();
-                }, function () {
+                }, function() {
                     hideBar();
                 });
 
                 // on bar over
-                bar.hover(function () {
+                bar.hover(function() {
                     isOverBar = true;
-                }, function () {
+                }, function() {
                     isOverBar = false;
                 });
 
                 // show on parent mouseover
-                me.hover(function () {
+                me.hover(function() {
                     isOverPanel = true;
                     showBar();
                     hideBar();
-                }, function () {
+                }, function() {
                     isOverPanel = false;
                     hideBar();
                 });
 
                 // support for mobile
-                me.bind('touchstart', function (e, b) {
+                me.bind('touchstart', function(e, b) {
                     if (e.originalEvent.touches.length) {
                         // record where touch started
                         touchDif = e.originalEvent.touches[0].pageY;
                     }
                 });
 
-                me.bind('touchmove', function (e) {
+                me.bind('touchmove', function(e) {
                     // prevent scrolling the page if necessary
                     if (!releaseScroll) {
                         e.originalEvent.preventDefault();
@@ -362,8 +362,8 @@
 
                 function scrollContent(y, isWheel, isJump) {
                     releaseScroll = false;
-                    var delta     = y;
-                    var maxTop    = me.outerHeight() - bar.outerHeight();
+                    var delta = y;
+                    var maxTop = me.outerHeight() - bar.outerHeight();
 
                     if (isWheel) {
                         // move bar with mouse wheel
@@ -386,12 +386,12 @@
 
                     // calculate actual scroll amount
                     percentScroll = parseInt(bar.css('top')) / (me.outerHeight() - bar.outerHeight());
-                    delta         = percentScroll * (me[0].scrollHeight - me.outerHeight());
+                    delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
 
                     if (isJump) {
-                        delta         = y;
+                        delta = y;
                         var offsetTop = delta / me[0].scrollHeight * me.outerHeight();
-                        offsetTop     = Math.min(Math.max(offsetTop, 0), maxTop);
+                        offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
                         bar.css({
                             top: offsetTop + 'px'
                         });
@@ -475,7 +475,7 @@
                 function hideBar() {
                     // only hide when options allow it
                     if (!o.alwaysVisible) {
-                        queueHide = setTimeout(function () {
+                        queueHide = setTimeout(function() {
                             if (!(o.disableFadeOut && isOverPanel) && !isOverBar && !isDragg) {
                                 bar.fadeOut('slow');
                                 rail.fadeOut('slow');

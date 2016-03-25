@@ -219,3 +219,7 @@ var NuevoPromociones = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	NuevoPromociones.init();
+});

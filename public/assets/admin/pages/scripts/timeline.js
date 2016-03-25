@@ -1,4 +1,4 @@
-var Timeline = function () {
+var AppTimeline = function () {
 
     var mapPolygone = function () {
         var map = new GMaps({
@@ -33,3 +33,7 @@ var Timeline = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    AppTimeline.init();
+});

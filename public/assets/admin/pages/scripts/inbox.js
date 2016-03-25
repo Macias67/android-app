@@ -1,11 +1,11 @@
-var Inbox = function () {
+var AppInbox = function () {
 
     var content = $('.inbox-content');
     var loading = $('.inbox-loading');
     var listListing = '';
 
     var loadInbox = function (el, name) {
-        var url = 'inbox_inbox.html';
+        var url = 'app_inbox_inbox.html';
         var title = $('.inbox-nav > li.' + name + ' a').attr('data-title');
         listListing = name;
 
@@ -31,7 +31,7 @@ var Inbox = function () {
                 if (Layout.fixContentHeight) {
                     Layout.fixContentHeight();
                 }
-                Metronic.initUniform();
+                App.initUniform();
             },
             error: function(xhr, ajaxOptions, thrownError)
             {
@@ -52,7 +52,7 @@ var Inbox = function () {
     }
 
     var loadMessage = function (el, name, resetMenu) {
-        var url = 'inbox_view.html';
+        var url = 'app_inbox_view.html';
 
         loading.show();
         content.html('');
@@ -78,7 +78,7 @@ var Inbox = function () {
                 loading.hide();
                 content.html(res);
                 Layout.fixContentHeight();
-                Metronic.initUniform();
+                App.initUniform();
             },
             error: function(xhr, ajaxOptions, thrownError)
             {
@@ -90,7 +90,7 @@ var Inbox = function () {
 
     var initWysihtml5 = function () {
         $('.inbox-wysihtml5').wysihtml5({
-            "stylesheets": ["../../assets/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css"]
+            "stylesheets": ["../assets/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css"]
         });
     }
 
@@ -99,14 +99,14 @@ var Inbox = function () {
         $('#fileupload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: '../../assets/global/plugins/jquery-file-upload/server/php/',
+            url: '../assets/global/plugins/jquery-file-upload/server/php/',
             autoUpload: true
         });
 
         // Upload server status check for browsers with CORS support:
         if ($.support.cors) {
             $.ajax({
-                url: '../../assets/global/plugins/jquery-file-upload/server/php/',
+                url: '../assets/global/plugins/jquery-file-upload/server/php/',
                 type: 'HEAD'
             }).fail(function () {
                 $('<span class="alert alert-error"/>')
@@ -118,7 +118,7 @@ var Inbox = function () {
     }
 
     var loadCompose = function (el) {
-        var url = 'inbox_compose.html';
+        var url = 'app_inbox_compose.html';
 
         loading.show();
         content.html('');
@@ -145,7 +145,7 @@ var Inbox = function () {
 
                 $('.inbox-wysihtml5').focus();
                 Layout.fixContentHeight();
-                Metronic.initUniform();
+                App.initUniform();
             },
             error: function(xhr, ajaxOptions, thrownError)
             {
@@ -157,7 +157,7 @@ var Inbox = function () {
 
     var loadReply = function (el) {
         var messageid = $(el).attr("data-messageid");
-        var url = 'inbox_reply.html?messageid=' + messageid;
+        var url = 'app_inbox_reply.html&messageid=' + messageid;
         
         loading.show();
         content.html('');
@@ -185,7 +185,7 @@ var Inbox = function () {
                 initFileupload();
                 initWysihtml5();
                 Layout.fixContentHeight();
-                Metronic.initUniform();
+                App.initUniform();
             },
             error: function(xhr, ajaxOptions, thrownError)
             {
@@ -196,7 +196,7 @@ var Inbox = function () {
     }
 
     var loadSearchResults = function (el) {
-        var url = 'inbox_inbox.html';
+        var url = 'app_inbox_inbox.html';
 
         loading.show();
         content.html('');
@@ -217,7 +217,7 @@ var Inbox = function () {
                 loading.hide();
                 content.html(res);
                 Layout.fixContentHeight();
-                Metronic.initUniform();
+                App.initUniform();
             },
             error: function(xhr, ajaxOptions, thrownError)
             {
@@ -317,9 +317,9 @@ var Inbox = function () {
             });
 
             //handle loading content based on URL parameter
-            if (Metronic.getURLParameter("a") === "view") {
+            if (App.getURLParameter("a") === "view") {
                 loadMessage();
-            } else if (Metronic.getURLParameter("a") === "compose") {
+            } else if (App.getURLParameter("a") === "compose") {
                 loadCompose();
             } else {
                $('.inbox-nav > li.inbox > a').click();
@@ -330,3 +330,7 @@ var Inbox = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    AppInbox.init();
+});

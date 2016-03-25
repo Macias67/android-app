@@ -103,3 +103,7 @@ var Horarios = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	Horarios.init();
+});

@@ -122,3 +122,7 @@ var NuevoPropietario = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	NuevoPropietario.init();
+});

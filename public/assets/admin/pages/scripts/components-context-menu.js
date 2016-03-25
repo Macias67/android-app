@@ -55,3 +55,7 @@ var ComponentsContextMenu = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   ComponentsContextMenu.init(); 
+});

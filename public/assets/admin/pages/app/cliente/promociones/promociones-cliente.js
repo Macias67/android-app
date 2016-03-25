@@ -22,7 +22,8 @@ var PromocionesCliente = function () {
 				"url" : tableVigentes.attr('data-url'),
 				"type": "POST",
 				"data": {
-					"id_cliente": $("input[name='id_cliente']").val()
+					"id_cliente": $("input[name='id_cliente']").val(),
+					"_token": MyApp.getToken()
 				}
 			},
 			"columns"     : [
@@ -70,7 +71,8 @@ var PromocionesCliente = function () {
 				"url" : tableFijas.attr('data-url'),
 				"type": "POST",
 				"data": {
-					"id_cliente": $("input[name='id_cliente']").val()
+					"id_cliente": $("input[name='id_cliente']").val(),
+					"_token": MyApp.getToken()
 				}
 			},
 			"columns"     : [
@@ -118,7 +120,8 @@ var PromocionesCliente = function () {
 				"url" : tableCaducas.attr('data-url'),
 				"type": "POST",
 				"data": {
-					"id_cliente": $("input[name='id_cliente']").val()
+					"id_cliente": $("input[name='id_cliente']").val(),
+					"_token": MyApp.getToken()
 				}
 			},
 			"columns"     : [
@@ -161,3 +164,7 @@ var PromocionesCliente = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	PromocionesCliente.init();
+});

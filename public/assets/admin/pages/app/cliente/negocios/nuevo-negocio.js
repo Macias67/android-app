@@ -301,3 +301,7 @@ var NuevoCliente = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	NuevoCliente.init();
+});

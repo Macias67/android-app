@@ -1,6 +1,4 @@
 var FormiCheck = function () {
-
-
     return {
         //main function to initiate the module
         init: function () {  
@@ -55,3 +53,7 @@ var FormiCheck = function () {
         }
     };
 }();
+
+jQuery(document).ready(function() {
+    FormiCheck.init();
+});

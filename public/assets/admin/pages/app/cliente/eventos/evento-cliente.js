@@ -21,7 +21,8 @@ var EventosCliente = function () {
 				"url" : tableActivos.attr('data-url'),
 				"type": "POST",
 				"data": {
-					"id_cliente": $("input[name='id_cliente']").val()
+					"id_cliente": $("input[name='id_cliente']").val(),
+					"_token": MyApp.getToken()
 				}
 			},
 			"columns"     : [
@@ -69,7 +70,8 @@ var EventosCliente = function () {
 				"url" : tablePasados.attr('data-url'),
 				"type": "POST",
 				"data": {
-					"id_cliente": $("input[name='id_cliente']").val()
+					"id_cliente": $("input[name='id_cliente']").val(),
+					"_token": MyApp.getToken()
 				}
 			},
 			"columns"     : [
@@ -111,3 +113,7 @@ var EventosCliente = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	EventosCliente.init();
+});

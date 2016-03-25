@@ -254,3 +254,7 @@ var EditaProducto = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	EditaProducto.init();
+});

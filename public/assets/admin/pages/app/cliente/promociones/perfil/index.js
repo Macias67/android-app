@@ -9,3 +9,7 @@ var Pricipal = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	Pricipal.init();
+});

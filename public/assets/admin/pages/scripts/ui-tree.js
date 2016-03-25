@@ -158,7 +158,7 @@ var UITree = function () {
                 "check_callback" : true,
                 'data' : {
                     'url' : function (node) {
-                      return 'demo/jstree_ajax_data.php';
+                      return '../demo/jstree_ajax_data.php';
                     },
                     'data' : function (node) {
                       return { 'parent' : node.id };
@@ -194,3 +194,9 @@ var UITree = function () {
     };
 
 }();
+
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function() {    
+       UITree.init();
+    });
+}

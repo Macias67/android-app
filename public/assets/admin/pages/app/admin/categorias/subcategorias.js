@@ -154,3 +154,7 @@ var Subcategorias = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	Subcategorias.init();
+});

@@ -421,3 +421,7 @@ var EditaEvento = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	EditaEvento.init();
+});

@@ -1,8 +1,10 @@
 {{-- Extender de menú cliente o menú admin--}}
 @extends('cliente.menu')
 
-{{-- Adjuntar los links css de los plugins requeridos
-@section('plugins-css')@stop --}}
+{{-- Adjuntar los links css de los plugins requeridos --}}
+@section('plugins-css')
+	<link href="{{asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}" rel="stylesheet" type="text/css"/>
+@stop
 
 {{-- Sobreescribir el sidebar
 @section('sidebar')@stop --}}
@@ -100,19 +102,14 @@
 {{-- Sobreescribir el encabezado de pagina
 @section('page-footer-inner')@stop --}}
 
-{{-- Cargar los plugins de js
-@section('plugins-core-js')@stop --}}
+{{-- Cargar los plugins de js --}}
+@section('plugins-core-js')
+	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/datatables.all.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}"></script>
+	<script type="text/javascript" src="{{asset('assets/global/plugins/select2/js/select2.min.js')}}"></script>
+@stop
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/media/js/jquery.dataTables.min.js')}}"></script>
-	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}"></script>
-	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
-	<script type="text/javascript" src="{{asset('assets/global/plugins/select2/select2.min.js')}}"></script>
 	<script src="{{asset('assets/admin/pages/app/cliente/productos/producto-cliente.js')}}" type="text/javascript"></script>
-@stop
-
-{{-- Inicializo los js --}}
-@section('init-js')
-	ProductosCliente.init();
 @stop

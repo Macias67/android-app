@@ -301,3 +301,7 @@ var NuevoProducto = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	NuevoProducto.init();
+});

@@ -382,3 +382,7 @@ var NuevoEvento = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	NuevoEvento.init();
+});

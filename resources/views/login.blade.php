@@ -212,7 +212,7 @@
 		<script src = "{{asset('assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type = "text/javascript"></script>
 		<script src = "{{asset('assets/global/plugins/jquery.blockui.min.js')}}" type = "text/javascript"></script>
 		<script src = "{{asset('assets/global/plugins/uniform/jquery.uniform.min.js')}}" type = "text/javascript"></script>
-		<script src = "{{asset('assets/global/plugins/jquery.cokie.min.js')}}" type = "text/javascript"></script>
+		<script src = "{{asset('assets/global/plugins/js.cookie.min.js')}}" type = "text/javascript"></script>
 		<script src = "{{asset('assets/global/plugins/canvasloader-min.js')}}" type = "text/javascript"></script>
 		<!-- END CORE PLUGINS -->
 
@@ -223,21 +223,13 @@
 		<!-- END PAGE LEVEL PLUGINS -->
 
 		<!-- BEGIN PAGE LEVEL SCRIPTS -->
-		<script src = "{{asset('assets/global/scripts/metronic.js')}}" type = "text/javascript"></script>
+		<script type = "text/javascript">var domain = '{{url('/')}}/';</script>
 		<script src = "{{asset('assets/global/scripts/app.js')}}" type = "text/javascript"></script>
+		<script src = "{{asset('assets/global/scripts/myapp.js')}}" type = "text/javascript"></script>
 		<script src = "{{asset('assets/admin/layout/scripts/layout.js')}}" type = "text/javascript"></script>
 		<script src = "{{asset('assets/admin/layout/scripts/demo.js')}}" type = "text/javascript"></script>
 		<script src = "{{asset('assets/admin/pages/app/admin/login.js')}}" type = "text/javascript"></script>
 		<!-- END PAGE LEVEL SCRIPTS -->
-
-		<script>
-			jQuery(document).ready(function () {
-				Metronic.init(); // init metronic core components
-				Layout.init(); // init current layout
-				//Demo.init();
-				Login.init();
-			});
-		</script>
 		<!-- END JAVASCRIPTS -->
 	</body>
 	<!-- END BODY -->

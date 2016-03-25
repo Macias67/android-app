@@ -105,3 +105,7 @@ var RedesSociales = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	RedesSociales.init();
+});

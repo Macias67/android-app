@@ -210,3 +210,7 @@ var Tags = function() {
 	};
 	
 }();
+
+jQuery(document).ready(function () {
+	Tags.init();
+});

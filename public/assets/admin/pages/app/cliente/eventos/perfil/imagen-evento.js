@@ -38,3 +38,7 @@ var ImagenEvento = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	ImagenEvento.init();
+});

@@ -352,3 +352,7 @@ var EditaCliente = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	EditaCliente.init();
+});

@@ -3,34 +3,34 @@ var UIBlockUI = function() {
     var handleSample1 = function() {
 
         $('#blockui_sample_1_1').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_1_portlet_body'
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI('#blockui_sample_1_portlet_body');
+                App.unblockUI('#blockui_sample_1_portlet_body');
             }, 2000);
         });
 
         $('#blockui_sample_1_2').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_1_portlet_body',
                 boxed: true
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI('#blockui_sample_1_portlet_body');
+                App.unblockUI('#blockui_sample_1_portlet_body');
             }, 2000);
         });
 
         $('#blockui_sample_1_3').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_1_portlet_body',
                 animate: true
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI('#blockui_sample_1_portlet_body');
+                App.unblockUI('#blockui_sample_1_portlet_body');
             }, 2000);
         });
     }
@@ -38,36 +38,36 @@ var UIBlockUI = function() {
     var handleSample2 = function() {
 
         $('#blockui_sample_2_1').click(function() {
-            Metronic.blockUI();
+            App.blockUI();
 
             window.setTimeout(function() {
-                Metronic.unblockUI();
+                App.unblockUI();
             }, 2000);
         });
 
         $('#blockui_sample_2_2').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 boxed: true
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI();
+                App.unblockUI();
             }, 2000);
         });
 
         $('#blockui_sample_2_3').click(function() {
-            Metronic.startPageLoading({message: 'Please wait...'});
+            App.startPageLoading({message: 'Please wait...'});
 
             window.setTimeout(function() {
-                Metronic.stopPageLoading();
+                App.stopPageLoading();
             }, 2000);
         });
 
         $('#blockui_sample_2_4').click(function() {
-            Metronic.startPageLoading({animate: true});
+            App.startPageLoading({animate: true});
 
             window.setTimeout(function() {
-                Metronic.stopPageLoading();
+                App.stopPageLoading();
             }, 2000);
         });
     }
@@ -75,7 +75,7 @@ var UIBlockUI = function() {
     var handleSample3 = function() {
 
         $('#blockui_sample_3_1_0').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#basic',
                 overlayColor: 'none',
                 cenrerY: true,
@@ -83,12 +83,12 @@ var UIBlockUI = function() {
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI('#basic');
+                App.unblockUI('#basic');
             }, 2000);
         });
 
         $('#blockui_sample_3_1').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_3_1_element',
                 overlayColor: 'none',
                 animate: true
@@ -96,55 +96,55 @@ var UIBlockUI = function() {
         });
 
         $('#blockui_sample_3_1_1').click(function() {
-            Metronic.unblockUI('#blockui_sample_3_1_element');
+            App.unblockUI('#blockui_sample_3_1_element');
         });
 
         $('#blockui_sample_3_2').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_3_2_element',
                 boxed: true
             });
         });
 
         $('#blockui_sample_3_2_1').click(function() {
-            Metronic.unblockUI('#blockui_sample_3_2_element');
+            App.unblockUI('#blockui_sample_3_2_element');
         });
     }
 
     var handleSample4 = function() {
 
         $('#blockui_sample_4_1').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_4_portlet_body',
                 boxed: true,
                 message: 'Processing...'
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI('#blockui_sample_4_portlet_body');
+                App.unblockUI('#blockui_sample_4_portlet_body');
             }, 2000);
         });
 
         $('#blockui_sample_4_2').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_4_portlet_body',
                 iconOnly: true
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI('#blockui_sample_4_portlet_body');
+                App.unblockUI('#blockui_sample_4_portlet_body');
             }, 2000);
         });
 
         $('#blockui_sample_4_3').click(function() {
-            Metronic.blockUI({
+            App.blockUI({
                 target: '#blockui_sample_4_portlet_body',
                 boxed: true,
                 textOnly: true
             });
 
             window.setTimeout(function() {
-                Metronic.unblockUI('#blockui_sample_4_portlet_body');
+                App.unblockUI('#blockui_sample_4_portlet_body');
             }, 2000);
         });
     }
@@ -164,3 +164,7 @@ var UIBlockUI = function() {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UIBlockUI.init();
+});

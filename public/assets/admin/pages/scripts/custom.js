@@ -26,8 +26,11 @@ var Custom = function () {
 
 }();
 
+jQuery(document).ready(function() {    
+   Custom.init(); 
+});
+
 /***
 Usage
 ***/
-//Custom.init();
 //Custom.doSomeStuff();

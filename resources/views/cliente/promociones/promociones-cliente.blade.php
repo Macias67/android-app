@@ -122,10 +122,9 @@
 
 {{-- Cargar los archivos de js --}}
 @section('page-level-js')
-	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/media/js/jquery.dataTables.min.js')}}"></script>
-	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}"></script>
-	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
-	<script type="text/javascript" src="{{asset('assets/global/plugins/select2/select2.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/datatables.all.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}"></script>
+	<script type="text/javascript" src="{{asset('assets/global/plugins/select2/js/select2.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('assets/admin/pages/app/cliente/promociones/promociones-cliente.js')}}"></script>
 @stop
 

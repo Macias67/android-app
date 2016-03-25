@@ -25,3 +25,7 @@ var Section = function () {
 		}
 	};
 }();
+
+jQuery(document).ready(function () {
+	Section.init();
+});

@@ -886,7 +886,8 @@
 {{-- Cargar los plugins de js --}}
 @section('plugins-core-js')
 	<script src = "{{asset('assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js')}}" type = "text/javascript"></script>
-	<script src = "{{asset('assets/global/plugins/jquery-inputmask/dist/jquery.inputmask.min.js')}}" type = "text/javascript"></script>
+	<script src = "{{asset('assets/global/plugins/jquery-inputmask/inputmask/inputmask.min.js')}}" type = "text/javascript"></script>
+	<script src = "{{asset('assets/global/plugins/jquery-inputmask/inputmask/jquery.inputmask.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/croppic/croppic.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/select2/js/select2.full.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type = "text/javascript"></script>
@@ -922,14 +923,4 @@
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/horarios.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/logotipo.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/galeria.js')}}" type = "text/javascript"></script>
-@stop
-
-{{-- Inicializo los js  --}}
-@section('init-js')
-	EditaCliente.init();
-	InfoAdicional.init();
-	Tags.init();
-	RedesSociales.init();
-	Horarios.init();
-	Logo.init();
 @stop

@@ -254,3 +254,7 @@ var EditaPromociones = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	EditaPromociones.init();
+});

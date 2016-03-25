@@ -25,7 +25,7 @@ abstract class Controller extends BaseController
 	 *
 	 * @var array
 	 */
-	protected $data = [];
+	public $data = [];
 
 	/**
 	 * @param $vista

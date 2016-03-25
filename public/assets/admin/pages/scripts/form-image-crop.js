@@ -104,7 +104,7 @@ var FormImageCrop = function () {
             bgFade: this.checked
           });
         }).attr('checked', true);
-        Metronic.updateUniform('#fadetog');
+        App.updateUniform('#fadetog');
 
         $('#shadetog').change(function(){
           if (this.checked) $('#shadetxt').slideDown();
@@ -255,10 +255,10 @@ var FormImageCrop = function () {
 
             // Setup and dipslay the interface for "enabled"
             $('#can_click,#can_move,#can_size').attr('checked','checked');
-            Metronic.updateUniform('#can_click,#can_move,#can_size');
+            App.updateUniform('#can_click,#can_move,#can_size');
 
             $('#ar_lock,#size_lock,#bg_swap').attr('checked',false);
-            Metronic.updateUniform('#ar_lock,#size_lock,#bg_swap');
+            App.updateUniform('#ar_lock,#size_lock,#bg_swap');
             
             $('.requiresjcrop').show();
 
@@ -292,7 +292,7 @@ var FormImageCrop = function () {
         {
           jcrop_api.setOptions({ allowSelect: true });
           $('#can_click').attr('checked',false);
-          Metronic.updateUniform('#can_click');
+          App.updateUniform('#can_click');
         };
 
         // Attach interface buttons
@@ -509,7 +509,7 @@ var FormImageCrop = function () {
                 return;
             }
 
-            Metronic.addResizeHandler(handleResponsive);
+            App.addResizeHandler(handleResponsive);
             handleResponsive();
 
             demo1();
@@ -525,3 +525,7 @@ var FormImageCrop = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    FormImageCrop.init();
+});

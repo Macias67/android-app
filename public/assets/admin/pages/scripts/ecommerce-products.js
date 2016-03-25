@@ -3,7 +3,7 @@ var EcommerceProducts = function () {
     var initPickers = function () {
         //init date pickers
         $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
+            rtl: App.isRTL(),
             autoclose: true
         });
     }
@@ -33,7 +33,7 @@ var EcommerceProducts = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_products.php", // ajax source
+                    "url": "../demo/ecommerce_products.php", // ajax source
                 },
                 "order": [
                     [1, "asc"]
@@ -52,7 +52,7 @@ var EcommerceProducts = function () {
                 grid.getDataTable().ajax.reload();
                 grid.clearAjaxParams();
             } else if (action.val() == "") {
-                Metronic.alert({
+                App.alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'Please select an action',
@@ -60,7 +60,7 @@ var EcommerceProducts = function () {
                     place: 'prepend'
                 });
             } else if (grid.getSelectedRowsCount() === 0) {
-                Metronic.alert({
+                App.alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'No record selected',
@@ -84,3 +84,7 @@ var EcommerceProducts = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   EcommerceProducts.init();
+});

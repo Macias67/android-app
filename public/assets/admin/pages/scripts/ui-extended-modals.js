@@ -43,9 +43,10 @@ var UIExtendedModals = function () {
             $('#ajax-demo').on('click', function(){
               // create the backdrop and wait for next modal to be triggered
               $('body').modalmanager('loading');
+              var el = $(this);
 
               setTimeout(function(){
-                  $modal.load('ui_extended_modals_ajax_sample.html', '', function(){
+                  $modal.load(el.attr('data-url'), '', function(){
                   $modal.modal();
                 });
               }, 1000);
@@ -67,3 +68,7 @@ var UIExtendedModals = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UIExtendedModals.init();
+});

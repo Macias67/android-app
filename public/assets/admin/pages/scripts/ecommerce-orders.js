@@ -3,7 +3,7 @@ var EcommerceOrders = function () {
     var initPickers = function () {
         //init date pickers
         $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
+            rtl: App.isRTL(),
             autoclose: true
         });
     }
@@ -33,7 +33,7 @@ var EcommerceOrders = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_orders.php", // ajax source
+                    "url": "../demo/ecommerce_orders.php", // ajax source
                 },
                 "order": [
                     [1, "asc"]
@@ -52,7 +52,7 @@ var EcommerceOrders = function () {
                 grid.getDataTable().ajax.reload();
                 grid.clearAjaxParams();
             } else if (action.val() == "") {
-                Metronic.alert({
+                alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'Please select an action',
@@ -60,7 +60,7 @@ var EcommerceOrders = function () {
                     place: 'prepend'
                 });
             } else if (grid.getSelectedRowsCount() === 0) {
-                Metronic.alert({
+                alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'No record selected',
@@ -84,3 +84,7 @@ var EcommerceOrders = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   EcommerceOrders.init();
+});

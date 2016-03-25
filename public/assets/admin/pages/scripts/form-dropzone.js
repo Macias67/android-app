@@ -6,10 +6,11 @@ var FormDropzone = function () {
         init: function () {  
 
             Dropzone.options.myDropzone = {
+                dictDefaultMessage: "",
                 init: function() {
                     this.on("addedfile", function(file) {
                         // Create the remove button
-                        var removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block'>Remove file</button>");
+                        var removeButton = Dropzone.createElement("<a href='javascript:;'' class='btn red btn-sm btn-block'>Remove</a>");
                         
                         // Capture the Dropzone instance as closure.
                         var _this = this;
@@ -34,3 +35,7 @@ var FormDropzone = function () {
         }
     };
 }();
+
+jQuery(document).ready(function() {    
+   FormDropzone.init();
+});

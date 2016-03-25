@@ -59,12 +59,12 @@ var EcommerceProductsEdit = function () {
                         $('#uploaded_file_' + file.id + ' > .status').removeClass("label-info").addClass("label-success").html('<i class="fa fa-check"></i> Done'); // set successfull upload
                     } else {
                         $('#uploaded_file_' + file.id + ' > .status').removeClass("label-info").addClass("label-danger").html('<i class="fa fa-warning"></i> Failed'); // set failed upload
-                        Metronic.alert({type: 'danger', message: 'One of uploads failed. Please retry.', closeInSeconds: 10, icon: 'warning'});
+                        App.alert({type: 'danger', message: 'One of uploads failed. Please retry.', closeInSeconds: 10, icon: 'warning'});
                     }
                 },
          
                 Error: function(up, err) {
-                    Metronic.alert({type: 'danger', message: err.message, closeInSeconds: 10, icon: 'warning'});
+                    App.alert({type: 'danger', message: err.message, closeInSeconds: 10, icon: 'warning'});
                 }
             }
         });
@@ -99,7 +99,7 @@ var EcommerceProductsEdit = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_product_reviews.php", // ajax source
+                    "url": "../demo/ecommerce_product_reviews.php", // ajax source
                 },
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
                     'orderable': true,
@@ -132,7 +132,7 @@ var EcommerceProductsEdit = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_product_history.php", // ajax source
+                    "url": "../demo/ecommerce_product_history.php", // ajax source
                 },
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
                     'orderable': true,
@@ -148,16 +148,16 @@ var EcommerceProductsEdit = function () {
     var initComponents = function () {
         //init datepickers
         $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
+            rtl: App.isRTL(),
             autoclose: true
         });
 
         //init datetimepickers
         $(".datetime-picker").datetimepicker({
-            isRTL: Metronic.isRTL(),
+            isRTL: App.isRTL(),
             autoclose: true,
             todayBtn: true,
-            pickerPosition: (Metronic.isRTL() ? "bottom-right" : "bottom-left"),
+            pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left"),
             minuteStep: 10
         });
 
@@ -183,3 +183,7 @@ var EcommerceProductsEdit = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   EcommerceProductsEdit.init();
+});

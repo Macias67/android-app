@@ -61,7 +61,7 @@ var FormValidation = function () {
                 invalidHandler: function (event, validator) { //display error alert on form submit              
                     success1.hide();
                     error1.show();
-                    Metronic.scrollTo(error1, -200);
+                    App.scrollTo(error1, -200);
                 },
 
                 highlight: function (element) { // hightlight error inputs
@@ -136,7 +136,7 @@ var FormValidation = function () {
                 invalidHandler: function (event, validator) { //display error alert on form submit              
                     success2.hide();
                     error2.show();
-                    Metronic.scrollTo(error2, -200);
+                    App.scrollTo(error2, -200);
                 },
 
                 errorPlacement: function (error, element) { // render error placement for each input type
@@ -264,7 +264,7 @@ var FormValidation = function () {
                 invalidHandler: function (event, validator) { //display error alert on form submit   
                     success3.hide();
                     error3.show();
-                    Metronic.scrollTo(error3, -200);
+                    App.scrollTo(error3, -200);
                 },
 
                 highlight: function (element) { // hightlight error inputs
@@ -295,16 +295,9 @@ var FormValidation = function () {
                 form3.validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
             });
 
-            // initialize select2 tags
-            $("#select2_tags").change(function() {
-                form3.validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input 
-            }).select2({
-                tags: ["red", "green", "blue", "yellow", "pink"]
-            });
-
             //initialize datepicker
             $('.date-picker').datepicker({
-                rtl: Metronic.isRTL(),
+                rtl: App.isRTL(),
                 autoclose: true
             });
             $('.date-picker .form-control').change(function() {
@@ -320,7 +313,7 @@ var FormValidation = function () {
 
         if ($('.wysihtml5').size() > 0) {
             $('.wysihtml5').wysihtml5({
-                "stylesheets": ["../../assets/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css"]
+                "stylesheets": ["../assets/global/plugins/bootstrap-wysihtml5/wysiwyg-color.css"]
             });
         }
     }
@@ -339,3 +332,7 @@ var FormValidation = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    FormValidation.init();
+});

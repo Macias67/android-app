@@ -25,7 +25,7 @@ var Login = function () {
 			},
 
 			invalidHandler: function (event, validator) { //display error alert on form submit
-				Metronic.scrollTo($('.logo'), -100);
+				App.scrollTo($('.logo'), -100);
 			},
 
 			highlight: function (element) { // hightlight error inputs
@@ -53,7 +53,7 @@ var Login = function () {
 
 				var success = function (data) {
 					if (data.exito) {
-						App.removeLoader(500, function () {
+						MyApp.removeLoader(500, function () {
 							swal({
 								title            : '<h3>' + data.titulo + '</h3>',
 								text             : '<p>' + data.texto + '</p>',
@@ -68,7 +68,7 @@ var Login = function () {
 						});
 					}
 					else {
-						App.removeLoader(500, function () {
+						MyApp.removeLoader(500, function () {
 							swal({
 								title            : '<h3>' + data.titulo + '</h3>',
 								text             : '<p>' + data.texto + '</p>',
@@ -82,7 +82,7 @@ var Login = function () {
 
 				}
 
-				App.initAjax(url, data, success);
+				MyApp.initAjax(url, data, success);
 			}
 		});
 
@@ -102,3 +102,7 @@ var Login = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	Login.init();
+});

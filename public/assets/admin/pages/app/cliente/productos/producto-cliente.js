@@ -84,7 +84,8 @@ var ProductosCliente = function () {
 				"url" : table.attr('data-url'),
 				"type": "POST",
 				"data": {
-					"id_cliente": $("input[name='id_cliente']").val()
+					"id_cliente": $("input[name='id_cliente']").val(),
+					"_token":MyApp.getToken()
 				}
 			},
 			"columns"     : [
@@ -127,3 +128,7 @@ var ProductosCliente = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	ProductosCliente.init();
+});

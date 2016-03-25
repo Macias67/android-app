@@ -32,3 +32,7 @@ var PortletDraggable = function () {
         }
     };
 }();
+
+jQuery(document).ready(function() {
+    PortletDraggable.init();
+});

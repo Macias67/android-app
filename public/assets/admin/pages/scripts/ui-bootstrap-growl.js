@@ -28,3 +28,7 @@ var UIBootstrapGrowl = function() {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UIBootstrapGrowl.init();
+});

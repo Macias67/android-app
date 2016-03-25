@@ -1,10 +1,9 @@
-var Tasks = function () {
-
+var AppTask = function () {
 
     return {
 
         //main function to initiate the module
-        initDashboardWidget: function () {
+        init: function () {
 			$('.task-list input[type="checkbox"]').change(function() {
 				if ($(this).is(':checked')) { 
 					$(this).parents('li').addClass("task-done"); 
@@ -17,3 +16,7 @@ var Tasks = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    AppTask.init();
+});

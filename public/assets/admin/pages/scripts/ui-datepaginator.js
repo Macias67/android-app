@@ -30,3 +30,7 @@ var UIDatepaginator = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UIDatepaginator.init();
+});

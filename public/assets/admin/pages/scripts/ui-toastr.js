@@ -13,7 +13,7 @@ var UIToastr = function () {
                         'Did you like this one ? :)',
                         'Totally Awesome!!!',
                         'Yeah, this is the Metronic!',
-                        'Explore the power of Metronic. Purchase it now!'
+                        'Explore the power of App. Purchase it now!'
                     ];
                     i++;
                     if (i === msgs.length) {
@@ -115,3 +115,7 @@ var UIToastr = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UIToastr.init();
+});

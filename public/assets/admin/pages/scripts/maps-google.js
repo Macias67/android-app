@@ -111,7 +111,7 @@ var MapsGoogle = function () {
                             lat: latlng.lat(),
                             lng: latlng.lng()
                         });
-                        Metronic.scrollTo($('#gmap_geocoding'));
+                        App.scrollTo($('#gmap_geocoding'));
                     }
                 }
             });
@@ -165,7 +165,7 @@ var MapsGoogle = function () {
         });
         $('#gmap_routes_start').click(function (e) {
             e.preventDefault();
-            Metronic.scrollTo($(this), 400);
+            App.scrollTo($(this), 400);
             map.travelRoute({
                 origin: [-12.044012922866312, -77.02470665341184],
                 destination: [-12.090814532191756, -77.02271108990476],
@@ -201,3 +201,7 @@ var MapsGoogle = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    MapsGoogle.init();
+});

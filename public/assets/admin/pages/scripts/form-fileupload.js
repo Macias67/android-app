@@ -1,6 +1,4 @@
 var FormFileUpload = function () {
-
-
     return {
         //main function to initiate the module
         init: function () {
@@ -57,3 +55,7 @@ var FormFileUpload = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    FormFileUpload.init();
+});

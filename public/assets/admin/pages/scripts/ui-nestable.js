@@ -49,3 +49,7 @@ var UINestable = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UINestable.init();
+});

@@ -136,3 +136,7 @@ var InfoAdicional = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	InfoAdicional.init();
+});

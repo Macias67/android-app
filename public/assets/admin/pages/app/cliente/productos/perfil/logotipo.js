@@ -38,3 +38,7 @@ var Logotipo = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	Logotipo.init();
+});

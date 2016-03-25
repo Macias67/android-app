@@ -73,3 +73,7 @@ var Widgets = function () {
         
     };
 }();
+
+jQuery(document).ready(function() {    
+   Widgets.init();
+});

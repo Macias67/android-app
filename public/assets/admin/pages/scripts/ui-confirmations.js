@@ -31,3 +31,7 @@ var UIConfirmations = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   UIConfirmations.init();
+});

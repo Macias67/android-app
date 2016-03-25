@@ -301,3 +301,7 @@ var NuevoServicio = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	NuevoServicio.init();
+});

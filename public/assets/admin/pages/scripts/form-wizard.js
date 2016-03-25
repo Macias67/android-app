@@ -17,6 +17,7 @@ var FormWizard = function () {
                 placeholder: "Select",
                 allowClear: true,
                 formatResult: format,
+                width: 'auto', 
                 formatSelection: format,
                 escapeMarkup: function (m) {
                     return m;
@@ -114,7 +115,7 @@ var FormWizard = function () {
                 invalidHandler: function (event, validator) { //display error alert on form submit   
                     success.hide();
                     error.show();
-                    Metronic.scrollTo(error, -200);
+                    App.scrollTo(error, -200);
                 },
 
                 highlight: function (element) { // hightlight error inputs
@@ -195,7 +196,7 @@ var FormWizard = function () {
                     $('#form_wizard_1').find('.button-next').show();
                     $('#form_wizard_1').find('.button-submit').hide();
                 }
-                Metronic.scrollTo($('.page-title'));
+                App.scrollTo($('.page-title'));
             }
 
             // default form wizard
@@ -204,14 +205,14 @@ var FormWizard = function () {
                 'previousSelector': '.button-previous',
                 onTabClick: function (tab, navigation, index, clickedIndex) {
                     return false;
-                    /*
+                    
                     success.hide();
                     error.hide();
                     if (form.valid() == false) {
                         return false;
                     }
+                    
                     handleTitle(tab, navigation, clickedIndex);
-                    */
                 },
                 onNext: function (tab, navigation, index) {
                     success.hide();
@@ -253,3 +254,7 @@ var FormWizard = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {
+    FormWizard.init();
+});

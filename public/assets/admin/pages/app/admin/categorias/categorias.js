@@ -130,3 +130,7 @@ var Categorias = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	Categorias.init();
+});

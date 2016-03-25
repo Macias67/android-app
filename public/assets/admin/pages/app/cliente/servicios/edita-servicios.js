@@ -254,3 +254,7 @@ var EditaServicios = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	EditaServicios.init();
+});

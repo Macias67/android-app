@@ -118,3 +118,7 @@ var Clientes = function () {
 		}
 	}
 }();
+
+jQuery(document).ready(function () {
+	Clientes.init();
+});

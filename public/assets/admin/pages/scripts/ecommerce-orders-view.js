@@ -27,7 +27,7 @@ var EcommerceOrdersView = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_order_invoices.php", // ajax source
+                    "url": "../demo/ecommerce_order_invoices.php", // ajax source
                 },
                 "order": [
                     [1, "asc"]
@@ -46,7 +46,7 @@ var EcommerceOrdersView = function () {
                 grid.getDataTable().ajax.reload();
                 grid.clearAjaxParams();
             } else if (action.val() == "") {
-                Metronic.alert({
+                App.alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'Please select an action',
@@ -54,7 +54,7 @@ var EcommerceOrdersView = function () {
                     place: 'prepend'
                 });
             } else if (grid.getSelectedRowsCount() === 0) {
-                Metronic.alert({
+                App.alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'No record selected',
@@ -91,7 +91,7 @@ var EcommerceOrdersView = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_order_credit_memos.php", // ajax source
+                    "url": "../demo/ecommerce_order_credit_memos.php", // ajax source
                 },
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
                     'orderable': true,
@@ -125,7 +125,7 @@ var EcommerceOrdersView = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_order_shipment.php", // ajax source
+                    "url": "../demo/ecommerce_order_shipment.php", // ajax source
                 },
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
                     'orderable': true,
@@ -158,7 +158,7 @@ var EcommerceOrdersView = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/ecommerce_order_history.php", // ajax source
+                    "url": "../demo/ecommerce_order_history.php", // ajax source
                 },
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
                     'orderable': true,
@@ -181,7 +181,7 @@ var EcommerceOrdersView = function () {
                 grid.getDataTable().ajax.reload();
                 grid.clearAjaxParams();
             } else if (action.val() == "") {
-                Metronic.alert({
+                App.alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'Please select an action',
@@ -189,7 +189,7 @@ var EcommerceOrdersView = function () {
                     place: 'prepend'
                 });
             } else if (grid.getSelectedRowsCount() === 0) {
-                Metronic.alert({
+                App.alert({
                     type: 'danger',
                     icon: 'warning',
                     message: 'No record selected',
@@ -203,15 +203,15 @@ var EcommerceOrdersView = function () {
     var initPickers = function () {
         //init date pickers
         $('.date-picker').datepicker({
-            rtl: Metronic.isRTL(),
+            rtl: App.isRTL(),
             autoclose: true
         });
 
         $(".datetime-picker").datetimepicker({
-            isRTL: Metronic.isRTL(),
+            isRTL: App.isRTL(),
             autoclose: true,
             todayBtn: true,
-            pickerPosition: (Metronic.isRTL() ? "bottom-right" : "bottom-left"),
+            pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left"),
             minuteStep: 10
         });
     }
@@ -231,3 +231,7 @@ var EcommerceOrdersView = function () {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   EcommerceOrdersView.init();
+});

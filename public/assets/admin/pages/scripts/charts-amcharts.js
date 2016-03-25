@@ -4,7 +4,7 @@ var ChartsAmcharts = function() {
         var chart = AmCharts.makeChart("chart_1", {
             "type": "serial",
             "theme": "light",
-            "pathToImages": Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/",
+            "pathToImages": App.getGlobalPluginsPath() + "amcharts/amcharts/images/",
             "autoMargins": false,
             "marginLeft": 30,
             "marginRight": 8,
@@ -310,7 +310,7 @@ var ChartsAmcharts = function() {
                 "menuBottom": "20px",
                 "menuRight": "22px",
                 "menuItems": [{
-                    "icon": Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
+                    "icon": App.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
                     "format": 'png'
                 }]
             }
@@ -329,7 +329,7 @@ var ChartsAmcharts = function() {
             "fontFamily": 'Open Sans',            
             "color":    '#888888',
             
-            "pathToImages": Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/",
+            "pathToImages": App.getGlobalPluginsPath() + "amcharts/amcharts/images/",
 
             "dataProvider": [{
                 "lineColor": "#b7e021",  
@@ -678,7 +678,7 @@ var ChartsAmcharts = function() {
             "titleField": "country",
             "exportConfig": {
                 menuItems: [{
-                    icon: Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
+                    icon: App.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
                     format: 'png'
                 }]
             }
@@ -2724,7 +2724,7 @@ var ChartsAmcharts = function() {
         AmCharts.ready(function() {
             AmCharts.theme = AmCharts.themes.dark;
             map = new AmCharts.AmMap();
-            map.pathToImages = Metronic.getGlobalPluginsPath() + "amcharts/ammap/images/",
+            map.pathToImages = App.getGlobalPluginsPath() + "amcharts/ammap/images/",
 
             map.fontFamily = 'Open Sans';
             map.fontSize = '13';
@@ -2785,7 +2785,7 @@ var ChartsAmcharts = function() {
         var map = AmCharts.makeChart("chart_11", {
             type: "map",
             "theme": "light",
-            pathToImages: Metronic.getGlobalPluginsPath() + "amcharts/ammap/images/",
+            pathToImages: App.getGlobalPluginsPath() + "amcharts/ammap/images/",
 
             "fontFamily": 'Open Sans',
             
@@ -3072,7 +3072,7 @@ var ChartsAmcharts = function() {
         var chart = AmCharts.makeChart("chart_12", {
             type: "stock",
             "theme": "light",
-            pathToImages: Metronic.getGlobalPluginsPath() + "amcharts/amcharts/images/",
+            pathToImages: App.getGlobalPluginsPath() + "amcharts/amcharts/images/",
             "fontFamily": 'Open Sans',
             
             "color":    '#888',
@@ -3247,3 +3247,7 @@ var ChartsAmcharts = function() {
     };
 
 }();
+
+jQuery(document).ready(function() {    
+   ChartsAmcharts.init(); 
+});

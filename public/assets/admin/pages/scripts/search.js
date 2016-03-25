@@ -3,13 +3,17 @@ var Search = function () {
     return {
         //main function to initiate the module
         init: function () {
-            if (jQuery().datepicker) {
-                $('.date-picker').datepicker();
-            }
-
-            Metronic.initFancybox();
+           	$('.date-picker').datepicker({
+                rtl: App.isRTL(),
+                orientation: "left",
+                autoclose: true
+            });
         }
 
     };
 
 }();
+
+jQuery(document).ready(function() {
+    Search.init();
+})
