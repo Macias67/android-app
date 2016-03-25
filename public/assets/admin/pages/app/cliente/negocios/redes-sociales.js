@@ -4,7 +4,6 @@
 
 var RedesSociales = function () {
 
-
 	var handleForm = function () {
 		var form = $('.form-edita-cliente-redes-sociales');
 

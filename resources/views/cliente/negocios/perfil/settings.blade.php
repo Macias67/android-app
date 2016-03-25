@@ -4,14 +4,15 @@
 @section('plugins-css')
 	<link href = "{{asset('assets/admin/pages/css/profile.css')}}" rel = "stylesheet" type = "text/css"/>
 	<link href = "{{asset('assets/global/plugins/croppic/croppic.css')}}" rel = "stylesheet" type = "text/css"/>
-	<link href = "{{asset('assets/global/plugins/select2/select2.css')}}" rel = "stylesheet" type = "text/css"/>
 	<link href = "{{asset('assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel = "stylesheet" type = "text/css"/>
 
-	{{-- --}}
+	{{--Plugins --}}
 	<link href = "{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.css')}}" rel = "stylesheet" type = "text/css"/>
 	<link href = "{{asset('assets/global/plugins/jquery-file-upload/blueimp-gallery/blueimp-gallery.min.css')}}" rel = "stylesheet" type = "text/css"/>
 	<link href = "{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css')}}" rel = "stylesheet" type = "text/css"/>
 	<link href = "{{asset('assets/global/plugins/jquery-file-upload/css/jquery.fileupload-ui.css')}}" rel = "stylesheet" type = "text/css"/>
+	<link href = "{{asset('assets/global/plugins/select2/css/select2.min.css')}}" rel = "stylesheet" type = "text/css"/>
+	<link href = "{{asset('assets/global/plugins/select2/css/select2-bootstrap.min.css')}}" rel = "stylesheet" type = "text/css"/>
 @stop
 
 @section('profile-content')
@@ -30,6 +31,9 @@
 							</li>
 							<li>
 								<a href = "#tab_adicional" data-toggle = "tab">Adicional</a>
+							</li>
+							<li>
+								<a href = "#tab_tags" data-toggle = "tab">Tags</a>
 							</li>
 							<li>
 								<a href = "#tab_sociales" data-toggle = "tab">Redes Sociales</a>
@@ -460,6 +464,34 @@
 							</div>
 							<!-- END ADICIONAL INFO TAB -->
 
+							<!-- ADICIONAL TAGS TAB -->
+							<div class = "tab-pane" id = "tab_tags">
+								{{--<form class="form-horizontal">--}}
+									{{--<div class="form-group form-group-lg">--}}
+										{{--<select class="tags-select form-control" name="tags[]" multiple="multiple"></select>--}}
+										{{--<p class="help-block">Press Enter, Comma or Spacebar to create a new tag, Backspace or Delete to remove the last one.</p>--}}
+									{{--</div>--}}
+								{{--</form>--}}
+
+								<div class="row">
+									<div class="col-md-12">
+										<label for="select2-button-addons-single-input-group-lg" class="control-label">Select2 custom data load</label>
+										<div class="input-group input-group-lg select2-bootstrap-append">
+											<select id="select2-button-addons-single-input-group-lg" class="form-control js-data-example-ajax" multiple>
+												<option value="2126244" selected="selected">twbs/bootstrap</option>
+												<option value="3620194" selected="selected">select2/select2</option>
+											</select>
+											<span class="input-group-btn">
+												<button class="btn btn-default" type="button" data-select2-open="select2-button-addons-single-input-group-lg">
+													<span class="fa fa-tags"></span>
+												</button>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END ADICIONAL TAGS TAB -->
+
 							<!-- SOCIALES INFO TAB -->
 							<div class = "tab-pane" id = "tab_sociales">
 								{!! Form::model($cliente->redesSociales, $formredessociales) !!}
@@ -856,15 +888,16 @@
 	<script src = "{{asset('assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-inputmask/dist/jquery.inputmask.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/croppic/croppic.js')}}" type = "text/javascript"></script>
-	<script src = "{{asset('assets/global/plugins/select2/select2.min.js')}}" type = "text/javascript"></script>
+	<script src = "{{asset('assets/global/plugins/select2/js/select2.full.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type = "text/javascript"></script>
 	<script src = "http://maps.google.com/maps/api/js?sensor=false" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/gmaps/gmaps.min.js')}}" type = "text/javascript"></script>
 
-	{{----}}
+	{{--JQuery Plugins--}}
 	<script src = "{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.pack.js')}}" type = "text/javascript"></script>
+	<script src = "{{asset('assets/global/plugins/tagging/tagging.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js')}}" type = "text/javascript"></script>
@@ -884,6 +917,7 @@
 @section('page-level-js')
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/edita-negocio.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/info-adicional.js')}}" type = "text/javascript"></script>
+	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/tags.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/redes-sociales.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/horarios.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/admin/pages/app/cliente/negocios/logotipo.js')}}" type = "text/javascript"></script>
@@ -894,6 +928,7 @@
 @section('init-js')
 	EditaCliente.init();
 	InfoAdicional.init();
+	Tags.init();
 	RedesSociales.init();
 	Horarios.init();
 	Logo.init();

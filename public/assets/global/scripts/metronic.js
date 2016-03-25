@@ -13,7 +13,7 @@ var Metronic = function () {
 
 	var domain = 'http://android.app/';
 
-	var assetsPath = '../../assets/';
+	var assetsPath = domain+'assets/';
 
 	var globalImgPath = 'global/img/';
 
