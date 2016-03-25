@@ -443,20 +443,6 @@ class NegociosCliente extends BaseCliente
 							'url'    => null
 						];
 					}
-
-					$query = ParseInstallation::query();
-					$query->equalTo("deviceType", "android");
-					// Push to Channels
-					ParsePush::send([
-						"where" => $query,
-						"data"  => [
-							"data"          => [
-								"message" => $cliente->nombre . " ha cambiado sus datos.",
-								"title"   => "AndroidApp"
-							],
-							"is_background" => false
-						]
-					]);
 					return $this->responseJSON($response);
 				}
 				else

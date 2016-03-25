@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f72492ce31a44685857ed4e0d11d7a7d",
-    "content-hash": "5fdce0487da7eabef64a6fdd9fe5272b",
+    "hash": "1b6cd6471a6781ea63c471558372d8a2",
+    "content-hash": "fb9f17d455960a79cc2d8420cdd52ec8",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -339,69 +339,6 @@
                 "google"
             ],
             "time": "2016-02-02 18:50:42"
-        },
-        {
-            "name": "graham-campbell/parse",
-            "version": "v2.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GrahamCampbell/Laravel-Parse.git",
-                "reference": "b7b81e0a583d6aab8c6d0105a582029a70ad3607"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Parse/zipball/b7b81e0a583d6aab8c6d0105a582029a70ad3607",
-                "reference": "b7b81e0a583d6aab8c6d0105a582029a70ad3607",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "5.1.*|5.2.*",
-                "illuminate/support": "5.1.*|5.2.*",
-                "parse/php-sdk": "^1.0",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "graham-campbell/testbench": "^3.1",
-                "phpunit/phpunit": "^4.8|^5.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GrahamCampbell\\Parse\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Graham Campbell",
-                    "email": "graham@alt-three.com"
-                }
-            ],
-            "description": "Parse Is A Parse SDK Bridge For Laravel 5",
-            "keywords": [
-                "Bridge",
-                "Graham Campbell",
-                "GrahamCampbell",
-                "Laravel Parse",
-                "Laravel-Parse",
-                "ParseSDK",
-                "framework",
-                "laravel",
-                "parse",
-                "parse bridge",
-                "parse sdk",
-                "parse sdk bridge",
-                "parse-sdk"
-            ],
-            "time": "2016-01-30 14:29:39"
         },
         {
             "name": "graham-campbell/throttle",
@@ -1574,59 +1511,6 @@
                 "random"
             ],
             "time": "2016-03-18 20:34:03"
-        },
-        {
-            "name": "parse/php-sdk",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ParsePlatform/parse-php-sdk.git",
-                "reference": "1f668b97b229829f2ed05e23fd38685cc9e2c62b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ParsePlatform/parse-php-sdk/zipball/1f668b97b229829f2ed05e23fd38685cc9e2c62b",
-                "reference": "1f668b97b229829f2ed05e23fd38685cc9e2c62b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpdocumentor/phpdocumentor": "~2.5",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Parse\\": "src/Parse/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Parse Platform License"
-            ],
-            "authors": [
-                {
-                    "name": "Parse",
-                    "homepage": "https://github.com/parseplatform/parse-php-sdk/contributors"
-                }
-            ],
-            "description": "Parse PHP SDK",
-            "homepage": "https://github.com/parseplatform/parse-php-sdk",
-            "keywords": [
-                "parse",
-                "sdk"
-            ],
-            "time": "2016-02-16 15:58:08"
         },
         {
             "name": "psr/http-message",

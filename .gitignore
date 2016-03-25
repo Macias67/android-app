@@ -75,3 +75,4 @@ crashlytics-build.properties
 
 git config core.fileMode false
 
+composer.lock

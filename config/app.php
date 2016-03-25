@@ -166,12 +166,7 @@ return [
 		 * Cloud Storage
 		 */
 		Websight\GcsProvider\CloudStorageServiceProvider::class,
-
-		/*
-		 * Parse Cloud Notification
-		 */
-		GrahamCampbell\Parse\ParseServiceProvider::class,
-
+	        
 		/*
 		 * Exception Hanlder
 		 */
