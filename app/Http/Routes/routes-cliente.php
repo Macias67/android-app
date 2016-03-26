@@ -367,5 +367,18 @@ Route::group(
 			]);
 		});
 
+		/*
+		|--------------------------------------------------------------------------
+		| TAGS
+		|--------------------------------------------------------------------------
+		*/
+		Route::group(['prefix' => 'tags'], function ()
+		{
+			Route::post('{cliente_id?}', [
+				'as'   => 'cliente.tags.create',
+				'uses' => 'TagsCliente@create'
+			])->where('cliente_id', '[0-9a-zA-Z]+');
+		});
+
 	}
 );

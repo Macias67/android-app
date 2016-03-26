@@ -8,6 +8,7 @@ use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\ClienteDetalles;
 use App\Http\Models\Cliente\ClienteHorarios;
 use App\Http\Models\Cliente\ClienteRedesSociales;
+use App\Http\Models\Views\ViewClienteTags;
 use App\Http\Requests;
 use App\Http\Requests\Cliente\CreateCliente;
 use App\Http\Requests\Cliente\EditCliente;
@@ -18,14 +19,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\AdapterInterface;
-use Parse\ParseException;
-use Parse\ParseInstallation;
-use Parse\ParsePush;
 use PHPImageWorkshop\ImageWorkshop;
 
 class NegociosCliente extends BaseCliente
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -209,6 +206,14 @@ class NegociosCliente extends BaseCliente
 							'role'         => 'form',
 							'autocomplete' => 'off'
 						];
+						
+						$this->data['formtags'] = [
+							'route'        => ['cliente.tags.create', 'tags'],
+							'class'        => 'form-horizontal form-edita-cliente-detalles',
+							'role'         => 'form',
+							'autocomplete' => 'off',
+						        'id' => 'formtags'
+						];
 
 						$this->data['formredessociales'] = [
 							'route'        => ['cliente.negocio.update', 'redessociales'],
@@ -264,6 +269,11 @@ class NegociosCliente extends BaseCliente
 							}
 						}
 
+						//Multiple select con las categorias del negocio
+						$tags = ViewClienteTags::where(['cliente_id' => $cliente->id])->first();
+						$tags = explode(',', $tags->tags);
+										
+
 						$grupos = ClienteHorarios::grupoId()
 						                         ->where('cliente_id', $id)
 						                         ->orderBy('id')
@@ -299,7 +309,6 @@ class NegociosCliente extends BaseCliente
 						return $this->view('cliente.negocios.perfil.settings');
 						break;
 				}
-
 			}
 			else
 			{
@@ -383,6 +392,17 @@ class NegociosCliente extends BaseCliente
 							$cliente->detalles->preparaDatos($request);
 							$save = $cliente->detalles->save();
 
+							$response = [
+								'exito'  => true,
+								'titulo' => 'Información adicional actualizada',
+								'texto'  => 'Se ha actualizado la información adicional del negocio',
+								'url'    => route('negocios-cliente')
+							];
+							break;
+						case 'tags':
+							$cliente->detalles->preparaDatos($request);
+							$save = $cliente->detalles->save();
+							
 							$response = [
 								'exito'  => true,
 								'titulo' => 'Información adicional actualizada',
@@ -476,8 +496,7 @@ class NegociosCliente extends BaseCliente
 		if (!is_null($horarios = ClienteHorarios::where('grupo_id', $grupoid)
 		                                        ->where('cliente_id', $id)
 		                                        ->get(['id'])
-		                                        ->toArray())
-		)
+		                                        ->toArray()))
 		{
 			$ids = [];
 			foreach ($horarios as $horario)

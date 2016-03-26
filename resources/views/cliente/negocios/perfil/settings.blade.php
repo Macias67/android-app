@@ -466,29 +466,30 @@
 
 							<!-- ADICIONAL TAGS TAB -->
 							<div class = "tab-pane" id = "tab_tags">
-								{{--<form class="form-horizontal">--}}
-									{{--<div class="form-group form-group-lg">--}}
-										{{--<select class="tags-select form-control" name="tags[]" multiple="multiple"></select>--}}
-										{{--<p class="help-block">Press Enter, Comma or Spacebar to create a new tag, Backspace or Delete to remove the last one.</p>--}}
-									{{--</div>--}}
-								{{--</form>--}}
+								{!! Form::open($formtags) !!}
+									{!! Form::hidden ('id', $cliente->id) !!}
+									{!! Form::hidden ('propietario_id', $cliente->propietario_id) !!}
+									<div class="row">
+										<div class="col-md-12">
+											<label for="select2-button-addons-single-input-group-lg" class="control-label">Select2 custom data load</label>
+											<div class="input-group input-group-lg select2-bootstrap-append">
+												<select id="select2-button-addons-single-input-group-lg" class="form-control select-tags" name="tags" multiple></select>
+												<span class="input-group-btn">
+													<button class="btn btn-default" type="button" data-select2-open="select2-button-addons-single-input-group-lg">
+														<span class="fa fa-tags"></span>
+													</button>
+												</span>
+											</div>
+										</div>
 
-								<div class="row">
-									<div class="col-md-12">
-										<label for="select2-button-addons-single-input-group-lg" class="control-label">Select2 custom data load</label>
-										<div class="input-group input-group-lg select2-bootstrap-append">
-											<select id="select2-button-addons-single-input-group-lg" class="form-control js-data-example-ajax" multiple>
-												<option value="2126244" selected="selected">twbs/bootstrap</option>
-												<option value="3620194" selected="selected">select2/select2</option>
-											</select>
-											<span class="input-group-btn">
-												<button class="btn btn-default" type="button" data-select2-open="select2-button-addons-single-input-group-lg">
-													<span class="fa fa-tags"></span>
-												</button>
-											</span>
+										{{--Accion--}}
+										<div class = "col-md-12">
+											<div class = "margin-top-20">
+												<button type = "submit" class = "btn green-haze hvr-grow">Guardar cambios</button>
+											</div>
 										</div>
 									</div>
-								</div>
+								</form>
 							</div>
 							<!-- END ADICIONAL TAGS TAB -->
 
@@ -890,6 +891,7 @@
 	<script src = "{{asset('assets/global/plugins/jquery-inputmask/inputmask/jquery.inputmask.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/croppic/croppic.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/select2/js/select2.full.min.js')}}" type = "text/javascript"></script>
+	<script src = "{{asset('assets/global/plugins/select2/js/i18n/es.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-validation/js/localization/messages_es.js')}}" type = "text/javascript"></script>
@@ -898,7 +900,6 @@
 
 	{{--JQuery Plugins--}}
 	<script src = "{{asset('assets/global/plugins/fancybox/source/jquery.fancybox.pack.js')}}" type = "text/javascript"></script>
-	<script src = "{{asset('assets/global/plugins/tagging/tagging.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-file-upload/js/vendor/tmpl.min.js')}}" type = "text/javascript"></script>
 	<script src = "{{asset('assets/global/plugins/jquery-file-upload/js/vendor/load-image.min.js')}}" type = "text/javascript"></script>

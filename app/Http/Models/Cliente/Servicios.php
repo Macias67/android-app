@@ -16,8 +16,9 @@ class Servicios extends Model
 	 * @var string
 	 */
 	protected $table = 'cl_servicios';
+	
 	/**
-	 * Nombre de la tabla usada por el modelo
+	 * Nombre de los campos a mostrar
 	 *
 	 * @var string
 	 */
