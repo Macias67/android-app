@@ -16,8 +16,7 @@ $partials = [
 	'global',
 	'admin',
 	'cliente',
-	'usuario',
-	'api-v1'
+	'usuario'
 ];
 
 // Routes loop

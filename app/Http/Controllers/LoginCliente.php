@@ -22,6 +22,12 @@ class LoginCliente extends Controller
 	 */
 	private $auth;
 
+	/**
+	 * LoginCliente constructor.
+	 * 
+	 * @todo Colocar el método getName() en la clase Kbwebs\MultiAuth\AuthManager
+	 * @param \Illuminate\Support\Facades\Auth $auth
+	 */
 	public function __construct(Auth $auth)
 	{
 		$this->auth = $auth::propietario();
