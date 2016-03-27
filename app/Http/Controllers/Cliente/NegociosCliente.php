@@ -8,7 +8,8 @@ use App\Http\Models\Cliente\Cliente;
 use App\Http\Models\Cliente\ClienteDetalles;
 use App\Http\Models\Cliente\ClienteHorarios;
 use App\Http\Models\Cliente\ClienteRedesSociales;
-use App\Http\Models\Views\ViewClienteTags;
+use App\Http\Models\Cliente\Tags;
+use App\Http\Models\Cliente\TagsCliente;
 use App\Http\Requests;
 use App\Http\Requests\Cliente\CreateCliente;
 use App\Http\Requests\Cliente\EditCliente;
@@ -124,32 +125,6 @@ class NegociosCliente extends BaseCliente
 					'texto'  => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado.',
 					'url'    => route('negocios-cliente')
 				];
-
-				try
-				{
-					$query = ParseInstallation::query();
-					$query->equalTo("deviceType", "android");
-					// Push to Channels
-					ParsePush::send([
-						"where" => $query,
-						"data"  => [
-							"data"          => [
-								"message" => $cliente->nombre . " ahora esta en la app!",
-								"title"   => "AndroidApp"
-							],
-							"is_background" => false
-						]
-					]);
-				}
-				catch (ParseException $e)
-				{
-					$response = [
-						'exito'  => false,
-						'titulo' => 'Cliente registrado',
-						'texto'  => '¡Felicidades! <b>' . $cliente->nombre . '</b> se ha registrado, pero no se ha enviado la notificación: ' . $e->getMessage(),
-						'url'    => route('negocios-cliente')
-					];
-				}
 			}
 			else
 			{
@@ -208,11 +183,11 @@ class NegociosCliente extends BaseCliente
 						];
 						
 						$this->data['formtags'] = [
-							'route'        => ['cliente.tags.create', 'tags'],
+							'route'        => ['cliente.negocio.update', 'tags'],
 							'class'        => 'form-horizontal form-edita-cliente-detalles',
 							'role'         => 'form',
 							'autocomplete' => 'off',
-						        'id' => 'formtags'
+							'id'           => 'formtags'
 						];
 
 						$this->data['formredessociales'] = [
@@ -270,10 +245,19 @@ class NegociosCliente extends BaseCliente
 						}
 
 						//Multiple select con las categorias del negocio
-						$tags = ViewClienteTags::where(['cliente_id' => $cliente->id])->first();
-						$tags = explode(',', $tags->tags);
-										
+						$tags = TagsCliente::where(['cliente_id' => $cliente->id])->get();
+						$array_tags = [];
+						foreach ($tags as $tag)
+						{
+							$array_tags[$tag->tag->id] = $tag->tag->tag;
+						}
+						$select_tags = \Form::select('tags[]', $array_tags, array_keys($array_tags), [
+							'class'    => 'form-control select-tags',
+							'id'       => 'select2-button-addons-single-input-group-lg',
+							'multiple' => 'multiple'
+						]);
 
+						// Horarios del negocio
 						$grupos = ClienteHorarios::grupoId()
 						                         ->where('cliente_id', $id)
 						                         ->orderBy('id')
@@ -305,6 +289,7 @@ class NegociosCliente extends BaseCliente
 						$this->data['options_ciudades'] = $options;
 						$this->data['cl_categorias'] = $cl_categorias;
 						$this->data['horarios'] = $horarios;
+						$this->data['select_tags'] = $select_tags;
 
 						return $this->view('cliente.negocios.perfil.settings');
 						break;
@@ -400,14 +385,59 @@ class NegociosCliente extends BaseCliente
 							];
 							break;
 						case 'tags':
-							$cliente->detalles->preparaDatos($request);
-							$save = $cliente->detalles->save();
+							$tags = $request->get('tags');
+
+							TagsCliente::where('cliente_id', $cliente->id)->delete();
+
+							foreach ($tags as $tag)
+							{
+								$tag_gral = Tags::where('id', $tag)->orWhere('tag', $tag);
+								if (count($tag_gral->get()->toArray()) == 0)
+								{
+									$nuevo_tag = new Tags();
+									$nuevo_tag->id = $nuevo_tag->getUniqueID();
+									$nuevo_tag->tag = trim(mb_strtolower($tag));
+									$nuevo_tag->save();
+
+									$nuevo_tag_cliente = new TagsCliente();
+									$nuevo_tag_cliente->id = $nuevo_tag_cliente->getUniqueID();
+									$nuevo_tag_cliente->tag_id = $nuevo_tag->id;
+									$nuevo_tag_cliente->cliente_id = $cliente->id;
+									$nuevo_tag_cliente->save();
+								}
+								else
+								{
+									$nuevo_tag_cliente = new TagsCliente();
+									$nuevo_tag_cliente->id = $nuevo_tag_cliente->getUniqueID();
+									$nuevo_tag_cliente->tag_id = $tag_gral->first()->id;
+									$nuevo_tag_cliente->cliente_id = $cliente->id;
+									$nuevo_tag_cliente->save();
+								}
+							}
+							
+							//Multiple select con las categorias del negocio
+							$tags = TagsCliente::where(['cliente_id' => $cliente->id])->get();
+							$array_tags = [];
+							foreach ($tags as $tag)
+							{
+								$array_tags[$tag->tag->id] = $tag->tag->tag;
+							}
+							$select_tags = \Form::select('tags[]', $array_tags, array_keys($array_tags), [
+								'class'    => 'form-control select-tags',
+								'id'       => 'select2-button-addons-single-input-group-lg',
+								'multiple' => 'multiple'
+							]);
+
+							$save = true;
 							
 							$response = [
 								'exito'  => true,
 								'titulo' => 'Información adicional actualizada',
 								'texto'  => 'Se ha actualizado la información adicional del negocio',
-								'url'    => route('negocios-cliente')
+								'url'    => route('cliente.negocio.perfil', [$cliente->id, 'settings']),
+								'extras' => [
+									'update_select' => $select_tags
+								]
 							];
 							break;
 						case 'redessociales':
@@ -463,6 +493,7 @@ class NegociosCliente extends BaseCliente
 							'url'    => null
 						];
 					}
+
 					return $this->responseJSON($response);
 				}
 				else
@@ -496,7 +527,8 @@ class NegociosCliente extends BaseCliente
 		if (!is_null($horarios = ClienteHorarios::where('grupo_id', $grupoid)
 		                                        ->where('cliente_id', $id)
 		                                        ->get(['id'])
-		                                        ->toArray()))
+		                                        ->toArray())
+		)
 		{
 			$ids = [];
 			foreach ($horarios as $horario)

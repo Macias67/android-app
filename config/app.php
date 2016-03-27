@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Application Debug Mode
@@ -12,9 +12,9 @@ return [
 	| application. If disabled, a simple generic error page is shown.
 	|
 	*/
-
+	
 	'debug' => env('APP_DEBUG', true),
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Application URL
@@ -25,9 +25,9 @@ return [
 	| your application so that it is used when running Artisan tasks.
 	|
 	*/
-
+	
 	'url' => 'http://android.app',
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone
@@ -38,9 +38,9 @@ return [
 	| ahead and set this to a sensible default for you out of the box.
 	|
 	*/
-
+	
 	'timezone' => 'America/Mexico_City',
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Application Locale Configuration
@@ -51,9 +51,9 @@ return [
 	| to any of the locales which will be supported by the application.
 	|
 	*/
-
+	
 	'locale' => 'es',
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Application Fallback Locale
@@ -64,9 +64,9 @@ return [
 	| the language folders that are provided through your application.
 	|
 	*/
-
+	
 	'fallback_locale' => 'en',
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Encryption Key
@@ -77,11 +77,11 @@ return [
 	| will not be safe. Please do this before deploying an application!
 	|
 	*/
-
+	
 	'key' => env('APP_KEY', 'SomeRandomString'),
-
+	
 	'cipher' => 'AES-256-CBC',
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Logging Configuration
@@ -94,9 +94,9 @@ return [
 	| Available Settings: "single", "daily", "syslog", "errorlog"
 	|
 	*/
-
+	
 	'log' => 'single',
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Autoloaded Service Providers
@@ -107,9 +107,9 @@ return [
 	| this array to grant expanded functionality to your applications.
 	|
 	*/
-
+	
 	'providers' => [
-
+		
 		/*
 		 * Laravel Framework Service Providers...
 		 */
@@ -136,14 +136,14 @@ return [
 		Illuminate\Translation\TranslationServiceProvider::class,
 		Illuminate\Validation\ValidationServiceProvider::class,
 		Illuminate\View\ViewServiceProvider::class,
-
+		
 		/*
 		 * Application Service Providers...
 		 */
 		App\Providers\AppServiceProvider::class,
 		App\Providers\EventServiceProvider::class,
 		App\Providers\RouteServiceProvider::class,
-
+		
 		/*
 		 * Multi Auth
 		 */
@@ -151,28 +151,28 @@ return [
 		Kbwebs\MultiAuth\PasswordResets\PasswordResetServiceProvider::class,
 		//Ollieread\Multiauth\MultiauthServiceProvider::class,
 		//Ollieread\Multiauth\Passwords\PasswordResetServiceProvider::class,
-
+		
 		/*
 		 * Laravel Collective
 		 */
 		Collective\Html\HtmlServiceProvider::class,
-
+		
 		/*
 		 * Carbon extension for DateTime
 		 */
 		Jenssegers\Date\DateServiceProvider::class,
-
+		
 		/*
 		 * Cloud Storage
 		 */
 		Websight\GcsProvider\CloudStorageServiceProvider::class,
-	        
+		
 		/*
 		 * Exception Hanlder
 		 */
 		GrahamCampbell\Exceptions\ExceptionsServiceProvider::class
 	],
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Class Aliases
@@ -183,9 +183,9 @@ return [
 	| the aliases are "lazy" loaded so they don't hinder performance.
 	|
 	*/
-
+	
 	'aliases' => [
-
+		
 		'App'       => Illuminate\Support\Facades\App::class,
 		'Artisan'   => Illuminate\Support\Facades\Artisan::class,
 		'Auth'      => Illuminate\Support\Facades\Auth::class,
@@ -203,7 +203,7 @@ return [
 		'Input'     => Illuminate\Support\Facades\Input::class,
 		'Inspiring' => Illuminate\Foundation\Inspiring::class,
 		'Lang'      => Illuminate\Support\Facades\Lang::class,
-//		'Log'       => Illuminate\Support\Facades\Log::class,
+		'Log'       => Illuminate\Support\Facades\Log::class,
 		'Mail'      => Illuminate\Support\Facades\Mail::class,
 		'Password'  => Illuminate\Support\Facades\Password::class,
 		'Queue'     => Illuminate\Support\Facades\Queue::class,

@@ -52,6 +52,9 @@ class EditCliente extends Request
 			case 'adicional':
 				return $this->getRulesClienteDetalles();
 				break;
+			case 'tags':
+				return $this->getRulesTags();
+				break;
 			case 'redessociales':
 				return $this->getRulesClienteRedesSociales();
 				break;
@@ -93,6 +96,13 @@ class EditCliente extends Request
 			'website'        => 'max:45|url',
 			'email_negocio'  => 'max:45|email',
 			'propietario_id' => 'required|exists:cl_clientes,propietario_id|alpha_num|size:16'
+		];
+	}
+
+	public function getRulesTags()
+	{
+		return [
+			'tags'             => 'required'
 		];
 	}
 

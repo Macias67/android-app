@@ -5,7 +5,7 @@ namespace App\Http\Models\Cliente;
 use App\Http\Models\Traits\UniqueID;
 use Illuminate\Database\Eloquent\Model;
 
-class Tags extends Model
+class TagsCliente extends Model
 {
 	use UniqueID;
 	public $incrementing = false;
@@ -16,7 +16,7 @@ class Tags extends Model
 	 *
 	 * @var string
 	 */
-	protected $table = 'tg_tags';
+	protected $table = 'tg_tag_cliente';
 
 	/**
 	 * Nombre de los campos a mostrar
@@ -25,7 +25,12 @@ class Tags extends Model
 	 */
 	protected $fillable = [
 		'id',
-		'tag'
+		'tag_id',
+		'cliente_id'
 	];
-	
+
+	public function tag()
+	{
+		return $this->hasOne(Tags::class, 'id', 'tag_id');
+	}
 }

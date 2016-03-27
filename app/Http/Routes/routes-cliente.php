@@ -374,10 +374,10 @@ Route::group(
 		*/
 		Route::group(['prefix' => 'tags'], function ()
 		{
-			Route::post('{cliente_id?}', [
+			Route::post('/', [
 				'as'   => 'cliente.tags.create',
 				'uses' => 'TagsCliente@create'
-			])->where('cliente_id', '[0-9a-zA-Z]+');
+			]);
 		});
 
 	}

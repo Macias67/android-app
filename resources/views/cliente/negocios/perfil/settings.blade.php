@@ -473,8 +473,8 @@
 										<div class="col-md-12">
 											<label for="select2-button-addons-single-input-group-lg" class="control-label">Select2 custom data load</label>
 											<div class="input-group input-group-lg select2-bootstrap-append">
-												<select id="select2-button-addons-single-input-group-lg" class="form-control select-tags" name="tags" multiple></select>
-												<span class="input-group-btn">
+												{!! $select_tags  !!}
+												<span class="input-group-btn" id="span-select">
 													<button class="btn btn-default" type="button" data-select2-open="select2-button-addons-single-input-group-lg">
 														<span class="fa fa-tags"></span>
 													</button>
